@@ -14,21 +14,21 @@
 
     <style>
         :root {
-            --primary: #0d9488;
-            --primary-hover: #0f766e;
-            --bg: #f3f4f6;
+            --primary: #1e293b;
+            --primary-hover: #0f172a;
+            --bg: #e8ecef;
             --surface: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --danger: #ef4444;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --sidebar-width: 280px;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #d5dce4;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #d97706;
+            --info: #2563eb;
+            --radius: 14px;
+            --shadow: none;
+            --shadow-lg: none;
+            --sidebar-width: 300px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -54,7 +54,7 @@
         .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
 
         /* UI Elements */
-        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: none; border: 1px solid var(--border); }
         .btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
         .btn-icon { padding: 0.5rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -66,24 +66,24 @@
         
         .input-group { margin-bottom: 1rem; }
         .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main); font-size: 0.875rem; }
-        .input-control { width: 100%; min-height: 46px; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(180deg, #ffffff, #f8fafc); transition: border 0.2s, box-shadow 0.2s, background 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 1px 2px rgba(15,23,42,0.03); color: var(--text-main); }
+        .input-control { width: 100%; min-height: 54px; padding: 0.95rem 1rem; border: 1px solid var(--border); border-radius: 14px; background: #f8fafc; transition: border 0.2s, box-shadow 0.2s, background 0.2s; box-shadow: none; color: var(--text-main); font-size: 0.98rem; }
         .input-control::placeholder { color: #9ca3af; }
-        .input-control:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(13,148,136,0.12); }
-        .filter-toolbar { display: grid; grid-template-columns: minmax(220px, 1.5fr) repeat(2, minmax(160px, 1fr)); gap: 1rem; align-items: end; margin-bottom: 1.25rem; padding: 1rem; border: 1px solid var(--border); border-radius: 18px; background: linear-gradient(135deg, #f8fafc, #ffffff); }
+        .input-control:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.12); }
+        .filter-toolbar { display: grid; grid-template-columns: minmax(220px, 1.5fr) repeat(2, minmax(160px, 1fr)); gap: 1rem; align-items: end; margin-bottom: 1.25rem; padding: 1rem; border: 1px solid var(--border); border-radius: 18px; background: #f8fafc; }
         .search-field { position: relative; }
         .search-field i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.15rem; }
         .search-field .input-control { padding-left: 2.75rem; }
         .custom-select { position: relative; }
-        .custom-select-trigger { width: 100%; min-height: 46px; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(180deg, #ffffff, #f8fafc); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-weight: 500; color: var(--text-main); box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
-        .custom-select-trigger:hover, .custom-select.open .custom-select-trigger { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(13,148,136,0.1); }
-        .custom-select-menu { position: absolute; z-index: 45; top: calc(100% + 0.45rem); left: 0; right: 0; padding: 0.35rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-lg); display: none; max-height: 240px; overflow-y: auto; }
+        .custom-select-trigger { width: 100%; min-height: 54px; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 14px; background: #f8fafc; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-weight: 500; color: var(--text-main); box-shadow: none; font-size: 0.98rem; }
+        .custom-select-trigger:hover, .custom-select.open .custom-select-trigger { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.1); }
+        .custom-select-menu { position: absolute; z-index: 45; top: calc(100% + 0.45rem); left: 0; right: 0; padding: 0.35rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); box-shadow: none; display: none; max-height: 240px; overflow-y: auto; }
         .custom-select.open .custom-select-menu { display: block; }
         .custom-option { padding: 0.75rem 0.85rem; border-radius: 12px; display: flex; align-items: center; gap: 0.65rem; cursor: pointer; color: var(--text-main); }
-        .custom-option:hover, .custom-option.active { background: #ecfdf5; color: var(--primary); }
+        .custom-option:hover, .custom-option.active { background: #eef2f7; color: var(--primary); }
         .custom-option i { font-size: 1.1rem; }
         .segmented-control { display: flex; flex-wrap: wrap; gap: 0.5rem; }
         .segment-option { padding: 0.65rem 0.9rem; border: 1px solid var(--border); border-radius: 999px; background: white; color: var(--text-muted); font-weight: 600; cursor: pointer; }
-        .segment-option.active { color: white; background: var(--primary); border-color: var(--primary); box-shadow: 0 8px 18px rgba(13,148,136,0.25); }
+        .segment-option.active { color: white; background: var(--primary); border-color: var(--primary); box-shadow: none; }
         
         .badge { padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; display: inline-block; }
         .badge-pending { background: #fef3c7; color: #d97706; }
@@ -105,30 +105,53 @@
         /* Sidebar */
         #sidebar { width: var(--sidebar-width); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; transition: transform 0.3s; }
         .sidebar-header { padding: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--border); }
-        .sidebar-logo { width: 36px; height: 36px; background: var(--primary); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+        .sidebar-logo { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; }
         .sidebar-title { font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
-        .sidebar-menu { flex: 1; overflow-y: auto; padding: 1.5rem 0; }
-        .menu-item { padding: 0.8rem 1.5rem; margin: 0.2rem 1rem; border-radius: 8px; display: flex; align-items: center; gap: 1rem; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        .menu-item:hover { background: #f3f4f6; color: var(--primary); }
-        .menu-item.active { background: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4); }
+        .sidebar-profile {
+            margin: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #f8fafc;
+            padding: 1rem;
+        }
+        .sidebar-profile-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem; }
+        .sidebar-profile-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--primary);
+            color: #fff;
+        }
+        .sidebar-profile-name { font-size: 0.95rem; font-weight: 600; color: var(--text-main); line-height: 1.35; }
+        .sidebar-profile-role { font-size: 0.76rem; color: var(--text-muted); }
+        .sidebar-profile-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.85rem; }
+        .sidebar-menu { flex: 1; overflow-y: auto; padding: 0.5rem 0 1.5rem; }
+        .menu-item { padding: 0.9rem 1.1rem; margin: 0.25rem 1rem; border-radius: 12px; display: flex; align-items: center; gap: 0.85rem; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+        .menu-item:hover { background: #f8fafc; color: var(--primary); border-color: var(--border); }
+        .menu-item.active { background: var(--primary); color: white; box-shadow: none; }
         .menu-item i { font-size: 1.25rem; }
         
         /* Main Content */
         #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         
         /* Topbar */
-        #topbar { height: 70px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
+        #topbar { height: 74px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
         .user-info { display: flex; align-items: center; gap: 1rem; }
         .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); font-size: 1.2rem;}
         .topbar-actions { display: flex; align-items: center; gap: 0.75rem; position: relative; }
         .notification-wrap { position: relative; }
-        .notification-btn { width: 42px; height: 42px; border-radius: 14px; border: 1px solid var(--border); background: #fff; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main); position: relative; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
-        .notification-btn:hover, .notification-btn.active { color: var(--primary); border-color: rgba(13,148,136,0.35); background: #f0fdfa; }
+        .notification-btn { width: 44px; height: 44px; border-radius: 14px; border: 1px solid var(--border); background: #fff; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main); position: relative; box-shadow: none; }
+        .notification-btn:hover, .notification-btn.active { color: var(--primary); border-color: rgba(30,41,59,0.35); background: #f8fafc; }
         .notification-btn i { font-size: 1.25rem; }
         .notification-dot { position: absolute; top: 8px; right: 8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--danger); color: white; font-size: 0.65rem; line-height: 16px; font-weight: 700; border: 2px solid white; }
         .notification-dropdown { position: absolute; right: 0; top: calc(100% + 0.75rem); width: min(360px, calc(100vw - 2rem)); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-lg); overflow: hidden; display: none; z-index: 60; }
         .notification-dropdown.open { display: block; animation: fadeDown 0.18s ease-out; }
-        .notification-head { padding: 1rem 1.1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #f0fdfa, #ffffff); }
+        .notification-head { padding: 1rem 1.1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: #f8fafc; }
         .notification-list { max-height: 330px; overflow-y: auto; }
         .notification-item { padding: 0.9rem 1.1rem; display: grid; grid-template-columns: 36px 1fr; gap: 0.75rem; border-bottom: 1px solid var(--border); cursor: pointer; }
         .notification-item:hover { background: #f8fafc; }
@@ -140,19 +163,81 @@
         
         /* View Area */
         #view-area { flex: 1; overflow-y: auto; padding: 2rem; }
+        .section-shell { margin-bottom: 1rem; }
+        .section-toolbar-wrap {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #ffffff;
+        }
+        .section-toolbar-title h3 { font-size: 1rem; margin: 0; }
+        .section-toolbar-title p { margin-top: 0.25rem; }
+        .section-toolbar-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .section-action { position: relative; }
+        .section-tool-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #f8fafc;
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        .section-tool-btn:hover { border-color: var(--primary); color: var(--primary); background: #fff; }
+        .section-dropdown {
+            position: absolute;
+            top: calc(100% + 0.45rem);
+            right: 0;
+            width: 260px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            padding: 0.75rem;
+            display: none;
+            z-index: 40;
+        }
+        .section-dropdown.open { display: block; }
+        .section-dropdown-title { font-size: 0.76rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 600; }
+        .section-filter-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; }
+        .section-filter-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.5rem 0.55rem;
+            font-size: 0.78rem;
+            background: #f8fafc;
+            color: var(--text-main);
+        }
+        .section-filter-item:hover, .section-filter-item.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: #fff;
+        }
         
         /* Bottom Nav (Mobile) */
-        #bottom-nav { display: none; background: var(--surface); box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1); padding: 0.5rem; justify-content: space-around; z-index: 20; border-top: 1px solid var(--border); }
+        #bottom-nav { display: none; background: var(--surface); box-shadow: none; padding: 0.5rem; justify-content: space-around; z-index: 20; border-top: 1px solid var(--border); }
         .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; color: var(--text-muted); padding: 0.5rem; font-size: 0.75rem; flex: 1; }
         .bottom-nav-item.active { color: var(--primary); }
         .bottom-nav-item i { font-size: 1.5rem; }
 
-        /* Auth Layout (Login/Register) */
+        /* Auth Layout */
         #auth-layout { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; background: var(--bg); }
-        .auth-card { width: 100%; max-width: 450px; background: white; padding: 2.5rem; }
-        .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-        .auth-tab { flex: 1; text-align: center; padding: 1rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; }
-        .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .auth-card { width: 100%; max-width: 460px; background: white; padding: 2.25rem; }
+        .auth-note {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #f8fafc;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
 
         /* Grid Layouts */
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
@@ -160,15 +245,15 @@
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
         
         /* Product Card */
-        .product-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; border: 1px solid var(--border); transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .product-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: none; display: flex; flex-direction: column; border: 1px solid var(--border); transition: border-color 0.2s; }
+        .product-card:hover { transform: none; border-color: #b8c2ce; box-shadow: none; }
         .product-img { height: 180px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #cbd5e1; position: relative; border-bottom: 1px solid var(--border); }
         .product-info { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
         
         /* Modals */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 1rem; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s; }
+        .modal-content { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: none; border: 1px solid var(--border); transform: translateY(20px); transition: transform 0.3s; }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-radius: var(--radius) var(--radius) 0 0; }
         .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
@@ -181,24 +266,24 @@
         .details-value { font-weight: 500; text-align: right; }
 
         .user-card-list { display: none; flex-direction: column; gap: 0.85rem; }
-        .user-mini-card { border: 1px solid var(--border); border-radius: 18px; padding: 1rem; background: #fff; box-shadow: 0 1px 2px rgba(15,23,42,0.03); }
+        .user-mini-card { border: 1px solid var(--border); border-radius: 18px; padding: 1rem; background: #fff; box-shadow: none; }
         .user-mini-card-head { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem; }
         .quick-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .photo-report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
-        .report-stat-card { border: 1px solid var(--border); border-radius: 18px; padding: 1rem; background: linear-gradient(135deg, #ffffff, #f8fafc); display: flex; align-items: center; gap: 0.9rem; }
+        .report-stat-card { border: 1px solid var(--border); border-radius: 18px; padding: 1rem; background: #ffffff; display: flex; align-items: center; gap: 0.9rem; }
         .report-stat-icon { width: 46px; height: 46px; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; background: #ccfbf1; color: var(--primary); }
         .report-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-        .report-card { border: 1px solid var(--border); border-radius: 20px; background: #fff; padding: 1rem; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.75rem; }
+        .report-card { border: 1px solid var(--border); border-radius: 20px; background: #fff; padding: 1rem; box-shadow: none; display: flex; flex-direction: column; gap: 0.75rem; }
         .report-card.overdue { border-color: #fecaca; background: linear-gradient(180deg, #fff, #fff7f7); }
         .report-card.done { border-color: #bbf7d0; }
         .report-card.pending { border-color: #fde68a; }
         .report-thumb { min-height: 120px; border-radius: 16px; background: linear-gradient(135deg, #ecfeff, #f8fafc); border: 1px dashed #99f6e4; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 2rem; }
-        .upload-zone { border: 2px dashed #99f6e4; border-radius: 18px; padding: 1.5rem; text-align: center; background: #f0fdfa; cursor: pointer; transition: border 0.2s, transform 0.2s; }
-        .upload-zone:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .upload-zone { border: 1px dashed #b9c4d2; border-radius: 18px; padding: 1.5rem; text-align: center; background: #f8fafc; cursor: pointer; transition: border 0.2s, transform 0.2s; }
+        .upload-zone:hover { border-color: var(--primary); transform: none; }
 
         /* Notifications */
         #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: var(--surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.75rem; border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; }
+        .toast { background: var(--surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: none; display: flex; align-items: center; gap: 0.75rem; border: 1px solid var(--border); border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
         /* Responsive UI Adjustments */
@@ -224,6 +309,9 @@
             .topbar-actions { gap: 0.5rem; }
             .btn { padding: 0.65rem 0.9rem; }
             .grid-products { grid-template-columns: 1fr; gap: 1rem; }
+            .section-toolbar-wrap { flex-direction: column; align-items: stretch; }
+            .section-toolbar-actions { justify-content: flex-end; }
+            .section-dropdown { width: min(260px, calc(100vw - 2.5rem)); right: 0; }
             
             /* Responsive Table classes */
             .hide-sm { display: none !important; }
@@ -246,48 +334,16 @@
                 <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
                 <h1 class="font-bold text-xl text-primary">My Diller UZ</h1>
             </div>
-            
-            <div class="auth-tabs">
-                <div class="auth-tab active" onclick="switchAuthTab('login')">Kirish</div>
-                <div class="auth-tab" onclick="switchAuthTab('register')">Ro'yxatdan o'tish</div>
+            <div class="text-center mb-4">
+                <h2 class="mb-2">Ro'yxatdan o'tish</h2>
+                <p class="text-muted text-sm">Minimal interfeysda hisob yarating va platformaga kiring</p>
             </div>
-
-            <!-- Login Form -->
-            <div id="login-form">
-                <div class="text-center mb-6">
-                    <h2 class="mb-2">Tizimga kirish</h2>
-                    <p class="text-muted text-sm">Telefon raqam va parolingizni kiriting</p>
-                </div>
-                <div class="input-group">
-                    <label>Telefon raqam</label>
-                    <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
-                </div>
-                <div class="input-group mb-6">
-                    <label>Parol</label>
-                    <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
-                </div>
-                <button class="btn btn-primary w-full mb-4" onclick="doLogin()">Kirish</button>
-                
-                <div class="flex items-center gap-4 mb-4">
-                    <hr class="w-full" style="border-color: var(--border);">
-                    <span class="text-muted text-sm">yoki</span>
-                    <hr class="w-full" style="border-color: var(--border);">
-                </div>
-                
-                <button class="btn btn-outline w-full" disabled title="Hozircha ishlamaydi">
-                    <i class="ri-file-shield-2-line"></i> E-IMZO orqali kirish
-                </button>
-                
-                <div class="mt-6 p-3 bg-blue-50 rounded-lg text-xs text-muted" style="background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
-                    <b>Demo parol kiritish:</b><br>
-                    Admin: <code>admin</code><br>
-                    Sotuvchi: <code>seller1</code> yoki <code>seller2</code><br>
-                    Xaridor: <code>buyer1</code> yoki <code>buyer2</code>
-                </div>
+            <div class="auth-note">
+                Hisob yaratgach siz tanlagan rol bo'yicha dashboard ochiladi.
             </div>
 
             <!-- Register Form -->
-            <div id="register-form" class="hidden">
+            <div id="register-form">
                 <div class="input-group">
                     <label>Kompaniya nomi</label>
                     <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
@@ -309,8 +365,10 @@
                         </div>
                     </div>
                 </div>
-                
-                <button class="btn btn-primary w-full mt-4" onclick="doRegister()">Ro'yxatdan o'tish kutilmoqda</button>
+
+                <button class="btn btn-primary w-full mt-4" onclick="doRegister()">
+                    <i class="ri-user-add-line"></i> Platformaga kirish
+                </button>
             </div>
         </div>
     </div>
@@ -326,6 +384,7 @@
                     <i class="ri-close-line"></i>
                 </button>
             </div>
+            <div class="sidebar-profile" id="sidebar-profile"></div>
             <ul class="sidebar-menu" id="sidebar-menu">
                 <!-- Dynamic Menu Items -->
             </ul>
@@ -543,7 +602,8 @@
             charts: {},
             userFilters: { search: '', role: 'all', status: 'all' },
             reportFilter: 'all',
-            notificationsRead: false
+            notificationsRead: false,
+            sectionTools: {}
         };
 
         /* =========================================
@@ -611,6 +671,117 @@
                     <div class="custom-select-menu">${optionsHtml}</div>
                 </div>
             `;
+        }
+
+        function renderSidebarProfile() {
+            const roleNames = { admin: 'Administrator', seller: 'Sotuvchi', buyer: 'Diler/Xaridor' };
+            const role = roleNames[STATE.currentUser.role] || 'Foydalanuvchi';
+            const profileEl = document.getElementById('sidebar-profile');
+            if (!profileEl) return;
+            profileEl.innerHTML = `
+                <div class="sidebar-profile-top">
+                    <div class="sidebar-profile-avatar">${STATE.currentUser.name.charAt(0).toUpperCase()}</div>
+                    <div>
+                        <div class="sidebar-profile-name">${STATE.currentUser.name}</div>
+                        <div class="sidebar-profile-role">${role}</div>
+                    </div>
+                </div>
+                <div class="sidebar-profile-meta">INN: ${STATE.currentUser.inn}</div>
+                <button class="btn btn-outline w-full" onclick="showToast('Profil ma\\'lumotlari yangilanmoqda', 'info')">
+                    <i class="ri-user-settings-line"></i> Profil
+                </button>
+            `;
+        }
+
+        function ensureSectionTools(viewId) {
+            if (!STATE.sectionTools[viewId]) {
+                STATE.sectionTools[viewId] = { search: '', filter: 'all' };
+            }
+            return STATE.sectionTools[viewId];
+        }
+
+        function renderSectionToolbar(viewId, title, subtitle = '') {
+            const section = ensureSectionTools(viewId);
+            return `
+                <div class="section-shell">
+                    <div class="section-toolbar-wrap">
+                        <div class="section-toolbar-title">
+                            <h3>${title}</h3>
+                            ${subtitle ? `<p class="text-sm text-muted">${subtitle}</p>` : ''}
+                        </div>
+                        <div class="section-toolbar-actions">
+                            <div class="section-action">
+                                <button class="section-tool-btn" type="button" onclick="toggleSectionDropdown(event, '${viewId}', 'search')" title="Qidirish">
+                                    <i class="ri-search-line"></i>
+                                </button>
+                                <div class="section-dropdown" id="section-search-${viewId}">
+                                    <div class="section-dropdown-title">Qidiruv</div>
+                                    <input
+                                        type="search"
+                                        class="input-control"
+                                        placeholder="Bo'lim ichida qidiring..."
+                                        value="${section.search}"
+                                        oninput="setSectionSearch('${viewId}', this.value)"
+                                    >
+                                </div>
+                            </div>
+                            <div class="section-action">
+                                <button class="section-tool-btn" type="button" onclick="toggleSectionDropdown(event, '${viewId}', 'filter')" title="Filter">
+                                    <i class="ri-filter-3-line"></i>
+                                </button>
+                                <div class="section-dropdown" id="section-filter-${viewId}">
+                                    <div class="section-dropdown-title">Filter</div>
+                                    <div class="section-filter-list">
+                                        <button type="button" class="section-filter-item ${section.filter === 'all' ? 'active' : ''}" onclick="setSectionFilter('${viewId}', 'all', event)">Barchasi</button>
+                                        <button type="button" class="section-filter-item ${section.filter === 'active' ? 'active' : ''}" onclick="setSectionFilter('${viewId}', 'active', event)">Faol</button>
+                                        <button type="button" class="section-filter-item ${section.filter === 'pending' ? 'active' : ''}" onclick="setSectionFilter('${viewId}', 'pending', event)">Kutilmoqda</button>
+                                        <button type="button" class="section-filter-item ${section.filter === 'latest' ? 'active' : ''}" onclick="setSectionFilter('${viewId}', 'latest', event)">So'nggi</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function closeSectionDropdowns() {
+            document.querySelectorAll('.section-dropdown').forEach(dropdown => dropdown.classList.remove('open'));
+        }
+
+        function toggleSectionDropdown(event, viewId, type) {
+            event.stopPropagation();
+            const targetId = `section-${type}-${viewId}`;
+            const targetEl = document.getElementById(targetId);
+            if (!targetEl) return;
+            const isOpen = targetEl.classList.contains('open');
+            closeSectionDropdowns();
+            if (!isOpen) targetEl.classList.add('open');
+        }
+
+        function setSectionSearch(viewId, value) {
+            ensureSectionTools(viewId).search = value;
+        }
+
+        function setSectionFilter(viewId, filter, event) {
+            if (event) event.stopPropagation();
+            ensureSectionTools(viewId).filter = filter;
+            navigate(viewId, null);
+        }
+
+        function matchSectionSearch(viewId, text) {
+            const query = ensureSectionTools(viewId).search.trim().toLowerCase();
+            return !query || text.toLowerCase().includes(query);
+        }
+
+        function resolveUserByRole(role, inn, companyName) {
+            let match = MOCK_DB.users.find((u) => u.role === role && (!inn || u.inn === inn));
+            if (!match) {
+                match = MOCK_DB.users.find((u) => u.role === role);
+            }
+            if (!match) return null;
+            if (companyName) match.name = companyName;
+            return match;
         }
 
         function getNotifications() {
@@ -683,59 +854,43 @@
                 document.getElementById('notification-dropdown')?.classList.remove('open');
                 document.getElementById('notification-btn')?.classList.remove('active');
             }
+            if (!e.target.closest('.section-action')) closeSectionDropdowns();
         });
 
         /* =========================================
-           3. AUTHENTICATION (LOGIN / REGISTER)
+           3. AUTHENTICATION (REGISTER ONLY)
            ========================================= */
-        function switchAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            if(tab === 'login') {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('register-form').classList.add('hidden');
-            } else {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
-            }
-        }
+        function doRegister() {
+            const company = document.getElementById('reg-name').value.trim();
+            const inn = document.getElementById('reg-inn').value.trim();
+            const role = document.getElementById('reg-role').value;
 
-        function doLogin() {
-            const phone = document.getElementById('login-phone').value;
-            const pass = document.getElementById('login-password').value.toLowerCase();
-            
-            if(!pass) {
-                showToast("Iltimos, parolni kiriting", "warning");
+            if (!company || !inn || !/^\d{8,9}$/.test(inn)) {
+                showToast("Kompaniya va INN ma'lumotlarini to'g'ri kiriting", "warning");
                 return;
             }
-            
-            let user = null;
-            if (pass.includes('admin')) user = MOCK_DB.users[0];
-            else if (pass.includes('seller1')) user = MOCK_DB.users[1];
-            else if (pass.includes('seller2')) user = MOCK_DB.users[2];
-            else if (pass.includes('buyer1')) user = MOCK_DB.users[3];
-            else if (pass.includes('buyer2')) user = MOCK_DB.users[4];
-            else {
-                user = MOCK_DB.users[3];
-                showToast("Bunday parol topilmadi, test xaridor bo'lib kirdingiz", "info");
+
+            const user = resolveUserByRole(role, inn, company);
+            if (!user) {
+                showToast("Tanlangan rol uchun foydalanuvchi topilmadi", "warning");
+                return;
+            }
+            if (user.status === 'blocked') {
+                showToast("Ushbu akkaunt bloklangan", "warning");
+                return;
             }
 
-            if (user) {
-                if(user.status === 'blocked') return alert("Akkaunt bloklangan!");
-                STATE.currentUser = user;
-                initApp();
-            }
-        }
-
-        function doRegister() {
-            showToast("Ro'yxatdan o'tish demo versiyada faqat ma'lumot qabul qiladi.");
+            STATE.currentUser = user;
+            showToast("Ro'yxatdan o'tish yakunlandi, tizimga kirdingiz", "success");
+            initApp();
         }
 
         function doLogout() {
             STATE.currentUser = null;
             document.getElementById('app-layout').classList.add('hidden');
             document.getElementById('auth-layout').classList.remove('hidden');
-            document.getElementById('login-password').value = '';
+            const profileEl = document.getElementById('sidebar-profile');
+            if (profileEl) profileEl.innerHTML = '';
         }
 
         /* =========================================
