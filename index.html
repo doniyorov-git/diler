@@ -18,6 +18,7 @@
             --primary-hover: #0f766e;
             --bg: #f3f4f6;
             --surface: #ffffff;
+            --surface-soft: #f8fafc;
             --text-main: #1f2937;
             --text-muted: #6b7280;
             --border: #e5e7eb;
@@ -28,6 +29,7 @@
             --radius: 12px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --focus-ring: 0 0 0 3px rgba(13, 148, 136, 0.2);
             --sidebar-width: 280px;
         }
 
@@ -50,29 +52,40 @@
         h1, h2, h3, h4 { color: var(--text-main); font-weight: 600; }
         h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.1rem; }
         .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.875rem; } .text-lg { font-size: 1.125rem; }
+        .text-xs { font-size: 0.75rem; }
         .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
+        .text-primary { color: var(--primary); }
+        .text-danger { color: var(--danger); }
+        .text-success { color: var(--success); }
+        .text-info { color: var(--info); }
 
         /* UI Elements */
-        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
-        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); border: 1px solid #eef2f7; }
+        .btn { padding: 0.65rem 1.15rem; border-radius: 10px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s, border-color 0.2s; }
         .btn-icon { padding: 0.5rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+        .btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-primary { background: var(--primary); color: white; } .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
         .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { background: #dc2626; }
         .btn-success { background: var(--success); color: white; } .btn-warning { background: var(--warning); color: white; }
         .btn-info { background: var(--info); color: white; }
-        .btn-outline { border: 1px solid var(--border); color: var(--text-main); } .btn-outline:hover { background: var(--bg); }
+        .btn-outline { border: 1px solid var(--border); color: var(--text-main); background: var(--surface); } .btn-outline:hover { background: var(--bg); border-color: #cbd5e1; }
         
         .input-group { margin-bottom: 1rem; }
         .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-main); font-size: 0.875rem; }
-        .input-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: #f9fafb; transition: border 0.2s; }
-        .input-control:focus { border-color: var(--primary); background: white; }
+        .input-control { width: 100%; padding: 0.8rem 1rem; border: 1px solid #dbe3ec; border-radius: 10px; background: #fbfdff; transition: border 0.2s, box-shadow 0.2s, background 0.2s; }
+        .input-control:hover { border-color: #cbd5e1; }
+        .input-control:focus { border-color: var(--primary); background: white; box-shadow: var(--focus-ring); }
+        .input-with-icon { position: relative; }
+        .input-with-icon i { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 1rem; pointer-events: none; }
+        .input-with-icon .input-control { padding-left: 2.45rem; }
         
         .badge { padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; display: inline-block; }
         .badge-pending { background: #fef3c7; color: #d97706; }
         .badge-active { background: #d1fae5; color: #059669; }
         .badge-danger { background: #fee2e2; color: #dc2626; }
         .badge-info { background: #dbeafe; color: #2563eb; }
+        .badge-blocked { background: #f3f4f6; color: #4b5563; }
 
         /* Tables */
         .table-responsive { overflow-x: auto; width: 100%; }
@@ -100,9 +113,51 @@
         #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         
         /* Topbar */
-        #topbar { height: 70px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
+        #topbar { height: 70px; background: var(--surface); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; position: relative; }
+        .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+        .topbar-actions { position: relative; }
         .user-info { display: flex; align-items: center; gap: 1rem; }
         .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); font-size: 1.2rem;}
+        .notif-btn { position: relative; }
+        .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; border-radius: 999px; background: #ef4444; color: white; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; padding: 0 4px; border: 2px solid var(--surface); }
+        .notif-badge.hidden { display: none !important; }
+        #notification-dropdown { position: absolute; right: 0; top: calc(100% + 0.45rem); width: min(360px, 85vw); background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 30; overflow: hidden; display: none; }
+        #notification-dropdown.open { display: block; animation: notifFade 0.18s ease; }
+        @keyframes notifFade { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        .notif-header, .notif-footer { padding: 0.8rem 1rem; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+        .notif-footer { border-top: 1px solid #f1f5f9; border-bottom: 0; }
+        .notif-list { max-height: 360px; overflow-y: auto; }
+        .notif-item { padding: 0.75rem 1rem; border-bottom: 1px solid #f8fafc; cursor: pointer; transition: background 0.2s; display: flex; gap: 0.75rem; }
+        .notif-item:last-child { border-bottom: 0; }
+        .notif-item:hover { background: #f8fafc; }
+        .notif-item.unread { background: #f0fdfa; }
+        .notif-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 0.35rem; flex-shrink: 0; }
+        .notif-item.read .dot { background: #cbd5e1; }
+        .notif-title { font-weight: 600; font-size: 0.84rem; }
+        .notif-sub { color: var(--text-muted); font-size: 0.76rem; line-height: 1.35; }
+
+        /* Custom Select */
+        .custom-select { position: relative; width: 100%; }
+        .custom-select-trigger { width: 100%; border: 1px solid #dbe3ec; border-radius: 10px; background: #fbfdff; padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; color: var(--text-main); }
+        .custom-select-trigger:hover { border-color: #cbd5e1; }
+        .custom-select.open .custom-select-trigger { border-color: var(--primary); box-shadow: var(--focus-ring); background: #fff; }
+        .custom-select-menu { position: absolute; left: 0; right: 0; top: calc(100% + 0.35rem); background: white; border: 1px solid #dbe3ec; border-radius: 10px; box-shadow: var(--shadow-lg); z-index: 35; display: none; max-height: 220px; overflow-y: auto; }
+        .custom-select.open .custom-select-menu { display: block; }
+        .custom-select-option { width: 100%; text-align: left; padding: 0.7rem 0.9rem; border: 0; background: transparent; cursor: pointer; color: #334155; }
+        .custom-select-option:hover { background: #f8fafc; }
+        .custom-select-option.active { background: #f0fdfa; color: #0f766e; font-weight: 600; }
+        
+        .toolbar { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+        .toolbar .input-with-icon { flex: 1; min-width: 200px; }
+        .toolbar .custom-select { min-width: 180px; flex: 0 1 220px; }
+        .chip { border: 1px solid #dbe3ec; color: #334155; border-radius: 999px; padding: 0.38rem 0.75rem; background: #fff; font-size: 0.78rem; }
+        .chip.active { background: #ecfeff; border-color: #99f6e4; color: #0f766e; }
+        .surface-note { padding: 0.85rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 0.83rem; color: #475569; }
+        .upload-zone { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 1.3rem; text-align: center; background: #f8fafc; cursor: pointer; transition: all 0.2s; }
+        .upload-zone:hover { border-color: var(--primary); background: #f0fdfa; }
+        .report-metric { background: #f8fafc; border-radius: 12px; border: 1px solid #e5e7eb; padding: 0.9rem; }
+        .report-metric .value { font-size: 1.15rem; font-weight: 700; margin-top: 0.35rem; }
+        .mobile-stack { display: flex; align-items: center; gap: 0.5rem; }
         
         /* View Area */
         #view-area { flex: 1; overflow-y: auto; padding: 2rem; }
@@ -154,6 +209,7 @@
         /* Responsive UI Adjustments */
         @media (max-width: 1024px) {
             .grid-cards { grid-template-columns: repeat(2, 1fr); }
+            #topbar { padding: 0 1rem; }
         }
 
         @media (max-width: 768px) {
@@ -161,10 +217,17 @@
             #sidebar.open { transform: translateX(0); }
             #bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; }
             #view-area { padding: 1rem; padding-bottom: 80px; }
-            #topbar { padding: 0 1rem; }
+            #topbar { padding: 0 0.85rem; height: 64px; }
             .mobile-menu-btn { display: block !important; }
             .grid-cards { grid-template-columns: 1fr; }
             .grid-2 { grid-template-columns: 1fr; }
+            .card { padding: 1rem; border-radius: 14px; }
+            .btn { border-radius: 12px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .toolbar .input-with-icon, .toolbar .custom-select { width: 100%; min-width: 100%; }
+            .notif-header, .notif-footer { padding: 0.75rem; }
+            .notif-item { padding: 0.7rem 0.75rem; }
+            #notification-dropdown { right: -36px; width: min(340px, 92vw); }
             
             /* Responsive Table classes */
             .hide-sm { display: none !important; }
@@ -199,11 +262,17 @@
                 </div>
                 <div class="input-group">
                     <label>Telefon raqam</label>
-                    <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                    <div class="input-with-icon">
+                        <i class="ri-smartphone-line"></i>
+                        <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                    </div>
                 </div>
                 <div class="input-group mb-6">
                     <label>Parol</label>
-                    <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                    <div class="input-with-icon">
+                        <i class="ri-lock-password-line"></i>
+                        <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                    </div>
                 </div>
                 <button class="btn btn-primary w-full mb-4" onclick="doLogin()">Kirish</button>
                 
@@ -229,18 +298,31 @@
             <div id="register-form" class="hidden">
                 <div class="input-group">
                     <label>Kompaniya nomi</label>
-                    <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                    <div class="input-with-icon">
+                        <i class="ri-building-line"></i>
+                        <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>INN (STIR)</label>
-                    <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                    <div class="input-with-icon">
+                        <i class="ri-file-list-2-line"></i>
+                        <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>Rolni tanlang</label>
-                    <select id="reg-role" class="input-control">
-                        <option value="seller">Sotuvchi (Seller)</option>
-                        <option value="buyer">Diler/Xaridor (Buyer)</option>
-                    </select>
+                    <input type="hidden" id="reg-role" value="seller">
+                    <div class="custom-select" data-target-input="reg-role">
+                        <button type="button" class="custom-select-trigger" aria-label="Rol tanlash">
+                            <span class="custom-select-label">Sotuvchi (Seller)</span>
+                            <i class="ri-arrow-down-s-line"></i>
+                        </button>
+                        <div class="custom-select-menu">
+                            <button type="button" class="custom-select-option active" data-value="seller">Sotuvchi (Seller)</button>
+                            <button type="button" class="custom-select-option" data-value="buyer">Diler/Xaridor (Buyer)</button>
+                        </div>
+                    </div>
                 </div>
                 
                 <button class="btn btn-primary w-full mt-4" onclick="doRegister()">Ro'yxatdan o'tish kutilmoqda</button>
@@ -274,7 +356,23 @@
                     </button>
                     <h2 id="page-title" class="text-lg">Dashboard</h2>
                 </div>
-                <div class="flex items-center gap-4">
+                <div class="topbar-right">
+                    <div class="topbar-actions">
+                        <button id="notif-btn" class="btn btn-outline btn-icon notif-btn" onclick="toggleNotifications()" title="Xabarlar">
+                            <i class="ri-notification-3-line"></i>
+                            <span class="notif-badge hidden" id="notif-unread-count">0</span>
+                        </button>
+                        <div id="notification-dropdown">
+                            <div class="notif-header">
+                                <b>Xabarlar</b>
+                                <button class="btn btn-outline text-xs" style="padding:0.35rem 0.7rem" onclick="markAllNotificationsRead()">Barchasi o'qildi</button>
+                            </div>
+                            <div class="notif-list" id="notif-list"></div>
+                            <div class="notif-footer">
+                                <span class="text-xs text-muted">Yangi hodisalar avtomatik yangilanadi</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="user-info hide-sm">
                         <div class="text-right">
                             <div class="font-semibold" id="topbar-user-name">Foydalanuvchi</div>
@@ -337,7 +435,18 @@
                 <div class="grid-2">
                     <div class="input-group">
                         <label>Kategoriya</label>
-                        <select class="input-control"><option>Elektronika</option><option>Mebel</option><option>Boshqa</option></select>
+                        <input type="hidden" id="p-category" value="Elektronika">
+                        <div class="custom-select" data-target-input="p-category">
+                            <button type="button" class="custom-select-trigger" aria-label="Kategoriya tanlash">
+                                <span class="custom-select-label">Elektronika</span>
+                                <i class="ri-arrow-down-s-line"></i>
+                            </button>
+                            <div class="custom-select-menu">
+                                <button type="button" class="custom-select-option active" data-value="Elektronika">Elektronika</button>
+                                <button type="button" class="custom-select-option" data-value="Mebel">Mebel</button>
+                                <button type="button" class="custom-select-option" data-value="Boshqa">Boshqa</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Bazaviy narx (UZS)</label>
@@ -349,10 +458,17 @@
                 
                 <div class="input-group">
                     <label>To'lov modeli</label>
-                    <select id="p-model" class="input-control" onchange="togglePrepayFields()">
-                        <option value="realization">Realizatsiya (Sotilgandan so'ng)</option>
-                        <option value="prepayment">Oldindan to'lov (Avans)</option>
-                    </select>
+                    <input type="hidden" id="p-model" value="realization">
+                    <div class="custom-select" data-target-input="p-model" data-on-change="togglePrepayFields">
+                        <button type="button" class="custom-select-trigger" aria-label="To'lov modeli tanlash">
+                            <span class="custom-select-label">Realizatsiya (Sotilgandan so'ng)</span>
+                            <i class="ri-arrow-down-s-line"></i>
+                        </button>
+                        <div class="custom-select-menu">
+                            <button type="button" class="custom-select-option active" data-value="realization">Realizatsiya (Sotilgandan so'ng)</button>
+                            <button type="button" class="custom-select-option" data-value="prepayment">Oldindan to'lov (Avans)</button>
+                        </div>
+                    </div>
                 </div>
                 
                 <div id="prepay-fields" class="hidden grid-2 bg-blue-50 p-4 rounded-lg mb-4" style="background:#f0f9ff; border:1px solid #bae6fd;">
@@ -369,12 +485,19 @@
                     </div>
                     <div class="input-group">
                         <label>Foto hisobot davri</label>
-                        <select id="p-photodays" class="input-control">
-                            <option value="5">Har 5 kunda</option>
-                            <option value="10">Har 10 kunda</option>
-                            <option value="15" selected>Har 15 kunda</option>
-                            <option value="30">Har 30 kunda</option>
-                        </select>
+                        <input type="hidden" id="p-photodays" value="15">
+                        <div class="custom-select" data-target-input="p-photodays">
+                            <button type="button" class="custom-select-trigger" aria-label="Foto hisobot davri tanlash">
+                                <span class="custom-select-label">Har 15 kunda</span>
+                                <i class="ri-arrow-down-s-line"></i>
+                            </button>
+                            <div class="custom-select-menu">
+                                <button type="button" class="custom-select-option" data-value="5">Har 5 kunda</button>
+                                <button type="button" class="custom-select-option" data-value="10">Har 10 kunda</button>
+                                <button type="button" class="custom-select-option active" data-value="15">Har 15 kunda</button>
+                                <button type="button" class="custom-select-option" data-value="30">Har 30 kunda</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -433,7 +556,22 @@
         let STATE = {
             currentUser: null,
             currentView: '',
-            charts: {}
+            charts: {},
+            notifications: [],
+            isNotifOpen: false,
+            adminUserFilters: {
+                query: '',
+                role: 'all',
+                status: 'all'
+            },
+            adminReportFilters: {
+                query: '',
+                status: 'all'
+            },
+            buyerReportFilters: {
+                query: '',
+                status: 'all'
+            }
         };
 
         /* =========================================
@@ -453,6 +591,7 @@
         const getStatusBadge = (status) => {
             const map = {
                 'active': '<span class="badge badge-active">Faol</span>',
+                'blocked': '<span class="badge badge-blocked">Bloklangan</span>',
                 'pending': '<span class="badge badge-pending">Kutilmoqda</span>',
                 'pending_sign': '<span class="badge badge-info">Imzo kutilmoqda</span>',
                 'completed': '<span class="badge badge-active" style="background:#dcfce7; color:#166534;">Yakunlangan</span>',
@@ -465,6 +604,223 @@
 
         const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || {name: 'Noma\'lum'};
         const getProdById = (id) => MOCK_DB.products.find(p => p.id === id);
+        const getOrderById = (id) => MOCK_DB.orders.find(o => o.id === id);
+        const formatDate = (d) => new Date(d).toLocaleDateString('uz-UZ');
+        const nowDate = () => new Date().toISOString().slice(0, 10);
+
+        function getMenuTitleByView(viewId) {
+            for (const role of Object.keys(MENU_CONFIG)) {
+                const found = MENU_CONFIG[role].find(m => m.id === viewId);
+                if (found) return found.title;
+            }
+            return 'Dashboard';
+        }
+
+        function navigateToView(viewId) {
+            const navEl = document.querySelector(`.menu-item[data-view="${viewId}"]`) || document.querySelector(`.bottom-nav-item[data-view="${viewId}"]`);
+            navigate(viewId, navEl || null);
+        }
+
+        function closeAllCustomSelects(except) {
+            document.querySelectorAll('.custom-select.open').forEach(sel => {
+                if (!except || sel !== except) sel.classList.remove('open');
+            });
+        }
+
+        function initializeCustomSelects(scope = document) {
+            const customSelects = scope.querySelectorAll('.custom-select');
+            customSelects.forEach(select => {
+                if (select.dataset.bound === '1') return;
+                select.dataset.bound = '1';
+
+                const targetInputId = select.dataset.targetInput;
+                const trigger = select.querySelector('.custom-select-trigger');
+                const label = select.querySelector('.custom-select-label');
+                const options = select.querySelectorAll('.custom-select-option');
+                const hiddenInput = document.getElementById(targetInputId);
+                if (!trigger || !label || !hiddenInput) return;
+
+                const applyValue = (value, text) => {
+                    hiddenInput.value = value;
+                    label.textContent = text;
+                    options.forEach(opt => opt.classList.toggle('active', opt.dataset.value === value));
+                    const onChangeFn = select.dataset.onChange;
+                    if (onChangeFn && typeof window[onChangeFn] === 'function') {
+                        window[onChangeFn]();
+                    }
+                };
+
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const willOpen = !select.classList.contains('open');
+                    closeAllCustomSelects(select);
+                    select.classList.toggle('open', willOpen);
+                });
+
+                options.forEach(opt => {
+                    opt.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        applyValue(opt.dataset.value, opt.textContent.trim());
+                        select.classList.remove('open');
+                    });
+                });
+
+                const preselected = [...options].find(opt => opt.dataset.value === hiddenInput.value) || [...options].find(opt => opt.classList.contains('active')) || options[0];
+                if (preselected) {
+                    applyValue(preselected.dataset.value, preselected.textContent.trim());
+                }
+            });
+        }
+
+        function buildNotifications() {
+            if (!STATE.currentUser) return [];
+            const notifications = [];
+
+            if (STATE.currentUser.role === 'admin') {
+                const blockedUsers = MOCK_DB.users.filter(u => u.status === 'blocked').length;
+                const overdueReports = MOCK_DB.reports.filter(r => r.status === 'overdue').length;
+                notifications.push(
+                    {
+                        id: 'admin-users',
+                        viewId: 'admin-users',
+                        title: 'Foydalanuvchilar nazorati',
+                        text: `${blockedUsers} ta bloklangan akkaunt nazoratda turibdi.`,
+                        time: "1 daqiqa oldin",
+                        read: blockedUsers === 0
+                    },
+                    {
+                        id: 'admin-reports',
+                        viewId: 'admin-reports',
+                        title: 'Foto hisobot ogohlantirish',
+                        text: `${overdueReports} ta hisobot muddati o'tgan.`,
+                        time: "5 daqiqa oldin",
+                        read: overdueReports === 0
+                    }
+                );
+            }
+
+            if (STATE.currentUser.role === 'seller') {
+                const pendingSignOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id && o.status === 'pending_sign' && !o.signedBySeller).length;
+                notifications.push({
+                    id: 'seller-sign',
+                    viewId: 'seller-orders',
+                    title: 'Imzo talab qilinadi',
+                    text: `${pendingSignOrders} ta buyurtma uchun E-IMZO talab qilinmoqda.`,
+                    time: "Hozir",
+                    read: pendingSignOrders === 0
+                });
+            }
+
+            if (STATE.currentUser.role === 'buyer') {
+                const myReportOverdue = MOCK_DB.reports.filter(r => {
+                    const order = getOrderById(r.orderId);
+                    return order && order.buyerId === STATE.currentUser.id && r.status === 'overdue';
+                }).length;
+                const myReportPending = MOCK_DB.reports.filter(r => {
+                    const order = getOrderById(r.orderId);
+                    return order && order.buyerId === STATE.currentUser.id && r.status === 'pending';
+                }).length;
+
+                notifications.push(
+                    {
+                        id: 'buyer-overdue',
+                        viewId: 'buyer-reports',
+                        title: 'Kechikkan foto hisobot',
+                        text: `${myReportOverdue} ta foto hisobot kechikmoqda.`,
+                        time: "2 daqiqa oldin",
+                        read: myReportOverdue === 0
+                    },
+                    {
+                        id: 'buyer-pending',
+                        viewId: 'buyer-reports',
+                        title: "Yangi foto topshirig'i",
+                        text: `${myReportPending} ta aktiv topshiriq sizni kutmoqda.`,
+                        time: "7 daqiqa oldin",
+                        read: myReportPending === 0
+                    }
+                );
+            }
+
+            STATE.notifications = notifications;
+            return notifications;
+        }
+
+        function renderNotificationsDropdown() {
+            const notifList = document.getElementById('notif-list');
+            const badge = document.getElementById('notif-unread-count');
+            if (!notifList || !badge) return;
+
+            if (!STATE.notifications.length) {
+                notifList.innerHTML = '<div class="p-4 text-sm text-muted">Yangi xabar yo\'q</div>';
+                badge.classList.add('hidden');
+                return;
+            }
+
+            const unreadCount = STATE.notifications.filter(n => !n.read).length;
+            badge.textContent = unreadCount;
+            badge.classList.toggle('hidden', unreadCount === 0);
+
+            notifList.innerHTML = STATE.notifications.map(n => `
+                <div class="notif-item ${n.read ? 'read' : 'unread'}" onclick="openNotification('${n.id}')">
+                    <span class="dot"></span>
+                    <div>
+                        <div class="notif-title">${n.title}</div>
+                        <div class="notif-sub">${n.text}</div>
+                        <div class="text-xs text-muted mt-1">${n.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            if (!dropdown) return;
+            STATE.isNotifOpen = !STATE.isNotifOpen;
+            dropdown.classList.toggle('open', STATE.isNotifOpen);
+        }
+
+        function closeNotifications() {
+            STATE.isNotifOpen = false;
+            const dropdown = document.getElementById('notification-dropdown');
+            if (dropdown) dropdown.classList.remove('open');
+        }
+
+        function openNotification(notifId) {
+            const notif = STATE.notifications.find(n => n.id === notifId);
+            if (!notif) return;
+            notif.read = true;
+            renderNotificationsDropdown();
+            closeNotifications();
+            if (notif.viewId) navigateToView(notif.viewId);
+        }
+
+        function markAllNotificationsRead() {
+            STATE.notifications = STATE.notifications.map(n => ({ ...n, read: true }));
+            renderNotificationsDropdown();
+            showToast("Barcha xabarlar o'qilgan deb belgilandi", "info");
+        }
+
+        function updateNotificationBadge() {
+            const badge = document.getElementById('notif-unread-count');
+            if (!badge) return;
+            const unreadCount = STATE.notifications.filter(n => !n.read).length;
+            badge.textContent = unreadCount;
+            badge.classList.toggle('hidden', unreadCount === 0);
+        }
+
+        function closeNotificationDropdown() {
+            closeNotifications();
+        }
+
+        window.addEventListener('click', (event) => {
+            const clickedInsideSelect = event.target.closest('.custom-select');
+            if (!clickedInsideSelect) closeAllCustomSelects();
+
+            const topbarActions = event.target.closest('.topbar-actions');
+            if (!topbarActions && STATE.isNotifOpen) {
+                closeNotifications();
+            }
+        });
 
         /* =========================================
            3. AUTHENTICATION (LOGIN / REGISTER)
@@ -514,9 +870,13 @@
 
         function doLogout() {
             STATE.currentUser = null;
+            STATE.notifications = [];
+            STATE.isNotifOpen = false;
             document.getElementById('app-layout').classList.add('hidden');
             document.getElementById('auth-layout').classList.remove('hidden');
             document.getElementById('login-password').value = '';
+            closeNotificationDropdown();
+            updateNotificationBadge();
         }
 
         /* =========================================
@@ -553,27 +913,34 @@
             document.getElementById('topbar-user-role').textContent = roleNames[STATE.currentUser.role];
             document.getElementById('topbar-avatar').textContent = STATE.currentUser.name.charAt(0);
 
+            buildNotifications();
+            renderNotificationsDropdown();
+            updateNotificationBadge();
+
             const menuItems = MENU_CONFIG[STATE.currentUser.role];
             const sidebarHtml = menuItems.map(m => `
-                <li class="menu-item" onclick="navigate('${m.id}', this)">
+                <li class="menu-item" data-view="${m.id}" onclick="navigate('${m.id}', this)">
                     <i class="${m.icon}"></i> <span>${m.title}</span>
                 </li>
             `).join('');
             document.getElementById('sidebar-menu').innerHTML = sidebarHtml;
 
             const bNavHtml = menuItems.slice(0, 4).map(m => `
-                <div class="bottom-nav-item" onclick="navigate('${m.id}', this, true)">
+                <div class="bottom-nav-item" data-view="${m.id}" onclick="navigate('${m.id}', this, true)">
                     <i class="${m.icon}"></i> <span>${m.title.split(' ')[0]}</span>
                 </div>
             `).join('');
             document.getElementById('bottom-nav').innerHTML = bNavHtml;
+
+            initializeCustomSelects(document);
 
             navigate(menuItems[0].id, document.querySelector('.menu-item'));
         }
 
         function navigate(viewId, el, isMobile = false) {
             STATE.currentView = viewId;
-            document.getElementById('page-title').textContent = el.innerText.trim();
+            const pageTitle = el ? el.innerText.trim() : getMenuTitleByView(viewId);
+            document.getElementById('page-title').textContent = pageTitle;
             
             document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => i.classList.remove('active'));
             if(el) {
@@ -595,6 +962,9 @@
             };
 
             if(renderMap[viewId]) renderMap[viewId](viewArea);
+            initializeCustomSelects(viewArea);
+            closeAllCustomSelects();
+            if (STATE.isNotifOpen) closeNotificationDropdown();
         }
 
         /* =========================================
@@ -740,24 +1110,119 @@
             }, 100);
         }
 
+        function applyAdminUserFilters() {
+            const query = STATE.adminUserFilters.query.toLowerCase().trim();
+            return MOCK_DB.users.filter(u => {
+                const roleOk = STATE.adminUserFilters.role === 'all' || u.role === STATE.adminUserFilters.role;
+                const statusOk = STATE.adminUserFilters.status === 'all' || u.status === STATE.adminUserFilters.status;
+                const queryOk = !query || [u.name, u.inn, u.phone, u.address].some(v => (v || '').toLowerCase().includes(query));
+                return roleOk && statusOk && queryOk;
+            });
+        }
+
+        function setAdminUserRoleFilter(value) {
+            STATE.adminUserFilters.role = value;
+            renderAdminUsers(document.getElementById('view-area'));
+        }
+
+        function setAdminUserStatusFilter(value) {
+            STATE.adminUserFilters.status = value;
+            renderAdminUsers(document.getElementById('view-area'));
+        }
+
+        function syncAdminUserRoleSelect() {
+            const hidden = document.getElementById('admin-user-role-filter');
+            if (!hidden) return;
+            setAdminUserRoleFilter(hidden.value || 'all');
+        }
+
+        function syncAdminUserStatusSelect() {
+            const hidden = document.getElementById('admin-user-status-filter');
+            if (!hidden) return;
+            setAdminUserStatusFilter(hidden.value || 'all');
+        }
+
         function renderAdminUsers(container) {
-            const rows = MOCK_DB.users.map(u => `
+            const users = applyAdminUserFilters();
+            const roleMap = { admin: 'Admin', seller: 'Seller', buyer: 'Buyer' };
+            const rows = users.map(u => `
                 <tr>
-                    <td><b>${u.name}</b><br><span class="text-xs text-muted hide-sm">INN: ${u.inn}</span></td>
-                    <td class="hide-sm"><span class="badge badge-info">${u.role.toUpperCase()}</span></td>
+                    <td>
+                        <b>${u.name}</b><br>
+                        <span class="text-xs text-muted">INN: ${u.inn}</span><br>
+                        <span class="text-xs text-muted hide-sm"><i class="ri-phone-line"></i> ${u.phone}</span>
+                    </td>
+                    <td class="hide-sm"><span class="badge badge-info">${roleMap[u.role] || u.role}</span></td>
                     <td>${getStatusBadge(u.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish">
-                            <i class="ri-eye-line"></i>
-                        </button>
+                        <div class="mobile-stack">
+                            <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                            ${u.id !== 1 ? `
+                                <button class="btn ${u.status === 'active' ? 'btn-danger' : 'btn-success'} btn-icon"
+                                    onclick="toggleUserStatus(${u.id})"
+                                    title="${u.status === 'active' ? 'Bloklash' : 'Faollashtirish'}">
+                                    <i class="ri-${u.status === 'active' ? 'forbid' : 'shield-check'}-line"></i>
+                                </button>
+                            ` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
+
             container.innerHTML = `
                 <div class="card">
-                    <h3 class="mb-4">Tizimdagi kompaniyalar</h3>
-                    <div class="table-responsive"><table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3>Tizimdagi kompaniyalar</h3>
+                        <span class="badge badge-info">${users.length} ta natija</span>
+                    </div>
+
+                    <div class="toolbar">
+                        <div class="input-with-icon">
+                            <i class="ri-search-line"></i>
+                            <input
+                                id="admin-user-search"
+                                class="input-control"
+                                placeholder="Kompaniya, INN, telefon bo'yicha qidirish"
+                                value="${STATE.adminUserFilters.query}"
+                                oninput="STATE.adminUserFilters.query=this.value; renderAdminUsers(document.getElementById('view-area'))"
+                            >
+                        </div>
+                        <div class="custom-select" data-target-input="admin-user-role-filter" data-on-change="syncAdminUserRoleSelect">
+                            <input type="hidden" id="admin-user-role-filter" value="${STATE.adminUserFilters.role}">
+                            <button type="button" class="custom-select-trigger"><span class="custom-select-label">Rol: ${STATE.adminUserFilters.role === 'all' ? 'Barchasi' : roleMap[STATE.adminUserFilters.role]}</span><i class="ri-arrow-down-s-line"></i></button>
+                            <div class="custom-select-menu">
+                                <button type="button" class="custom-select-option ${STATE.adminUserFilters.role === 'all' ? 'active' : ''}" data-value="all">Barcha rollar</button>
+                                <button type="button" class="custom-select-option ${STATE.adminUserFilters.role === 'admin' ? 'active' : ''}" data-value="admin">Admin</button>
+                                <button type="button" class="custom-select-option ${STATE.adminUserFilters.role === 'seller' ? 'active' : ''}" data-value="seller">Seller</button>
+                                <button type="button" class="custom-select-option ${STATE.adminUserFilters.role === 'buyer' ? 'active' : ''}" data-value="buyer">Buyer</button>
+                            </div>
+                        </div>
+                        <div class="custom-select" data-target-input="admin-user-status-filter" data-on-change="syncAdminUserStatusSelect">
+                            <input type="hidden" id="admin-user-status-filter" value="${STATE.adminUserFilters.status}">
+                            <button type="button" class="custom-select-trigger"><span class="custom-select-label">Holat: ${STATE.adminUserFilters.status === 'all' ? 'Barchasi' : (STATE.adminUserFilters.status === 'active' ? 'Faol' : 'Bloklangan')}</span><i class="ri-arrow-down-s-line"></i></button>
+                            <div class="custom-select-menu">
+                                <button type="button" class="custom-select-option ${STATE.adminUserFilters.status === 'all' ? 'active' : ''}" data-value="all">Barcha holatlar</button>
+                                <button type="button" class="custom-select-option ${STATE.adminUserFilters.status === 'active' ? 'active' : ''}" data-value="active">Faol</button>
+                                <button type="button" class="custom-select-option ${STATE.adminUserFilters.status === 'blocked' ? 'active' : ''}" data-value="blocked">Bloklangan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="surface-note mb-4">
+                        Foydalanuvchini bloklash yoki qayta faollashtirish shu oynadan ham, tafsilot modalidan ham amalga oshiriladi.
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead>
+                            <tbody>${rows || `<tr><td colspan="4" class="text-center text-muted">Mos foydalanuvchi topilmadi</td></tr>`}</tbody>
+                        </table>
+                    </div>
                 </div>`;
+
+            initializeCustomSelects(container);
         }
 
         function toggleUserStatus(id) {
@@ -796,17 +1261,87 @@
             `).join('');
             container.innerHTML = `<div class="card"><h3 class="mb-4">Komissiya reyestri (5%)</h3><div class="table-responsive"><table><thead><tr><th>Sotuvchi</th><th class="hide-sm">Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
-        
+
+        function getReportStatusLabel(status) {
+            const map = {
+                all: 'Barcha holatlar',
+                pending: 'Kutilmoqda',
+                done: 'Bajarilgan',
+                overdue: 'Kechikkan'
+            };
+            return map[status] || 'Barcha holatlar';
+        }
+
+        function setAdminReportQuery(query) {
+            STATE.adminReportFilters.query = query.toLowerCase().trim();
+            if (STATE.currentView === 'admin-reports') renderAdminReports(document.getElementById('view-area'));
+        }
+
+        function setAdminReportStatusFilter(status) {
+            STATE.adminReportFilters.status = status;
+            if (STATE.currentView === 'admin-reports') renderAdminReports(document.getElementById('view-area'));
+        }
+
+        function setAdminReportStatusFilterFromSelect() {
+            const hidden = document.getElementById('admin-report-status-filter-hidden');
+            if (!hidden) return;
+            setAdminReportStatusFilter(hidden.value || 'all');
+        }
+
+        function applyAdminReportFilters() {
+            const q = STATE.adminReportFilters.query.toLowerCase().trim();
+            return MOCK_DB.reports.filter(r => {
+                const product = getProdById(r.prodId);
+                const statusOk = STATE.adminReportFilters.status === 'all' || r.status === STATE.adminReportFilters.status;
+                const qOk = !q || `${r.orderId} ${product?.name || ''} ${r.dueDate}`.toLowerCase().includes(q);
+                return statusOk && qOk;
+            });
+        }
+
         function renderAdminReports(container) {
-            const rows = MOCK_DB.reports.map(r => `
-                <tr>
-                    <td>#${r.orderId}</td>
-                    <td class="hide-sm">${getProdById(r.prodId).name}</td>
-                    <td>${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Nazoratdagi Foto Hisobotlar</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Mahsulot</th><th>Muddat</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            const reports = applyAdminReportFilters();
+            const rows = reports.map(r => {
+                const product = getProdById(r.prodId);
+                return `
+                    <tr>
+                        <td><b>#${r.orderId}</b></td>
+                        <td class="hide-sm">${product?.name || '-'}</td>
+                        <td>${formatDate(r.dueDate)}</td>
+                        <td>${getStatusBadge(r.status)}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3>Nazoratdagi Foto Hisobotlar</h3>
+                        <span class="badge badge-info">${reports.length} ta</span>
+                    </div>
+                    <div class="toolbar">
+                        <div class="input-with-icon">
+                            <i class="ri-search-line"></i>
+                            <input class="input-control" placeholder="Buyurtma ID, mahsulot yoki sana..." value="${STATE.adminReportFilters.query}" oninput="setAdminReportQuery(this.value)">
+                        </div>
+                        <div class="custom-select" data-target-input="admin-report-status-filter-hidden" data-on-change="setAdminReportStatusFilterFromSelect">
+                            <input type="hidden" id="admin-report-status-filter-hidden" value="${STATE.adminReportFilters.status}">
+                            <button type="button" class="custom-select-trigger">
+                                <span class="custom-select-label">${getReportStatusLabel(STATE.adminReportFilters.status)}</span>
+                                <i class="ri-arrow-down-s-line"></i>
+                            </button>
+                            <div class="custom-select-menu">
+                                <button type="button" class="custom-select-option ${STATE.adminReportFilters.status === 'all' ? 'active' : ''}" data-value="all">Barcha holatlar</button>
+                                <button type="button" class="custom-select-option ${STATE.adminReportFilters.status === 'pending' ? 'active' : ''}" data-value="pending">Kutilmoqda</button>
+                                <button type="button" class="custom-select-option ${STATE.adminReportFilters.status === 'done' ? 'active' : ''}" data-value="done">Bajarilgan</button>
+                                <button type="button" class="custom-select-option ${STATE.adminReportFilters.status === 'overdue' ? 'active' : ''}" data-value="overdue">Kechikkan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${rows ? `<div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Mahsulot</th><th>Muddat</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div>` : `<div class="surface-note">Filtrga mos foto hisobot topilmadi.</div>`}
+                </div>
+            `;
+            initializeCustomSelects(container);
         }
 
         /* =========================================
@@ -1019,33 +1554,153 @@
         }
 
         function renderBuyerReports(container) {
-            const myReports = MOCK_DB.reports.filter(r => {
-                const order = MOCK_DB.orders.find(o => o.id === r.orderId);
-                return order && order.buyerId === STATE.currentUser.id;
-            });
+            const reportRows = applyBuyerReportFilters();
+            const total = reportRows.length;
+            const overdue = reportRows.filter(r => r.status === 'overdue').length;
+            const done = reportRows.filter(r => r.status === 'done').length;
 
-            const rows = myReports.map(r => `
-                <tr>
-                    <td><b>#${r.orderId}</b></td>
-                    <td>${getProdById(r.prodId).name}</td>
-                    <td class="hide-sm text-danger font-bold">${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-primary btn-icon" onclick="showToast('Rasm yuklash oynasi ochilmoqda...')" title="Rasm yuklash">
-                            <i class="ri-upload-cloud-2-line"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card">
-                <h3 class="mb-4">Foto Hisobot Yuklash (Majburiy)</h3>
-                <div class="bg-blue-50 p-3 rounded mb-4 text-sm text-info flex items-center gap-2" style="background:#eff6ff; border:1px solid #bfdbfe;">
-                    <i class="ri-information-line"></i> Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklashingiz shart.
+            const rows = reportRows.map(r => {
+                const overdueClass = r.status === 'overdue' ? 'text-danger font-bold' : '';
+                return `
+                    <tr>
+                        <td><b>#${r.orderId}</b></td>
+                        <td>${getProdById(r.prodId).name}</td>
+                        <td class="hide-sm ${overdueClass}">${formatDate(r.dueDate)}</td>
+                        <td>${getStatusBadge(r.status)}</td>
+                        <td class="action-cell">
+                            <div class="mobile-stack">
+                                <button class="btn btn-primary btn-icon" onclick="uploadPhotoReport(${r.id})" title="Rasm yuklash">
+                                    <i class="ri-upload-cloud-2-line"></i>
+                                </button>
+                                <button class="btn btn-outline btn-icon" onclick="openPhotoReportDetails(${r.id})" title="Tafsilot">
+                                    <i class="ri-eye-line"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="card">
+                    <h3 class="mb-4">Foto Hisobot Yuklash (Majburiy)</h3>
+                    <div class="surface-note mb-4">
+                        <i class="ri-information-line text-info"></i> Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklashingiz shart. Har bir yuklash platforma tomonidan nazorat qilinadi.
+                    </div>
+
+                    <div class="grid-cards mb-4">
+                        <div class="report-metric">
+                            <div class="text-sm text-muted">Jami hisobot</div>
+                            <div class="value">${total} ta</div>
+                        </div>
+                        <div class="report-metric">
+                            <div class="text-sm text-muted">Bajarilgan</div>
+                            <div class="value text-success">${done} ta</div>
+                        </div>
+                        <div class="report-metric">
+                            <div class="text-sm text-muted">Kechikkan</div>
+                            <div class="value text-danger">${overdue} ta</div>
+                        </div>
+                    </div>
+
+                    <div class="toolbar">
+                        <div class="input-with-icon">
+                            <i class="ri-search-line"></i>
+                            <input id="buyer-report-search" class="input-control" placeholder="Buyurtma yoki mahsulot bo'yicha qidirish..." value="${STATE.buyerReportFilters.query}" oninput="setBuyerReportQuery(this.value)">
+                        </div>
+                        <div class="custom-select" data-target-input="buyer-report-status-filter-hidden" data-on-change="syncBuyerReportStatusFromSelect">
+                            <input type="hidden" id="buyer-report-status-filter-hidden" value="${STATE.buyerReportFilters.status}">
+                            <button type="button" class="custom-select-trigger">
+                                <span class="custom-select-label">${getReportStatusLabel(STATE.buyerReportFilters.status)}</span>
+                                <i class="ri-arrow-down-s-line"></i>
+                            </button>
+                            <div class="custom-select-menu">
+                                <button type="button" class="custom-select-option ${STATE.buyerReportFilters.status === 'all' ? 'active' : ''}" data-value="all">Barcha holatlar</button>
+                                <button type="button" class="custom-select-option ${STATE.buyerReportFilters.status === 'pending' ? 'active' : ''}" data-value="pending">Kutilmoqda</button>
+                                <button type="button" class="custom-select-option ${STATE.buyerReportFilters.status === 'done' ? 'active' : ''}" data-value="done">Bajarilgan</button>
+                                <button type="button" class="custom-select-option ${STATE.buyerReportFilters.status === 'overdue' ? 'active' : ''}" data-value="overdue">Kechikkan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${rows ? `<div class="table-responsive">
+                        <table><thead><tr><th>Buyurtma</th><th>Mahsulot</th><th class="hide-sm">Muddat</th><th>Holat</th><th>Amallar</th></tr></thead><tbody>${rows}</tbody></table>
+                    </div>` : `<div class="surface-note">Mos hisobot topilmadi. Filtrlarni o'zgartirib ko'ring.</div>`}
                 </div>
-                <div class="table-responsive">
-                    <table><thead><tr><th>Buyurtma</th><th>Mahsulot</th><th class="hide-sm">Muddat</th><th>Holat</th><th>Yuklash</th></tr></thead><tbody>${rows}</tbody></table>
+            `;
+            initializeCustomSelects(container);
+        }
+
+        function setBuyerReportQuery(query) {
+            STATE.buyerReportFilters.query = query.toLowerCase().trim();
+            if (STATE.currentView === 'buyer-reports') renderBuyerReports(document.getElementById('view-area'));
+        }
+
+        function syncBuyerReportStatusFromSelect() {
+            const hidden = document.getElementById('buyer-report-status-filter-hidden');
+            if (!hidden) return;
+            setBuyerReportStatusFilter(hidden.value || 'all');
+        }
+
+        function setBuyerReportStatusFilter(status) {
+            STATE.buyerReportFilters.status = status;
+            if (STATE.currentView === 'buyer-reports') renderBuyerReports(document.getElementById('view-area'));
+        }
+
+        function applyBuyerReportFilters() {
+            return MOCK_DB.reports.filter(r => {
+                const order = getOrderById(r.orderId);
+                if (!order || order.buyerId !== STATE.currentUser.id) return false;
+
+                const query = STATE.buyerReportFilters.query;
+                if (query) {
+                    const prod = getProdById(r.prodId);
+                    const haystack = `${r.orderId} ${prod?.name || ''}`.toLowerCase();
+                    if (!haystack.includes(query)) return false;
+                }
+
+                if (STATE.buyerReportFilters.status !== 'all' && r.status !== STATE.buyerReportFilters.status) return false;
+                return true;
+            });
+        }
+
+        function openPhotoReportDetails(reportId) {
+            const report = MOCK_DB.reports.find(r => r.id === reportId);
+            if (!report) return;
+            const order = getOrderById(report.orderId);
+            const product = getProdById(report.prodId);
+            const titleEl = document.getElementById('dm-title');
+            const bodyEl = document.getElementById('dm-body');
+            const footerEl = document.getElementById('dm-footer');
+            titleEl.textContent = `Foto hisobot #${report.id}`;
+            bodyEl.innerHTML = `
+                <div class="details-list">
+                    <div class="details-row"><span class="details-label">Buyurtma:</span><span class="details-value">#${report.orderId}</span></div>
+                    <div class="details-row"><span class="details-label">Mahsulot:</span><span class="details-value">${product?.name || '-'}</span></div>
+                    <div class="details-row"><span class="details-label">Sotuvchi:</span><span class="details-value">${order ? getUserById(order.sellerId).name : '-'}</span></div>
+                    <div class="details-row"><span class="details-label">Muddat:</span><span class="details-value">${formatDate(report.dueDate)}</span></div>
+                    <div class="details-row"><span class="details-label">Holat:</span><span class="details-value">${getStatusBadge(report.status)}</span></div>
                 </div>
-            </div>`;
+            `;
+            footerEl.innerHTML = `
+                <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
+                <button class="btn btn-primary" onclick="uploadPhotoReport(${report.id})"><i class="ri-upload-cloud-2-line"></i> Yuklash</button>
+            `;
+            openModal('detailsModal');
+        }
+
+        function uploadPhotoReport(reportId) {
+            const report = MOCK_DB.reports.find(r => r.id === reportId);
+            if (!report) return;
+            report.status = 'done';
+            report.uploadedAt = nowDate();
+            showToast("Foto hisobot muvaffaqiyatli yuklandi", "success");
+            closeModal('detailsModal');
+            if (STATE.currentView === 'buyer-reports') renderBuyerReports(document.getElementById('view-area'));
+            if (STATE.currentView === 'admin-reports') renderAdminReports(document.getElementById('view-area'));
+            buildNotifications();
+            updateNotificationBadge();
+            renderNotificationsDropdown();
         }
 
         function signOrder(orderId, role) {
