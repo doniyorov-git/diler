@@ -1,0 +1,1069 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Diller UZ - B2B Platforma</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-hover: #0f766e;
+            --bg: #f3f4f6;
+            --surface: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --sidebar-width: 280px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); font-size: 14px; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button, input, select, textarea { outline: none; border: none; background: none; font-family: inherit; }
+        button { cursor: pointer; transition: all 0.2s; }
+        
+        /* Utility Classes */
+        .flex { display: flex; } .flex-col { display: flex; flex-direction: column; }
+        .items-center { align-items: center; } .justify-between { justify-content: space-between; } .justify-center { justify-content: center; }
+        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
+        .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
+        .w-full { width: 100%; } .text-center { text-align: center; }
+        .hidden { display: none !important; }
+        
+        /* Typography */
+        h1, h2, h3, h4 { color: var(--text-main); font-weight: 600; }
+        h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.1rem; }
+        .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.875rem; } .text-lg { font-size: 1.125rem; }
+        .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
+
+        /* UI Elements */
+        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn-icon { padding: 0.5rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
+        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { background: #dc2626; }
+        .btn-success { background: var(--success); color: white; } .btn-warning { background: var(--warning); color: white; }
+        .btn-info { background: var(--info); color: white; }
+        .btn-outline { border: 1px solid var(--border); color: var(--text-main); } .btn-outline:hover { background: var(--bg); }
+        
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-main); font-size: 0.875rem; }
+        .input-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: #f9fafb; transition: border 0.2s; }
+        .input-control:focus { border-color: var(--primary); background: white; }
+        
+        .badge { padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; display: inline-block; }
+        .badge-pending { background: #fef3c7; color: #d97706; }
+        .badge-active { background: #d1fae5; color: #059669; }
+        .badge-danger { background: #fee2e2; color: #dc2626; }
+        .badge-info { background: #dbeafe; color: #2563eb; }
+
+        /* Tables */
+        .table-responsive { overflow-x: auto; width: 100%; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        th { background: #f9fafb; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        tbody tr:nth-child(even) { background: #f9fafb; }
+        tbody tr:hover { background: #f3f4f6; }
+
+        /* App Layout */
+        #app-layout { display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar */
+        #sidebar { width: var(--sidebar-width); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; transition: transform 0.3s; }
+        .sidebar-header { padding: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--border); }
+        .sidebar-logo { width: 36px; height: 36px; background: var(--primary); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+        .sidebar-title { font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
+        .sidebar-menu { flex: 1; overflow-y: auto; padding: 1.5rem 0; }
+        .menu-item { padding: 0.8rem 1.5rem; margin: 0.2rem 1rem; border-radius: 8px; display: flex; align-items: center; gap: 1rem; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .menu-item:hover { background: #f3f4f6; color: var(--primary); }
+        .menu-item.active { background: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4); }
+        .menu-item i { font-size: 1.25rem; }
+        
+        /* Main Content */
+        #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* Topbar */
+        #topbar { height: 70px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
+        .user-info { display: flex; align-items: center; gap: 1rem; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); font-size: 1.2rem;}
+        
+        /* View Area */
+        #view-area { flex: 1; overflow-y: auto; padding: 2rem; }
+        
+        /* Bottom Nav (Mobile) */
+        #bottom-nav { display: none; background: var(--surface); box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1); padding: 0.5rem; justify-content: space-around; z-index: 20; border-top: 1px solid var(--border); }
+        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; color: var(--text-muted); padding: 0.5rem; font-size: 0.75rem; flex: 1; }
+        .bottom-nav-item.active { color: var(--primary); }
+        .bottom-nav-item i { font-size: 1.5rem; }
+
+        /* Auth Layout (Login/Register) */
+        #auth-layout { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; background: var(--bg); }
+        .auth-card { width: 100%; max-width: 450px; background: white; padding: 2.5rem; }
+        .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+        .auth-tab { flex: 1; text-align: center; padding: 1rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; }
+        .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+        /* Grid Layouts */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        
+        /* Product Card */
+        .product-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; border: 1px solid var(--border); transition: transform 0.2s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .product-img { height: 180px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #cbd5e1; position: relative; border-bottom: 1px solid var(--border); }
+        .product-info { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+        
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 1rem; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-radius: var(--radius) var(--radius) 0 0; }
+        .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+        .modal-footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem; background: #f8fafc; border-radius: 0 0 var(--radius) var(--radius); }
+
+        /* Details List (for modals) */
+        .details-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .details-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--border); }
+        .details-label { color: var(--text-muted); font-size: 0.875rem; }
+        .details-value { font-weight: 500; text-align: right; }
+
+        /* Notifications */
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.75rem; border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* Responsive UI Adjustments */
+        @media (max-width: 1024px) {
+            .grid-cards { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            #sidebar { position: fixed; transform: translateX(-100%); height: 100%; }
+            #sidebar.open { transform: translateX(0); }
+            #bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; }
+            #view-area { padding: 1rem; padding-bottom: 80px; }
+            #topbar { padding: 0 1rem; }
+            .mobile-menu-btn { display: block !important; }
+            .grid-cards { grid-template-columns: 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            
+            /* Responsive Table classes */
+            .hide-sm { display: none !important; }
+            table { font-size: 0.875rem; }
+            th, td { padding: 0.75rem 0.5rem; }
+            .action-cell { width: 50px; text-align: center; }
+        }
+        .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); }
+        .action-cell { white-space: nowrap; }
+    </style>
+</head>
+<body>
+
+    <!-- Auth View -->
+    <div id="auth-layout">
+        <div class="card auth-card">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
+                <h1 class="font-bold text-xl text-primary">My Diller UZ</h1>
+            </div>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuthTab('login')">Kirish</div>
+                <div class="auth-tab" onclick="switchAuthTab('register')">Ro'yxatdan o'tish</div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form">
+                <div class="text-center mb-6">
+                    <h2 class="mb-2">Tizimga kirish</h2>
+                    <p class="text-muted text-sm">Telefon raqam va parolingizni kiriting</p>
+                </div>
+                <div class="input-group">
+                    <label>Telefon raqam</label>
+                    <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                </div>
+                <div class="input-group mb-6">
+                    <label>Parol</label>
+                    <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                </div>
+                <button class="btn btn-primary w-full mb-4" onclick="doLogin()">Kirish</button>
+                
+                <div class="flex items-center gap-4 mb-4">
+                    <hr class="w-full" style="border-color: var(--border);">
+                    <span class="text-muted text-sm">yoki</span>
+                    <hr class="w-full" style="border-color: var(--border);">
+                </div>
+                
+                <button class="btn btn-outline w-full" disabled title="Hozircha ishlamaydi">
+                    <i class="ri-file-shield-2-line"></i> E-IMZO orqali kirish
+                </button>
+                
+                <div class="mt-6 p-3 bg-blue-50 rounded-lg text-xs text-muted" style="background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
+                    <b>Demo parol kiritish:</b><br>
+                    Admin: <code>admin</code><br>
+                    Sotuvchi: <code>seller1</code> yoki <code>seller2</code><br>
+                    Xaridor: <code>buyer1</code> yoki <code>buyer2</code>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="hidden">
+                <div class="input-group">
+                    <label>Kompaniya nomi</label>
+                    <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                </div>
+                <div class="input-group">
+                    <label>INN (STIR)</label>
+                    <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                </div>
+                <div class="input-group">
+                    <label>Rolni tanlang</label>
+                    <select id="reg-role" class="input-control">
+                        <option value="seller">Sotuvchi (Seller)</option>
+                        <option value="buyer">Diler/Xaridor (Buyer)</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary w-full mt-4" onclick="doRegister()">Ro'yxatdan o'tish kutilmoqda</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Layout -->
+    <div id="app-layout" class="hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
+                <span class="sidebar-title">My Diller</span>
+                <button class="mobile-menu-btn hide-sm ml-auto" onclick="document.getElementById('sidebar').classList.remove('open')" style="display:none;">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu" id="sidebar-menu">
+                <!-- Dynamic Menu Items -->
+            </ul>
+        </aside>
+
+        <!-- Main Area -->
+        <main id="main-content">
+            <!-- Topbar -->
+            <header id="topbar">
+                <div class="flex items-center gap-4">
+                    <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.add('open')">
+                        <i class="ri-menu-2-line"></i>
+                    </button>
+                    <h2 id="page-title" class="text-lg">Dashboard</h2>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="user-info hide-sm">
+                        <div class="text-right">
+                            <div class="font-semibold" id="topbar-user-name">Foydalanuvchi</div>
+                            <div class="text-xs text-muted" id="topbar-user-role">Rol</div>
+                        </div>
+                    </div>
+                    <div class="user-avatar" id="topbar-avatar">U</div>
+                    <button class="btn btn-outline btn-icon" onclick="doLogout()" title="Chiqish">
+                        <i class="ri-logout-box-r-line"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <div id="view-area">
+                <!-- Views will be injected here dynamically -->
+            </div>
+
+            <!-- Bottom Nav (Mobile) -->
+            <nav id="bottom-nav">
+                <!-- Dynamic Bottom Nav -->
+            </nav>
+        </main>
+    </div>
+
+    <!-- Universal Details Modal -->
+    <div class="modal-overlay" id="detailsModal" onclick="if(event.target===this) closeModal('detailsModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="dm-title">Ma'lumot</h3>
+                <button class="btn-icon" onclick="closeModal('detailsModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
+            </div>
+            <div class="modal-body" id="dm-body">
+                <!-- Dynamic Content -->
+            </div>
+            <div class="modal-footer" id="dm-footer">
+                <!-- Dynamic Buttons -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal (Seller) -->
+    <div class="modal-overlay" id="addProdModal" onclick="if(event.target===this) closeModal('addProdModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Yangi mahsulot qo'shish</h3>
+                <button class="btn-icon" onclick="closeModal('addProdModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>SKU (Artikul)</label>
+                        <input type="text" id="p-sku" class="input-control" placeholder="Masalan: PRD-001">
+                    </div>
+                    <div class="input-group">
+                        <label>Mahsulot nomi</label>
+                        <input type="text" id="p-name" class="input-control" placeholder="Nomini kiriting">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Kategoriya</label>
+                        <select class="input-control"><option>Elektronika</option><option>Mebel</option><option>Boshqa</option></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Bazaviy narx (UZS)</label>
+                        <input type="number" id="p-price" class="input-control" placeholder="0.00">
+                    </div>
+                </div>
+                
+                <hr class="mb-4" style="border-color:var(--border)">
+                
+                <div class="input-group">
+                    <label>To'lov modeli</label>
+                    <select id="p-model" class="input-control" onchange="togglePrepayFields()">
+                        <option value="realization">Realizatsiya (Sotilgandan so'ng)</option>
+                        <option value="prepayment">Oldindan to'lov (Avans)</option>
+                    </select>
+                </div>
+                
+                <div id="prepay-fields" class="hidden grid-2 bg-blue-50 p-4 rounded-lg mb-4" style="background:#f0f9ff; border:1px solid #bae6fd;">
+                    <div class="input-group mb-0">
+                        <label>Oldindan to'lov (%)</label>
+                        <input type="number" id="p-percent" class="input-control" placeholder="Masalan: 30" value="30">
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Realizatsiya muddati (kun)</label>
+                        <input type="number" id="p-realdays" class="input-control" placeholder="Masalan: 30" value="30">
+                    </div>
+                    <div class="input-group">
+                        <label>Foto hisobot davri</label>
+                        <select id="p-photodays" class="input-control">
+                            <option value="5">Har 5 kunda</option>
+                            <option value="10">Har 10 kunda</option>
+                            <option value="15" selected>Har 15 kunda</option>
+                            <option value="30">Har 30 kunda</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Mahsulot rasmi</label>
+                    <div style="border: 2px dashed var(--border); padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer;">
+                        <i class="ri-image-add-line" style="font-size: 2rem; color: var(--text-muted)"></i>
+                        <p class="mt-2 text-sm text-muted">Rasmni yuklash uchun bosing</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('addProdModal')">Bekor qilish</button>
+                <button class="btn btn-primary" onclick="addMockProduct()"><i class="ri-save-line"></i> Saqlash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toasts Container -->
+    <div id="toast-container"></div>
+
+    <script>
+        /* =========================================
+           1. MOCK DATA & STATE MANAGEMENT
+           ========================================= */
+        const MOCK_DB = {
+            users: [
+                { id: 1, role: 'admin', inn: '00000000', name: 'Tizim Administratori', status: 'active', phone: '+998901112233', address: 'Toshkent sh.' },
+                { id: 2, role: 'seller', inn: '12345678', name: 'TexnoFarm MChJ', status: 'active', phone: '+998902223344', address: 'Samarqand sh.' },
+                { id: 3, role: 'seller', inn: '65432198', name: 'MebelPro MChJ', status: 'active', phone: '+998903334455', address: 'Buxoro sh.' },
+                { id: 4, role: 'buyer', inn: '11111111', name: 'SuperMart MChJ', status: 'active', phone: '+998904445566', address: 'Toshkent sh.' },
+                { id: 5, role: 'buyer', inn: '22222222', name: 'CityStore MChJ', status: 'active', phone: '+998905556677', address: 'Namangan sh.' }
+            ],
+            products: [
+                { id: 1, sellerId: 2, name: 'Smart Chiroq LED', sku: 'TF-001', price: 100000, model: 'prepayment', prepayPercent: 30, realDays: 30, photoDays: 10, img: 'ri-lightbulb-flash-line' },
+                { id: 2, sellerId: 2, name: 'Type-C USB Kabel', sku: 'TF-002', price: 20000, model: 'realization', realDays: 15, photoDays: 5, img: 'ri-usb-line' },
+                { id: 3, sellerId: 2, name: 'Elektr choynak 2L', sku: 'TF-003', price: 150000, model: 'realization', realDays: 30, photoDays: 15, img: 'ri-cup-line' },
+                { id: 4, sellerId: 3, name: 'Ofis kreslosi "Ergo"', sku: 'MB-001', price: 1500000, model: 'prepayment', prepayPercent: 50, realDays: 45, photoDays: 15, img: 'ri-armchair-line' },
+                { id: 5, sellerId: 3, name: 'Yog\'och tokcha 3 qavat', sku: 'MB-002', price: 300000, model: 'realization', realDays: 30, photoDays: 10, img: 'ri-archive-drawer-line' },
+                { id: 6, sellerId: 3, name: 'Kitob javoni Premium', sku: 'MB-003', price: 800000, model: 'prepayment', prepayPercent: 100, realDays: 35, photoDays: 15, img: 'ri-book-read-line' }
+            ],
+            orders: [
+                { id: 1001, sellerId: 2, buyerId: 4, date: '2023-10-01', total: 900000, status: 'pending_sign', items: [{prodId: 1, qty: 5}, {prodId: 2, qty: 20}], signedBySeller: false, signedByBuyer: true, comm: 45000, commStatus: 'pending' },
+                { id: 1002, sellerId: 3, buyerId: 5, date: '2023-09-15', total: 3000000, status: 'active', items: [{prodId: 4, qty: 2, sold: 1, received: 2}], signedBySeller: true, signedByBuyer: true, comm: 150000, commStatus: 'pending' },
+                { id: 1003, sellerId: 2, buyerId: 5, date: '2023-08-10', total: 1500000, status: 'completed', items: [{prodId: 3, qty: 10, sold: 10, received: 10}], signedBySeller: true, signedByBuyer: true, comm: 75000, commStatus: 'paid' }
+            ],
+            cart: [],
+            reports: [
+                { id: 1, orderId: 1002, prodId: 4, type: 'photo', status: 'overdue', dueDate: '2023-09-30' },
+                { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-25' },
+                { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2023-10-15' }
+            ]
+        };
+
+        let STATE = {
+            currentUser: null,
+            currentView: '',
+            charts: {}
+        };
+
+        /* =========================================
+           2. UTILITIES & HELPERS
+           ========================================= */
+        const formatMoney = (amount) => new Intl.NumberFormat('uz-UZ').format(amount) + ' UZS';
+        
+        const showToast = (msg, type = 'success') => {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast`;
+            toast.innerHTML = `<i class="ri-${type === 'success' ? 'checkbox-circle' : (type==='warning'?'error-warning':'information')}-fill" style="color: var(--${type}); font-size: 1.5rem;"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = 0; setTimeout(() => toast.remove(), 300); }, 3000);
+        };
+
+        const getStatusBadge = (status) => {
+            const map = {
+                'active': '<span class="badge badge-active">Faol</span>',
+                'pending': '<span class="badge badge-pending">Kutilmoqda</span>',
+                'pending_sign': '<span class="badge badge-info">Imzo kutilmoqda</span>',
+                'completed': '<span class="badge badge-active" style="background:#dcfce7; color:#166534;">Yakunlangan</span>',
+                'overdue': '<span class="badge badge-danger">Kechikkan</span>',
+                'paid': '<span class="badge badge-active">To\'langan</span>',
+                'done': '<span class="badge badge-active">Bajarildi</span>'
+            };
+            return map[status] || `<span class="badge">${status}</span>`;
+        };
+
+        const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || {name: 'Noma\'lum'};
+        const getProdById = (id) => MOCK_DB.products.find(p => p.id === id);
+
+        /* =========================================
+           3. AUTHENTICATION (LOGIN / REGISTER)
+           ========================================= */
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            if(tab === 'login') {
+                document.getElementById('login-form').classList.remove('hidden');
+                document.getElementById('register-form').classList.add('hidden');
+            } else {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('register-form').classList.remove('hidden');
+            }
+        }
+
+        function doLogin() {
+            const phone = document.getElementById('login-phone').value;
+            const pass = document.getElementById('login-password').value.toLowerCase();
+            
+            if(!pass) {
+                showToast("Iltimos, parolni kiriting", "warning");
+                return;
+            }
+            
+            let user = null;
+            if (pass.includes('admin')) user = MOCK_DB.users[0];
+            else if (pass.includes('seller1')) user = MOCK_DB.users[1];
+            else if (pass.includes('seller2')) user = MOCK_DB.users[2];
+            else if (pass.includes('buyer1')) user = MOCK_DB.users[3];
+            else if (pass.includes('buyer2')) user = MOCK_DB.users[4];
+            else {
+                user = MOCK_DB.users[3];
+                showToast("Bunday parol topilmadi, test xaridor bo'lib kirdingiz", "info");
+            }
+
+            if (user) {
+                if(user.status === 'blocked') return alert("Akkaunt bloklangan!");
+                STATE.currentUser = user;
+                initApp();
+            }
+        }
+
+        function doRegister() {
+            showToast("Ro'yxatdan o'tish demo versiyada faqat ma'lumot qabul qiladi.");
+        }
+
+        function doLogout() {
+            STATE.currentUser = null;
+            document.getElementById('app-layout').classList.add('hidden');
+            document.getElementById('auth-layout').classList.remove('hidden');
+            document.getElementById('login-password').value = '';
+        }
+
+        /* =========================================
+           4. APP INITIALIZATION & ROUTING
+           ========================================= */
+        const MENU_CONFIG = {
+            admin: [
+                { id: 'admin-dash', icon: 'ri-dashboard-3-line', title: 'Dashboard' },
+                { id: 'admin-users', icon: 'ri-group-line', title: 'Foydalanuvchilar' },
+                { id: 'admin-orders', icon: 'ri-file-list-3-line', title: 'Barcha Buyurtmalar' },
+                { id: 'admin-comm', icon: 'ri-money-dollar-circle-line', title: 'Komissiya' },
+                { id: 'admin-reports', icon: 'ri-camera-lens-line', title: 'Foto Hisobotlar' }
+            ],
+            seller: [
+                { id: 'seller-dash', icon: 'ri-dashboard-line', title: 'Dashboard' },
+                { id: 'seller-catalog', icon: 'ri-function-line', title: 'Mening Katalogim' },
+                { id: 'seller-orders', icon: 'ri-shopping-bag-3-line', title: 'Sotuvlar (Buyurtma)' },
+                { id: 'seller-finance', icon: 'ri-wallet-3-line', title: 'Moliya va Komissiya' }
+            ],
+            buyer: [
+                { id: 'buyer-vitrina', icon: 'ri-store-2-line', title: 'Barcha Mahsulotlar' },
+                { id: 'buyer-cart', icon: 'ri-shopping-cart-line', title: 'Savat' },
+                { id: 'buyer-orders', icon: 'ri-file-list-3-line', title: 'Mening Buyurtmalarim' },
+                { id: 'buyer-reports', icon: 'ri-camera-line', title: 'Foto Hisobot Yuklash' }
+            ]
+        };
+
+        function initApp() {
+            document.getElementById('auth-layout').classList.add('hidden');
+            document.getElementById('app-layout').classList.remove('hidden');
+            
+            document.getElementById('topbar-user-name').textContent = STATE.currentUser.name;
+            const roleNames = {admin: 'Administrator', seller: 'Sotuvchi (Seller)', buyer: 'Diler (Buyer)'};
+            document.getElementById('topbar-user-role').textContent = roleNames[STATE.currentUser.role];
+            document.getElementById('topbar-avatar').textContent = STATE.currentUser.name.charAt(0);
+
+            const menuItems = MENU_CONFIG[STATE.currentUser.role];
+            const sidebarHtml = menuItems.map(m => `
+                <li class="menu-item" onclick="navigate('${m.id}', this)">
+                    <i class="${m.icon}"></i> <span>${m.title}</span>
+                </li>
+            `).join('');
+            document.getElementById('sidebar-menu').innerHTML = sidebarHtml;
+
+            const bNavHtml = menuItems.slice(0, 4).map(m => `
+                <div class="bottom-nav-item" onclick="navigate('${m.id}', this, true)">
+                    <i class="${m.icon}"></i> <span>${m.title.split(' ')[0]}</span>
+                </div>
+            `).join('');
+            document.getElementById('bottom-nav').innerHTML = bNavHtml;
+
+            navigate(menuItems[0].id, document.querySelector('.menu-item'));
+        }
+
+        function navigate(viewId, el, isMobile = false) {
+            STATE.currentView = viewId;
+            document.getElementById('page-title').textContent = el.innerText.trim();
+            
+            document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => i.classList.remove('active'));
+            if(el) {
+                // Find corresponding element in both navs
+                const text = el.innerText.trim().split(' ')[0];
+                document.querySelectorAll('.menu-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
+                document.querySelectorAll('.bottom-nav-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
+            }
+            
+            if(window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
+
+            const viewArea = document.getElementById('view-area');
+            viewArea.innerHTML = ''; 
+
+            const renderMap = {
+                'admin-dash': renderAdminDash, 'admin-users': renderAdminUsers, 'admin-orders': renderAdminOrders, 'admin-comm': renderAdminComm, 'admin-reports': renderAdminReports,
+                'seller-dash': renderSellerDash, 'seller-catalog': renderSellerCatalog, 'seller-orders': renderSellerOrders, 'seller-finance': renderSellerFinance,
+                'buyer-vitrina': renderBuyerVitrina, 'buyer-cart': renderBuyerCart, 'buyer-orders': renderBuyerOrders, 'buyer-reports': renderBuyerReports
+            };
+
+            if(renderMap[viewId]) renderMap[viewId](viewArea);
+        }
+
+        /* =========================================
+           5. DYNAMIC MODALS (EYE ICON LOGIC)
+           ========================================= */
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function openDetails(type, id) {
+            const titleEl = document.getElementById('dm-title');
+            const bodyEl = document.getElementById('dm-body');
+            const footerEl = document.getElementById('dm-footer');
+            
+            if (type === 'user') {
+                const u = MOCK_DB.users.find(x => x.id === id);
+                titleEl.textContent = "Foydalanuvchi ma'lumoti";
+                bodyEl.innerHTML = `
+                    <div class="details-list">
+                        <div class="details-row"><span class="details-label">Kompaniya nomi:</span><span class="details-value">${u.name}</span></div>
+                        <div class="details-row"><span class="details-label">INN (STIR):</span><span class="details-value">${u.inn}</span></div>
+                        <div class="details-row"><span class="details-label">Rol:</span><span class="details-value badge badge-info">${u.role.toUpperCase()}</span></div>
+                        <div class="details-row"><span class="details-label">Telefon:</span><span class="details-value">${u.phone}</span></div>
+                        <div class="details-row"><span class="details-label">Manzil:</span><span class="details-value">${u.address}</span></div>
+                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(u.status)}</span></div>
+                    </div>
+                `;
+                footerEl.innerHTML = `
+                    <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
+                    ${STATE.currentUser.role === 'admin' && u.id !== 1 ? 
+                        `<button class="btn ${u.status==='active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})">${u.status==='active' ? 'Bloklash' : 'Blokdan chiqarish'}</button>` 
+                    : ''}
+                `;
+            } 
+            else if (type === 'order') {
+                const o = MOCK_DB.orders.find(x => x.id === id);
+                const seller = getUserById(o.sellerId);
+                const buyer = getUserById(o.buyerId);
+                
+                const itemsHtml = o.items.map(it => {
+                    const p = getProdById(it.prodId);
+                    return `<div class="p-2 bg-gray-50 rounded mb-2" style="background:#f9fafb; border:1px solid var(--border)">
+                        <div class="flex justify-between"><b>${p.name}</b> <span>${it.qty} dona</span></div>
+                        <div class="text-sm text-muted">Narx: ${formatMoney(p.price)} | Model: ${p.model === 'prepayment'?'Avans':'Realizatsiya'}</div>
+                    </div>`;
+                }).join('');
+
+                titleEl.textContent = `Buyurtma #${o.id} tafsilotlari`;
+                bodyEl.innerHTML = `
+                    <div class="details-list mb-4">
+                        <div class="details-row"><span class="details-label">Sana:</span><span class="details-value">${o.date}</span></div>
+                        <div class="details-row"><span class="details-label">Sotuvchi:</span><span class="details-value">${seller.name}</span></div>
+                        <div class="details-row"><span class="details-label">Xaridor:</span><span class="details-value">${buyer.name}</span></div>
+                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(o.status)}</span></div>
+                        <div class="details-row"><span class="details-label">Jami summa:</span><span class="details-value text-primary font-bold text-lg">${formatMoney(o.total)}</span></div>
+                    </div>
+                    <h4 class="mb-2">Mahsulotlar ro'yxati:</h4>
+                    ${itemsHtml}
+                    ${o.status === 'pending_sign' ? `
+                        <div class="mt-4 p-3 rounded" style="background:#fffbeb; border:1px solid #fde68a;">
+                            <i class="ri-information-line text-warning"></i> <b>Diqqat:</b> Ushbu buyurtma tomonlar E-IMZO orqali tasdiqlashini kutmoqda.
+                        </div>
+                    ` : ''}
+                `;
+
+                let actionBtn = '';
+                if(o.status === 'pending_sign') {
+                    if(STATE.currentUser.role === 'seller' && !o.signedBySeller) {
+                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'seller')"><i class="ri-markup-line"></i> Imzolash (Seller)</button>`;
+                    } else if(STATE.currentUser.role === 'buyer' && !o.signedByBuyer) {
+                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'buyer')"><i class="ri-markup-line"></i> Imzolash (Buyer)</button>`;
+                    }
+                } else if(o.status === 'active' && STATE.currentUser.role === 'buyer') {
+                    actionBtn = `<button class="btn btn-success" onclick="showToast('Mahsulot xaridorga sotilgani qayd etildi'); closeModal('detailsModal')"><i class="ri-checkbox-circle-line"></i> Sotildi deb belgilash</button>`;
+                }
+
+                footerEl.innerHTML = `
+                    <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
+                    ${actionBtn}
+                `;
+            }
+
+            openModal('detailsModal');
+        }
+
+        /* =========================================
+           6. VIEWS: ADMIN
+           ========================================= */
+        function renderAdminDash(container) {
+            const activeOrders = MOCK_DB.orders.filter(o=>o.status==='active').length;
+            const totalComm = MOCK_DB.orders.reduce((sum,o)=>sum+o.comm,0);
+            
+            const stats = `
+                <div class="grid-cards mb-6">
+                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-group-line text-info"></i> Jami Foydalanuvchilar</div><div class="text-lg font-bold mt-2">${MOCK_DB.users.length} ta</div></div>
+                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-file-list-3-line text-success"></i> Faol Buyurtmalar</div><div class="text-lg font-bold mt-2">${activeOrders} ta</div></div>
+                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-money-dollar-circle-line text-primary"></i> Jami Komissiya</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(totalComm)}</div></div>
+                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-error-warning-line text-danger"></i> Kechikkan Hisobotlar</div><div class="text-lg font-bold mt-2 text-danger">${MOCK_DB.reports.filter(r=>r.status==='overdue').length} ta</div></div>
+                </div>
+                <div class="grid-cards mb-6" style="grid-template-columns: 2fr 1fr;">
+                    <div class="card">
+                        <h3 class="mb-4">Oylik aylanma va komissiya (mln UZS)</h3>
+                        <canvas id="chart-sales" style="max-height: 250px;"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3 class="mb-4 text-center">Komissiya holati</h3>
+                        <canvas id="chart-comm" style="max-height: 250px;"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="mb-4">Foto hisobotlar statistikasi</h3>
+                    <canvas id="chart-reports" style="max-height: 200px;"></canvas>
+                </div>
+            `;
+            container.innerHTML = stats;
+
+            // Render Charts (destroy old instances first)
+            setTimeout(() => {
+                ['sales', 'comm', 'reports'].forEach(c => { if(STATE.charts[c]) STATE.charts[c].destroy(); });
+
+                STATE.charts.sales = new Chart(document.getElementById('chart-sales'), {
+                    type: 'bar',
+                    data: { 
+                        labels: ['May', 'Iyun', 'Iyul', 'Avgust', 'Sentyabr', 'Oktyabr'], 
+                        datasets: [
+                            { label: 'Sotuvlar aylanmasi', data: [12, 19, 15, 25, 22, 30], backgroundColor: '#e0f2fe', borderColor: '#3b82f6', borderWidth:1 },
+                            { label: 'Platforma komissiyasi', data: [0.6, 0.95, 0.75, 1.25, 1.1, 1.5], backgroundColor: '#0d9488' }
+                        ] 
+                    },
+                    options: { maintainAspectRatio: false }
+                });
+                
+                STATE.charts.comm = new Chart(document.getElementById('chart-comm'), {
+                    type: 'doughnut',
+                    data: { labels: ['To\'langan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [60, 30, 10], backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'] }] },
+                    options: { maintainAspectRatio: false, cutout: '70%' }
+                });
+
+                STATE.charts.reports = new Chart(document.getElementById('chart-reports'), {
+                    type: 'pie',
+                    data: { labels: ['Bajarilgan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [45, 12, 5], backgroundColor: ['#22c55e', '#fde68a', '#ef4444'] }] },
+                    options: { maintainAspectRatio: false }
+                });
+            }, 100);
+        }
+
+        function renderAdminUsers(container) {
+            const rows = MOCK_DB.users.map(u => `
+                <tr>
+                    <td><b>${u.name}</b><br><span class="text-xs text-muted hide-sm">INN: ${u.inn}</span></td>
+                    <td class="hide-sm"><span class="badge badge-info">${u.role.toUpperCase()}</span></td>
+                    <td>${getStatusBadge(u.status)}</td>
+                    <td class="action-cell">
+                        <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish">
+                            <i class="ri-eye-line"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            container.innerHTML = `
+                <div class="card">
+                    <h3 class="mb-4">Tizimdagi kompaniyalar</h3>
+                    <div class="table-responsive"><table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div>
+                </div>`;
+        }
+
+        function toggleUserStatus(id) {
+            const user = MOCK_DB.users.find(u => u.id === id);
+            user.status = user.status === 'active' ? 'blocked' : 'active';
+            showToast(`Holat o'zgardi: ${user.status}`);
+            closeModal('detailsModal');
+            renderAdminUsers(document.getElementById('view-area'));
+        }
+
+        function renderAdminOrders(container) {
+            const rows = MOCK_DB.orders.map(o => `
+                <tr>
+                    <td><b>#${o.id}</b></td>
+                    <td class="hide-sm">${getUserById(o.sellerId).name} <br> <span class="text-xs text-muted">→ ${getUserById(o.buyerId).name}</span></td>
+                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
+                    <td>${getStatusBadge(o.status)}</td>
+                    <td class="action-cell">
+                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
+                            <i class="ri-eye-line"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            container.innerHTML = `<div class="card"><h3 class="mb-4">Barcha buyurtmalar</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th class="hide-sm">Sotuvchi -> Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+        }
+
+        function renderAdminComm(container) {
+            const rows = MOCK_DB.orders.map(o => `
+                <tr>
+                    <td>${getUserById(o.sellerId).name}</td>
+                    <td class="hide-sm">#${o.id}</td>
+                    <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
+                    <td>${getStatusBadge(o.commStatus)}</td>
+                </tr>
+            `).join('');
+            container.innerHTML = `<div class="card"><h3 class="mb-4">Komissiya reyestri (5%)</h3><div class="table-responsive"><table><thead><tr><th>Sotuvchi</th><th class="hide-sm">Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+        }
+        
+        function renderAdminReports(container) {
+            const rows = MOCK_DB.reports.map(r => `
+                <tr>
+                    <td>#${r.orderId}</td>
+                    <td class="hide-sm">${getProdById(r.prodId).name}</td>
+                    <td>${r.dueDate}</td>
+                    <td>${getStatusBadge(r.status)}</td>
+                </tr>
+            `).join('');
+            container.innerHTML = `<div class="card"><h3 class="mb-4">Nazoratdagi Foto Hisobotlar</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Mahsulot</th><th>Muddat</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+        }
+
+        /* =========================================
+           7. VIEWS: SELLER
+           ========================================= */
+        function renderSellerDash(container) {
+            const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
+            const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
+            container.innerHTML = `
+                <div class="grid-cards mb-6">
+                    <div class="card"><div class="text-muted text-sm">Mening mahsulotlarim</div><div class="text-lg font-bold mt-2">${myProds.length} ta</div></div>
+                    <div class="card"><div class="text-muted text-sm">Faol Buyurtmalar</div><div class="text-lg font-bold mt-2 text-success">${myOrders.filter(o=>o.status==='active').length} ta</div></div>
+                    <div class="card"><div class="text-muted text-sm">Umumiy Sotuv Summasi</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(myOrders.reduce((s,o)=>s+o.total,0))}</div></div>
+                </div>
+                <div class="card">
+                    <h3 class="mb-4">So'nggi buyurtmalar</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead>
+                            <tbody>${myOrders.slice(0,3).map(o=>`<tr><td><b>#${o.id}</b></td><td>${getUserById(o.buyerId).name}</td><td class="hide-sm">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td><td class="action-cell"><button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td></tr>`).join('')}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSellerCatalog(container) {
+            const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
+            const cards = myProds.map(p => `
+                <div class="product-card">
+                    <div class="product-img"><i class="${p.img}"></i></div>
+                    <div class="product-info">
+                        <div class="text-xs text-muted mb-1 flex justify-between"><span>SKU: ${p.sku}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
+                        <div class="font-bold text-lg mb-2">${p.name}</div>
+                        <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
+                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
+                            <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
+                            <span><i class="ri-camera-line"></i> Foto hisobot: Har ${p.photoDays} kun</span>
+                        </div>
+                        <div class="mt-auto flex gap-2">
+                            <button class="btn btn-outline w-full"><i class="ri-edit-line"></i> Tahrir</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="flex justify-between items-center mb-6">
+                    <h3>Katalogim</h3>
+                    <button class="btn btn-primary" onclick="openModal('addProdModal')"><i class="ri-add-line"></i> Yangi Qo'shish</button>
+                </div>
+                <div class="grid-products">${cards}</div>
+            `;
+        }
+
+        function togglePrepayFields() {
+            const model = document.getElementById('p-model').value;
+            const prepayDiv = document.getElementById('prepay-fields');
+            if (model === 'prepayment') prepayDiv.classList.remove('hidden');
+            else prepayDiv.classList.add('hidden');
+        }
+
+        function addMockProduct() {
+            showToast("Yangi mahsulot katalogga qo'shildi!", "success");
+            closeModal('addProdModal');
+            setTimeout(() => showToast("Eslatma: Yangi mahsulot savdosi uchun Master shartnoma imzolanishi kerak.", "info"), 1500);
+        }
+
+        function renderSellerOrders(container) {
+            const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
+            const rows = myOrders.map(o => `
+                <tr>
+                    <td><b>#${o.id}</b></td>
+                    <td>${getUserById(o.buyerId).name}</td>
+                    <td class="hide-sm">${o.date}</td>
+                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
+                    <td>${getStatusBadge(o.status)}</td>
+                    <td class="action-cell">
+                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})" title="Ko'rish va Imzolash">
+                            <i class="ri-eye-line"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            container.innerHTML = `<div class="card"><h3 class="mb-4">Sotuvlar (Buyurtmalar)</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+        }
+
+        function renderSellerFinance(container) {
+            const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
+            const rows = myOrders.map(o => `
+                <tr>
+                    <td><b>#${o.id}</b></td>
+                    <td class="hide-sm">${formatMoney(o.total)}</td>
+                    <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
+                    <td>${getStatusBadge(o.commStatus)}</td>
+                    <td class="action-cell">
+                        ${o.commStatus === 'pending' ? `<button class="btn btn-primary text-sm" onclick="showToast('To\\'lov tizimiga o\\'tilmoqda...')">To'lash</button>` : '-'}
+                    </td>
+                </tr>
+            `).join('');
+            container.innerHTML = `<div class="card"><h3 class="mb-4">Moliya va Komissiya to'lovlari</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Baza Summa</th><th>Komissiya (5%)</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+        }
+
+        /* =========================================
+           8. VIEWS: BUYER (DEALER)
+           ========================================= */
+        function renderBuyerVitrina(container) {
+            const cards = MOCK_DB.products.map(p => `
+                <div class="product-card">
+                    <div class="product-img"><i class="${p.img}"></i></div>
+                    <div class="product-info">
+                        <div class="text-xs text-muted mb-1 flex justify-between"><span>${getUserById(p.sellerId).name}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
+                        <div class="font-bold text-lg mb-2">${p.name}</div>
+                        <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
+                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
+                            <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
+                        </div>
+                        <button class="btn btn-primary w-full mt-auto" onclick="addToCart(${p.id})"><i class="ri-shopping-cart-2-line"></i> Savatga qo'shish</button>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="flex justify-between items-center mb-6">
+                    <h3>Barcha mahsulotlar vitrinasi</h3>
+                    <div class="badge badge-pending px-3 py-2 text-sm cursor-pointer" onclick="navigate('buyer-cart', null)" style="font-size:1rem; cursor:pointer;"><i class="ri-shopping-cart-line"></i> <span id="cart-count">${MOCK_DB.cart.length}</span></div>
+                </div>
+                <div class="grid-products">${cards}</div>
+            `;
+        }
+
+        function addToCart(id) {
+            MOCK_DB.cart.push({ prodId: id, qty: 1 });
+            const counter = document.getElementById('cart-count');
+            if(counter) counter.innerText = MOCK_DB.cart.length;
+            showToast("Mahsulot savatga qo'shildi");
+        }
+
+        function renderBuyerCart(container) {
+            if(MOCK_DB.cart.length === 0) {
+                container.innerHTML = `<div class="card text-center p-6 py-12"><i class="ri-shopping-cart-line text-muted" style="font-size:4rem"></i><h3 class="mt-4 text-muted">Savatingiz bo'sh</h3><button class="btn btn-primary mt-4" onclick="navigate('buyer-vitrina', document.querySelectorAll('.menu-item')[0])">Xaridni boshlash</button></div>`;
+                return;
+            }
+
+            let total = 0;
+            const rows = MOCK_DB.cart.map((item, idx) => {
+                const p = getProdById(item.prodId);
+                total += p.price * item.qty;
+                return `<tr>
+                    <td><b>${p.name}</b><br><span class="text-xs text-muted hide-sm">${getUserById(p.sellerId).name}</span></td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, -1)"><i class="ri-subtract-line"></i></button>
+                            <span class="w-8 text-center">${item.qty}</span>
+                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, 1)"><i class="ri-add-line"></i></button>
+                        </div>
+                    </td>
+                    <td class="font-bold text-primary hide-sm">${formatMoney(p.price * item.qty)}</td>
+                    <td class="action-cell"><button class="btn btn-danger btn-icon" onclick="removeFromCart(${idx})"><i class="ri-delete-bin-line"></i></button></td>
+                </tr>`;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="card mb-6">
+                    <h3 class="mb-4">Savatdagi mahsulotlar</h3>
+                    <div class="table-responsive">
+                        <table><thead><tr><th>Mahsulot</th><th>Miqdor</th><th class="hide-sm">Jami</th><th>O'chirish</th></tr></thead><tbody>${rows}</tbody></table>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-4 gap-4" style="border-top:1px solid var(--border)">
+                        <div class="text-lg">Jami to'lov: <span class="font-bold text-primary text-xl">${formatMoney(total)}</span></div>
+                        <button class="btn btn-success w-full sm:w-auto" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtmani rasmiylashtirish</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateCart(idx, change) {
+            if(MOCK_DB.cart[idx].qty + change > 0) MOCK_DB.cart[idx].qty += change;
+            renderBuyerCart(document.getElementById('view-area'));
+        }
+
+        function removeFromCart(idx) {
+            MOCK_DB.cart.splice(idx, 1);
+            renderBuyerCart(document.getElementById('view-area'));
+        }
+
+        function checkout() {
+            showToast("Buyurtma rasmiylashtirildi. Imzolash uchun kutilmoqda...", "success");
+            MOCK_DB.cart = []; 
+            setTimeout(() => navigate('buyer-orders', document.querySelectorAll('.menu-item')[2]), 1500);
+        }
+
+        function renderBuyerOrders(container) {
+            const myOrders = MOCK_DB.orders.filter(o => o.buyerId === STATE.currentUser.id);
+            const rows = myOrders.map(o => `
+                <tr>
+                    <td><b>#${o.id}</b></td>
+                    <td>${getUserById(o.sellerId).name}</td>
+                    <td class="hide-sm">${o.date}</td>
+                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
+                    <td>${getStatusBadge(o.status)}</td>
+                    <td class="action-cell">
+                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
+                            <i class="ri-eye-line"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            container.innerHTML = `<div class="card"><h3 class="mb-4">Mening Buyurtmalarim</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Sotuvchi</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+        }
+
+        function renderBuyerReports(container) {
+            const myReports = MOCK_DB.reports.filter(r => {
+                const order = MOCK_DB.orders.find(o => o.id === r.orderId);
+                return order && order.buyerId === STATE.currentUser.id;
+            });
+
+            const rows = myReports.map(r => `
+                <tr>
+                    <td><b>#${r.orderId}</b></td>
+                    <td>${getProdById(r.prodId).name}</td>
+                    <td class="hide-sm text-danger font-bold">${r.dueDate}</td>
+                    <td>${getStatusBadge(r.status)}</td>
+                    <td class="action-cell">
+                        <button class="btn btn-primary btn-icon" onclick="showToast('Rasm yuklash oynasi ochilmoqda...')" title="Rasm yuklash">
+                            <i class="ri-upload-cloud-2-line"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            container.innerHTML = `<div class="card">
+                <h3 class="mb-4">Foto Hisobot Yuklash (Majburiy)</h3>
+                <div class="bg-blue-50 p-3 rounded mb-4 text-sm text-info flex items-center gap-2" style="background:#eff6ff; border:1px solid #bfdbfe;">
+                    <i class="ri-information-line"></i> Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklashingiz shart.
+                </div>
+                <div class="table-responsive">
+                    <table><thead><tr><th>Buyurtma</th><th>Mahsulot</th><th class="hide-sm">Muddat</th><th>Holat</th><th>Yuklash</th></tr></thead><tbody>${rows}</tbody></table>
+                </div>
+            </div>`;
+        }
+
+        function signOrder(orderId, role) {
+            const order = MOCK_DB.orders.find(o => o.id === orderId);
+            if(role === 'seller') order.signedBySeller = true;
+            if(role === 'buyer') order.signedByBuyer = true;
+            
+            if(order.signedBySeller && order.signedByBuyer) order.status = 'active';
+            
+            showToast("Hujjat E-IMZO orqali muvaffaqiyatli imzolandi!", "success");
+            closeModal('detailsModal');
+            
+            if(role === 'seller') renderSellerOrders(document.getElementById('view-area'));
+            if(role === 'buyer') renderBuyerOrders(document.getElementById('view-area'));
+        }
+
+    </script>
+</body>
+</html>
+
+
