@@ -337,6 +337,66 @@
             line-height: 1.6;
         }
 
+        .demo-credentials {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 22px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .demo-credential {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--surface-soft);
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+        }
+
+        .demo-credential:hover {
+            border-color: var(--primary);
+            background: #fff;
+            transform: translateY(-1px);
+        }
+
+        .demo-credential i {
+            display: inline-flex;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-muted);
+            color: var(--primary);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .demo-credential strong {
+            display: block;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .demo-credential span {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        @media (max-width: 720px) {
+            .demo-credentials {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .preview-card {
             display: flex;
             flex-direction: column;
@@ -1218,63 +1278,58 @@
         <div class="auth-shell">
             <section class="auth-card card-surface">
                 <div class="auth-copy">
-                    <span class="section-kicker">Minimal onboarding</span>
-                    <h2>Ro'yxatdan o'tish</h2>
-                    <p>Login bo'limi olib tashlandi. Endi rol tanlab, profil ma'lumotlarini kiriting va to'g'ridan-to'g'ri minimal panelga kiring.</p>
+                    <span class="section-kicker">Demo login</span>
+                    <h2>Tizimga kirish</h2>
+                    <p>Bu demo versiya. Parol sifatida <strong>admin</strong>, <strong>seller</strong> yoki <strong>buyer</strong> so'zini kiriting — tizim avtomatik ravishda mos rol bilan kiritadi.</p>
                 </div>
 
-                <div class="role-grid" id="auth-role-grid">
-                    <button class="role-option active" data-role="seller" onclick="setAuthRole('seller')">
-                        <i class="ri-store-2-line"></i>
-                        <strong>Sotuvchi</strong>
-                        <span>Katalog, buyurtma va moliya bo'limlari tayyor.</span>
-                    </button>
-                    <button class="role-option" data-role="buyer" onclick="setAuthRole('buyer')">
-                        <i class="ri-shopping-bag-3-line"></i>
-                        <strong>Xaridor</strong>
-                        <span>Vitrina, savat va hisobotlarni boshqaradi.</span>
-                    </button>
-                    <button class="role-option" data-role="admin" onclick="setAuthRole('admin')">
-                        <i class="ri-shield-user-line"></i>
-                        <strong>Admin</strong>
-                        <span>Foydalanuvchi, buyurtma va nazorat paneli.</span>
-                    </button>
-                </div>
-
-                <div class="form-grid">
-                    <div class="field">
-                        <label for="auth-name">Mas'ul shaxs</label>
-                        <input class="input-control" id="auth-name" type="text" placeholder="Ism familiya">
-                    </div>
-                    <div class="field">
-                        <label for="auth-company">Kompaniya / bo'lim</label>
-                        <input class="input-control" id="auth-company" type="text" placeholder="Kompaniya nomi">
-                    </div>
-                    <div class="field">
-                        <label for="auth-phone">Telefon raqam</label>
-                        <input class="input-control" id="auth-phone" type="tel" placeholder="+998 90 123 45 67">
-                    </div>
-                    <div class="field">
-                        <label for="auth-email">Email</label>
-                        <input class="input-control" id="auth-email" type="email" placeholder="email@company.uz">
+                <form class="form-grid" id="login-form" onsubmit="event.preventDefault(); doLogin();">
+                    <div class="field full">
+                        <label for="login-username">Login</label>
+                        <input class="input-control" id="login-username" type="text" placeholder="admin / seller / buyer" autocomplete="username">
                     </div>
                     <div class="field full">
-                        <label for="auth-bio">Qisqa izoh</label>
-                        <textarea class="text-control" id="auth-bio" placeholder="Faoliyat turi, yo'nalish yoki ish uslubingiz haqida 1-2 gap yozing."></textarea>
+                        <label for="login-password">Parol</label>
+                        <input class="input-control" id="login-password" type="password" placeholder="admin, seller yoki buyer" autocomplete="current-password">
                     </div>
-                </div>
+                    <div id="login-error" class="helper-note" style="color: var(--danger); display: none; grid-column: 1 / -1;"></div>
+                </form>
 
                 <div class="auth-actions">
-                    <button class="primary-btn" onclick="createProfile()"><i class="ri-arrow-right-up-line"></i> Profil yaratish</button>
-                    <div class="helper-note">Tanlangan rolga mos demo ma'lumotlar yuklanadi, lekin ko'rinish siz kiritgan profil bilan ishlaydi.</div>
+                    <button class="primary-btn" type="button" onclick="doLogin()"><i class="ri-login-box-line"></i> Kirish</button>
+                    <div class="helper-note">Demo parollari: <strong>admin</strong>, <strong>seller</strong>, <strong>buyer</strong>. Login maydonini bo'sh qoldirsangiz parolga qarab rol aniqlanadi.</div>
+                </div>
+
+                <div class="demo-credentials">
+                    <button type="button" class="demo-credential" onclick="quickLogin('admin')">
+                        <i class="ri-shield-user-line"></i>
+                        <div>
+                            <strong>Admin</strong>
+                            <span>parol: admin</span>
+                        </div>
+                    </button>
+                    <button type="button" class="demo-credential" onclick="quickLogin('seller')">
+                        <i class="ri-store-2-line"></i>
+                        <div>
+                            <strong>Sotuvchi</strong>
+                            <span>parol: seller</span>
+                        </div>
+                    </button>
+                    <button type="button" class="demo-credential" onclick="quickLogin('buyer')">
+                        <i class="ri-shopping-bag-3-line"></i>
+                        <div>
+                            <strong>Xaridor</strong>
+                            <span>parol: buyer</span>
+                        </div>
+                    </button>
                 </div>
             </section>
 
             <aside class="preview-card card-surface">
                 <div class="preview-head">
                     <span class="section-kicker">Preview</span>
-                    <h3>Yangi minimal ko'rinish</h3>
-                    <p>Umumiy fon <strong>#f3f4f6</strong>, yumshoq sidebar va har bir jadval ustida qidiruv maydoni hamda <strong>Filter</strong> tugmasi orqali ochiladigan menyular.</p>
+                    <h3>Demo akkaunt ko'rinishi</h3>
+                    <p>Quyida tanlangan rol uchun avtomatik yuklanadigan demo profil. Parolni kiritgach shu profil bilan tizimga kirasiz.</p>
                 </div>
                 <div id="auth-preview"></div>
             </aside>
@@ -1631,27 +1686,74 @@
             `;
         }
 
+        const DEMO_CREDENTIALS = {
+            admin: { password: 'admin', userId: 1 },
+            seller: { password: 'seller', userId: 2 },
+            buyer: { password: 'buyer', userId: 4 }
+        };
+
         function setAuthRole(role) {
+            if (!AUTH_PRESETS[role]) return;
             STATE.authRole = role;
-            document.querySelectorAll('.role-option').forEach(option => {
-                option.classList.toggle('active', option.dataset.role === role);
-            });
-            fillAuthForm(role);
             renderAuthPreview();
         }
 
-        function fillAuthForm(role) {
-            const preset = AUTH_PRESETS[role];
-            document.getElementById('auth-name').value = preset.contactName;
-            document.getElementById('auth-company').value = preset.company;
-            document.getElementById('auth-phone').value = preset.phone;
-            document.getElementById('auth-email').value = preset.email;
-            document.getElementById('auth-bio').value = preset.bio;
+        function showLoginError(message) {
+            const errorEl = document.getElementById('login-error');
+            if (!errorEl) return;
+            if (!message) {
+                errorEl.style.display = 'none';
+                errorEl.textContent = '';
+                return;
+            }
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+
+        function quickLogin(role) {
+            const cred = DEMO_CREDENTIALS[role];
+            if (!cred) return;
+            document.getElementById('login-username').value = role;
+            document.getElementById('login-password').value = cred.password;
+            doLogin();
+        }
+
+        function doLogin() {
+            const username = document.getElementById('login-username').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value.trim().toLowerCase();
+
+            if (!password) {
+                showLoginError('Parolni kiriting. Demo uchun: admin, seller yoki buyer.');
+                return;
+            }
+
+            let matchedRole = null;
+            for (const role of Object.keys(DEMO_CREDENTIALS)) {
+                const cred = DEMO_CREDENTIALS[role];
+                if (cred.password !== password) continue;
+                if (username && username !== role) continue;
+                matchedRole = role;
+                break;
+            }
+
+            if (!matchedRole) {
+                showLoginError('Login yoki parol noto\'g\'ri. Demo parollar: admin, seller, buyer.');
+                return;
+            }
+
+            showLoginError('');
+            const user = getUserById(DEMO_CREDENTIALS[matchedRole].userId);
+            STATE.authRole = matchedRole;
+            STATE.currentUser = user;
+            initApp();
+            showToast(roleLabel(matchedRole) + ' sifatida tizimga kirildi.');
         }
 
         function renderAuthPreview() {
             const preset = AUTH_PRESETS[STATE.authRole];
-            document.getElementById('auth-preview').innerHTML = `
+            const previewEl = document.getElementById('auth-preview');
+            if (!previewEl || !preset) return;
+            previewEl.innerHTML = `
                 <div class="preview-profile">
                     <div class="preview-profile-top">
                         <div class="avatar">${initials(preset.contactName)}</div>
@@ -1667,43 +1769,11 @@
                     </div>
                 </div>
                 <ul class="preview-list">
-                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Katta inputlar</strong> Maydonlar kattalashtirildi va minimal chiziqli ko'rinishga o'tkazildi.</li>
-                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Jadval ustidagi qidiruv</strong> Har bir ro'yxatdan oldin qidiruv maydoni va <strong>Filter</strong> tugmasi orqali ochiladigan menyular.</li>
-                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">To'liq profil</strong> Aloqa, ish faoliyati, status va vaqt chizig'i ko'rinadi.</li>
+                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Demo akkaunt</strong> Parol sifatida <strong>${escapeHtml(STATE.authRole)}</strong> kiritilganda shu profil ochiladi.</li>
+                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Avto rol aniqlash</strong> Login bo'sh bo'lsa ham, parolga qarab kerakli panelga avtomatik o'tasiz.</li>
+                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Tezkor kirish</strong> Pastdagi kartochkalardan birini bosing — login va parol o'zi to'ldiriladi.</li>
                 </ul>
             `;
-        }
-
-        function createProfile() {
-            const name = document.getElementById('auth-name').value.trim();
-            const company = document.getElementById('auth-company').value.trim();
-            const phone = document.getElementById('auth-phone').value.trim();
-            const email = document.getElementById('auth-email').value.trim();
-            const bio = document.getElementById('auth-bio').value.trim();
-
-            if (!name || !company || !phone || !email) {
-                showToast('Barcha asosiy maydonlarni to\'ldiring.', 'warning');
-                return;
-            }
-
-            const normalizedPhone = phone.replace(/\s+/g, '');
-            if (!normalizedPhone.startsWith('+998') || normalizedPhone.length < 13) {
-                showToast('Telefon raqami +998 bilan boshlanishi kerak.', 'warning');
-                return;
-            }
-
-            const templateId = { admin: 1, seller: 2, buyer: 4 }[STATE.authRole];
-            const user = getUserById(templateId);
-
-            user.contactName = name;
-            user.name = company;
-            user.phone = normalizedPhone;
-            user.email = email;
-            user.bio = bio || AUTH_PRESETS[STATE.authRole].bio;
-
-            STATE.currentUser = user;
-            initApp();
-            showToast('Profil muvaffaqiyatli yaratildi.');
         }
 
         function toggleSidebar() {
@@ -2700,8 +2770,28 @@
             }
         });
 
-        fillAuthForm(STATE.authRole);
         renderAuthPreview();
+
+        (function setupLoginUx() {
+            const usernameInput = document.getElementById('login-username');
+            const passwordInput = document.getElementById('login-password');
+            if (!usernameInput || !passwordInput) return;
+
+            const syncRoleFromInputs = () => {
+                const username = usernameInput.value.trim().toLowerCase();
+                const password = passwordInput.value.trim().toLowerCase();
+                const candidate = AUTH_PRESETS[username] ? username : AUTH_PRESETS[password] ? password : null;
+                if (candidate && candidate !== STATE.authRole) {
+                    setAuthRole(candidate);
+                }
+                if (usernameInput.value || passwordInput.value) {
+                    showLoginError('');
+                }
+            };
+
+            usernameInput.addEventListener('input', syncRoleFromInputs);
+            passwordInput.addEventListener('input', syncRoleFromInputs);
+        })();
     </script>
 </body>
 </html>
