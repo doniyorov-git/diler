@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Diller UZ - Minimal Panel</title>
+    <title>B2B boshqaruv paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         :root {
-            --bg: #e8ecef;
+            --bg: #f3f4f6;
             --surface: #ffffff;
-            --surface-soft: #f5f7f8;
-            --surface-muted: #eef2f4;
-            --border: #d5dde3;
-            --text: #16202a;
-            --muted: #667085;
-            --accent: #1f2937;
-            --accent-soft: #e9edf1;
-            --success: #2f855a;
-            --warning: #b7791f;
-            --danger: #c53030;
-            --radius-xl: 30px;
-            --radius-lg: 24px;
-            --radius-md: 18px;
-            --radius-sm: 14px;
-            --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.04);
+            --surface-soft: #f8fafc;
+            --surface-muted: #f1f5f9;
+            --border: #e5e7eb;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --primary: #0d9488;
+            --primary-hover: #0f766e;
+            --primary-ring: rgba(13, 148, 136, 0.12);
+            --accent: #0d9488;
+            --accent-soft: #ecfdf5;
+            --success: #15803d;
+            --warning: #b45309;
+            --danger: #dc2626;
+            --radius-xl: 22px;
+            --radius-lg: 18px;
+            --radius-md: 14px;
+            --radius-sm: 12px;
+            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
 
         * {
@@ -96,21 +99,22 @@
         .text-control {
             width: 100%;
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            background: #fff;
+            border-radius: 14px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
             color: var(--text);
-            transition: border-color 0.2s ease, background 0.2s ease;
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 2px rgba(15, 23, 42, 0.03);
         }
 
         .input-control {
-            min-height: 58px;
-            padding: 0 18px;
-            font-size: 15px;
+            min-height: 46px;
+            padding: 0.8rem 1rem;
+            font-size: 14px;
         }
 
         .text-control {
-            min-height: 132px;
-            padding: 16px 18px;
+            min-height: 120px;
+            padding: 14px 1rem;
             resize: vertical;
             font-size: 14px;
             line-height: 1.55;
@@ -119,13 +123,14 @@
         .input-control:focus,
         .text-control:focus {
             outline: none;
-            border-color: var(--accent);
+            border-color: var(--primary);
             background: #fff;
+            box-shadow: 0 0 0 4px var(--primary-ring);
         }
 
         .input-control::placeholder,
         .text-control::placeholder {
-            color: #98a2b3;
+            color: #9ca3af;
         }
 
         .primary-btn,
@@ -151,12 +156,12 @@
         }
 
         .primary-btn {
-            background: var(--accent);
+            background: var(--primary);
             color: #fff;
         }
 
         .primary-btn:hover {
-            background: #111827;
+            background: var(--primary-hover);
         }
 
         .secondary-btn {
@@ -166,8 +171,7 @@
         }
 
         .secondary-btn:hover,
-        .ghost-btn:hover,
-        .icon-btn:hover {
+        .ghost-btn:hover {
             background: var(--accent-soft);
         }
 
@@ -180,14 +184,21 @@
         .icon-btn {
             width: 48px;
             height: 48px;
-            border-radius: 16px;
+            border-radius: 14px;
             border: 1px solid var(--border);
-            background: #fff;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
             color: var(--text);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-size: 19px;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        }
+
+        .icon-btn:hover {
+            border-color: rgba(13, 148, 136, 0.35);
+            color: var(--primary);
+            background: #f0fdfa;
         }
 
         .option-btn {
@@ -202,8 +213,8 @@
         }
 
         .option-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
+            background: var(--primary);
+            border-color: var(--primary);
             color: #fff;
         }
 
@@ -226,37 +237,6 @@
         .auth-card,
         .preview-card {
             padding: 34px;
-        }
-
-        .brand-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 28px;
-        }
-
-        .brand-mark {
-            width: 52px;
-            height: 52px;
-            border-radius: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent);
-            color: #fff;
-            font-size: 22px;
-        }
-
-        .brand-copy h1 {
-            font-size: 24px;
-            font-weight: 700;
-            line-height: 1.1;
-        }
-
-        .brand-copy p {
-            margin-top: 4px;
-            font-size: 13px;
-            color: var(--muted);
         }
 
         .auth-copy h2 {
@@ -289,7 +269,8 @@
 
         .role-option.active {
             background: #fff;
-            border-color: var(--accent);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px var(--primary);
         }
 
         .role-option i {
@@ -300,7 +281,7 @@
             align-items: center;
             justify-content: center;
             background: var(--surface-muted);
-            color: var(--accent);
+            color: var(--primary);
             font-size: 20px;
             margin-bottom: 12px;
         }
@@ -395,7 +376,7 @@
             justify-content: center;
             border-radius: 50%;
             background: var(--accent-soft);
-            color: var(--accent);
+            color: var(--primary);
             font-weight: 700;
             flex-shrink: 0;
         }
@@ -448,7 +429,7 @@
         #sidebar {
             width: 292px;
             flex-shrink: 0;
-            background: #f6f8f9;
+            background: var(--surface);
             border-right: 1px solid var(--border);
             padding: 24px 18px;
             display: flex;
@@ -458,15 +439,15 @@
 
         .sidebar-brand {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            gap: 4px;
             padding: 0 6px;
         }
 
-        .sidebar-brand span {
-            display: block;
+        .sidebar-brand-title {
             font-weight: 700;
             font-size: 18px;
+            color: var(--text);
         }
 
         .sidebar-profile {
@@ -544,7 +525,8 @@
         .nav-item.active {
             background: #fff;
             border-color: var(--border);
-            color: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.15);
         }
 
         .sidebar-footer {
@@ -569,9 +551,9 @@
             position: sticky;
             top: 0;
             z-index: 30;
-            background: rgba(232, 236, 239, 0.92);
+            background: rgba(243, 244, 246, 0.92);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(213, 221, 227, 0.9);
+            border-bottom: 1px solid var(--border);
             min-height: 88px;
             padding: 18px 24px;
             display: flex;
@@ -654,20 +636,22 @@
             justify-content: space-between;
             gap: 16px;
             align-items: flex-start;
-            margin-bottom: 22px;
+            margin-bottom: 18px;
         }
 
         .section-head h3 {
-            margin-top: 12px;
-            font-size: 28px;
-            line-height: 1.15;
+            margin-top: 8px;
+            font-size: 22px;
+            line-height: 1.2;
+            font-weight: 600;
         }
 
         .section-head p {
-            margin-top: 10px;
+            margin-top: 8px;
             max-width: 720px;
             color: var(--muted);
-            line-height: 1.65;
+            line-height: 1.55;
+            font-size: 13px;
         }
 
         .section-tools {
@@ -678,43 +662,100 @@
             justify-content: flex-end;
         }
 
-        .tool-dropdown {
+        .data-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .data-toolbar__search {
+            flex: 1 1 220px;
+            min-width: 0;
             position: relative;
         }
 
-        .tool-dropdown summary {
-            list-style: none;
+        .data-toolbar__search > i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 1.1rem;
+            pointer-events: none;
         }
 
-        .tool-dropdown summary::-webkit-details-marker {
+        .data-toolbar__search .input-control {
+            padding-left: 2.75rem;
+        }
+
+        .filter-popover {
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        .filter-popover > summary {
+            list-style: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 46px;
+            padding: 0 1rem;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        }
+
+        .filter-popover > summary::-webkit-details-marker {
             display: none;
         }
 
-        .tool-dropdown[open] .icon-btn {
-            background: var(--accent-soft);
-            border-color: #c6d0d8;
+        .filter-popover[open] > summary {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-ring);
         }
 
-        .tool-menu {
+        .filter-popover__chevron {
+            font-size: 1.1rem;
+            color: var(--muted);
+        }
+
+        .filter-popover__value {
+            color: var(--primary);
+            font-weight: 600;
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .filter-popover__panel {
             position: absolute;
-            top: calc(100% + 10px);
+            z-index: 45;
+            top: calc(100% + 8px);
             right: 0;
-            width: 290px;
-            padding: 14px;
-            border-radius: 22px;
+            min-width: 260px;
+            max-width: min(320px, calc(100vw - 3rem));
+            padding: 12px;
+            border-radius: 16px;
             border: 1px solid var(--border);
-            background: #fff;
-            box-shadow: var(--shadow-soft);
-            z-index: 40;
+            background: var(--surface);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
         }
 
-        .tool-menu .tool-title {
-            font-size: 12px;
+        .filter-popover__title {
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.1em;
             color: var(--muted);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .option-list {
@@ -888,9 +929,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #fff;
-            border: 1px solid var(--border);
-            color: var(--accent);
+            background: #ccfbf1;
+            border: 1px solid #99f6e4;
+            color: var(--primary);
             font-size: 20px;
             margin-bottom: 14px;
         }
@@ -975,11 +1016,12 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.28);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
             z-index: 80;
         }
 
@@ -989,39 +1031,43 @@
 
         .modal-card {
             width: 100%;
-            max-width: 760px;
+            max-width: 520px;
             max-height: 90vh;
             overflow: auto;
-            border-radius: 28px;
+            border-radius: 14px;
             border: 1px solid var(--border);
-            background: #fff;
-        }
-
-        .modal-header,
-        .modal-body,
-        .modal-footer {
-            padding: 22px 24px;
-        }
-
-        .modal-header,
-        .modal-footer {
-            border-bottom: 1px solid var(--border);
-        }
-
-        .modal-footer {
-            border-top: 1px solid var(--border);
-            border-bottom: none;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            flex-wrap: wrap;
+            background: var(--surface);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface-soft);
+        }
+
+        .modal-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-body,
+        .modal-footer {
+            padding: 14px 18px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--border);
+            background: var(--surface-soft);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         #toast-container {
@@ -1155,10 +1201,10 @@
                 flex-direction: column;
             }
 
-            .tool-menu {
-                width: min(290px, calc(100vw - 56px));
+            .filter-popover__panel {
                 left: 0;
                 right: auto;
+                max-width: min(320px, calc(100vw - 2rem));
             }
 
             .topbar-user {
@@ -1171,14 +1217,6 @@
     <div id="auth-layout">
         <div class="auth-shell">
             <section class="auth-card card-surface">
-                <div class="brand-row">
-                    <div class="brand-mark"><i class="ri-layout-grid-line"></i></div>
-                    <div class="brand-copy">
-                        <h1>My Diller UZ</h1>
-                        <p>Minimal, sokin va tartibli boshqaruv paneli</p>
-                    </div>
-                </div>
-
                 <div class="auth-copy">
                     <span class="section-kicker">Minimal onboarding</span>
                     <h2>Ro'yxatdan o'tish</h2>
@@ -1236,7 +1274,7 @@
                 <div class="preview-head">
                     <span class="section-kicker">Preview</span>
                     <h3>Yangi minimal ko'rinish</h3>
-                    <p>Umumiy fon <strong>#e8ecef</strong>, kam rang, kattaroq inputlar, yumshoq sidebar va har bir sahifa uchun search/filter ikonli dropdown ishlatiladi.</p>
+                    <p>Umumiy fon <strong>#f3f4f6</strong>, yumshoq sidebar va har bir jadval ustida qidiruv maydoni hamda <strong>Filter</strong> tugmasi orqali ochiladigan menyular.</p>
                 </div>
                 <div id="auth-preview"></div>
             </aside>
@@ -1246,11 +1284,8 @@
     <div id="app-layout" class="hidden">
         <aside id="sidebar">
             <div class="sidebar-brand">
-                <div class="brand-mark"><i class="ri-layout-grid-line"></i></div>
-                <div>
-                    <span>My Diller</span>
-                    <p class="mini-muted">Minimal boshqaruv paneli</p>
-                </div>
+                <span class="sidebar-brand-title">B2B panel</span>
+                <p class="mini-muted">Minimal boshqaruv</p>
             </div>
             <div class="sidebar-profile" id="sidebar-profile"></div>
             <div class="sidebar-nav">
@@ -1259,7 +1294,7 @@
             </div>
             <div class="sidebar-footer">
                 <strong style="display:block; margin-bottom:8px; color:var(--text);">Soddalashtirilgan uslub</strong>
-                Har bir asosiy sahifada qidiruv va filter ikonlari dropdown ko'rinishida ochiladi. Profil bo'limi esa to'liq ma'lumot bilan yangilandi.
+                Har bir jadval ustida qidiruv va <strong>Filter</strong> tugmasi orqali ochiladigan menyular. Profil bo'limi to'liq ma'lumot bilan yangilandi.
             </div>
         </aside>
 
@@ -1287,7 +1322,7 @@
             <div class="modal-header">
                 <div>
                     <span class="section-kicker" id="modal-kicker">Tafsilot</span>
-                    <h3 id="modal-title" style="margin-top:12px; font-size:24px;">Ma'lumot</h3>
+                    <h3 id="modal-title">Ma'lumot</h3>
                 </div>
                 <button class="icon-btn" onclick="closeModal()"><i class="ri-close-line"></i></button>
             </div>
@@ -1518,7 +1553,7 @@
         }
 
         function closeToolMenus() {
-            document.querySelectorAll('.tool-dropdown[open]').forEach(item => {
+            document.querySelectorAll('.filter-popover[open]').forEach(item => {
                 item.open = false;
             });
         }
@@ -1554,10 +1589,8 @@
             return String(source).toLowerCase().includes(String(query).toLowerCase());
         }
 
-        function renderSectionHeader(viewId, searchPlaceholder, filters, actionHtml = '') {
+        function renderSectionHeader(viewId, actionHtml = '') {
             const meta = VIEW_META[viewId];
-            const tools = getViewTools(viewId);
-            const filterTitle = (filters.find(item => item.value === tools.filter) || filters[0] || { label: 'Barchasi' }).label;
             return `
                 <div class="section-head">
                     <div>
@@ -1567,23 +1600,33 @@
                     </div>
                     <div class="section-tools">
                         ${actionHtml}
-                        <details class="tool-dropdown">
-                            <summary class="icon-btn" title="Qidiruv"><i class="ri-search-2-line"></i></summary>
-                            <div class="tool-menu">
-                                <div class="tool-title">Qidiruv</div>
-                                <input class="input-control" type="search" value="${escapeHtml(tools.search)}" placeholder="${escapeHtml(searchPlaceholder)}" oninput="setViewSearch('${viewId}', this.value)">
-                            </div>
-                        </details>
-                        <details class="tool-dropdown">
-                            <summary class="icon-btn" title="Filter"><i class="ri-equalizer-line"></i></summary>
-                            <div class="tool-menu">
-                                <div class="tool-title">Filter: ${filterTitle}</div>
-                                <div class="option-list">
-                                    ${filters.map(item => `<button class="option-btn ${tools.filter === item.value ? 'active' : ''}" onclick="setViewFilter(event, '${viewId}', '${item.value}')">${item.label}</button>`).join('')}
-                                </div>
-                            </div>
-                        </details>
                     </div>
+                </div>
+            `;
+        }
+
+        function renderTableToolbar(viewId, searchPlaceholder, filters) {
+            const tools = getViewTools(viewId);
+            const filterTitle = (filters.find(item => item.value === tools.filter) || filters[0] || { label: 'Barchasi' }).label;
+            return `
+                <div class="data-toolbar">
+                    <div class="data-toolbar__search">
+                        <i class="ri-search-line"></i>
+                        <input class="input-control" type="search" value="${escapeHtml(tools.search)}" placeholder="${escapeHtml(searchPlaceholder)}" oninput="setViewSearch('${viewId}', this.value)">
+                    </div>
+                    <details class="filter-popover" id="filter-popover-${viewId}">
+                        <summary type="button">
+                            <span>Filter</span>
+                            <span class="filter-popover__value">${escapeHtml(filterTitle)}</span>
+                            <i class="ri-arrow-down-s-line filter-popover__chevron"></i>
+                        </summary>
+                        <div class="filter-popover__panel" onclick="event.stopPropagation()">
+                            <div class="filter-popover__title">Holat / tur</div>
+                            <div class="option-list">
+                                ${filters.map(item => `<button type="button" class="option-btn ${tools.filter === item.value ? 'active' : ''}" onclick="setViewFilter(event, '${viewId}', '${item.value}'); document.getElementById('filter-popover-${viewId}').open = false;">${item.label}</button>`).join('')}
+                            </div>
+                        </div>
+                    </details>
                 </div>
             `;
         }
@@ -1625,7 +1668,7 @@
                 </div>
                 <ul class="preview-list">
                     <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Katta inputlar</strong> Maydonlar kattalashtirildi va minimal chiziqli ko'rinishga o'tkazildi.</li>
-                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Search / filter dropdown</strong> Har bir asosiy bo'limda ikon bosilganda ochiladigan menyular mavjud.</li>
+                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Jadval ustidagi qidiruv</strong> Har bir ro'yxatdan oldin qidiruv maydoni va <strong>Filter</strong> tugmasi orqali ochiladigan menyular.</li>
                     <li><strong style="display:block; color:var(--text); margin-bottom:6px;">To'liq profil</strong> Aloqa, ish faoliyati, status va vaqt chizig'i ko'rinadi.</li>
                 </ul>
             `;
@@ -1770,6 +1813,7 @@
 
         function closeModal() {
             document.getElementById('details-modal').classList.remove('active');
+            closeToolMenus();
         }
 
         function openUserDetails(userId) {
@@ -1984,7 +2028,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Nazorat, hisobot yoki komissiya qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Nazorat, hisobot yoki komissiya qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'today', label: 'Bugun' },
                             { value: 'week', label: 'Hafta' },
@@ -2030,7 +2075,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Ism, kompaniya, telefon yoki email bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Ism, kompaniya, telefon yoki email bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'admin', label: 'Admin' },
                             { value: 'seller', label: 'Seller' },
@@ -2086,7 +2132,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Buyurtma ID, seller yoki buyer bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Buyurtma ID, seller yoki buyer bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'pending_sign', label: 'Imzo kutilmoqda' },
                             { value: 'active', label: 'Faol' },
@@ -2136,7 +2183,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Mahsulot, buyurtma yoki muddat bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Mahsulot, buyurtma yoki muddat bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'pending', label: 'Kutilmoqda' },
                             { value: 'overdue', label: 'Kechikkan' },
@@ -2181,7 +2229,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Vazifa yoki nazorat punktini qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Vazifa yoki nazorat punktini qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'urgent', label: 'Shoshilinch' },
                             { value: 'catalog', label: 'Katalog' },
@@ -2224,13 +2273,14 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Mahsulot nomi yoki SKU bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId, `<button class="primary-btn" onclick="addMockProduct()"><i class="ri-add-line"></i> Yangi mahsulot</button>`)}
+                        ${renderTableToolbar(viewId, 'Mahsulot nomi yoki SKU bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'realization', label: 'Realizatsiya' },
                             { value: 'prepayment', label: 'Avans' },
                             { value: 'electronics', label: 'Elektronika' },
                             { value: 'furniture', label: 'Mebel' }
-                        ], `<button class="primary-btn" onclick="addMockProduct()"><i class="ri-add-line"></i> Yangi mahsulot</button>`)}
+                        ])}
                         <div class="product-grid">
                             ${products.length ? products.map(product => `
                                 <div class="product-card">
@@ -2270,7 +2320,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Buyurtma ID yoki buyer nomi bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Buyurtma ID yoki buyer nomi bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'pending_sign', label: 'Imzo kutilmoqda' },
                             { value: 'active', label: 'Faol' },
@@ -2319,7 +2370,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Buyurtma ID yoki komissiya summasi bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Buyurtma ID yoki komissiya summasi bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'pending', label: 'Kutilmoqda' },
                             { value: 'paid', label: 'To\'langan' }
@@ -2366,13 +2418,14 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Mahsulot, seller yoki SKU bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId, `<button class="secondary-btn" onclick="navigate('buyer-cart')"><i class="ri-shopping-cart-line"></i> Savat (${MOCK_DB.cart.length})</button>`)}
+                        ${renderTableToolbar(viewId, 'Mahsulot, seller yoki SKU bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'realization', label: 'Realizatsiya' },
                             { value: 'prepayment', label: 'Avans' },
                             { value: 'electronics', label: 'Elektronika' },
                             { value: 'furniture', label: 'Mebel' }
-                        ], `<button class="secondary-btn" onclick="navigate('buyer-cart')"><i class="ri-shopping-cart-line"></i> Savat (${MOCK_DB.cart.length})</button>`)}
+                        ])}
                         <div class="product-grid">
                             ${products.length ? products.map(product => `
                                 <div class="product-card">
@@ -2414,11 +2467,12 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Mahsulot yoki SKU bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId, `<button class="primary-btn" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtma berish</button>`)}
+                        ${renderTableToolbar(viewId, 'Mahsulot yoki SKU bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'realization', label: 'Realizatsiya' },
                             { value: 'prepayment', label: 'Avans' }
-                        ], `<button class="primary-btn" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtma berish</button>`)}
+                        ])}
                         ${items.length ? `
                             <div class="data-table">
                                 <table>
@@ -2471,7 +2525,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Buyurtma ID yoki seller nomi bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Buyurtma ID yoki seller nomi bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'pending_sign', label: 'Imzo kutilmoqda' },
                             { value: 'active', label: 'Faol' },
@@ -2524,7 +2579,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Mahsulot yoki buyurtma ID bo\'yicha qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Mahsulot yoki buyurtma ID bo\'yicha qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'pending', label: 'Kutilmoqda' },
                             { value: 'overdue', label: 'Kechikkan' },
@@ -2568,7 +2624,8 @@
             container.innerHTML = `
                 <div class="page-shell">
                     <section class="section-card">
-                        ${renderSectionHeader(viewId, 'Faoliyat, email yoki profil ma\'lumotlarini qidiring', [
+                        ${renderSectionHeader(viewId)}
+                        ${renderTableToolbar(viewId, 'Faoliyat, email yoki profil ma\'lumotlarini qidiring', [
                             { value: 'all', label: 'Barchasi' },
                             { value: 'general', label: 'Umumiy' },
                             { value: 'ui', label: 'Interfeys' },
@@ -2603,7 +2660,7 @@
                                 <h4>Qisqa ko'rsatkichlar</h4>
                                 <div class="simple-list">
                                     <div class="simple-item"><strong>Faol rol</strong><p>${roleLabel(user.role)}</p></div>
-                                    <div class="simple-item"><strong>Minimal dizayn</strong><p>Umumiy fon: #e8ecef</p></div>
+                                    <div class="simple-item"><strong>Minimal dizayn</strong><p>Umumiy fon: #f3f4f6</p></div>
                                     <div class="simple-item"><strong>Navigatsiya</strong><p>Sidebar, profil va qidiruv paneli tayyor.</p></div>
                                 </div>
                             </div>
@@ -2630,7 +2687,7 @@
         }
 
         document.addEventListener('click', (event) => {
-            if (!event.target.closest('.tool-dropdown')) {
+            if (!event.target.closest('.filter-popover')) {
                 closeToolMenus();
             }
         });
