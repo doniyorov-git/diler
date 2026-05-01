@@ -5,185 +5,723 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Diller UZ - B2B Platforma</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
         :root {
             --primary: #0d9488;
             --primary-hover: #0f766e;
+            --primary-light: #ccfbf1;
+            --primary-ultra-light: #f0fdfa;
             --bg: #f3f4f6;
             --surface: #ffffff;
             --text-main: #1f2937;
             --text-muted: #6b7280;
             --border: #e5e7eb;
             --danger: #ef4444;
+            --danger-light: #fef2f2;
             --success: #22c55e;
+            --success-light: #f0fdf4;
             --warning: #f59e0b;
+            --warning-light: #fffbeb;
             --info: #3b82f6;
+            --info-light: #eff6ff;
             --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --sidebar-width: 280px;
+            --radius-lg: 16px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 40px -8px rgba(0,0,0,0.12);
+            --sidebar-width: 270px;
+            --topbar-height: 64px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); font-size: 14px; overflow-x: hidden; }
+        body { background-color: var(--bg); color: var(--text-main); font-size: 14px; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
-        button, input, select, textarea { outline: none; border: none; background: none; font-family: inherit; }
-        button { cursor: pointer; transition: all 0.2s; }
+        button, input, select, textarea { outline: none; border: none; background: none; font-family: inherit; font-size: inherit; }
+        button { cursor: pointer; transition: var(--transition); }
+        ::selection { background: var(--primary-light); color: var(--primary-hover); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
         
-        /* Utility Classes */
         .flex { display: flex; } .flex-col { display: flex; flex-direction: column; }
         .items-center { align-items: center; } .justify-between { justify-content: space-between; } .justify-center { justify-content: center; }
-        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
-        .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
+        .gap-2 { gap: 0.5rem; } .gap-3 { gap: 0.75rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
+        .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .mt-2 { margin-top: 0.5rem; } .mt-4 { margin-top: 1rem; } .mb-2 { margin-bottom: 0.5rem; } .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; }
         .w-full { width: 100%; } .text-center { text-align: center; }
         .hidden { display: none !important; }
+        .flex-wrap { flex-wrap: wrap; }
         
-        /* Typography */
         h1, h2, h3, h4 { color: var(--text-main); font-weight: 600; }
         h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.1rem; }
-        .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.875rem; } .text-lg { font-size: 1.125rem; }
+        .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.875rem; } .text-xs { font-size: 0.75rem; } .text-lg { font-size: 1.125rem; }
         .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
 
-        /* UI Elements */
-        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
-        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn-icon { padding: 0.5rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .card:hover { box-shadow: var(--shadow-md); }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        .btn-icon { padding: 0.5rem; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; transition: var(--transition); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
-        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { background: #dc2626; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13,148,136,0.35); }
+        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { background: #dc2626; transform: translateY(-1px); }
         .btn-success { background: var(--success); color: white; } .btn-warning { background: var(--warning); color: white; }
         .btn-info { background: var(--info); color: white; }
-        .btn-outline { border: 1px solid var(--border); color: var(--text-main); } .btn-outline:hover { background: var(--bg); }
+        .btn-outline { border: 1.5px solid var(--border); color: var(--text-main); background: var(--surface); }
+        .btn-outline:hover { background: var(--bg); border-color: #d1d5db; }
+        .btn-ghost { color: var(--text-muted); }
+        .btn-ghost:hover { background: var(--bg); color: var(--text-main); }
         
         .input-group { margin-bottom: 1rem; }
-        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-main); font-size: 0.875rem; }
-        .input-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: #f9fafb; transition: border 0.2s; }
-        .input-control:focus { border-color: var(--primary); background: white; }
+        .input-group label { display: block; margin-bottom: 0.375rem; font-weight: 500; color: var(--text-main); font-size: 0.8125rem; }
+        .input-control {
+            width: 100%;
+            padding: 0.6875rem 0.875rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            transition: var(--transition);
+            font-size: 0.875rem;
+            color: var(--text-main);
+        }
+        .input-control:hover { border-color: #d1d5db; }
+        .input-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); background: white; }
+        .input-control::placeholder { color: #9ca3af; }
+
+        .input-with-icon {
+            position: relative;
+        }
+        .input-with-icon .input-icon {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+        .input-with-icon .input-control {
+            padding-left: 2.75rem;
+        }
+        .input-with-icon:focus-within .input-icon {
+            color: var(--primary);
+        }
         
-        .badge { padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; display: inline-block; }
-        .badge-pending { background: #fef3c7; color: #d97706; }
-        .badge-active { background: #d1fae5; color: #059669; }
-        .badge-danger { background: #fee2e2; color: #dc2626; }
-        .badge-info { background: #dbeafe; color: #2563eb; }
+        .badge { padding: 0.25rem 0.625rem; border-radius: 20px; font-size: 0.6875rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; letter-spacing: 0.02em; }
+        .badge-pending { background: #fef3c7; color: #b45309; }
+        .badge-active { background: #d1fae5; color: #047857; }
+        .badge-danger { background: #fee2e2; color: #b91c1c; }
+        .badge-info { background: #dbeafe; color: #1d4ed8; }
 
-        /* Tables */
-        .table-responsive { overflow-x: auto; width: 100%; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
-        th { background: #f9fafb; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        tbody tr:nth-child(even) { background: #f9fafb; }
-        tbody tr:hover { background: #f3f4f6; }
+        .table-responsive { overflow-x: auto; width: 100%; border-radius: var(--radius); }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        th, td { padding: 0.875rem 1rem; text-align: left; vertical-align: middle; }
+        th { background: #f9fafb; font-weight: 600; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1.5px solid var(--border); }
+        td { border-bottom: 1px solid #f3f4f6; }
+        tbody tr { transition: var(--transition); }
+        tbody tr:hover { background: #f9fafb; }
+        tbody tr:last-child td { border-bottom: none; }
 
-        /* App Layout */
         #app-layout { display: flex; height: 100vh; overflow: hidden; }
         
-        /* Sidebar */
-        #sidebar { width: var(--sidebar-width); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; transition: transform 0.3s; }
-        .sidebar-header { padding: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--border); }
-        .sidebar-logo { width: 36px; height: 36px; background: var(--primary); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
-        .sidebar-title { font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
-        .sidebar-menu { flex: 1; overflow-y: auto; padding: 1.5rem 0; }
-        .menu-item { padding: 0.8rem 1.5rem; margin: 0.2rem 1rem; border-radius: 8px; display: flex; align-items: center; gap: 1rem; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        .menu-item:hover { background: #f3f4f6; color: var(--primary); }
-        .menu-item.active { background: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4); }
-        .menu-item i { font-size: 1.25rem; }
+        #sidebar {
+            width: var(--sidebar-width);
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            z-index: 30;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-header {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            min-height: var(--topbar-height);
+        }
+        .sidebar-logo {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--primary) 0%, #14b8a6 100%);
+            color: white; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 2px 8px rgba(13,148,136,0.3);
+        }
+        .sidebar-title { font-weight: 700; font-size: 1.15rem; color: var(--text-main); }
+        .sidebar-menu { flex: 1; overflow-y: auto; padding: 0.75rem; }
+        .menu-item {
+            padding: 0.6875rem 1rem;
+            margin: 0.125rem 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .menu-item:hover { background: var(--bg); color: var(--primary); }
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, #14b8a6 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(13,148,136,0.3);
+        }
+        .menu-item i { font-size: 1.2rem; width: 1.5rem; text-align: center; }
         
-        /* Main Content */
-        #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
         
-        /* Topbar */
-        #topbar { height: 70px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
-        .user-info { display: flex; align-items: center; gap: 1rem; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); font-size: 1.2rem;}
-        
-        /* View Area */
-        #view-area { flex: 1; overflow-y: auto; padding: 2rem; }
-        
-        /* Bottom Nav (Mobile) */
-        #bottom-nav { display: none; background: var(--surface); box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1); padding: 0.5rem; justify-content: space-around; z-index: 20; border-top: 1px solid var(--border); }
-        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; color: var(--text-muted); padding: 0.5rem; font-size: 0.75rem; flex: 1; }
-        .bottom-nav-item.active { color: var(--primary); }
-        .bottom-nav-item i { font-size: 1.5rem; }
+        #topbar {
+            height: var(--topbar-height);
+            background: var(--surface);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            z-index: 20;
+            gap: 1rem;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+        .topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+        .user-info { display: flex; align-items: center; gap: 0.75rem; }
+        .user-avatar {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, #99f6e4 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: var(--primary);
+            font-size: 0.875rem;
+        }
 
-        /* Auth Layout (Login/Register) */
-        #auth-layout { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; background: var(--bg); }
-        .auth-card { width: 100%; max-width: 450px; background: white; padding: 2.5rem; }
-        .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-        .auth-tab { flex: 1; text-align: center; padding: 1rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; }
-        .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .notification-wrapper { position: relative; }
+        .notif-btn {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--bg);
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            transition: var(--transition);
+            position: relative;
+            border: 1.5px solid transparent;
+        }
+        .notif-btn:hover { background: var(--primary-ultra-light); color: var(--primary); border-color: var(--primary-light); }
+        .notif-btn.has-unread::after {
+            content: '';
+            position: absolute;
+            top: 8px; right: 8px;
+            width: 8px; height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid var(--surface);
+        }
+        .notif-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 360px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            overflow: hidden;
+        }
+        .notif-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+        .notif-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: #fafafa;
+        }
+        .notif-header h4 { font-size: 0.875rem; }
+        .notif-list { max-height: 320px; overflow-y: auto; }
+        .notif-item {
+            padding: 0.875rem 1.25rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            border-bottom: 1px solid #f3f4f6;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .notif-item:hover { background: #f9fafb; }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-item.unread { background: var(--primary-ultra-light); }
+        .notif-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        .notif-icon.success { background: var(--success-light); color: var(--success); }
+        .notif-icon.warning { background: var(--warning-light); color: var(--warning); }
+        .notif-icon.danger { background: var(--danger-light); color: var(--danger); }
+        .notif-icon.info { background: var(--info-light); color: var(--info); }
+        .notif-body { flex: 1; min-width: 0; }
+        .notif-body p { font-size: 0.8125rem; color: var(--text-main); line-height: 1.4; }
+        .notif-body .notif-time { font-size: 0.6875rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .notif-footer { padding: 0.75rem; text-align: center; border-top: 1px solid var(--border); }
+        .notif-footer button { color: var(--primary); font-weight: 500; font-size: 0.8125rem; }
+        .notif-footer button:hover { text-decoration: underline; }
 
-        /* Grid Layouts */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-        .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        #view-area { flex: 1; overflow-y: auto; padding: 1.5rem; }
+        
+        #bottom-nav {
+            display: none;
+            background: var(--surface);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+            padding: 0.375rem 0.5rem;
+            justify-content: space-around;
+            z-index: 20;
+            border-top: 1px solid var(--border);
+        }
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.125rem;
+            color: var(--text-muted);
+            padding: 0.375rem 0.5rem;
+            font-size: 0.625rem;
+            font-weight: 500;
+            flex: 1;
+            border-radius: 10px;
+            transition: var(--transition);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .bottom-nav-item.active { color: var(--primary); background: var(--primary-ultra-light); }
+        .bottom-nav-item i { font-size: 1.375rem; }
+
+        #auth-layout { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 50%, #f0f9ff 100%); }
+        .auth-card {
+            width: 100%; max-width: 440px;
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .auth-tabs { display: flex; background: var(--bg); border-radius: 10px; padding: 0.25rem; margin-bottom: 1.5rem; }
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.625rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .auth-tab.active { color: var(--primary); background: var(--surface); box-shadow: var(--shadow); }
+
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
         
-        /* Product Card */
-        .product-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; border: 1px solid var(--border); transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-        .product-img { height: 180px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #cbd5e1; position: relative; border-bottom: 1px solid var(--border); }
-        .product-info { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+        .stat-card { position: relative; overflow: hidden; }
+        .stat-card .stat-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .stat-card .stat-icon.primary { background: var(--primary-light); color: var(--primary); }
+        .stat-card .stat-icon.info { background: var(--info-light); color: var(--info); }
+        .stat-card .stat-icon.success { background: var(--success-light); color: var(--success); }
+        .stat-card .stat-icon.danger { background: var(--danger-light); color: var(--danger); }
+        .stat-card .stat-icon.warning { background: var(--warning-light); color: var(--warning); }
+
+        .product-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .product-img {
+            height: 160px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3.5rem; color: #94a3b8;
+            position: relative; border-bottom: 1px solid var(--border);
+        }
+        .product-info { padding: 1.125rem; flex: 1; display: flex; flex-direction: column; }
         
-        /* Modals */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 1rem; }
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 50;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
+            padding: 1rem;
+        }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-radius: var(--radius) var(--radius) 0 0; }
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            width: 100%; max-width: 560px;
+            max-height: 90vh;
+            display: flex; flex-direction: column;
+            box-shadow: var(--shadow-xl);
+            transform: translateY(16px) scale(0.98);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        .modal-header {
+            padding: 1.125rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-header h3 { font-size: 1rem; }
         .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
-        .modal-footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem; background: #f8fafc; border-radius: 0 0 var(--radius) var(--radius); }
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex; justify-content: flex-end; gap: 0.75rem;
+            background: #fafafa;
+        }
 
-        /* Details List (for modals) */
-        .details-list { display: flex; flex-direction: column; gap: 0.75rem; }
-        .details-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--border); }
-        .details-label { color: var(--text-muted); font-size: 0.875rem; }
-        .details-value { font-weight: 500; text-align: right; }
+        .details-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .details-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.625rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .details-row:last-child { border-bottom: none; }
+        .details-label { color: var(--text-muted); font-size: 0.8125rem; }
+        .details-value { font-weight: 500; text-align: right; font-size: 0.875rem; }
 
-        /* Notifications */
-        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: var(--surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.75rem; border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; }
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 8px; }
+        .toast {
+            background: var(--surface);
+            color: var(--text-main);
+            padding: 0.875rem 1.25rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; gap: 0.625rem;
+            border-left: 4px solid var(--primary);
+            animation: slideIn 0.3s forwards;
+            font-size: 0.875rem;
+        }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* Responsive UI Adjustments */
+        .custom-select {
+            position: relative;
+            width: 100%;
+        }
+        .custom-select-trigger {
+            width: 100%;
+            padding: 0.6875rem 2.5rem 0.6875rem 0.875rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            font-size: 0.875rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            user-select: none;
+            position: relative;
+        }
+        .custom-select-trigger::after {
+            content: '\ea4e';
+            font-family: 'remixicon';
+            position: absolute;
+            right: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            transition: var(--transition);
+            font-size: 1.125rem;
+        }
+        .custom-select.open .custom-select-trigger::after { transform: translateY(-50%) rotate(180deg); }
+        .custom-select-trigger:hover { border-color: #d1d5db; }
+        .custom-select.open .custom-select-trigger { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
+        .custom-select-options {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            width: 100%;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            z-index: 60;
+            display: none;
+            overflow: hidden;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+        .custom-select.open .custom-select-options { display: block; }
+        .custom-select-option {
+            padding: 0.625rem 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .custom-select-option:hover { background: var(--bg); }
+        .custom-select-option.selected { background: var(--primary-ultra-light); color: var(--primary); font-weight: 500; }
+        .custom-select-option .check-icon { margin-left: auto; opacity: 0; color: var(--primary); }
+        .custom-select-option.selected .check-icon { opacity: 1; }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .search-input-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+        .search-input-wrap i {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.125rem;
+        }
+        .search-input-wrap input {
+            width: 100%;
+            padding: 0.625rem 0.875rem 0.625rem 2.75rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+        .search-input-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
+        .filter-chips { display: flex; gap: 0.375rem; flex-wrap: wrap; }
+        .filter-chip {
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .filter-chip:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .report-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .report-card:hover { box-shadow: var(--shadow-md); }
+        .report-card-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+        .report-card-body {
+            padding: 0 1.25rem 1.25rem;
+        }
+        .report-upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: #fafafa;
+        }
+        .report-upload-zone:hover { border-color: var(--primary); background: var(--primary-ultra-light); }
+        .report-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .report-preview-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #94a3b8;
+            border: 1px solid var(--border);
+        }
+        .report-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+        .timeline-item {
+            position: relative;
+            padding: 0.625rem 0 0.625rem 1.25rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.375rem;
+            top: 1rem;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            border: 2px solid var(--surface);
+        }
+        .timeline-item.done::before { background: var(--success); }
+        .timeline-item.overdue::before { background: var(--danger); }
+        .timeline-item.pending::before { background: var(--warning); }
+
+        .sidebar-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 25;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        .empty-state i {
+            font-size: 3.5rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        @media (min-width: 769px) {
+            #view-area { padding: 2rem; }
+        }
+
         @media (max-width: 1024px) {
             .grid-cards { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
-            #sidebar { position: fixed; transform: translateX(-100%); height: 100%; }
+            #sidebar { position: fixed; transform: translateX(-100%); height: 100%; width: 280px; }
             #sidebar.open { transform: translateX(0); }
             #bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; }
-            #view-area { padding: 1rem; padding-bottom: 80px; }
-            #topbar { padding: 0 1rem; }
+            #view-area { padding: 1rem; padding-bottom: 5.5rem; }
+            #topbar { padding: 0 1rem; height: 56px; }
             .mobile-menu-btn { display: block !important; }
-            .grid-cards { grid-template-columns: 1fr; }
+            .grid-cards { grid-template-columns: 1fr 1fr; }
             .grid-2 { grid-template-columns: 1fr; }
-            
-            /* Responsive Table classes */
+            .grid-products { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; }
             .hide-sm { display: none !important; }
-            table { font-size: 0.875rem; }
-            th, td { padding: 0.75rem 0.5rem; }
-            .action-cell { width: 50px; text-align: center; }
+            table { font-size: 0.8125rem; }
+            th, td { padding: 0.625rem 0.5rem; }
+            .action-cell { width: 44px; text-align: center; }
+            .product-img { height: 120px; font-size: 2.5rem; }
+            .product-info { padding: 0.875rem; }
+            .product-info .text-xl { font-size: 1rem !important; }
+            .card { padding: 1.125rem; }
+            .auth-card { padding: 1.5rem; }
+            .modal-content { max-width: 100%; margin: 0.5rem; border-radius: var(--radius); }
+            .modal-body { padding: 1rem; }
+            .notif-dropdown { width: 300px; right: -40px; }
+            #toast-container { bottom: 70px; right: 10px; left: 10px; }
+            .toast { font-size: 0.8125rem; }
+            .stat-card .stat-icon { width: 38px; height: 38px; font-size: 1.125rem; }
+            .search-bar { gap: 0.5rem; }
+            .search-input-wrap { min-width: 100%; }
+            .filter-chips { width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 0.25rem; }
+            .filter-chip { white-space: nowrap; flex-shrink: 0; }
         }
-        .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); }
+
+        @media (max-width: 380px) {
+            .grid-cards { grid-template-columns: 1fr; }
+            .grid-products { grid-template-columns: 1fr; }
+            .bottom-nav-item span { font-size: 0.5625rem; }
+        }
+
+        .mobile-menu-btn { display: none; font-size: 1.375rem; background: none; border: none; cursor: pointer; color: var(--text-main); padding: 0.25rem; }
         .action-cell { white-space: nowrap; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: fadeUp 0.3s ease forwards; }
     </style>
 </head>
 <body>
 
-    <!-- Auth View -->
     <div id="auth-layout">
-        <div class="card auth-card">
-            <div class="flex items-center justify-center gap-2 mb-6">
-                <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
-                <h1 class="font-bold text-xl text-primary">My Diller UZ</h1>
+        <div class="auth-card">
+            <div class="flex items-center justify-center gap-2 mb-6" style="margin-bottom:1.5rem;">
+                <div class="sidebar-logo" style="width:42px;height:42px;font-size:1.3rem;"><i class="ri-store-2-line"></i></div>
+                <div>
+                    <h1 class="font-bold" style="font-size:1.25rem; color:var(--text-main); line-height:1.2;">My Diller UZ</h1>
+                    <div class="text-xs text-muted">B2B Platforma</div>
+                </div>
             </div>
             
             <div class="auth-tabs">
@@ -191,201 +729,280 @@
                 <div class="auth-tab" onclick="switchAuthTab('register')">Ro'yxatdan o'tish</div>
             </div>
 
-            <!-- Login Form -->
             <div id="login-form">
-                <div class="text-center mb-6">
-                    <h2 class="mb-2">Tizimga kirish</h2>
+                <div class="text-center mb-6" style="margin-bottom:1.25rem;">
+                    <h2 class="mb-2" style="font-size:1.125rem;">Tizimga kirish</h2>
                     <p class="text-muted text-sm">Telefon raqam va parolingizni kiriting</p>
                 </div>
                 <div class="input-group">
-                    <label>Telefon raqam</label>
-                    <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                    <label><i class="ri-phone-line" style="margin-right:4px;"></i> Telefon raqam</label>
+                    <div class="input-with-icon">
+                        <i class="ri-phone-line input-icon"></i>
+                        <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                    </div>
                 </div>
-                <div class="input-group mb-6">
-                    <label>Parol</label>
-                    <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                <div class="input-group" style="margin-bottom:1.25rem;">
+                    <label><i class="ri-lock-line" style="margin-right:4px;"></i> Parol</label>
+                    <div class="input-with-icon">
+                        <i class="ri-lock-password-line input-icon"></i>
+                        <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                    </div>
                 </div>
-                <button class="btn btn-primary w-full mb-4" onclick="doLogin()">Kirish</button>
+                <button class="btn btn-primary w-full" style="padding:0.75rem; font-size:0.9375rem; margin-bottom:1rem;" onclick="doLogin()">
+                    <i class="ri-login-box-line"></i> Kirish
+                </button>
                 
                 <div class="flex items-center gap-4 mb-4">
                     <hr class="w-full" style="border-color: var(--border);">
-                    <span class="text-muted text-sm">yoki</span>
+                    <span class="text-muted text-xs" style="white-space:nowrap;">yoki</span>
                     <hr class="w-full" style="border-color: var(--border);">
                 </div>
                 
-                <button class="btn btn-outline w-full" disabled title="Hozircha ishlamaydi">
+                <button class="btn btn-outline w-full" disabled title="Hozircha ishlamaydi" style="padding:0.75rem;">
                     <i class="ri-file-shield-2-line"></i> E-IMZO orqali kirish
                 </button>
                 
-                <div class="mt-6 p-3 bg-blue-50 rounded-lg text-xs text-muted" style="background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
-                    <b>Demo parol kiritish:</b><br>
-                    Admin: <code>admin</code><br>
-                    Sotuvchi: <code>seller1</code> yoki <code>seller2</code><br>
-                    Xaridor: <code>buyer1</code> yoki <code>buyer2</code>
+                <div class="mt-4" style="background:var(--info-light); border-radius:10px; border:1px solid #bfdbfe; padding:0.875rem;">
+                    <div class="flex items-center gap-2 mb-2" style="margin-bottom:0.5rem;">
+                        <i class="ri-information-line" style="color:var(--info);"></i>
+                        <span class="font-semibold text-sm">Demo parollar</span>
+                    </div>
+                    <div class="text-xs text-muted" style="line-height:1.6;">
+                        Admin: <code style="background:#e0e7ff;padding:0.125rem 0.375rem;border-radius:4px;font-weight:600;">admin</code><br>
+                        Sotuvchi: <code style="background:#e0e7ff;padding:0.125rem 0.375rem;border-radius:4px;font-weight:600;">seller1</code> yoki <code style="background:#e0e7ff;padding:0.125rem 0.375rem;border-radius:4px;font-weight:600;">seller2</code><br>
+                        Xaridor: <code style="background:#e0e7ff;padding:0.125rem 0.375rem;border-radius:4px;font-weight:600;">buyer1</code> yoki <code style="background:#e0e7ff;padding:0.125rem 0.375rem;border-radius:4px;font-weight:600;">buyer2</code>
+                    </div>
                 </div>
             </div>
 
-            <!-- Register Form -->
             <div id="register-form" class="hidden">
+                <div class="text-center mb-6" style="margin-bottom:1.25rem;">
+                    <h2 class="mb-2" style="font-size:1.125rem;">Ro'yxatdan o'tish</h2>
+                    <p class="text-muted text-sm">Kompaniya ma'lumotlarini kiriting</p>
+                </div>
                 <div class="input-group">
                     <label>Kompaniya nomi</label>
-                    <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                    <div class="input-with-icon">
+                        <i class="ri-building-line input-icon"></i>
+                        <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>INN (STIR)</label>
-                    <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                    <div class="input-with-icon">
+                        <i class="ri-hashtag input-icon"></i>
+                        <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>Rolni tanlang</label>
-                    <select id="reg-role" class="input-control">
-                        <option value="seller">Sotuvchi (Seller)</option>
-                        <option value="buyer">Diler/Xaridor (Buyer)</option>
-                    </select>
+                    <div class="custom-select" data-value="seller" id="reg-role-select">
+                        <div class="custom-select-trigger" onclick="toggleCustomSelect(this)">
+                            <span>Sotuvchi (Seller)</span>
+                        </div>
+                        <div class="custom-select-options">
+                            <div class="custom-select-option selected" data-value="seller" onclick="selectOption(this)">
+                                <i class="ri-store-line"></i> Sotuvchi (Seller) <i class="ri-check-line check-icon"></i>
+                            </div>
+                            <div class="custom-select-option" data-value="buyer" onclick="selectOption(this)">
+                                <i class="ri-shopping-bag-line"></i> Diler/Xaridor (Buyer) <i class="ri-check-line check-icon"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <button class="btn btn-primary w-full mt-4" onclick="doRegister()">Ro'yxatdan o'tish kutilmoqda</button>
+                <button class="btn btn-primary w-full mt-4" style="padding:0.75rem; font-size:0.9375rem;" onclick="doRegister()">
+                    <i class="ri-user-add-line"></i> Ro'yxatdan o'tish
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Main Dashboard Layout -->
     <div id="app-layout" class="hidden">
-        <!-- Sidebar -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
         <aside id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
                 <span class="sidebar-title">My Diller</span>
-                <button class="mobile-menu-btn hide-sm ml-auto" onclick="document.getElementById('sidebar').classList.remove('open')" style="display:none;">
-                    <i class="ri-close-line"></i>
+                <button class="btn-ghost btn-icon" onclick="closeSidebar()" style="margin-left:auto; display:none;" id="sidebar-close-btn">
+                    <i class="ri-close-line" style="font-size:1.25rem;"></i>
                 </button>
             </div>
-            <ul class="sidebar-menu" id="sidebar-menu">
-                <!-- Dynamic Menu Items -->
-            </ul>
+            <ul class="sidebar-menu" id="sidebar-menu"></ul>
+            <div style="padding:0.75rem; border-top:1px solid var(--border);">
+                <button class="btn btn-ghost w-full" style="justify-content:flex-start; gap:0.75rem; padding:0.6875rem 1rem; color:var(--danger); font-size:0.875rem;" onclick="doLogout()">
+                    <i class="ri-logout-box-r-line"></i> Chiqish
+                </button>
+            </div>
         </aside>
 
-        <!-- Main Area -->
         <main id="main-content">
-            <!-- Topbar -->
             <header id="topbar">
-                <div class="flex items-center gap-4">
-                    <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.add('open')">
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" onclick="openSidebar()">
                         <i class="ri-menu-2-line"></i>
                     </button>
-                    <h2 id="page-title" class="text-lg">Dashboard</h2>
+                    <h2 id="page-title" style="font-size:1.0625rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Dashboard</h2>
                 </div>
-                <div class="flex items-center gap-4">
+                <div class="topbar-right">
+                    <div class="notification-wrapper">
+                        <button class="notif-btn has-unread" onclick="toggleNotifications(event)" id="notif-toggle">
+                            <i class="ri-notification-3-line"></i>
+                        </button>
+                        <div class="notif-dropdown" id="notif-dropdown">
+                            <div class="notif-header">
+                                <h4>Xabarnomalar</h4>
+                                <button class="text-xs" style="color:var(--primary); font-weight:500;" onclick="markAllRead()">Barchasini o'qish</button>
+                            </div>
+                            <div class="notif-list" id="notif-list"></div>
+                            <div class="notif-footer">
+                                <button onclick="showToast('Barcha xabarnomalar ko\'rsatildi')">Barchasini ko'rish</button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="user-info hide-sm">
-                        <div class="text-right">
-                            <div class="font-semibold" id="topbar-user-name">Foydalanuvchi</div>
+                        <div style="text-align:right;">
+                            <div class="font-semibold text-sm" id="topbar-user-name">Foydalanuvchi</div>
                             <div class="text-xs text-muted" id="topbar-user-role">Rol</div>
                         </div>
                     </div>
                     <div class="user-avatar" id="topbar-avatar">U</div>
-                    <button class="btn btn-outline btn-icon" onclick="doLogout()" title="Chiqish">
-                        <i class="ri-logout-box-r-line"></i>
-                    </button>
                 </div>
             </header>
 
-            <!-- Views Container -->
-            <div id="view-area">
-                <!-- Views will be injected here dynamically -->
-            </div>
+            <div id="view-area"></div>
 
-            <!-- Bottom Nav (Mobile) -->
-            <nav id="bottom-nav">
-                <!-- Dynamic Bottom Nav -->
-            </nav>
+            <nav id="bottom-nav"></nav>
         </main>
     </div>
 
-    <!-- Universal Details Modal -->
     <div class="modal-overlay" id="detailsModal" onclick="if(event.target===this) closeModal('detailsModal')">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="dm-title">Ma'lumot</h3>
-                <button class="btn-icon" onclick="closeModal('detailsModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
+                <button class="btn-icon btn-ghost" onclick="closeModal('detailsModal')"><i class="ri-close-line" style="font-size:1.375rem"></i></button>
             </div>
-            <div class="modal-body" id="dm-body">
-                <!-- Dynamic Content -->
-            </div>
-            <div class="modal-footer" id="dm-footer">
-                <!-- Dynamic Buttons -->
-            </div>
+            <div class="modal-body" id="dm-body"></div>
+            <div class="modal-footer" id="dm-footer"></div>
         </div>
     </div>
 
-    <!-- Add Product Modal (Seller) -->
     <div class="modal-overlay" id="addProdModal" onclick="if(event.target===this) closeModal('addProdModal')">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Yangi mahsulot qo'shish</h3>
-                <button class="btn-icon" onclick="closeModal('addProdModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
+                <h3><i class="ri-add-circle-line" style="color:var(--primary);margin-right:0.5rem;"></i> Yangi mahsulot qo'shish</h3>
+                <button class="btn-icon btn-ghost" onclick="closeModal('addProdModal')"><i class="ri-close-line" style="font-size:1.375rem"></i></button>
             </div>
             <div class="modal-body">
                 <div class="grid-2">
                     <div class="input-group">
                         <label>SKU (Artikul)</label>
-                        <input type="text" id="p-sku" class="input-control" placeholder="Masalan: PRD-001">
+                        <div class="input-with-icon">
+                            <i class="ri-barcode-line input-icon"></i>
+                            <input type="text" id="p-sku" class="input-control" placeholder="Masalan: PRD-001">
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Mahsulot nomi</label>
-                        <input type="text" id="p-name" class="input-control" placeholder="Nomini kiriting">
+                        <div class="input-with-icon">
+                            <i class="ri-price-tag-3-line input-icon"></i>
+                            <input type="text" id="p-name" class="input-control" placeholder="Nomini kiriting">
+                        </div>
                     </div>
                 </div>
                 <div class="grid-2">
                     <div class="input-group">
                         <label>Kategoriya</label>
-                        <select class="input-control"><option>Elektronika</option><option>Mebel</option><option>Boshqa</option></select>
+                        <div class="custom-select" data-value="Elektronika" id="cat-select">
+                            <div class="custom-select-trigger" onclick="toggleCustomSelect(this)">
+                                <span>Elektronika</span>
+                            </div>
+                            <div class="custom-select-options">
+                                <div class="custom-select-option selected" data-value="Elektronika" onclick="selectOption(this)">
+                                    <i class="ri-cpu-line"></i> Elektronika <i class="ri-check-line check-icon"></i>
+                                </div>
+                                <div class="custom-select-option" data-value="Mebel" onclick="selectOption(this)">
+                                    <i class="ri-armchair-line"></i> Mebel <i class="ri-check-line check-icon"></i>
+                                </div>
+                                <div class="custom-select-option" data-value="Oziq-ovqat" onclick="selectOption(this)">
+                                    <i class="ri-restaurant-line"></i> Oziq-ovqat <i class="ri-check-line check-icon"></i>
+                                </div>
+                                <div class="custom-select-option" data-value="Boshqa" onclick="selectOption(this)">
+                                    <i class="ri-more-line"></i> Boshqa <i class="ri-check-line check-icon"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Bazaviy narx (UZS)</label>
-                        <input type="number" id="p-price" class="input-control" placeholder="0.00">
+                        <div class="input-with-icon">
+                            <i class="ri-money-dollar-circle-line input-icon"></i>
+                            <input type="number" id="p-price" class="input-control" placeholder="0">
+                        </div>
                     </div>
                 </div>
                 
-                <hr class="mb-4" style="border-color:var(--border)">
+                <hr style="border:none; border-top:1px solid var(--border); margin:0.5rem 0 1rem;">
                 
                 <div class="input-group">
                     <label>To'lov modeli</label>
-                    <select id="p-model" class="input-control" onchange="togglePrepayFields()">
-                        <option value="realization">Realizatsiya (Sotilgandan so'ng)</option>
-                        <option value="prepayment">Oldindan to'lov (Avans)</option>
-                    </select>
+                    <div class="custom-select" data-value="realization" id="model-select">
+                        <div class="custom-select-trigger" onclick="toggleCustomSelect(this)">
+                            <span>Realizatsiya (Sotilgandan so'ng)</span>
+                        </div>
+                        <div class="custom-select-options">
+                            <div class="custom-select-option selected" data-value="realization" onclick="selectOption(this); togglePrepayFields()">
+                                <i class="ri-exchange-line"></i> Realizatsiya (Sotilgandan so'ng) <i class="ri-check-line check-icon"></i>
+                            </div>
+                            <div class="custom-select-option" data-value="prepayment" onclick="selectOption(this); togglePrepayFields()">
+                                <i class="ri-hand-coin-line"></i> Oldindan to'lov (Avans) <i class="ri-check-line check-icon"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div id="prepay-fields" class="hidden grid-2 bg-blue-50 p-4 rounded-lg mb-4" style="background:#f0f9ff; border:1px solid #bae6fd;">
-                    <div class="input-group mb-0">
+                <div id="prepay-fields" class="hidden" style="background:var(--info-light); border:1px solid #bfdbfe; padding:1rem; border-radius:10px; margin-bottom:1rem;">
+                    <div class="input-group" style="margin-bottom:0;">
                         <label>Oldindan to'lov (%)</label>
-                        <input type="number" id="p-percent" class="input-control" placeholder="Masalan: 30" value="30">
+                        <div class="input-with-icon">
+                            <i class="ri-percent-line input-icon"></i>
+                            <input type="number" id="p-percent" class="input-control" placeholder="Masalan: 30" value="30">
+                        </div>
                     </div>
                 </div>
 
                 <div class="grid-2">
                     <div class="input-group">
                         <label>Realizatsiya muddati (kun)</label>
-                        <input type="number" id="p-realdays" class="input-control" placeholder="Masalan: 30" value="30">
+                        <div class="input-with-icon">
+                            <i class="ri-calendar-line input-icon"></i>
+                            <input type="number" id="p-realdays" class="input-control" placeholder="Masalan: 30" value="30">
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Foto hisobot davri</label>
-                        <select id="p-photodays" class="input-control">
-                            <option value="5">Har 5 kunda</option>
-                            <option value="10">Har 10 kunda</option>
-                            <option value="15" selected>Har 15 kunda</option>
-                            <option value="30">Har 30 kunda</option>
-                        </select>
+                        <div class="custom-select" data-value="15" id="photo-select">
+                            <div class="custom-select-trigger" onclick="toggleCustomSelect(this)">
+                                <span>Har 15 kunda</span>
+                            </div>
+                            <div class="custom-select-options">
+                                <div class="custom-select-option" data-value="5" onclick="selectOption(this)">Har 5 kunda <i class="ri-check-line check-icon"></i></div>
+                                <div class="custom-select-option" data-value="10" onclick="selectOption(this)">Har 10 kunda <i class="ri-check-line check-icon"></i></div>
+                                <div class="custom-select-option selected" data-value="15" onclick="selectOption(this)">Har 15 kunda <i class="ri-check-line check-icon"></i></div>
+                                <div class="custom-select-option" data-value="30" onclick="selectOption(this)">Har 30 kunda <i class="ri-check-line check-icon"></i></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="input-group">
                     <label>Mahsulot rasmi</label>
-                    <div style="border: 2px dashed var(--border); padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer;">
-                        <i class="ri-image-add-line" style="font-size: 2rem; color: var(--text-muted)"></i>
-                        <p class="mt-2 text-sm text-muted">Rasmni yuklash uchun bosing</p>
+                    <div class="report-upload-zone" onclick="showToast('Rasm tanlash oynasi', 'info')">
+                        <i class="ri-image-add-line" style="font-size: 2rem; color: var(--text-muted); display:block; margin-bottom:0.5rem;"></i>
+                        <p class="text-sm text-muted">Rasmni yuklash uchun bosing yoki tortib tashlang</p>
+                        <p class="text-xs text-muted" style="margin-top:0.25rem;">PNG, JPG, WEBP — max 5MB</p>
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeModal('addProdModal')">Bekor qilish</button>
@@ -394,20 +1011,41 @@
         </div>
     </div>
 
-    <!-- Toasts Container -->
+    <div class="modal-overlay" id="photoUploadModal" onclick="if(event.target===this) closeModal('photoUploadModal')">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h3><i class="ri-camera-line" style="color:var(--primary);margin-right:0.5rem;"></i> Foto hisobot yuklash</h3>
+                <button class="btn-icon btn-ghost" onclick="closeModal('photoUploadModal')"><i class="ri-close-line" style="font-size:1.375rem"></i></button>
+            </div>
+            <div class="modal-body" id="photo-upload-body">
+                <div class="report-upload-zone" onclick="simulatePhotoUpload()">
+                    <i class="ri-camera-line" style="font-size:2.5rem; color:var(--primary); display:block; margin-bottom:0.5rem;"></i>
+                    <p class="font-semibold text-sm">Rasmlarni yuklang</p>
+                    <p class="text-xs text-muted" style="margin-top:0.25rem;">Rasm sifati yaxshi bo'lishi kerak</p>
+                </div>
+                <div class="report-preview-grid" id="photo-preview-grid"></div>
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Izoh (ixtiyoriy)</label>
+                    <textarea class="input-control" rows="3" placeholder="Qo'shimcha izoh yozing..." style="resize:vertical;"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('photoUploadModal')">Bekor qilish</button>
+                <button class="btn btn-primary" onclick="submitPhotoReport()"><i class="ri-upload-cloud-2-line"></i> Yuborish</button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast-container"></div>
 
     <script>
-        /* =========================================
-           1. MOCK DATA & STATE MANAGEMENT
-           ========================================= */
         const MOCK_DB = {
             users: [
-                { id: 1, role: 'admin', inn: '00000000', name: 'Tizim Administratori', status: 'active', phone: '+998901112233', address: 'Toshkent sh.' },
-                { id: 2, role: 'seller', inn: '12345678', name: 'TexnoFarm MChJ', status: 'active', phone: '+998902223344', address: 'Samarqand sh.' },
-                { id: 3, role: 'seller', inn: '65432198', name: 'MebelPro MChJ', status: 'active', phone: '+998903334455', address: 'Buxoro sh.' },
-                { id: 4, role: 'buyer', inn: '11111111', name: 'SuperMart MChJ', status: 'active', phone: '+998904445566', address: 'Toshkent sh.' },
-                { id: 5, role: 'buyer', inn: '22222222', name: 'CityStore MChJ', status: 'active', phone: '+998905556677', address: 'Namangan sh.' }
+                { id: 1, role: 'admin', inn: '00000000', name: 'Tizim Administratori', status: 'active', phone: '+998901112233', address: 'Toshkent sh.', joinDate: '2023-01-15' },
+                { id: 2, role: 'seller', inn: '12345678', name: 'TexnoFarm MChJ', status: 'active', phone: '+998902223344', address: 'Samarqand sh.', joinDate: '2023-03-20' },
+                { id: 3, role: 'seller', inn: '65432198', name: 'MebelPro MChJ', status: 'active', phone: '+998903334455', address: 'Buxoro sh.', joinDate: '2023-04-10' },
+                { id: 4, role: 'buyer', inn: '11111111', name: 'SuperMart MChJ', status: 'active', phone: '+998904445566', address: 'Toshkent sh.', joinDate: '2023-05-05' },
+                { id: 5, role: 'buyer', inn: '22222222', name: 'CityStore MChJ', status: 'active', phone: '+998905556677', address: 'Namangan sh.', joinDate: '2023-06-01' }
             ],
             products: [
                 { id: 1, sellerId: 2, name: 'Smart Chiroq LED', sku: 'TF-001', price: 100000, model: 'prepayment', prepayPercent: 30, realDays: 30, photoDays: 10, img: 'ri-lightbulb-flash-line' },
@@ -424,41 +1062,50 @@
             ],
             cart: [],
             reports: [
-                { id: 1, orderId: 1002, prodId: 4, type: 'photo', status: 'overdue', dueDate: '2023-09-30' },
-                { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-25' },
-                { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2023-10-15' }
+                { id: 1, orderId: 1002, prodId: 4, type: 'photo', status: 'overdue', dueDate: '2023-09-30', photos: [] },
+                { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-25', photos: ['photo1.jpg', 'photo2.jpg'] },
+                { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2023-10-15', photos: [] }
+            ],
+            notifications: [
+                { id: 1, text: 'Yangi buyurtma #1001 imzo kutmoqda', time: '5 daqiqa oldin', type: 'info', read: false },
+                { id: 2, text: 'Foto hisobot muddati o\'tgan — Buyurtma #1002', time: '1 soat oldin', type: 'danger', read: false },
+                { id: 3, text: 'Komissiya to\'lovi muvaffaqiyatli qabul qilindi', time: '3 soat oldin', type: 'success', read: false },
+                { id: 4, text: 'CityStore MChJ yangi buyurtma berdi', time: 'Kecha', type: 'info', read: true },
+                { id: 5, text: 'Tizim texnik xizmati 02:00 da rejalashtirilgan', time: '2 kun oldin', type: 'warning', read: true }
             ]
         };
 
         let STATE = {
             currentUser: null,
             currentView: '',
-            charts: {}
+            charts: {},
+            userSearch: '',
+            userRoleFilter: 'all'
         };
 
-        /* =========================================
-           2. UTILITIES & HELPERS
-           ========================================= */
         const formatMoney = (amount) => new Intl.NumberFormat('uz-UZ').format(amount) + ' UZS';
         
         const showToast = (msg, type = 'success') => {
             const container = document.getElementById('toast-container');
+            const icons = { success: 'checkbox-circle', warning: 'error-warning', info: 'information', danger: 'close-circle' };
             const toast = document.createElement('div');
-            toast.className = `toast`;
-            toast.innerHTML = `<i class="ri-${type === 'success' ? 'checkbox-circle' : (type==='warning'?'error-warning':'information')}-fill" style="color: var(--${type}); font-size: 1.5rem;"></i> <span>${msg}</span>`;
+            toast.className = 'toast';
+            toast.style.borderLeftColor = `var(--${type})`;
+            toast.innerHTML = `<i class="ri-${icons[type] || icons.success}-fill" style="color:var(--${type}); font-size:1.25rem; flex-shrink:0;"></i> <span>${msg}</span>`;
             container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = 0; setTimeout(() => toast.remove(), 300); }, 3000);
+            setTimeout(() => { toast.style.opacity = 0; toast.style.transform = 'translateX(100%)'; setTimeout(() => toast.remove(), 300); }, 3000);
         };
 
         const getStatusBadge = (status) => {
             const map = {
-                'active': '<span class="badge badge-active">Faol</span>',
-                'pending': '<span class="badge badge-pending">Kutilmoqda</span>',
-                'pending_sign': '<span class="badge badge-info">Imzo kutilmoqda</span>',
-                'completed': '<span class="badge badge-active" style="background:#dcfce7; color:#166534;">Yakunlangan</span>',
-                'overdue': '<span class="badge badge-danger">Kechikkan</span>',
-                'paid': '<span class="badge badge-active">To\'langan</span>',
-                'done': '<span class="badge badge-active">Bajarildi</span>'
+                'active': '<span class="badge badge-active"><i class="ri-checkbox-circle-fill"></i> Faol</span>',
+                'blocked': '<span class="badge badge-danger"><i class="ri-forbid-2-fill"></i> Bloklangan</span>',
+                'pending': '<span class="badge badge-pending"><i class="ri-time-fill"></i> Kutilmoqda</span>',
+                'pending_sign': '<span class="badge badge-info"><i class="ri-file-edit-fill"></i> Imzo kutilmoqda</span>',
+                'completed': '<span class="badge badge-active"><i class="ri-check-double-fill"></i> Yakunlangan</span>',
+                'overdue': '<span class="badge badge-danger"><i class="ri-alarm-warning-fill"></i> Kechikkan</span>',
+                'paid': '<span class="badge badge-active"><i class="ri-money-dollar-circle-fill"></i> To\'langan</span>',
+                'done': '<span class="badge badge-active"><i class="ri-check-fill"></i> Bajarildi</span>'
             };
             return map[status] || `<span class="badge">${status}</span>`;
         };
@@ -466,29 +1113,91 @@
         const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || {name: 'Noma\'lum'};
         const getProdById = (id) => MOCK_DB.products.find(p => p.id === id);
 
-        /* =========================================
-           3. AUTHENTICATION (LOGIN / REGISTER)
-           ========================================= */
+        /* Custom Select */
+        function toggleCustomSelect(trigger) {
+            const select = trigger.parentElement;
+            document.querySelectorAll('.custom-select.open').forEach(s => { if(s !== select) s.classList.remove('open'); });
+            select.classList.toggle('open');
+        }
+        function selectOption(option) {
+            const select = option.closest('.custom-select');
+            const trigger = select.querySelector('.custom-select-trigger span');
+            select.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('selected'));
+            option.classList.add('selected');
+            trigger.textContent = option.textContent.trim().replace('✓','').trim();
+            select.dataset.value = option.dataset.value;
+            select.classList.remove('open');
+        }
+        document.addEventListener('click', (e) => {
+            if(!e.target.closest('.custom-select')) {
+                document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
+            }
+            if(!e.target.closest('.notification-wrapper')) {
+                document.getElementById('notif-dropdown')?.classList.remove('open');
+            }
+        });
+
+        /* Notifications */
+        function toggleNotifications(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('notif-dropdown');
+            dropdown.classList.toggle('open');
+            if(dropdown.classList.contains('open')) renderNotifications();
+        }
+        function renderNotifications() {
+            const list = document.getElementById('notif-list');
+            const typeIcons = { info: 'ri-information-line', danger: 'ri-alarm-warning-line', success: 'ri-checkbox-circle-line', warning: 'ri-error-warning-line' };
+            list.innerHTML = MOCK_DB.notifications.map(n => `
+                <div class="notif-item ${n.read ? '' : 'unread'}" onclick="markNotifRead(${n.id})">
+                    <div class="notif-icon ${n.type}"><i class="${typeIcons[n.type]}"></i></div>
+                    <div class="notif-body">
+                        <p>${n.text}</p>
+                        <div class="notif-time">${n.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function markNotifRead(id) {
+            const n = MOCK_DB.notifications.find(x => x.id === id);
+            if(n) n.read = true;
+            updateNotifBadge();
+            renderNotifications();
+        }
+        function markAllRead() {
+            MOCK_DB.notifications.forEach(n => n.read = true);
+            updateNotifBadge();
+            renderNotifications();
+            showToast('Barcha xabarnomalar o\'qildi', 'info');
+        }
+        function updateNotifBadge() {
+            const btn = document.getElementById('notif-toggle');
+            const unread = MOCK_DB.notifications.filter(n => !n.read).length;
+            if(unread > 0) btn.classList.add('has-unread');
+            else btn.classList.remove('has-unread');
+        }
+
+        /* Sidebar mobile */
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('sidebar-overlay').classList.add('open');
+            document.getElementById('sidebar-close-btn').style.display = 'flex';
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('open');
+        }
+
+        /* Auth */
         function switchAuthTab(tab) {
             document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
-            if(tab === 'login') {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('register-form').classList.add('hidden');
-            } else {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
-            }
+            document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('register-form').classList.toggle('hidden', tab === 'login');
         }
 
         function doLogin() {
-            const phone = document.getElementById('login-phone').value;
             const pass = document.getElementById('login-password').value.toLowerCase();
-            
-            if(!pass) {
-                showToast("Iltimos, parolni kiriting", "warning");
-                return;
-            }
+            if(!pass) { showToast("Iltimos, parolni kiriting", "warning"); return; }
             
             let user = null;
             if (pass.includes('admin')) user = MOCK_DB.users[0];
@@ -496,20 +1205,17 @@
             else if (pass.includes('seller2')) user = MOCK_DB.users[2];
             else if (pass.includes('buyer1')) user = MOCK_DB.users[3];
             else if (pass.includes('buyer2')) user = MOCK_DB.users[4];
-            else {
-                user = MOCK_DB.users[3];
-                showToast("Bunday parol topilmadi, test xaridor bo'lib kirdingiz", "info");
-            }
+            else { user = MOCK_DB.users[3]; showToast("Bunday parol topilmadi, test xaridor bo'lib kirdingiz", "info"); }
 
             if (user) {
-                if(user.status === 'blocked') return alert("Akkaunt bloklangan!");
+                if(user.status === 'blocked') { showToast("Akkaunt bloklangan!", "danger"); return; }
                 STATE.currentUser = user;
                 initApp();
             }
         }
 
         function doRegister() {
-            showToast("Ro'yxatdan o'tish demo versiyada faqat ma'lumot qabul qiladi.");
+            showToast("Ro'yxatdan o'tish so'rovi qabul qilindi. Tasdiqlanishi kutilmoqda.", "info");
         }
 
         function doLogout() {
@@ -519,9 +1225,6 @@
             document.getElementById('login-password').value = '';
         }
 
-        /* =========================================
-           4. APP INITIALIZATION & ROUTING
-           ========================================= */
         const MENU_CONFIG = {
             admin: [
                 { id: 'admin-dash', icon: 'ri-dashboard-3-line', title: 'Dashboard' },
@@ -540,7 +1243,7 @@
                 { id: 'buyer-vitrina', icon: 'ri-store-2-line', title: 'Barcha Mahsulotlar' },
                 { id: 'buyer-cart', icon: 'ri-shopping-cart-line', title: 'Savat' },
                 { id: 'buyer-orders', icon: 'ri-file-list-3-line', title: 'Mening Buyurtmalarim' },
-                { id: 'buyer-reports', icon: 'ri-camera-line', title: 'Foto Hisobot Yuklash' }
+                { id: 'buyer-reports', icon: 'ri-camera-line', title: 'Foto Hisobot' }
             ]
         };
 
@@ -552,38 +1255,37 @@
             const roleNames = {admin: 'Administrator', seller: 'Sotuvchi (Seller)', buyer: 'Diler (Buyer)'};
             document.getElementById('topbar-user-role').textContent = roleNames[STATE.currentUser.role];
             document.getElementById('topbar-avatar').textContent = STATE.currentUser.name.charAt(0);
+            updateNotifBadge();
 
             const menuItems = MENU_CONFIG[STATE.currentUser.role];
-            const sidebarHtml = menuItems.map(m => `
+            document.getElementById('sidebar-menu').innerHTML = menuItems.map(m => `
                 <li class="menu-item" onclick="navigate('${m.id}', this)">
                     <i class="${m.icon}"></i> <span>${m.title}</span>
                 </li>
             `).join('');
-            document.getElementById('sidebar-menu').innerHTML = sidebarHtml;
 
-            const bNavHtml = menuItems.slice(0, 4).map(m => `
+            document.getElementById('bottom-nav').innerHTML = menuItems.slice(0, 5).map(m => `
                 <div class="bottom-nav-item" onclick="navigate('${m.id}', this, true)">
                     <i class="${m.icon}"></i> <span>${m.title.split(' ')[0]}</span>
                 </div>
             `).join('');
-            document.getElementById('bottom-nav').innerHTML = bNavHtml;
 
             navigate(menuItems[0].id, document.querySelector('.menu-item'));
         }
 
         function navigate(viewId, el, isMobile = false) {
             STATE.currentView = viewId;
-            document.getElementById('page-title').textContent = el.innerText.trim();
+            const title = el ? el.innerText.trim() : viewId;
+            document.getElementById('page-title').textContent = title;
             
             document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => i.classList.remove('active'));
             if(el) {
-                // Find corresponding element in both navs
                 const text = el.innerText.trim().split(' ')[0];
                 document.querySelectorAll('.menu-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
                 document.querySelectorAll('.bottom-nav-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
             }
             
-            if(window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
+            closeSidebar();
 
             const viewArea = document.getElementById('view-area');
             viewArea.innerHTML = ''; 
@@ -597,9 +1299,6 @@
             if(renderMap[viewId]) renderMap[viewId](viewArea);
         }
 
-        /* =========================================
-           5. DYNAMIC MODALS (EYE ICON LOGIC)
-           ========================================= */
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
@@ -612,19 +1311,28 @@
                 const u = MOCK_DB.users.find(x => x.id === id);
                 titleEl.textContent = "Foydalanuvchi ma'lumoti";
                 bodyEl.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.25rem; padding-bottom:1.25rem; border-bottom:1px solid var(--border);">
+                        <div class="user-avatar" style="width:56px;height:56px;font-size:1.25rem;border-radius:14px;">${u.name.charAt(0)}</div>
+                        <div>
+                            <div class="font-bold" style="font-size:1.0625rem;">${u.name}</div>
+                            <div class="text-sm text-muted">${u.role === 'admin' ? 'Administrator' : u.role === 'seller' ? 'Sotuvchi' : 'Xaridor'}</div>
+                        </div>
+                        <div style="margin-left:auto;">${getStatusBadge(u.status)}</div>
+                    </div>
                     <div class="details-list">
-                        <div class="details-row"><span class="details-label">Kompaniya nomi:</span><span class="details-value">${u.name}</span></div>
-                        <div class="details-row"><span class="details-label">INN (STIR):</span><span class="details-value">${u.inn}</span></div>
-                        <div class="details-row"><span class="details-label">Rol:</span><span class="details-value badge badge-info">${u.role.toUpperCase()}</span></div>
-                        <div class="details-row"><span class="details-label">Telefon:</span><span class="details-value">${u.phone}</span></div>
-                        <div class="details-row"><span class="details-label">Manzil:</span><span class="details-value">${u.address}</span></div>
-                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(u.status)}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-building-line"></i> Kompaniya</span><span class="details-value">${u.name}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-hashtag"></i> INN (STIR)</span><span class="details-value">${u.inn}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-phone-line"></i> Telefon</span><span class="details-value">${u.phone}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-map-pin-line"></i> Manzil</span><span class="details-value">${u.address}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-calendar-line"></i> Qo'shilgan sana</span><span class="details-value">${u.joinDate || '-'}</span></div>
                     </div>
                 `;
                 footerEl.innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
                     ${STATE.currentUser.role === 'admin' && u.id !== 1 ? 
-                        `<button class="btn ${u.status==='active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})">${u.status==='active' ? 'Bloklash' : 'Blokdan chiqarish'}</button>` 
+                        `<button class="btn ${u.status==='active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})">
+                            <i class="ri-${u.status==='active' ? 'forbid-2' : 'checkbox-circle'}-line"></i> ${u.status==='active' ? 'Bloklash' : 'Blokdan chiqarish'}
+                        </button>` 
                     : ''}
                 `;
             } 
@@ -635,135 +1343,206 @@
                 
                 const itemsHtml = o.items.map(it => {
                     const p = getProdById(it.prodId);
-                    return `<div class="p-2 bg-gray-50 rounded mb-2" style="background:#f9fafb; border:1px solid var(--border)">
-                        <div class="flex justify-between"><b>${p.name}</b> <span>${it.qty} dona</span></div>
-                        <div class="text-sm text-muted">Narx: ${formatMoney(p.price)} | Model: ${p.model === 'prepayment'?'Avans':'Realizatsiya'}</div>
+                    return `<div style="background:#f9fafb; border:1px solid var(--border); border-radius:10px; padding:0.875rem; margin-bottom:0.5rem;">
+                        <div class="flex justify-between items-center"><b>${p.name}</b> <span class="badge badge-info">${it.qty} dona</span></div>
+                        <div class="text-sm text-muted" style="margin-top:0.375rem;">Narx: ${formatMoney(p.price)} | ${p.model === 'prepayment'?'Avans':'Realizatsiya'}</div>
                     </div>`;
                 }).join('');
 
-                titleEl.textContent = `Buyurtma #${o.id} tafsilotlari`;
+                titleEl.textContent = `Buyurtma #${o.id}`;
                 bodyEl.innerHTML = `
-                    <div class="details-list mb-4">
-                        <div class="details-row"><span class="details-label">Sana:</span><span class="details-value">${o.date}</span></div>
-                        <div class="details-row"><span class="details-label">Sotuvchi:</span><span class="details-value">${seller.name}</span></div>
-                        <div class="details-row"><span class="details-label">Xaridor:</span><span class="details-value">${buyer.name}</span></div>
-                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(o.status)}</span></div>
-                        <div class="details-row"><span class="details-label">Jami summa:</span><span class="details-value text-primary font-bold text-lg">${formatMoney(o.total)}</span></div>
+                    <div class="details-list mb-4" style="margin-bottom:1.25rem;">
+                        <div class="details-row"><span class="details-label"><i class="ri-calendar-line"></i> Sana</span><span class="details-value">${o.date}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-store-line"></i> Sotuvchi</span><span class="details-value">${seller.name}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-shopping-bag-line"></i> Xaridor</span><span class="details-value">${buyer.name}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-flag-line"></i> Holati</span><span class="details-value">${getStatusBadge(o.status)}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-money-dollar-circle-line"></i> Jami</span><span class="details-value" style="color:var(--primary); font-weight:700; font-size:1.125rem;">${formatMoney(o.total)}</span></div>
                     </div>
-                    <h4 class="mb-2">Mahsulotlar ro'yxati:</h4>
+                    <h4 style="font-size:0.875rem; margin-bottom:0.625rem;">Mahsulotlar:</h4>
                     ${itemsHtml}
                     ${o.status === 'pending_sign' ? `
-                        <div class="mt-4 p-3 rounded" style="background:#fffbeb; border:1px solid #fde68a;">
-                            <i class="ri-information-line text-warning"></i> <b>Diqqat:</b> Ushbu buyurtma tomonlar E-IMZO orqali tasdiqlashini kutmoqda.
+                        <div style="background:var(--warning-light); border:1px solid #fde68a; border-radius:10px; padding:0.875rem; margin-top:0.75rem; display:flex; align-items:center; gap:0.5rem;">
+                            <i class="ri-information-line" style="color:var(--warning);font-size:1.25rem;flex-shrink:0;"></i>
+                            <span class="text-sm">Ushbu buyurtma tomonlar E-IMZO orqali tasdiqlashini kutmoqda.</span>
                         </div>
                     ` : ''}
                 `;
 
                 let actionBtn = '';
                 if(o.status === 'pending_sign') {
-                    if(STATE.currentUser.role === 'seller' && !o.signedBySeller) {
-                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'seller')"><i class="ri-markup-line"></i> Imzolash (Seller)</button>`;
-                    } else if(STATE.currentUser.role === 'buyer' && !o.signedByBuyer) {
-                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'buyer')"><i class="ri-markup-line"></i> Imzolash (Buyer)</button>`;
-                    }
+                    if(STATE.currentUser.role === 'seller' && !o.signedBySeller)
+                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'seller')"><i class="ri-markup-line"></i> Imzolash</button>`;
+                    else if(STATE.currentUser.role === 'buyer' && !o.signedByBuyer)
+                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'buyer')"><i class="ri-markup-line"></i> Imzolash</button>`;
                 } else if(o.status === 'active' && STATE.currentUser.role === 'buyer') {
-                    actionBtn = `<button class="btn btn-success" onclick="showToast('Mahsulot xaridorga sotilgani qayd etildi'); closeModal('detailsModal')"><i class="ri-checkbox-circle-line"></i> Sotildi deb belgilash</button>`;
+                    actionBtn = `<button class="btn btn-success" onclick="showToast('Sotildi deb belgilandi'); closeModal('detailsModal')"><i class="ri-checkbox-circle-line"></i> Sotildi</button>`;
                 }
 
-                footerEl.innerHTML = `
-                    <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
-                    ${actionBtn}
-                `;
+                footerEl.innerHTML = `<button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button> ${actionBtn}`;
             }
 
             openModal('detailsModal');
         }
 
-        /* =========================================
-           6. VIEWS: ADMIN
-           ========================================= */
+        /* ADMIN VIEWS */
         function renderAdminDash(container) {
             const activeOrders = MOCK_DB.orders.filter(o=>o.status==='active').length;
             const totalComm = MOCK_DB.orders.reduce((sum,o)=>sum+o.comm,0);
             
-            const stats = `
+            container.innerHTML = `
                 <div class="grid-cards mb-6">
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-group-line text-info"></i> Jami Foydalanuvchilar</div><div class="text-lg font-bold mt-2">${MOCK_DB.users.length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-file-list-3-line text-success"></i> Faol Buyurtmalar</div><div class="text-lg font-bold mt-2">${activeOrders} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-money-dollar-circle-line text-primary"></i> Jami Komissiya</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(totalComm)}</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-error-warning-line text-danger"></i> Kechikkan Hisobotlar</div><div class="text-lg font-bold mt-2 text-danger">${MOCK_DB.reports.filter(r=>r.status==='overdue').length} ta</div></div>
+                    <div class="card stat-card animate-in">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon info"><i class="ri-group-line"></i></div>
+                            <div>
+                                <div class="text-xs text-muted">Jami Foydalanuvchilar</div>
+                                <div class="font-bold" style="font-size:1.375rem; margin-top:0.125rem;">${MOCK_DB.users.length}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.05s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon success"><i class="ri-file-list-3-line"></i></div>
+                            <div>
+                                <div class="text-xs text-muted">Faol Buyurtmalar</div>
+                                <div class="font-bold" style="font-size:1.375rem; margin-top:0.125rem;">${activeOrders}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.1s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon primary"><i class="ri-money-dollar-circle-line"></i></div>
+                            <div>
+                                <div class="text-xs text-muted">Jami Komissiya</div>
+                                <div class="font-bold" style="font-size:1.125rem; margin-top:0.125rem; color:var(--primary);">${formatMoney(totalComm)}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.15s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon danger"><i class="ri-alarm-warning-line"></i></div>
+                            <div>
+                                <div class="text-xs text-muted">Kechikkan Hisobotlar</div>
+                                <div class="font-bold" style="font-size:1.375rem; margin-top:0.125rem; color:var(--danger);">${MOCK_DB.reports.filter(r=>r.status==='overdue').length}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="grid-cards mb-6" style="grid-template-columns: 2fr 1fr;">
-                    <div class="card">
-                        <h3 class="mb-4">Oylik aylanma va komissiya (mln UZS)</h3>
-                        <canvas id="chart-sales" style="max-height: 250px;"></canvas>
-                    </div>
-                    <div class="card">
-                        <h3 class="mb-4 text-center">Komissiya holati</h3>
-                        <canvas id="chart-comm" style="max-height: 250px;"></canvas>
-                    </div>
+                    <div class="card"><h3 class="mb-4" style="font-size:0.9375rem;">Oylik aylanma va komissiya</h3><canvas id="chart-sales" style="max-height:220px;"></canvas></div>
+                    <div class="card"><h3 class="mb-4 text-center" style="font-size:0.9375rem;">Komissiya holati</h3><canvas id="chart-comm" style="max-height:220px;"></canvas></div>
                 </div>
-                <div class="card">
-                    <h3 class="mb-4">Foto hisobotlar statistikasi</h3>
-                    <canvas id="chart-reports" style="max-height: 200px;"></canvas>
-                </div>
+                <div class="card"><h3 class="mb-4" style="font-size:0.9375rem;">Foto hisobotlar statistikasi</h3><canvas id="chart-reports" style="max-height:180px;"></canvas></div>
             `;
-            container.innerHTML = stats;
 
-            // Render Charts (destroy old instances first)
             setTimeout(() => {
                 ['sales', 'comm', 'reports'].forEach(c => { if(STATE.charts[c]) STATE.charts[c].destroy(); });
 
+                const chartFont = { family: 'Poppins', size: 12 };
                 STATE.charts.sales = new Chart(document.getElementById('chart-sales'), {
                     type: 'bar',
                     data: { 
-                        labels: ['May', 'Iyun', 'Iyul', 'Avgust', 'Sentyabr', 'Oktyabr'], 
+                        labels: ['May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt'], 
                         datasets: [
-                            { label: 'Sotuvlar aylanmasi', data: [12, 19, 15, 25, 22, 30], backgroundColor: '#e0f2fe', borderColor: '#3b82f6', borderWidth:1 },
-                            { label: 'Platforma komissiyasi', data: [0.6, 0.95, 0.75, 1.25, 1.1, 1.5], backgroundColor: '#0d9488' }
+                            { label: 'Sotuvlar', data: [12, 19, 15, 25, 22, 30], backgroundColor: 'rgba(59,130,246,0.15)', borderColor: '#3b82f6', borderWidth: 2, borderRadius: 6 },
+                            { label: 'Komissiya', data: [0.6, 0.95, 0.75, 1.25, 1.1, 1.5], backgroundColor: 'rgba(13,148,136,0.8)', borderRadius: 6 }
                         ] 
                     },
-                    options: { maintainAspectRatio: false }
+                    options: { maintainAspectRatio: false, plugins: { legend: { labels: { font: chartFont } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: '#f3f4f6' } } } }
                 });
                 
                 STATE.charts.comm = new Chart(document.getElementById('chart-comm'), {
                     type: 'doughnut',
-                    data: { labels: ['To\'langan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [60, 30, 10], backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'] }] },
-                    options: { maintainAspectRatio: false, cutout: '70%' }
+                    data: { labels: ['To\'langan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [60, 30, 10], backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'], borderWidth: 0 }] },
+                    options: { maintainAspectRatio: false, cutout: '72%', plugins: { legend: { position: 'bottom', labels: { font: chartFont, padding: 12 } } } }
                 });
 
                 STATE.charts.reports = new Chart(document.getElementById('chart-reports'), {
                     type: 'pie',
-                    data: { labels: ['Bajarilgan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [45, 12, 5], backgroundColor: ['#22c55e', '#fde68a', '#ef4444'] }] },
-                    options: { maintainAspectRatio: false }
+                    data: { labels: ['Bajarilgan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [45, 12, 5], backgroundColor: ['#22c55e', '#fde68a', '#ef4444'], borderWidth: 0 }] },
+                    options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: chartFont, padding: 12 } } } }
                 });
             }, 100);
         }
 
         function renderAdminUsers(container) {
-            const rows = MOCK_DB.users.map(u => `
+            STATE.userSearch = STATE.userSearch || '';
+            STATE.userRoleFilter = STATE.userRoleFilter || 'all';
+
+            const filtered = MOCK_DB.users.filter(u => {
+                const matchesSearch = !STATE.userSearch || 
+                    u.name.toLowerCase().includes(STATE.userSearch.toLowerCase()) ||
+                    u.inn.includes(STATE.userSearch) ||
+                    u.phone.includes(STATE.userSearch);
+                const matchesRole = STATE.userRoleFilter === 'all' || u.role === STATE.userRoleFilter;
+                return matchesSearch && matchesRole;
+            });
+
+            const rows = filtered.map(u => `
                 <tr>
-                    <td><b>${u.name}</b><br><span class="text-xs text-muted hide-sm">INN: ${u.inn}</span></td>
-                    <td class="hide-sm"><span class="badge badge-info">${u.role.toUpperCase()}</span></td>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="user-avatar" style="width:34px;height:34px;font-size:0.75rem;border-radius:8px;flex-shrink:0;">${u.name.charAt(0)}</div>
+                            <div style="min-width:0;">
+                                <div class="font-semibold text-sm" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${u.name}</div>
+                                <div class="text-xs text-muted hide-sm">INN: ${u.inn}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="hide-sm"><span class="badge badge-info">${u.role === 'admin' ? 'ADMIN' : u.role === 'seller' ? 'SOTUVCHI' : 'XARIDOR'}</span></td>
+                    <td class="hide-sm text-sm">${u.phone}</td>
                     <td>${getStatusBadge(u.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish">
-                            <i class="ri-eye-line"></i>
-                        </button>
+                        <div class="flex gap-2">
+                            <button class="btn-icon btn-ghost" onclick="openDetails('user', ${u.id})" title="Ko'rish" style="color:var(--info);">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                            ${u.id !== 1 ? `<button class="btn-icon btn-ghost" onclick="toggleUserStatus(${u.id})" title="${u.status==='active'?'Bloklash':'Blokdan chiqarish'}" style="color:${u.status==='active'?'var(--danger)':'var(--success)'};">
+                                <i class="ri-${u.status==='active'?'forbid-2':'checkbox-circle'}-line"></i>
+                            </button>` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
+
             container.innerHTML = `
-                <div class="card">
-                    <h3 class="mb-4">Tizimdagi kompaniyalar</h3>
-                    <div class="table-responsive"><table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div>
+                <div class="card animate-in">
+                    <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+                        <h3 style="font-size:1rem;">Foydalanuvchilar <span class="text-muted text-sm font-normal">(${filtered.length})</span></h3>
+                    </div>
+                    <div class="search-bar mb-4">
+                        <div class="search-input-wrap">
+                            <i class="ri-search-line"></i>
+                            <input type="text" placeholder="Qidirish: nom, INN, telefon..." value="${STATE.userSearch}" oninput="STATE.userSearch=this.value; renderAdminUsers(document.getElementById('view-area'))">
+                        </div>
+                        <div class="filter-chips">
+                            <button class="filter-chip ${STATE.userRoleFilter==='all'?'active':''}" onclick="STATE.userRoleFilter='all'; renderAdminUsers(document.getElementById('view-area'))">Barchasi</button>
+                            <button class="filter-chip ${STATE.userRoleFilter==='admin'?'active':''}" onclick="STATE.userRoleFilter='admin'; renderAdminUsers(document.getElementById('view-area'))">Admin</button>
+                            <button class="filter-chip ${STATE.userRoleFilter==='seller'?'active':''}" onclick="STATE.userRoleFilter='seller'; renderAdminUsers(document.getElementById('view-area'))">Sotuvchi</button>
+                            <button class="filter-chip ${STATE.userRoleFilter==='buyer'?'active':''}" onclick="STATE.userRoleFilter='buyer'; renderAdminUsers(document.getElementById('view-area'))">Xaridor</button>
+                        </div>
+                    </div>
+                    ${filtered.length === 0 ? `
+                        <div class="empty-state">
+                            <i class="ri-user-search-line" style="display:block;"></i>
+                            <h3 class="text-muted" style="font-size:1rem;">Foydalanuvchi topilmadi</h3>
+                            <p class="text-sm text-muted mt-2">Qidiruv so'rovingizni o'zgartiring</p>
+                        </div>
+                    ` : `
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th class="hide-sm">Telefon</th><th>Holat</th><th>Amal</th></tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>`}
                 </div>`;
         }
 
         function toggleUserStatus(id) {
             const user = MOCK_DB.users.find(u => u.id === id);
-            user.status = user.status === 'active' ? 'blocked' : 'active';
-            showToast(`Holat o'zgardi: ${user.status}`);
+            const newStatus = user.status === 'active' ? 'blocked' : 'active';
+            user.status = newStatus;
+            showToast(newStatus === 'blocked' ? `${user.name} bloklandi` : `${user.name} faollashtirildi`, newStatus === 'blocked' ? 'warning' : 'success');
             closeModal('detailsModal');
             renderAdminUsers(document.getElementById('view-area'));
         }
@@ -771,62 +1550,151 @@
         function renderAdminOrders(container) {
             const rows = MOCK_DB.orders.map(o => `
                 <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td class="hide-sm">${getUserById(o.sellerId).name} <br> <span class="text-xs text-muted">→ ${getUserById(o.buyerId).name}</span></td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
+                    <td><span class="font-semibold">#${o.id}</span></td>
+                    <td class="hide-sm">
+                        <div class="text-sm">${getUserById(o.sellerId).name}</div>
+                        <div class="text-xs text-muted"><i class="ri-arrow-right-s-line"></i> ${getUserById(o.buyerId).name}</div>
+                    </td>
+                    <td class="font-semibold hide-sm" style="color:var(--primary);">${formatMoney(o.total)}</td>
                     <td>${getStatusBadge(o.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
-                            <i class="ri-eye-line"></i>
-                        </button>
+                        <button class="btn-icon btn-ghost" onclick="openDetails('order', ${o.id})" style="color:var(--info);"><i class="ri-eye-line"></i></button>
                     </td>
                 </tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Barcha buyurtmalar</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th class="hide-sm">Sotuvchi -> Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `<div class="card animate-in"><div class="flex justify-between items-center mb-4"><h3 style="font-size:1rem;">Barcha buyurtmalar</h3><span class="badge badge-info">${MOCK_DB.orders.length} ta</span></div><div class="table-responsive"><table><thead><tr><th>ID</th><th class="hide-sm">Sotuvchi → Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         function renderAdminComm(container) {
+            const totalPaid = MOCK_DB.orders.filter(o=>o.commStatus==='paid').reduce((s,o)=>s+o.comm,0);
+            const totalPending = MOCK_DB.orders.filter(o=>o.commStatus==='pending').reduce((s,o)=>s+o.comm,0);
             const rows = MOCK_DB.orders.map(o => `
                 <tr>
-                    <td>${getUserById(o.sellerId).name}</td>
-                    <td class="hide-sm">#${o.id}</td>
-                    <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
+                    <td class="text-sm font-semibold">${getUserById(o.sellerId).name}</td>
+                    <td class="hide-sm text-sm">#${o.id}</td>
+                    <td class="font-bold" style="color:var(--primary);">${formatMoney(o.comm)}</td>
                     <td>${getStatusBadge(o.commStatus)}</td>
                 </tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Komissiya reyestri (5%)</h3><div class="table-responsive"><table><thead><tr><th>Sotuvchi</th><th class="hide-sm">Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `
+                <div class="grid-cards mb-6" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+                    <div class="card stat-card animate-in">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon success"><i class="ri-money-dollar-circle-line"></i></div>
+                            <div><div class="text-xs text-muted">To'langan</div><div class="font-bold" style="color:var(--success);">${formatMoney(totalPaid)}</div></div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.05s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon warning"><i class="ri-time-line"></i></div>
+                            <div><div class="text-xs text-muted">Kutilmoqda</div><div class="font-bold" style="color:var(--warning);">${formatMoney(totalPending)}</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card animate-in"><h3 class="mb-4" style="font-size:1rem;">Komissiya reyestri (5%)</h3><div class="table-responsive"><table><thead><tr><th>Sotuvchi</th><th class="hide-sm">Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
         
         function renderAdminReports(container) {
-            const rows = MOCK_DB.reports.map(r => `
-                <tr>
-                    <td>#${r.orderId}</td>
-                    <td class="hide-sm">${getProdById(r.prodId).name}</td>
-                    <td>${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Nazoratdagi Foto Hisobotlar</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Mahsulot</th><th>Muddat</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            const overdueCount = MOCK_DB.reports.filter(r => r.status === 'overdue').length;
+            const doneCount = MOCK_DB.reports.filter(r => r.status === 'done').length;
+            const pendingCount = MOCK_DB.reports.filter(r => r.status === 'pending').length;
+
+            const reportCards = MOCK_DB.reports.map(r => {
+                const prod = getProdById(r.prodId);
+                const order = MOCK_DB.orders.find(o => o.id === r.orderId);
+                const buyer = order ? getUserById(order.buyerId) : {name: '-'};
+                const statusColors = { overdue: 'danger', done: 'success', pending: 'warning' };
+                const statusIcons = { overdue: 'ri-alarm-warning-line', done: 'ri-checkbox-circle-line', pending: 'ri-time-line' };
+                
+                return `
+                <div class="report-card animate-in">
+                    <div class="report-card-header">
+                        <div class="flex items-center gap-3" style="min-width:0;">
+                            <div class="stat-icon ${statusColors[r.status]}" style="width:40px;height:40px;border-radius:10px;flex-shrink:0;">
+                                <i class="${statusIcons[r.status]}"></i>
+                            </div>
+                            <div style="min-width:0;">
+                                <div class="font-semibold text-sm" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${prod.name}</div>
+                                <div class="text-xs text-muted">Buyurtma #${r.orderId} · ${buyer.name}</div>
+                            </div>
+                        </div>
+                        ${getStatusBadge(r.status)}
+                    </div>
+                    <div class="report-card-body">
+                        <div class="flex justify-between text-sm" style="margin-bottom:0.5rem;">
+                            <span class="text-muted"><i class="ri-calendar-line"></i> Muddat:</span>
+                            <span class="font-semibold ${r.status==='overdue'?'text-danger':''}" style="${r.status==='overdue'?'color:var(--danger)':''}">${r.dueDate}</span>
+                        </div>
+                        ${r.photos && r.photos.length > 0 ? `
+                            <div class="report-preview-grid">
+                                ${r.photos.map(() => `<div class="report-preview-item"><i class="ri-image-line"></i></div>`).join('')}
+                            </div>
+                        ` : `<div class="text-xs text-muted" style="background:#f9fafb; padding:0.5rem; border-radius:6px; text-align:center;"><i class="ri-image-line"></i> Rasm yuklanmagan</div>`}
+                    </div>
+                </div>`;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="grid-cards mb-6" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                    <div class="card stat-card animate-in">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon success"><i class="ri-checkbox-circle-line"></i></div>
+                            <div><div class="text-xs text-muted">Bajarilgan</div><div class="font-bold" style="font-size:1.375rem;">${doneCount}</div></div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.05s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon warning"><i class="ri-time-line"></i></div>
+                            <div><div class="text-xs text-muted">Kutilmoqda</div><div class="font-bold" style="font-size:1.375rem;">${pendingCount}</div></div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.1s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon danger"><i class="ri-alarm-warning-line"></i></div>
+                            <div><div class="text-xs text-muted">Kechikkan</div><div class="font-bold" style="font-size:1.375rem; color:var(--danger);">${overdueCount}</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 style="font-size:1rem;">Nazoratdagi hisobotlar</h3>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:1rem;">
+                    ${reportCards}
+                </div>
+            `;
         }
 
-        /* =========================================
-           7. VIEWS: SELLER
-           ========================================= */
+        /* SELLER VIEWS */
         function renderSellerDash(container) {
             const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
             const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
             container.innerHTML = `
                 <div class="grid-cards mb-6">
-                    <div class="card"><div class="text-muted text-sm">Mening mahsulotlarim</div><div class="text-lg font-bold mt-2">${myProds.length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm">Faol Buyurtmalar</div><div class="text-lg font-bold mt-2 text-success">${myOrders.filter(o=>o.status==='active').length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm">Umumiy Sotuv Summasi</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(myOrders.reduce((s,o)=>s+o.total,0))}</div></div>
+                    <div class="card stat-card animate-in">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon primary"><i class="ri-function-line"></i></div>
+                            <div><div class="text-xs text-muted">Mahsulotlarim</div><div class="font-bold" style="font-size:1.375rem;">${myProds.length}</div></div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.05s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon success"><i class="ri-shopping-bag-3-line"></i></div>
+                            <div><div class="text-xs text-muted">Faol Buyurtmalar</div><div class="font-bold" style="font-size:1.375rem;">${myOrders.filter(o=>o.status==='active').length}</div></div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.1s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon info"><i class="ri-wallet-3-line"></i></div>
+                            <div><div class="text-xs text-muted">Umumiy Sotuv</div><div class="font-bold" style="font-size:1rem; color:var(--primary);">${formatMoney(myOrders.reduce((s,o)=>s+o.total,0))}</div></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card">
-                    <h3 class="mb-4">So'nggi buyurtmalar</h3>
+                <div class="card animate-in">
+                    <h3 class="mb-4" style="font-size:1rem;">So'nggi buyurtmalar</h3>
                     <div class="table-responsive">
                         <table>
                             <thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead>
-                            <tbody>${myOrders.slice(0,3).map(o=>`<tr><td><b>#${o.id}</b></td><td>${getUserById(o.buyerId).name}</td><td class="hide-sm">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td><td class="action-cell"><button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td></tr>`).join('')}</tbody>
+                            <tbody>${myOrders.slice(0,3).map(o=>`<tr><td><span class="font-semibold">#${o.id}</span></td><td class="text-sm">${getUserById(o.buyerId).name}</td><td class="hide-sm font-semibold" style="color:var(--primary);">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td><td class="action-cell"><button class="btn-icon btn-ghost" onclick="openDetails('order', ${o.id})" style="color:var(--info);"><i class="ri-eye-line"></i></button></td></tr>`).join('')}</tbody>
                         </table>
                     </div>
                 </div>
@@ -836,36 +1704,38 @@
         function renderSellerCatalog(container) {
             const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
             const cards = myProds.map(p => `
-                <div class="product-card">
+                <div class="product-card animate-in">
                     <div class="product-img"><i class="${p.img}"></i></div>
                     <div class="product-info">
-                        <div class="text-xs text-muted mb-1 flex justify-between"><span>SKU: ${p.sku}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
-                        <div class="font-bold text-lg mb-2">${p.name}</div>
-                        <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
-                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
+                        <div class="flex justify-between items-center mb-2" style="margin-bottom:0.375rem;">
+                            <span class="text-xs text-muted">SKU: ${p.sku}</span>
+                            <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span>
+                        </div>
+                        <div class="font-semibold" style="font-size:0.9375rem; margin-bottom:0.375rem;">${p.name}</div>
+                        <div class="font-bold" style="font-size:1.125rem; color:var(--primary); margin-bottom:0.625rem;">${formatMoney(p.price)}</div>
+                        <div class="text-xs text-muted flex flex-col gap-1" style="gap:0.25rem; margin-bottom:0.75rem;">
                             <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
                             <span><i class="ri-camera-line"></i> Foto hisobot: Har ${p.photoDays} kun</span>
                         </div>
-                        <div class="mt-auto flex gap-2">
-                            <button class="btn btn-outline w-full"><i class="ri-edit-line"></i> Tahrir</button>
-                        </div>
+                        <button class="btn btn-outline w-full mt-auto" style="margin-top:auto; font-size:0.8125rem;"><i class="ri-edit-line"></i> Tahrir</button>
                     </div>
                 </div>
             `).join('');
 
             container.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h3>Katalogim</h3>
-                    <button class="btn btn-primary" onclick="openModal('addProdModal')"><i class="ri-add-line"></i> Yangi Qo'shish</button>
+                <div class="flex justify-between items-center mb-6" style="margin-bottom:1.25rem;">
+                    <h3 style="font-size:1rem;">Katalogim <span class="text-muted text-sm font-normal">(${myProds.length})</span></h3>
+                    <button class="btn btn-primary" onclick="openModal('addProdModal')"><i class="ri-add-line"></i> <span class="hide-sm-inline">Yangi</span> Qo'shish</button>
                 </div>
                 <div class="grid-products">${cards}</div>
             `;
         }
 
         function togglePrepayFields() {
-            const model = document.getElementById('p-model').value;
+            const modelSelect = document.getElementById('model-select');
             const prepayDiv = document.getElementById('prepay-fields');
-            if (model === 'prepayment') prepayDiv.classList.remove('hidden');
+            if(!modelSelect || !prepayDiv) return;
+            if (modelSelect.dataset.value === 'prepayment') prepayDiv.classList.remove('hidden');
             else prepayDiv.classList.add('hidden');
         }
 
@@ -879,60 +1749,60 @@
             const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
             const rows = myOrders.map(o => `
                 <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td>${getUserById(o.buyerId).name}</td>
-                    <td class="hide-sm">${o.date}</td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
+                    <td><span class="font-semibold">#${o.id}</span></td>
+                    <td class="text-sm">${getUserById(o.buyerId).name}</td>
+                    <td class="hide-sm text-sm">${o.date}</td>
+                    <td class="font-semibold hide-sm" style="color:var(--primary);">${formatMoney(o.total)}</td>
                     <td>${getStatusBadge(o.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})" title="Ko'rish va Imzolash">
-                            <i class="ri-eye-line"></i>
-                        </button>
-                    </td>
+                    <td class="action-cell"><button class="btn-icon btn-ghost" onclick="openDetails('order', ${o.id})" style="color:var(--info);"><i class="ri-eye-line"></i></button></td>
                 </tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Sotuvlar (Buyurtmalar)</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `<div class="card animate-in"><h3 class="mb-4" style="font-size:1rem;">Sotuvlar (Buyurtmalar)</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         function renderSellerFinance(container) {
             const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
             const rows = myOrders.map(o => `
                 <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td class="hide-sm">${formatMoney(o.total)}</td>
-                    <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
+                    <td class="text-sm"><span class="font-semibold">#${o.id}</span></td>
+                    <td class="hide-sm text-sm">${formatMoney(o.total)}</td>
+                    <td class="font-bold" style="color:var(--primary);">${formatMoney(o.comm)}</td>
                     <td>${getStatusBadge(o.commStatus)}</td>
                     <td class="action-cell">
-                        ${o.commStatus === 'pending' ? `<button class="btn btn-primary text-sm" onclick="showToast('To\\'lov tizimiga o\\'tilmoqda...')">To'lash</button>` : '-'}
+                        ${o.commStatus === 'pending' ? `<button class="btn btn-primary" style="font-size:0.75rem;padding:0.375rem 0.75rem;" onclick="showToast('To\\'lov tizimiga o\\'tilmoqda...')"><i class="ri-bank-card-line"></i> To'lash</button>` : '<span class="text-muted text-xs">—</span>'}
                     </td>
                 </tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Moliya va Komissiya to'lovlari</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Baza Summa</th><th>Komissiya (5%)</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `<div class="card animate-in"><h3 class="mb-4" style="font-size:1rem;">Moliya va Komissiya</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Baza Summa</th><th>Komissiya</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
-        /* =========================================
-           8. VIEWS: BUYER (DEALER)
-           ========================================= */
+        /* BUYER VIEWS */
         function renderBuyerVitrina(container) {
             const cards = MOCK_DB.products.map(p => `
-                <div class="product-card">
+                <div class="product-card animate-in">
                     <div class="product-img"><i class="${p.img}"></i></div>
                     <div class="product-info">
-                        <div class="text-xs text-muted mb-1 flex justify-between"><span>${getUserById(p.sellerId).name}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
-                        <div class="font-bold text-lg mb-2">${p.name}</div>
-                        <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
-                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
-                            <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
+                        <div class="flex justify-between items-center" style="margin-bottom:0.375rem;">
+                            <span class="text-xs text-muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${getUserById(p.sellerId).name}</span>
+                            <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span>
                         </div>
-                        <button class="btn btn-primary w-full mt-auto" onclick="addToCart(${p.id})"><i class="ri-shopping-cart-2-line"></i> Savatga qo'shish</button>
+                        <div class="font-semibold" style="font-size:0.9375rem; margin-bottom:0.375rem;">${p.name}</div>
+                        <div class="font-bold" style="font-size:1.125rem; color:var(--primary); margin-bottom:0.5rem;">${formatMoney(p.price)}</div>
+                        <div class="text-xs text-muted" style="margin-bottom:0.75rem;">
+                            <i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun
+                        </div>
+                        <button class="btn btn-primary w-full" style="margin-top:auto; font-size:0.8125rem;" onclick="addToCart(${p.id})"><i class="ri-shopping-cart-2-line"></i> Savatga</button>
                     </div>
                 </div>
             `).join('');
 
             container.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h3>Barcha mahsulotlar vitrinasi</h3>
-                    <div class="badge badge-pending px-3 py-2 text-sm cursor-pointer" onclick="navigate('buyer-cart', null)" style="font-size:1rem; cursor:pointer;"><i class="ri-shopping-cart-line"></i> <span id="cart-count">${MOCK_DB.cart.length}</span></div>
+                <div class="flex justify-between items-center mb-6" style="margin-bottom:1.25rem;">
+                    <h3 style="font-size:1rem;">Barcha mahsulotlar</h3>
+                    <button class="btn btn-outline" onclick="navigate('buyer-cart', document.querySelectorAll('.menu-item')[1])" style="position:relative;">
+                        <i class="ri-shopping-cart-line"></i> Savat
+                        <span class="badge badge-pending" style="position:absolute;top:-6px;right:-6px;padding:0.125rem 0.375rem;font-size:0.625rem;min-width:18px;" id="cart-count">${MOCK_DB.cart.length}</span>
+                    </button>
                 </div>
                 <div class="grid-products">${cards}</div>
             `;
@@ -947,7 +1817,12 @@
 
         function renderBuyerCart(container) {
             if(MOCK_DB.cart.length === 0) {
-                container.innerHTML = `<div class="card text-center p-6 py-12"><i class="ri-shopping-cart-line text-muted" style="font-size:4rem"></i><h3 class="mt-4 text-muted">Savatingiz bo'sh</h3><button class="btn btn-primary mt-4" onclick="navigate('buyer-vitrina', document.querySelectorAll('.menu-item')[0])">Xaridni boshlash</button></div>`;
+                container.innerHTML = `<div class="card empty-state animate-in">
+                    <i class="ri-shopping-cart-line" style="display:block;"></i>
+                    <h3 class="text-muted" style="font-size:1.0625rem;">Savatingiz bo'sh</h3>
+                    <p class="text-sm text-muted mt-2">Mahsulotlar vitrinasidan tanlang</p>
+                    <button class="btn btn-primary mt-4" onclick="navigate('buyer-vitrina', document.querySelectorAll('.menu-item')[0])"><i class="ri-store-2-line"></i> Xaridni boshlash</button>
+                </div>`;
                 return;
             }
 
@@ -956,28 +1831,39 @@
                 const p = getProdById(item.prodId);
                 total += p.price * item.qty;
                 return `<tr>
-                    <td><b>${p.name}</b><br><span class="text-xs text-muted hide-sm">${getUserById(p.sellerId).name}</span></td>
                     <td>
-                        <div class="flex items-center gap-2">
-                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, -1)"><i class="ri-subtract-line"></i></button>
-                            <span class="w-8 text-center">${item.qty}</span>
-                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, 1)"><i class="ri-add-line"></i></button>
+                        <div class="flex items-center gap-3">
+                            <div style="width:40px;height:40px;border-radius:8px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="${p.img}" style="font-size:1.125rem;color:#64748b;"></i></div>
+                            <div style="min-width:0;">
+                                <div class="font-semibold text-sm">${p.name}</div>
+                                <div class="text-xs text-muted hide-sm">${getUserById(p.sellerId).name}</div>
+                            </div>
                         </div>
                     </td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(p.price * item.qty)}</td>
-                    <td class="action-cell"><button class="btn btn-danger btn-icon" onclick="removeFromCart(${idx})"><i class="ri-delete-bin-line"></i></button></td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <button class="btn-icon btn-outline" style="padding:0.25rem;width:28px;height:28px;border-radius:6px;" onclick="updateCart(${idx}, -1)"><i class="ri-subtract-line"></i></button>
+                            <span style="min-width:24px;text-align:center;font-weight:600;">${item.qty}</span>
+                            <button class="btn-icon btn-outline" style="padding:0.25rem;width:28px;height:28px;border-radius:6px;" onclick="updateCart(${idx}, 1)"><i class="ri-add-line"></i></button>
+                        </div>
+                    </td>
+                    <td class="font-semibold hide-sm" style="color:var(--primary);">${formatMoney(p.price * item.qty)}</td>
+                    <td class="action-cell"><button class="btn-icon btn-ghost" style="color:var(--danger);" onclick="removeFromCart(${idx})"><i class="ri-delete-bin-line"></i></button></td>
                 </tr>`;
             }).join('');
 
             container.innerHTML = `
-                <div class="card mb-6">
-                    <h3 class="mb-4">Savatdagi mahsulotlar</h3>
+                <div class="card mb-6 animate-in">
+                    <h3 class="mb-4" style="font-size:1rem;">Savatdagi mahsulotlar <span class="text-muted text-sm font-normal">(${MOCK_DB.cart.length})</span></h3>
                     <div class="table-responsive">
-                        <table><thead><tr><th>Mahsulot</th><th>Miqdor</th><th class="hide-sm">Jami</th><th>O'chirish</th></tr></thead><tbody>${rows}</tbody></table>
+                        <table><thead><tr><th>Mahsulot</th><th>Miqdor</th><th class="hide-sm">Jami</th><th></th></tr></thead><tbody>${rows}</tbody></table>
                     </div>
-                    <div class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-4 gap-4" style="border-top:1px solid var(--border)">
-                        <div class="text-lg">Jami to'lov: <span class="font-bold text-primary text-xl">${formatMoney(total)}</span></div>
-                        <button class="btn btn-success w-full sm:w-auto" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtmani rasmiylashtirish</button>
+                    <div style="border-top:1.5px solid var(--border); margin-top:1rem; padding-top:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+                        <div>
+                            <span class="text-sm text-muted">Jami to'lov:</span>
+                            <span class="font-bold" style="font-size:1.25rem; color:var(--primary); margin-left:0.5rem;">${formatMoney(total)}</span>
+                        </div>
+                        <button class="btn btn-success" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtma berish</button>
                     </div>
                 </div>
             `;
@@ -994,7 +1880,7 @@
         }
 
         function checkout() {
-            showToast("Buyurtma rasmiylashtirildi. Imzolash uchun kutilmoqda...", "success");
+            showToast("Buyurtma rasmiylashtirildi. Imzolash kutilmoqda...", "success");
             MOCK_DB.cart = []; 
             setTimeout(() => navigate('buyer-orders', document.querySelectorAll('.menu-item')[2]), 1500);
         }
@@ -1003,19 +1889,15 @@
             const myOrders = MOCK_DB.orders.filter(o => o.buyerId === STATE.currentUser.id);
             const rows = myOrders.map(o => `
                 <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td>${getUserById(o.sellerId).name}</td>
-                    <td class="hide-sm">${o.date}</td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
+                    <td><span class="font-semibold">#${o.id}</span></td>
+                    <td class="text-sm">${getUserById(o.sellerId).name}</td>
+                    <td class="hide-sm text-sm">${o.date}</td>
+                    <td class="font-semibold hide-sm" style="color:var(--primary);">${formatMoney(o.total)}</td>
                     <td>${getStatusBadge(o.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
-                            <i class="ri-eye-line"></i>
-                        </button>
-                    </td>
+                    <td class="action-cell"><button class="btn-icon btn-ghost" onclick="openDetails('order', ${o.id})" style="color:var(--info);"><i class="ri-eye-line"></i></button></td>
                 </tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Mening Buyurtmalarim</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Sotuvchi</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `<div class="card animate-in"><h3 class="mb-4" style="font-size:1rem;">Mening Buyurtmalarim</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Sotuvchi</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         function renderBuyerReports(container) {
@@ -1024,35 +1906,119 @@
                 return order && order.buyerId === STATE.currentUser.id;
             });
 
-            const rows = myReports.map(r => `
-                <tr>
-                    <td><b>#${r.orderId}</b></td>
-                    <td>${getProdById(r.prodId).name}</td>
-                    <td class="hide-sm text-danger font-bold">${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-primary btn-icon" onclick="showToast('Rasm yuklash oynasi ochilmoqda...')" title="Rasm yuklash">
-                            <i class="ri-upload-cloud-2-line"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card">
-                <h3 class="mb-4">Foto Hisobot Yuklash (Majburiy)</h3>
-                <div class="bg-blue-50 p-3 rounded mb-4 text-sm text-info flex items-center gap-2" style="background:#eff6ff; border:1px solid #bfdbfe;">
-                    <i class="ri-information-line"></i> Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklashingiz shart.
+            const overdueCount = myReports.filter(r => r.status === 'overdue').length;
+            const pendingCount = myReports.filter(r => r.status === 'pending').length;
+            const doneCount = myReports.filter(r => r.status === 'done').length;
+
+            const reportCards = myReports.map(r => {
+                const prod = getProdById(r.prodId);
+                const statusColors = { overdue: 'danger', done: 'success', pending: 'warning' };
+                const statusIcons = { overdue: 'ri-alarm-warning-line', done: 'ri-checkbox-circle-line', pending: 'ri-time-line' };
+                const canUpload = r.status !== 'done';
+                
+                return `
+                <div class="report-card animate-in">
+                    <div class="report-card-header">
+                        <div class="flex items-center gap-3" style="min-width:0;">
+                            <div class="stat-icon ${statusColors[r.status]}" style="width:40px;height:40px;border-radius:10px;flex-shrink:0;">
+                                <i class="${statusIcons[r.status]}"></i>
+                            </div>
+                            <div style="min-width:0;">
+                                <div class="font-semibold text-sm">${prod.name}</div>
+                                <div class="text-xs text-muted">Buyurtma #${r.orderId}</div>
+                            </div>
+                        </div>
+                        ${getStatusBadge(r.status)}
+                    </div>
+                    <div class="report-card-body">
+                        <div class="flex justify-between text-sm mb-2" style="margin-bottom:0.5rem;">
+                            <span class="text-muted"><i class="ri-calendar-line"></i> Muddat:</span>
+                            <span class="font-semibold" style="${r.status==='overdue'?'color:var(--danger)':''}">${r.dueDate}</span>
+                        </div>
+                        ${r.photos && r.photos.length > 0 ? `
+                            <div class="report-preview-grid">
+                                ${r.photos.map(() => `<div class="report-preview-item"><i class="ri-image-line"></i></div>`).join('')}
+                            </div>
+                        ` : ''}
+                        ${canUpload ? `
+                            <button class="btn btn-primary w-full" style="margin-top:0.75rem;font-size:0.8125rem;" onclick="openPhotoUpload(${r.id})">
+                                <i class="ri-upload-cloud-2-line"></i> Rasm yuklash
+                            </button>
+                        ` : `
+                            <div style="text-align:center; padding:0.5rem; background:var(--success-light); border-radius:8px; margin-top:0.5rem;">
+                                <span class="text-xs font-semibold" style="color:var(--success);"><i class="ri-checkbox-circle-fill"></i> Hisobot qabul qilingan</span>
+                            </div>
+                        `}
+                    </div>
+                </div>`;
+            }).join('');
+
+            container.innerHTML = `
+                <div style="background:var(--info-light); border:1px solid #bfdbfe; border-radius:var(--radius); padding:0.875rem 1.25rem; margin-bottom:1.25rem; display:flex; align-items:center; gap:0.75rem;">
+                    <i class="ri-information-line" style="color:var(--info); font-size:1.25rem; flex-shrink:0;"></i>
+                    <span class="text-sm">Shartnoma bo'yicha belgilangan davrda mahsulot rasmini yuklashingiz shart.</span>
                 </div>
-                <div class="table-responsive">
-                    <table><thead><tr><th>Buyurtma</th><th>Mahsulot</th><th class="hide-sm">Muddat</th><th>Holat</th><th>Yuklash</th></tr></thead><tbody>${rows}</tbody></table>
+                <div class="grid-cards mb-6" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+                    <div class="card stat-card animate-in">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon danger"><i class="ri-alarm-warning-line"></i></div>
+                            <div><div class="text-xs text-muted">Kechikkan</div><div class="font-bold" style="font-size:1.25rem; color:var(--danger);">${overdueCount}</div></div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.05s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon warning"><i class="ri-time-line"></i></div>
+                            <div><div class="text-xs text-muted">Kutilmoqda</div><div class="font-bold" style="font-size:1.25rem;">${pendingCount}</div></div>
+                        </div>
+                    </div>
+                    <div class="card stat-card animate-in" style="animation-delay:0.1s;">
+                        <div class="flex items-center gap-3">
+                            <div class="stat-icon success"><i class="ri-checkbox-circle-line"></i></div>
+                            <div><div class="text-xs text-muted">Bajarilgan</div><div class="font-bold" style="font-size:1.25rem;">${doneCount}</div></div>
+                        </div>
+                    </div>
                 </div>
-            </div>`;
+                <div class="flex justify-between items-center mb-4">
+                    <h3 style="font-size:1rem;">Foto hisobotlarim</h3>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem;">
+                    ${reportCards}
+                </div>
+            `;
+        }
+
+        let currentUploadReportId = null;
+        function openPhotoUpload(reportId) {
+            currentUploadReportId = reportId;
+            document.getElementById('photo-preview-grid').innerHTML = '';
+            openModal('photoUploadModal');
+        }
+
+        function simulatePhotoUpload() {
+            const grid = document.getElementById('photo-preview-grid');
+            const icons = ['ri-image-line', 'ri-landscape-line', 'ri-gallery-line'];
+            const icon = icons[Math.floor(Math.random() * icons.length)];
+            grid.innerHTML += `<div class="report-preview-item" style="background:var(--primary-ultra-light);border-color:var(--primary-light);"><i class="${icon}" style="color:var(--primary);"></i></div>`;
+            showToast('Rasm yuklandi', 'success');
+        }
+
+        function submitPhotoReport() {
+            if(currentUploadReportId) {
+                const report = MOCK_DB.reports.find(r => r.id === currentUploadReportId);
+                if(report) {
+                    report.status = 'done';
+                    report.photos = ['uploaded.jpg'];
+                }
+            }
+            showToast("Foto hisobot muvaffaqiyatli yuborildi!", "success");
+            closeModal('photoUploadModal');
+            setTimeout(() => renderBuyerReports(document.getElementById('view-area')), 300);
         }
 
         function signOrder(orderId, role) {
             const order = MOCK_DB.orders.find(o => o.id === orderId);
             if(role === 'seller') order.signedBySeller = true;
             if(role === 'buyer') order.signedByBuyer = true;
-            
             if(order.signedBySeller && order.signedByBuyer) order.status = 'active';
             
             showToast("Hujjat E-IMZO orqali muvaffaqiyatli imzolandi!", "success");
@@ -1065,5 +2031,3 @@
     </script>
 </body>
 </html>
-
-
