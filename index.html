@@ -1,191 +1,958 @@
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Diller UZ - B2B Platforma</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
         :root {
             --primary: #0d9488;
+            --primary-light: #ccfbf1;
             --primary-hover: #0f766e;
-            --bg: #f3f4f6;
+            --primary-dark: #115e59;
+            --bg: #f1f5f9;
             --surface: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
             --danger: #ef4444;
+            --danger-light: #fef2f2;
             --success: #22c55e;
+            --success-light: #f0fdf4;
             --warning: #f59e0b;
+            --warning-light: #fffbeb;
             --info: #3b82f6;
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --sidebar-width: 280px;
+            --info-light: #eff6ff;
+            --radius: 14px;
+            --radius-sm: 10px;
+            --radius-xs: 8px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 40px -10px rgba(0,0,0,0.15);
+            --sidebar-width: 270px;
+            --topbar-height: 68px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); font-size: 14px; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: var(--text-main); font-size: 14px; overflow-x: hidden; line-height: 1.6; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
-        button, input, select, textarea { outline: none; border: none; background: none; font-family: inherit; }
-        button { cursor: pointer; transition: all 0.2s; }
-        
-        /* Utility Classes */
+        button, input, select, textarea { outline: none; border: none; background: none; font-family: inherit; font-size: inherit; }
+        button { cursor: pointer; transition: all 0.2s ease; }
+        ::selection { background: var(--primary-light); color: var(--primary-dark); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
         .flex { display: flex; } .flex-col { display: flex; flex-direction: column; }
+        .flex-wrap { flex-wrap: wrap; }
         .items-center { align-items: center; } .justify-between { justify-content: space-between; } .justify-center { justify-content: center; }
-        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
-        .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
-        .w-full { width: 100%; } .text-center { text-align: center; }
+        .gap-1 { gap: 0.25rem; } .gap-2 { gap: 0.5rem; } .gap-3 { gap: 0.75rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
+        .p-2 { padding: 0.5rem; } .p-3 { padding: 0.75rem; } .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; }
+        .mt-2 { margin-top: 0.5rem; } .mt-3 { margin-top: 0.75rem; } .mt-4 { margin-top: 1rem; } .mt-6 { margin-top: 1.5rem; }
+        .mb-2 { margin-bottom: 0.5rem; } .mb-3 { margin-bottom: 0.75rem; } .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; }
+        .ml-auto { margin-left: auto; }
+        .w-full { width: 100%; } .text-center { text-align: center; } .text-right { text-align: right; }
         .hidden { display: none !important; }
-        
-        /* Typography */
-        h1, h2, h3, h4 { color: var(--text-main); font-weight: 600; }
+        .relative { position: relative; }
+        .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        h1, h2, h3, h4 { color: var(--text-main); font-weight: 600; line-height: 1.3; }
         h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.1rem; }
-        .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.875rem; } .text-lg { font-size: 1.125rem; }
+        .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.8125rem; } .text-xs { font-size: 0.75rem; } .text-lg { font-size: 1.125rem; } .text-xl { font-size: 1.25rem; }
         .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
+        .text-primary { color: var(--primary); } .text-danger { color: var(--danger); } .text-success { color: var(--success); }
 
-        /* UI Elements */
-        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
-        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn-icon { padding: 0.5rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            transition: box-shadow 0.2s;
+        }
+        .card:hover { box-shadow: var(--shadow-md); }
+        .card-flat { box-shadow: none; border: 1px solid var(--border); }
+        .card-flat:hover { box-shadow: none; }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--radius-xs);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .btn-icon {
+            padding: 0.5rem;
+            border-radius: var(--radius-xs);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+        }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
-        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { background: #dc2626; }
-        .btn-success { background: var(--success); color: white; } .btn-warning { background: var(--warning); color: white; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #dc2626; transform: translateY(-1px); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #16a34a; transform: translateY(-1px); }
+        .btn-warning { background: var(--warning); color: white; }
         .btn-info { background: var(--info); color: white; }
-        .btn-outline { border: 1px solid var(--border); color: var(--text-main); } .btn-outline:hover { background: var(--bg); }
-        
-        .input-group { margin-bottom: 1rem; }
-        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-main); font-size: 0.875rem; }
-        .input-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: #f9fafb; transition: border 0.2s; }
-        .input-control:focus { border-color: var(--primary); background: white; }
-        
-        .badge { padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; display: inline-block; }
-        .badge-pending { background: #fef3c7; color: #d97706; }
-        .badge-active { background: #d1fae5; color: #059669; }
-        .badge-danger { background: #fee2e2; color: #dc2626; }
-        .badge-info { background: #dbeafe; color: #2563eb; }
+        .btn-outline { border: 1.5px solid var(--border); color: var(--text-main); background: var(--surface); }
+        .btn-outline:hover { background: var(--bg); border-color: var(--text-light); }
+        .btn-ghost { color: var(--text-muted); }
+        .btn-ghost:hover { background: var(--bg); color: var(--text-main); }
+        .btn-sm { padding: 0.375rem 0.75rem; font-size: 0.8125rem; }
+        .btn-lg { padding: 0.75rem 1.5rem; font-size: 1rem; }
 
-        /* Tables */
-        .table-responsive { overflow-x: auto; width: 100%; }
+        /* Modern Input Styles */
+        .input-group { margin-bottom: 1.125rem; }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.375rem;
+            font-weight: 500;
+            color: var(--text-main);
+            font-size: 0.8125rem;
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper .input-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--text-light);
+            font-size: 1.15rem;
+            z-index: 1;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+        .input-wrapper .input-icon-right {
+            position: absolute;
+            right: 14px;
+            color: var(--text-light);
+            font-size: 1.15rem;
+            z-index: 1;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .input-wrapper .input-icon-right:hover { color: var(--text-muted); }
+        .input-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-xs);
+            background: var(--surface);
+            transition: all 0.2s ease;
+            color: var(--text-main);
+            font-size: 0.875rem;
+        }
+        .input-control::placeholder { color: var(--text-light); }
+        .input-control:hover { border-color: #cbd5e1; }
+        .input-control:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
+        .input-wrapper.has-icon .input-control { padding-left: 42px; }
+        .input-wrapper.has-icon-right .input-control { padding-right: 42px; }
+
+        /* Custom Select Dropdown */
+        .custom-select {
+            position: relative;
+            width: 100%;
+        }
+        .custom-select-trigger {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            padding-right: 40px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-xs);
+            background: var(--surface);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-main);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .custom-select-trigger:hover { border-color: #cbd5e1; }
+        .custom-select-trigger.open { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
+        .custom-select-trigger::after {
+            content: '';
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid var(--text-light);
+            border-bottom: 2px solid var(--text-light);
+            transform: translateY(-65%) rotate(45deg);
+            transition: transform 0.2s;
+        }
+        .custom-select-trigger.open::after {
+            transform: translateY(-35%) rotate(-135deg);
+        }
+        .custom-select-trigger .select-icon { color: var(--text-light); font-size: 1.1rem; }
+        .custom-select-dropdown {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-xs);
+            box-shadow: var(--shadow-lg);
+            z-index: 60;
+            max-height: 240px;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+        }
+        .custom-select-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .custom-select-option {
+            padding: 0.625rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            transition: background 0.15s;
+        }
+        .custom-select-option:hover { background: var(--bg); }
+        .custom-select-option.selected { background: var(--primary-light); color: var(--primary-dark); font-weight: 500; }
+        .custom-select-option .option-icon { font-size: 1.1rem; color: var(--text-muted); }
+        .custom-select-option.selected .option-icon { color: var(--primary); }
+
+        .badge {
+            padding: 0.25rem 0.625rem;
+            border-radius: 20px;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            letter-spacing: 0.02em;
+        }
+        .badge-pending { background: var(--warning-light); color: #b45309; }
+        .badge-active { background: var(--success-light); color: #15803d; }
+        .badge-danger { background: var(--danger-light); color: #dc2626; }
+        .badge-info { background: var(--info-light); color: #2563eb; }
+        .badge-blocked { background: #fef2f2; color: #991b1b; }
+        .badge-lg { padding: 0.375rem 0.875rem; font-size: 0.75rem; }
+
+        .table-responsive { overflow-x: auto; width: 100%; border-radius: var(--radius-xs); }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
-        th { background: #f9fafb; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        tbody tr:nth-child(even) { background: #f9fafb; }
-        tbody tr:hover { background: #f3f4f6; }
+        th, td { padding: 0.875rem 1rem; text-align: left; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+        th { background: var(--bg); font-weight: 600; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        tbody tr { transition: background 0.15s; }
+        tbody tr:hover { background: #f8fafc; }
+        tbody tr:last-child td { border-bottom: none; }
 
-        /* App Layout */
         #app-layout { display: flex; height: 100vh; overflow: hidden; }
-        
-        /* Sidebar */
-        #sidebar { width: var(--sidebar-width); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; transition: transform 0.3s; }
-        .sidebar-header { padding: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--border); }
-        .sidebar-logo { width: 36px; height: 36px; background: var(--primary); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
-        .sidebar-title { font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
-        .sidebar-menu { flex: 1; overflow-y: auto; padding: 1.5rem 0; }
-        .menu-item { padding: 0.8rem 1.5rem; margin: 0.2rem 1rem; border-radius: 8px; display: flex; align-items: center; gap: 1rem; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        .menu-item:hover { background: #f3f4f6; color: var(--primary); }
-        .menu-item.active { background: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4); }
-        .menu-item i { font-size: 1.25rem; }
-        
-        /* Main Content */
-        #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        
-        /* Topbar */
-        #topbar { height: 70px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
-        .user-info { display: flex; align-items: center; gap: 1rem; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); font-size: 1.2rem;}
-        
-        /* View Area */
-        #view-area { flex: 1; overflow-y: auto; padding: 2rem; }
-        
-        /* Bottom Nav (Mobile) */
-        #bottom-nav { display: none; background: var(--surface); box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1); padding: 0.5rem; justify-content: space-around; z-index: 20; border-top: 1px solid var(--border); }
-        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; color: var(--text-muted); padding: 0.5rem; font-size: 0.75rem; flex: 1; }
+
+        #sidebar {
+            width: var(--sidebar-width);
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            z-index: 30;
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        .sidebar-header {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            height: var(--topbar-height);
+        }
+        .sidebar-logo {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .sidebar-title { font-weight: 700; font-size: 1.15rem; color: var(--text-main); }
+        .sidebar-menu { flex: 1; overflow-y: auto; padding: 1rem 0.75rem; }
+        .menu-item {
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.25rem;
+            border-radius: var(--radius-xs);
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+        .menu-item:hover { background: var(--bg); color: var(--primary); }
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            box-shadow: 0 4px 12px rgba(13,148,136,0.3);
+        }
+        .menu-item i { font-size: 1.2rem; width: 24px; text-align: center; }
+
+        #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+        #topbar {
+            height: var(--topbar-height);
+            background: var(--surface);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            z-index: 20;
+            gap: 1rem;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+        .topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+        .user-info { display: flex; align-items: center; gap: 0.75rem; }
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Notification Bell */
+        .notif-bell-wrapper { position: relative; }
+        .notif-bell {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            color: var(--text-muted);
+        }
+        .notif-bell:hover { background: var(--bg); color: var(--text-main); }
+        .notif-bell i { font-size: 1.3rem; }
+        .notif-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 18px;
+            height: 18px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.625rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--surface);
+        }
+        .notif-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: -40px;
+            width: 360px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        .notif-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .notif-dropdown-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notif-dropdown-header h4 { font-size: 0.9375rem; }
+        .notif-list { max-height: 320px; overflow-y: auto; }
+        .notif-item {
+            padding: 0.875rem 1.25rem;
+            display: flex;
+            gap: 0.875rem;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border-light);
+            transition: background 0.15s;
+            cursor: pointer;
+        }
+        .notif-item:hover { background: #f8fafc; }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-item.unread { background: var(--info-light); }
+        .notif-item.unread:hover { background: #e0f2fe; }
+        .notif-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        .notif-icon-wrap.warn { background: var(--warning-light); color: var(--warning); }
+        .notif-icon-wrap.info { background: var(--info-light); color: var(--info); }
+        .notif-icon-wrap.success { background: var(--success-light); color: var(--success); }
+        .notif-icon-wrap.danger { background: var(--danger-light); color: var(--danger); }
+        .notif-text { flex: 1; min-width: 0; }
+        .notif-text p { font-size: 0.8125rem; line-height: 1.4; color: var(--text-main); }
+        .notif-text span { font-size: 0.6875rem; color: var(--text-light); margin-top: 2px; display: block; }
+        .notif-dropdown-footer {
+            padding: 0.75rem 1.25rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .notif-dropdown-footer a {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.8125rem;
+            cursor: pointer;
+        }
+        .notif-dropdown-footer a:hover { text-decoration: underline; }
+
+        #view-area { flex: 1; overflow-y: auto; padding: 1.5rem; }
+
+        #bottom-nav {
+            display: none;
+            background: var(--surface);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            padding: 0.375rem 0.25rem;
+            justify-content: space-around;
+            z-index: 25;
+            border-top: 1px solid var(--border);
+        }
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.125rem;
+            color: var(--text-light);
+            padding: 0.375rem 0.25rem;
+            font-size: 0.625rem;
+            font-weight: 500;
+            flex: 1;
+            border-radius: var(--radius-xs);
+            transition: all 0.2s;
+            position: relative;
+        }
         .bottom-nav-item.active { color: var(--primary); }
-        .bottom-nav-item i { font-size: 1.5rem; }
+        .bottom-nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            width: 20px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 0 0 4px 4px;
+        }
+        .bottom-nav-item i { font-size: 1.375rem; }
 
-        /* Auth Layout (Login/Register) */
-        #auth-layout { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; background: var(--bg); }
-        .auth-card { width: 100%; max-width: 450px; background: white; padding: 2.5rem; }
-        .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-        .auth-tab { flex: 1; text-align: center; padding: 1rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; }
-        .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        /* Sidebar Overlay for mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 29;
+        }
 
-        /* Grid Layouts */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-        .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        #auth-layout {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f0fdfa 0%, #f1f5f9 50%, #eff6ff 100%);
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        .auth-tabs { display: flex; border-bottom: 2px solid var(--border-light); margin-bottom: 1.75rem; gap: 0.5rem; }
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.875rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            border-bottom: 2.5px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+        }
+        .auth-tab:hover { color: var(--text-muted); background: var(--bg); }
+        .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: transparent; }
+
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+        .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        
-        /* Product Card */
-        .product-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; border: 1px solid var(--border); transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-        .product-img { height: 180px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #cbd5e1; position: relative; border-bottom: 1px solid var(--border); }
-        .product-info { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
-        
-        /* Modals */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 1rem; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-radius: var(--radius) var(--radius) 0 0; }
-        .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
-        .modal-footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem; background: #f8fafc; border-radius: 0 0 var(--radius) var(--radius); }
 
-        /* Details List (for modals) */
+        /* Stat Card */
+        .stat-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.375rem;
+            flex-shrink: 0;
+        }
+        .stat-icon.blue { background: var(--info-light); color: var(--info); }
+        .stat-icon.green { background: var(--success-light); color: var(--success); }
+        .stat-icon.teal { background: var(--primary-light); color: var(--primary); }
+        .stat-icon.red { background: var(--danger-light); color: var(--danger); }
+        .stat-icon.orange { background: var(--warning-light); color: var(--warning); }
+        .stat-info { min-width: 0; }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+        .stat-value { font-size: 1.375rem; font-weight: 700; color: var(--text-main); margin-top: 2px; }
+
+        .product-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-light);
+            transition: all 0.25s ease;
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .product-img {
+            height: 170px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #94a3b8;
+            position: relative;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .product-info { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+            padding: 1rem;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-xl);
+            transform: translateY(20px) scale(0.98);
+            transition: transform 0.25s ease;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
         .details-list { display: flex; flex-direction: column; gap: 0.75rem; }
-        .details-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--border); }
-        .details-label { color: var(--text-muted); font-size: 0.875rem; }
+        .details-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.625rem; border-bottom: 1px dashed var(--border); }
+        .details-label { color: var(--text-muted); font-size: 0.8125rem; }
         .details-value { font-weight: 500; text-align: right; }
 
-        /* Notifications */
-        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: var(--surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.75rem; border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; }
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 200; display: flex; flex-direction: column; gap: 10px; }
+        .toast {
+            background: var(--surface);
+            color: var(--text-main);
+            padding: 0.875rem 1.25rem;
+            border-radius: var(--radius-xs);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-left: 4px solid var(--primary);
+            animation: slideIn 0.3s forwards;
+            font-size: 0.875rem;
+            max-width: 360px;
+        }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* Responsive UI Adjustments */
+        /* Search Bar */
+        .search-bar {
+            position: relative;
+            max-width: 360px;
+            width: 100%;
+        }
+        .search-bar .input-control {
+            padding-left: 42px;
+            padding-right: 12px;
+            height: 42px;
+        }
+        .search-bar i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Filter Pills */
+        .filter-pills {
+            display: flex;
+            gap: 0.375rem;
+            flex-wrap: wrap;
+        }
+        .filter-pill {
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1.5px solid var(--border);
+            color: var(--text-muted);
+            background: var(--surface);
+            transition: all 0.2s;
+        }
+        .filter-pill:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* User Card for mobile */
+        .user-card-mobile {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 0.875rem;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .user-card-mobile:hover { box-shadow: var(--shadow-md); }
+        .user-card-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .user-card-content { flex: 1; min-width: 0; }
+        .user-card-actions { display: flex; gap: 0.375rem; }
+
+        /* Photo Report Enhancements */
+        .report-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+        .report-timeline::before {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        .report-timeline-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            position: relative;
+        }
+        .report-timeline-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            z-index: 1;
+            font-size: 0.875rem;
+        }
+        .report-timeline-dot.done { background: var(--success-light); color: var(--success); border: 2px solid var(--success); }
+        .report-timeline-dot.pending { background: var(--warning-light); color: var(--warning); border: 2px solid var(--warning); }
+        .report-timeline-dot.overdue { background: var(--danger-light); color: var(--danger); border: 2px solid var(--danger); }
+        .report-timeline-content {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-xs);
+            padding: 1rem;
+        }
+
+        .photo-upload-zone {
+            border: 2px dashed var(--border);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafbfc;
+        }
+        .photo-upload-zone:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .photo-upload-zone.dragover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: scale(1.01);
+        }
+        .photo-upload-zone i { font-size: 2.5rem; color: var(--text-light); transition: color 0.2s; }
+        .photo-upload-zone:hover i { color: var(--primary); }
+
+        .photo-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .photo-preview-item {
+            aspect-ratio: 1;
+            border-radius: var(--radius-xs);
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .photo-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-preview-item .remove-photo {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .photo-preview-item:hover .remove-photo { opacity: 1; }
+
+        .report-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .report-stat-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: var(--radius-xs);
+            border: 1px solid var(--border-light);
+        }
+        .report-stat-number { font-size: 1.75rem; font-weight: 700; line-height: 1; }
+        .report-stat-label { font-size: 0.6875rem; color: var(--text-muted); margin-top: 0.375rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+        .empty-state-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            font-size: 2rem;
+            color: var(--text-light);
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .page-header-left { display: flex; flex-direction: column; gap: 0.25rem; }
+        .page-header-left h3 { font-size: 1.1rem; }
+        .page-header-left p { font-size: 0.8125rem; color: var(--text-muted); }
+
+        /* Responsive */
         @media (max-width: 1024px) {
             .grid-cards { grid-template-columns: repeat(2, 1fr); }
+            .report-stats-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (max-width: 768px) {
-            #sidebar { position: fixed; transform: translateX(-100%); height: 100%; }
+            :root { --topbar-height: 60px; }
+            #sidebar { position: fixed; transform: translateX(-100%); height: 100%; width: 280px; }
             #sidebar.open { transform: translateX(0); }
+            .sidebar-overlay.active { display: block; }
             #bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; }
             #view-area { padding: 1rem; padding-bottom: 80px; }
             #topbar { padding: 0 1rem; }
             .mobile-menu-btn { display: block !important; }
             .grid-cards { grid-template-columns: 1fr; }
             .grid-2 { grid-template-columns: 1fr; }
-            
-            /* Responsive Table classes */
+            .grid-products { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.875rem; }
+            .product-img { height: 140px; }
+            .product-info { padding: 1rem; }
             .hide-sm { display: none !important; }
-            table { font-size: 0.875rem; }
-            th, td { padding: 0.75rem 0.5rem; }
-            .action-cell { width: 50px; text-align: center; }
+            table { font-size: 0.8125rem; }
+            th, td { padding: 0.625rem 0.5rem; }
+            .action-cell { width: 45px; text-align: center; }
+            .page-header { flex-direction: column; align-items: stretch; }
+            .auth-card { padding: 1.75rem 1.25rem; }
+            .card { padding: 1.125rem; }
+            .stat-card { padding: 1rem; }
+            .stat-icon { width: 42px; height: 42px; font-size: 1.2rem; }
+            .stat-value { font-size: 1.125rem; }
+            .notif-dropdown { right: -20px; width: calc(100vw - 2rem); max-width: 360px; }
+            #toast-container { left: 1rem; right: 1rem; bottom: 80px; }
+            .toast { max-width: 100%; }
+            .report-stats-grid { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+            .report-stat-item { padding: 0.75rem 0.5rem; }
+            .report-stat-number { font-size: 1.25rem; }
+            .filter-pills { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 0.25rem; }
+            .search-bar { max-width: 100%; }
         }
-        .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); }
+
+        @media (max-width: 480px) {
+            .grid-products { grid-template-columns: 1fr 1fr; gap: 0.625rem; }
+            .product-img { height: 110px; font-size: 2.5rem; }
+            .product-info { padding: 0.75rem; }
+            .product-info .text-xl { font-size: 1rem; }
+            .product-info .font-bold.text-lg { font-size: 0.875rem; }
+            .btn { padding: 0.5rem 0.875rem; font-size: 0.8125rem; }
+        }
+
+        .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); padding: 0.25rem; }
         .action-cell { white-space: nowrap; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: fadeInUp 0.3s ease forwards; }
     </style>
 </head>
 <body>
 
     <!-- Auth View -->
     <div id="auth-layout">
-        <div class="card auth-card">
-            <div class="flex items-center justify-center gap-2 mb-6">
+        <div class="auth-card">
+            <div class="flex items-center justify-center gap-3 mb-6">
                 <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
-                <h1 class="font-bold text-xl text-primary">My Diller UZ</h1>
+                <div>
+                    <h1 class="font-bold" style="font-size:1.35rem; color: var(--text-main);">My Diller UZ</h1>
+                    <p class="text-xs text-muted" style="margin-top:-2px;">B2B Platforma</p>
+                </div>
             </div>
-            
+
             <div class="auth-tabs">
                 <div class="auth-tab active" onclick="switchAuthTab('login')">Kirish</div>
                 <div class="auth-tab" onclick="switchAuthTab('register')">Ro'yxatdan o'tish</div>
@@ -194,34 +961,43 @@
             <!-- Login Form -->
             <div id="login-form">
                 <div class="text-center mb-6">
-                    <h2 class="mb-2">Tizimga kirish</h2>
+                    <h2 class="mb-2" style="font-size:1.15rem;">Tizimga kirish</h2>
                     <p class="text-muted text-sm">Telefon raqam va parolingizni kiriting</p>
                 </div>
                 <div class="input-group">
                     <label>Telefon raqam</label>
-                    <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                    <div class="input-wrapper has-icon">
+                        <i class="ri-phone-line input-icon"></i>
+                        <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                    </div>
                 </div>
                 <div class="input-group mb-6">
                     <label>Parol</label>
-                    <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                    <div class="input-wrapper has-icon has-icon-right">
+                        <i class="ri-lock-2-line input-icon"></i>
+                        <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                        <i class="ri-eye-off-line input-icon-right" onclick="togglePasswordVisibility(this)"></i>
+                    </div>
                 </div>
-                <button class="btn btn-primary w-full mb-4" onclick="doLogin()">Kirish</button>
-                
+                <button class="btn btn-primary w-full btn-lg mb-4" onclick="doLogin()">
+                    <i class="ri-login-box-line"></i> Kirish
+                </button>
+
                 <div class="flex items-center gap-4 mb-4">
                     <hr class="w-full" style="border-color: var(--border);">
-                    <span class="text-muted text-sm">yoki</span>
+                    <span class="text-muted text-xs" style="white-space:nowrap;">yoki</span>
                     <hr class="w-full" style="border-color: var(--border);">
                 </div>
-                
+
                 <button class="btn btn-outline w-full" disabled title="Hozircha ishlamaydi">
                     <i class="ri-file-shield-2-line"></i> E-IMZO orqali kirish
                 </button>
-                
-                <div class="mt-6 p-3 bg-blue-50 rounded-lg text-xs text-muted" style="background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
-                    <b>Demo parol kiritish:</b><br>
-                    Admin: <code>admin</code><br>
-                    Sotuvchi: <code>seller1</code> yoki <code>seller2</code><br>
-                    Xaridor: <code>buyer1</code> yoki <code>buyer2</code>
+
+                <div class="mt-6 p-3 text-xs text-muted" style="background: var(--info-light); border-radius: var(--radius-xs); border: 1px solid #bfdbfe;">
+                    <b style="color: var(--info);">Demo parollar:</b><br>
+                    Admin: <code style="background:#e2e8f0; padding:1px 6px; border-radius:4px;">admin</code> &nbsp;
+                    Sotuvchi: <code style="background:#e2e8f0; padding:1px 6px; border-radius:4px;">seller1</code> / <code style="background:#e2e8f0; padding:1px 6px; border-radius:4px;">seller2</code><br>
+                    Xaridor: <code style="background:#e2e8f0; padding:1px 6px; border-radius:4px;">buyer1</code> / <code style="background:#e2e8f0; padding:1px 6px; border-radius:4px;">buyer2</code>
                 </div>
             </div>
 
@@ -229,74 +1005,101 @@
             <div id="register-form" class="hidden">
                 <div class="input-group">
                     <label>Kompaniya nomi</label>
-                    <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                    <div class="input-wrapper has-icon">
+                        <i class="ri-building-line input-icon"></i>
+                        <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>INN (STIR)</label>
-                    <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                    <div class="input-wrapper has-icon">
+                        <i class="ri-hashtag input-icon"></i>
+                        <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>Rolni tanlang</label>
-                    <select id="reg-role" class="input-control">
-                        <option value="seller">Sotuvchi (Seller)</option>
-                        <option value="buyer">Diler/Xaridor (Buyer)</option>
-                    </select>
+                    <div class="custom-select" id="reg-role-select" data-value="seller">
+                        <div class="custom-select-trigger" onclick="toggleSelect(this)">
+                            <i class="ri-user-star-line select-icon"></i>
+                            <span>Sotuvchi (Seller)</span>
+                        </div>
+                        <div class="custom-select-dropdown">
+                            <div class="custom-select-option selected" data-value="seller" onclick="selectOption(this)">
+                                <i class="ri-store-2-line option-icon"></i> Sotuvchi (Seller)
+                            </div>
+                            <div class="custom-select-option" data-value="buyer" onclick="selectOption(this)">
+                                <i class="ri-shopping-bag-line option-icon"></i> Diler/Xaridor (Buyer)
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <button class="btn btn-primary w-full mt-4" onclick="doRegister()">Ro'yxatdan o'tish kutilmoqda</button>
+
+                <button class="btn btn-primary w-full btn-lg mt-4" onclick="doRegister()">
+                    <i class="ri-user-add-line"></i> Ro'yxatdan o'tish kutilmoqda
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Main Dashboard Layout -->
     <div id="app-layout" class="hidden">
-        <!-- Sidebar -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
         <aside id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
                 <span class="sidebar-title">My Diller</span>
-                <button class="mobile-menu-btn hide-sm ml-auto" onclick="document.getElementById('sidebar').classList.remove('open')" style="display:none;">
-                    <i class="ri-close-line"></i>
+                <button class="btn-ghost btn-icon ml-auto hide-desktop" onclick="closeSidebar()" style="display:none;">
+                    <i class="ri-close-line" style="font-size:1.3rem;"></i>
                 </button>
             </div>
-            <ul class="sidebar-menu" id="sidebar-menu">
-                <!-- Dynamic Menu Items -->
-            </ul>
+            <ul class="sidebar-menu" id="sidebar-menu"></ul>
         </aside>
 
-        <!-- Main Area -->
         <main id="main-content">
-            <!-- Topbar -->
             <header id="topbar">
-                <div class="flex items-center gap-4">
-                    <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.add('open')">
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" onclick="openSidebar()">
                         <i class="ri-menu-2-line"></i>
                     </button>
-                    <h2 id="page-title" class="text-lg">Dashboard</h2>
+                    <h2 id="page-title" class="text-lg truncate">Dashboard</h2>
                 </div>
-                <div class="flex items-center gap-4">
+                <div class="topbar-right">
+                    <!-- Notification Bell -->
+                    <div class="notif-bell-wrapper" id="notif-wrapper">
+                        <div class="notif-bell" onclick="toggleNotifications()">
+                            <i class="ri-notification-3-line"></i>
+                            <span class="notif-badge" id="notif-count">3</span>
+                        </div>
+                        <div class="notif-dropdown" id="notif-dropdown">
+                            <div class="notif-dropdown-header">
+                                <h4>Xabarnomalar</h4>
+                                <button class="btn btn-ghost btn-sm" onclick="markAllRead()">Barchasini o'qish</button>
+                            </div>
+                            <div class="notif-list" id="notif-list"></div>
+                            <div class="notif-dropdown-footer">
+                                <a onclick="closeNotifDropdown()">Barcha xabarlarni ko'rish</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="user-info hide-sm">
                         <div class="text-right">
-                            <div class="font-semibold" id="topbar-user-name">Foydalanuvchi</div>
+                            <div class="font-semibold text-sm" id="topbar-user-name">Foydalanuvchi</div>
                             <div class="text-xs text-muted" id="topbar-user-role">Rol</div>
                         </div>
                     </div>
                     <div class="user-avatar" id="topbar-avatar">U</div>
-                    <button class="btn btn-outline btn-icon" onclick="doLogout()" title="Chiqish">
-                        <i class="ri-logout-box-r-line"></i>
+                    <button class="btn-ghost btn-icon" onclick="doLogout()" title="Chiqish">
+                        <i class="ri-logout-box-r-line" style="font-size:1.2rem;"></i>
                     </button>
                 </div>
             </header>
 
-            <!-- Views Container -->
-            <div id="view-area">
-                <!-- Views will be injected here dynamically -->
-            </div>
+            <div id="view-area"></div>
 
-            <!-- Bottom Nav (Mobile) -->
-            <nav id="bottom-nav">
-                <!-- Dynamic Bottom Nav -->
-            </nav>
+            <nav id="bottom-nav"></nav>
         </main>
     </div>
 
@@ -305,14 +1108,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="dm-title">Ma'lumot</h3>
-                <button class="btn-icon" onclick="closeModal('detailsModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
+                <button class="btn-ghost btn-icon" onclick="closeModal('detailsModal')"><i class="ri-close-line" style="font-size:1.4rem"></i></button>
             </div>
-            <div class="modal-body" id="dm-body">
-                <!-- Dynamic Content -->
-            </div>
-            <div class="modal-footer" id="dm-footer">
-                <!-- Dynamic Buttons -->
-            </div>
+            <div class="modal-body" id="dm-body"></div>
+            <div class="modal-footer" id="dm-footer"></div>
         </div>
     </div>
 
@@ -320,72 +1119,129 @@
     <div class="modal-overlay" id="addProdModal" onclick="if(event.target===this) closeModal('addProdModal')">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Yangi mahsulot qo'shish</h3>
-                <button class="btn-icon" onclick="closeModal('addProdModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
+                <h3><i class="ri-add-circle-line" style="color:var(--primary);"></i> Yangi mahsulot qo'shish</h3>
+                <button class="btn-ghost btn-icon" onclick="closeModal('addProdModal')"><i class="ri-close-line" style="font-size:1.4rem"></i></button>
             </div>
             <div class="modal-body">
                 <div class="grid-2">
                     <div class="input-group">
                         <label>SKU (Artikul)</label>
-                        <input type="text" id="p-sku" class="input-control" placeholder="Masalan: PRD-001">
+                        <div class="input-wrapper has-icon">
+                            <i class="ri-barcode-line input-icon"></i>
+                            <input type="text" id="p-sku" class="input-control" placeholder="Masalan: PRD-001">
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Mahsulot nomi</label>
-                        <input type="text" id="p-name" class="input-control" placeholder="Nomini kiriting">
+                        <div class="input-wrapper has-icon">
+                            <i class="ri-price-tag-3-line input-icon"></i>
+                            <input type="text" id="p-name" class="input-control" placeholder="Nomini kiriting">
+                        </div>
                     </div>
                 </div>
                 <div class="grid-2">
                     <div class="input-group">
                         <label>Kategoriya</label>
-                        <select class="input-control"><option>Elektronika</option><option>Mebel</option><option>Boshqa</option></select>
+                        <div class="custom-select" id="p-cat-select" data-value="Elektronika">
+                            <div class="custom-select-trigger" onclick="toggleSelect(this)">
+                                <i class="ri-apps-line select-icon"></i>
+                                <span>Elektronika</span>
+                            </div>
+                            <div class="custom-select-dropdown">
+                                <div class="custom-select-option selected" data-value="Elektronika" onclick="selectOption(this)">
+                                    <i class="ri-cpu-line option-icon"></i> Elektronika
+                                </div>
+                                <div class="custom-select-option" data-value="Mebel" onclick="selectOption(this)">
+                                    <i class="ri-armchair-line option-icon"></i> Mebel
+                                </div>
+                                <div class="custom-select-option" data-value="Boshqa" onclick="selectOption(this)">
+                                    <i class="ri-archive-line option-icon"></i> Boshqa
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Bazaviy narx (UZS)</label>
-                        <input type="number" id="p-price" class="input-control" placeholder="0.00">
+                        <div class="input-wrapper has-icon">
+                            <i class="ri-money-dollar-circle-line input-icon"></i>
+                            <input type="number" id="p-price" class="input-control" placeholder="0">
+                        </div>
                     </div>
                 </div>
-                
-                <hr class="mb-4" style="border-color:var(--border)">
-                
+
+                <hr style="border-color:var(--border); margin: 0.75rem 0 1.125rem;">
+
                 <div class="input-group">
                     <label>To'lov modeli</label>
-                    <select id="p-model" class="input-control" onchange="togglePrepayFields()">
-                        <option value="realization">Realizatsiya (Sotilgandan so'ng)</option>
-                        <option value="prepayment">Oldindan to'lov (Avans)</option>
-                    </select>
+                    <div class="custom-select" id="p-model-select" data-value="realization">
+                        <div class="custom-select-trigger" onclick="toggleSelect(this)">
+                            <i class="ri-wallet-3-line select-icon"></i>
+                            <span>Realizatsiya (Sotilgandan so'ng)</span>
+                        </div>
+                        <div class="custom-select-dropdown">
+                            <div class="custom-select-option selected" data-value="realization" onclick="selectOption(this); togglePrepayFields();">
+                                <i class="ri-time-line option-icon"></i> Realizatsiya (Sotilgandan so'ng)
+                            </div>
+                            <div class="custom-select-option" data-value="prepayment" onclick="selectOption(this); togglePrepayFields();">
+                                <i class="ri-hand-coin-line option-icon"></i> Oldindan to'lov (Avans)
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div id="prepay-fields" class="hidden grid-2 bg-blue-50 p-4 rounded-lg mb-4" style="background:#f0f9ff; border:1px solid #bae6fd;">
-                    <div class="input-group mb-0">
+
+                <div id="prepay-fields" class="hidden" style="background: var(--info-light); border: 1px solid #bfdbfe; padding: 1rem; border-radius: var(--radius-xs); margin-bottom: 1.125rem;">
+                    <div class="input-group" style="margin-bottom: 0;">
                         <label>Oldindan to'lov (%)</label>
-                        <input type="number" id="p-percent" class="input-control" placeholder="Masalan: 30" value="30">
+                        <div class="input-wrapper has-icon">
+                            <i class="ri-percent-line input-icon"></i>
+                            <input type="number" id="p-percent" class="input-control" placeholder="Masalan: 30" value="30">
+                        </div>
                     </div>
                 </div>
 
                 <div class="grid-2">
                     <div class="input-group">
                         <label>Realizatsiya muddati (kun)</label>
-                        <input type="number" id="p-realdays" class="input-control" placeholder="Masalan: 30" value="30">
+                        <div class="input-wrapper has-icon">
+                            <i class="ri-calendar-line input-icon"></i>
+                            <input type="number" id="p-realdays" class="input-control" placeholder="Masalan: 30" value="30">
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Foto hisobot davri</label>
-                        <select id="p-photodays" class="input-control">
-                            <option value="5">Har 5 kunda</option>
-                            <option value="10">Har 10 kunda</option>
-                            <option value="15" selected>Har 15 kunda</option>
-                            <option value="30">Har 30 kunda</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label>Mahsulot rasmi</label>
-                    <div style="border: 2px dashed var(--border); padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer;">
-                        <i class="ri-image-add-line" style="font-size: 2rem; color: var(--text-muted)"></i>
-                        <p class="mt-2 text-sm text-muted">Rasmni yuklash uchun bosing</p>
+                        <div class="custom-select" id="p-photodays-select" data-value="15">
+                            <div class="custom-select-trigger" onclick="toggleSelect(this)">
+                                <i class="ri-camera-line select-icon"></i>
+                                <span>Har 15 kunda</span>
+                            </div>
+                            <div class="custom-select-dropdown">
+                                <div class="custom-select-option" data-value="5" onclick="selectOption(this)">
+                                    <i class="ri-timer-line option-icon"></i> Har 5 kunda
+                                </div>
+                                <div class="custom-select-option" data-value="10" onclick="selectOption(this)">
+                                    <i class="ri-timer-line option-icon"></i> Har 10 kunda
+                                </div>
+                                <div class="custom-select-option selected" data-value="15" onclick="selectOption(this)">
+                                    <i class="ri-timer-line option-icon"></i> Har 15 kunda
+                                </div>
+                                <div class="custom-select-option" data-value="30" onclick="selectOption(this)">
+                                    <i class="ri-timer-line option-icon"></i> Har 30 kunda
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <div class="input-group">
+                    <label>Mahsulot rasmi</label>
+                    <div class="photo-upload-zone" onclick="document.getElementById('prod-img-input').click()" id="prod-upload-zone">
+                        <i class="ri-image-add-line"></i>
+                        <p class="mt-2 text-sm text-muted">Rasmni yuklash uchun bosing yoki shu yerga tashlang</p>
+                        <p class="text-xs text-muted mt-2">PNG, JPG, WEBP (max 5MB)</p>
+                    </div>
+                    <input type="file" id="prod-img-input" accept="image/*" style="display:none;" multiple>
+                    <div class="photo-preview-grid" id="prod-img-preview"></div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeModal('addProdModal')">Bekor qilish</button>
@@ -394,20 +1250,55 @@
         </div>
     </div>
 
-    <!-- Toasts Container -->
+    <!-- Photo Upload Modal -->
+    <div class="modal-overlay" id="photoUploadModal" onclick="if(event.target===this) closeModal('photoUploadModal')">
+        <div class="modal-content" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3><i class="ri-camera-line" style="color:var(--primary);"></i> Foto hisobot yuklash</h3>
+                <button class="btn-ghost btn-icon" onclick="closeModal('photoUploadModal')"><i class="ri-close-line" style="font-size:1.4rem;"></i></button>
+            </div>
+            <div class="modal-body" id="photo-upload-body">
+                <div class="mb-4" style="background: var(--warning-light); border: 1px solid #fde68a; padding: 0.875rem; border-radius: var(--radius-xs);">
+                    <div class="flex items-center gap-2 text-sm">
+                        <i class="ri-error-warning-fill" style="color: var(--warning); font-size: 1.2rem;"></i>
+                        <span><b>Muddat:</b> <span id="photo-upload-deadline"></span></span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Izoh (ixtiyoriy)</label>
+                    <div class="input-wrapper has-icon">
+                        <i class="ri-chat-1-line input-icon"></i>
+                        <input type="text" class="input-control" placeholder="Izoh yozing..." id="photo-upload-note">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Rasmlarni yuklang</label>
+                    <div class="photo-upload-zone" onclick="document.getElementById('report-img-input').click()" id="report-upload-zone">
+                        <i class="ri-camera-lens-line"></i>
+                        <p class="mt-2 text-sm font-semibold" style="color: var(--text-main);">Rasmlarni tanlang</p>
+                        <p class="text-xs text-muted mt-2">Mahsulot rasmini kameradan yoki galereyadan yuklang</p>
+                    </div>
+                    <input type="file" id="report-img-input" accept="image/*" style="display:none;" multiple onchange="handleReportImages(this)">
+                    <div class="photo-preview-grid" id="report-img-preview"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('photoUploadModal')">Bekor qilish</button>
+                <button class="btn btn-success" onclick="submitPhotoReport()"><i class="ri-upload-cloud-2-line"></i> Yuborish</button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast-container"></div>
 
     <script>
-        /* =========================================
-           1. MOCK DATA & STATE MANAGEMENT
-           ========================================= */
         const MOCK_DB = {
             users: [
-                { id: 1, role: 'admin', inn: '00000000', name: 'Tizim Administratori', status: 'active', phone: '+998901112233', address: 'Toshkent sh.' },
-                { id: 2, role: 'seller', inn: '12345678', name: 'TexnoFarm MChJ', status: 'active', phone: '+998902223344', address: 'Samarqand sh.' },
-                { id: 3, role: 'seller', inn: '65432198', name: 'MebelPro MChJ', status: 'active', phone: '+998903334455', address: 'Buxoro sh.' },
-                { id: 4, role: 'buyer', inn: '11111111', name: 'SuperMart MChJ', status: 'active', phone: '+998904445566', address: 'Toshkent sh.' },
-                { id: 5, role: 'buyer', inn: '22222222', name: 'CityStore MChJ', status: 'active', phone: '+998905556677', address: 'Namangan sh.' }
+                { id: 1, role: 'admin', inn: '00000000', name: 'Tizim Administratori', status: 'active', phone: '+998901112233', address: 'Toshkent sh.', joinDate: '2023-01-15' },
+                { id: 2, role: 'seller', inn: '12345678', name: 'TexnoFarm MChJ', status: 'active', phone: '+998902223344', address: 'Samarqand sh.', joinDate: '2023-03-20' },
+                { id: 3, role: 'seller', inn: '65432198', name: 'MebelPro MChJ', status: 'active', phone: '+998903334455', address: 'Buxoro sh.', joinDate: '2023-04-10' },
+                { id: 4, role: 'buyer', inn: '11111111', name: 'SuperMart MChJ', status: 'active', phone: '+998904445566', address: 'Toshkent sh.', joinDate: '2023-05-05' },
+                { id: 5, role: 'buyer', inn: '22222222', name: 'CityStore MChJ', status: 'active', phone: '+998905556677', address: 'Namangan sh.', joinDate: '2023-06-18' }
             ],
             products: [
                 { id: 1, sellerId: 2, name: 'Smart Chiroq LED', sku: 'TF-001', price: 100000, model: 'prepayment', prepayPercent: 30, realDays: 30, photoDays: 10, img: 'ri-lightbulb-flash-line' },
@@ -424,41 +1315,51 @@
             ],
             cart: [],
             reports: [
-                { id: 1, orderId: 1002, prodId: 4, type: 'photo', status: 'overdue', dueDate: '2023-09-30' },
-                { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-25' },
-                { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2023-10-15' }
+                { id: 1, orderId: 1002, prodId: 4, type: 'photo', status: 'overdue', dueDate: '2023-09-30', photos: [] },
+                { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-25', photos: ['photo1.jpg', 'photo2.jpg'], note: 'Barcha mahsulotlar sotildi' },
+                { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2023-10-15', photos: [] }
+            ],
+            notifications: [
+                { id: 1, type: 'warning', icon: 'ri-error-warning-fill', msg: 'Foto hisobot muddati o\'tib ketdi — Buyurtma #1002', time: '2 soat oldin', read: false },
+                { id: 2, type: 'info', icon: 'ri-file-list-3-fill', msg: 'Yangi buyurtma #1001 imzo kutmoqda', time: '5 soat oldin', read: false },
+                { id: 3, type: 'success', icon: 'ri-checkbox-circle-fill', msg: 'Komissiya to\'lovi muvaffaqiyatli amalga oshirildi', time: 'Kecha', read: false },
+                { id: 4, type: 'info', icon: 'ri-user-add-fill', msg: 'CityStore MChJ tizimga qo\'shildi', time: '2 kun oldin', read: true },
+                { id: 5, type: 'danger', icon: 'ri-shield-keyhole-fill', msg: 'Shubhali kirish urinishi aniqlandi', time: '3 kun oldin', read: true }
             ]
         };
 
         let STATE = {
             currentUser: null,
             currentView: '',
-            charts: {}
+            charts: {},
+            userFilter: 'all',
+            userSearch: '',
+            reportPreviewPhotos: []
         };
 
-        /* =========================================
-           2. UTILITIES & HELPERS
-           ========================================= */
         const formatMoney = (amount) => new Intl.NumberFormat('uz-UZ').format(amount) + ' UZS';
-        
+
         const showToast = (msg, type = 'success') => {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `toast`;
-            toast.innerHTML = `<i class="ri-${type === 'success' ? 'checkbox-circle' : (type==='warning'?'error-warning':'information')}-fill" style="color: var(--${type}); font-size: 1.5rem;"></i> <span>${msg}</span>`;
+            const iconMap = { success: 'checkbox-circle', warning: 'error-warning', info: 'information', danger: 'close-circle' };
+            toast.className = 'toast';
+            toast.style.borderLeftColor = `var(--${type === 'danger' ? 'danger' : type})`;
+            toast.innerHTML = `<i class="ri-${iconMap[type] || iconMap.success}-fill" style="color: var(--${type}); font-size: 1.3rem; flex-shrink:0;"></i> <span>${msg}</span>`;
             container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = 0; setTimeout(() => toast.remove(), 300); }, 3000);
+            setTimeout(() => { toast.style.opacity = 0; toast.style.transform = 'translateX(100%)'; setTimeout(() => toast.remove(), 300); }, 3500);
         };
 
         const getStatusBadge = (status) => {
             const map = {
-                'active': '<span class="badge badge-active">Faol</span>',
-                'pending': '<span class="badge badge-pending">Kutilmoqda</span>',
-                'pending_sign': '<span class="badge badge-info">Imzo kutilmoqda</span>',
-                'completed': '<span class="badge badge-active" style="background:#dcfce7; color:#166534;">Yakunlangan</span>',
-                'overdue': '<span class="badge badge-danger">Kechikkan</span>',
-                'paid': '<span class="badge badge-active">To\'langan</span>',
-                'done': '<span class="badge badge-active">Bajarildi</span>'
+                'active': '<span class="badge badge-active"><i class="ri-checkbox-circle-fill"></i> Faol</span>',
+                'blocked': '<span class="badge badge-blocked"><i class="ri-forbid-2-fill"></i> Bloklangan</span>',
+                'pending': '<span class="badge badge-pending"><i class="ri-time-fill"></i> Kutilmoqda</span>',
+                'pending_sign': '<span class="badge badge-info"><i class="ri-edit-2-fill"></i> Imzo kutilmoqda</span>',
+                'completed': '<span class="badge badge-active"><i class="ri-check-double-fill"></i> Yakunlangan</span>',
+                'overdue': '<span class="badge badge-danger"><i class="ri-alarm-warning-fill"></i> Kechikkan</span>',
+                'paid': '<span class="badge badge-active"><i class="ri-money-dollar-circle-fill"></i> To\'langan</span>',
+                'done': '<span class="badge badge-active"><i class="ri-check-fill"></i> Bajarildi</span>'
             };
             return map[status] || `<span class="badge">${status}</span>`;
         };
@@ -466,51 +1367,142 @@
         const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || {name: 'Noma\'lum'};
         const getProdById = (id) => MOCK_DB.products.find(p => p.id === id);
 
-        /* =========================================
-           3. AUTHENTICATION (LOGIN / REGISTER)
-           ========================================= */
-        function switchAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            if(tab === 'login') {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('register-form').classList.add('hidden');
-            } else {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
+        /* Custom Select Logic */
+        function toggleSelect(trigger) {
+            const dropdown = trigger.nextElementSibling;
+            const isOpen = dropdown.classList.contains('open');
+
+            document.querySelectorAll('.custom-select-dropdown.open').forEach(d => {
+                d.classList.remove('open');
+                d.previousElementSibling.classList.remove('open');
+            });
+
+            if (!isOpen) {
+                dropdown.classList.add('open');
+                trigger.classList.add('open');
             }
         }
 
-        function doLogin() {
-            const phone = document.getElementById('login-phone').value;
-            const pass = document.getElementById('login-password').value.toLowerCase();
-            
-            if(!pass) {
-                showToast("Iltimos, parolni kiriting", "warning");
-                return;
+        function selectOption(option) {
+            const dropdown = option.parentElement;
+            const trigger = dropdown.previousElementSibling;
+            const selectEl = dropdown.parentElement;
+
+            dropdown.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('selected'));
+            option.classList.add('selected');
+
+            const iconEl = trigger.querySelector('.select-icon');
+            const optIcon = option.querySelector('.option-icon');
+            const text = option.textContent.trim();
+            if (iconEl && optIcon) iconEl.className = optIcon.className.replace('option-icon', 'select-icon');
+            trigger.querySelector('span').textContent = text;
+            selectEl.dataset.value = option.dataset.value;
+
+            dropdown.classList.remove('open');
+            trigger.classList.remove('open');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-select')) {
+                document.querySelectorAll('.custom-select-dropdown.open').forEach(d => {
+                    d.classList.remove('open');
+                    d.previousElementSibling.classList.remove('open');
+                });
             }
-            
+            if (!e.target.closest('.notif-bell-wrapper')) {
+                closeNotifDropdown();
+            }
+        });
+
+        function togglePasswordVisibility(el) {
+            const input = el.parentElement.querySelector('input');
+            if (input.type === 'password') {
+                input.type = 'text';
+                el.className = 'ri-eye-line input-icon-right';
+            } else {
+                input.type = 'password';
+                el.className = 'ri-eye-off-line input-icon-right';
+            }
+        }
+
+        /* Notifications */
+        function toggleNotifications() {
+            const dd = document.getElementById('notif-dropdown');
+            dd.classList.toggle('open');
+            if (dd.classList.contains('open')) renderNotifications();
+        }
+        function closeNotifDropdown() {
+            document.getElementById('notif-dropdown')?.classList.remove('open');
+        }
+        function renderNotifications() {
+            const list = document.getElementById('notif-list');
+            list.innerHTML = MOCK_DB.notifications.map(n => `
+                <div class="notif-item ${n.read ? '' : 'unread'}" onclick="markNotifRead(${n.id})">
+                    <div class="notif-icon-wrap ${n.type}"><i class="${n.icon}"></i></div>
+                    <div class="notif-text">
+                        <p>${n.msg}</p>
+                        <span>${n.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function markNotifRead(id) {
+            const notif = MOCK_DB.notifications.find(n => n.id === id);
+            if (notif) notif.read = true;
+            updateNotifBadge();
+            renderNotifications();
+        }
+        function markAllRead() {
+            MOCK_DB.notifications.forEach(n => n.read = true);
+            updateNotifBadge();
+            renderNotifications();
+            showToast("Barcha xabarlar o'qilgan deb belgilandi", "info");
+        }
+        function updateNotifBadge() {
+            const unread = MOCK_DB.notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notif-count');
+            badge.textContent = unread;
+            badge.style.display = unread > 0 ? 'flex' : 'none';
+        }
+
+        /* Sidebar mobile */
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('sidebar-overlay').classList.add('active');
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('active');
+        }
+
+        /* Auth */
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('register-form').classList.toggle('hidden', tab === 'login');
+        }
+
+        function doLogin() {
+            const pass = document.getElementById('login-password').value.toLowerCase();
+            if (!pass) { showToast("Iltimos, parolni kiriting", "warning"); return; }
+
             let user = null;
             if (pass.includes('admin')) user = MOCK_DB.users[0];
             else if (pass.includes('seller1')) user = MOCK_DB.users[1];
             else if (pass.includes('seller2')) user = MOCK_DB.users[2];
             else if (pass.includes('buyer1')) user = MOCK_DB.users[3];
             else if (pass.includes('buyer2')) user = MOCK_DB.users[4];
-            else {
-                user = MOCK_DB.users[3];
-                showToast("Bunday parol topilmadi, test xaridor bo'lib kirdingiz", "info");
-            }
+            else { user = MOCK_DB.users[3]; showToast("Bunday parol topilmadi, test xaridor bo'lib kirdingiz", "info"); }
 
             if (user) {
-                if(user.status === 'blocked') return alert("Akkaunt bloklangan!");
+                if (user.status === 'blocked') { showToast("Akkaunt bloklangan!", "danger"); return; }
                 STATE.currentUser = user;
                 initApp();
             }
         }
 
-        function doRegister() {
-            showToast("Ro'yxatdan o'tish demo versiyada faqat ma'lumot qabul qiladi.");
-        }
+        function doRegister() { showToast("Ro'yxatdan o'tish demo versiyada faqat ma'lumot qabul qiladi.", "info"); }
 
         function doLogout() {
             STATE.currentUser = null;
@@ -519,9 +1511,7 @@
             document.getElementById('login-password').value = '';
         }
 
-        /* =========================================
-           4. APP INITIALIZATION & ROUTING
-           ========================================= */
+        /* App Init */
         const MENU_CONFIG = {
             admin: [
                 { id: 'admin-dash', icon: 'ri-dashboard-3-line', title: 'Dashboard' },
@@ -533,60 +1523,61 @@
             seller: [
                 { id: 'seller-dash', icon: 'ri-dashboard-line', title: 'Dashboard' },
                 { id: 'seller-catalog', icon: 'ri-function-line', title: 'Mening Katalogim' },
-                { id: 'seller-orders', icon: 'ri-shopping-bag-3-line', title: 'Sotuvlar (Buyurtma)' },
-                { id: 'seller-finance', icon: 'ri-wallet-3-line', title: 'Moliya va Komissiya' }
+                { id: 'seller-orders', icon: 'ri-shopping-bag-3-line', title: 'Sotuvlar' },
+                { id: 'seller-finance', icon: 'ri-wallet-3-line', title: 'Moliya' }
             ],
             buyer: [
-                { id: 'buyer-vitrina', icon: 'ri-store-2-line', title: 'Barcha Mahsulotlar' },
+                { id: 'buyer-vitrina', icon: 'ri-store-2-line', title: 'Mahsulotlar' },
                 { id: 'buyer-cart', icon: 'ri-shopping-cart-line', title: 'Savat' },
-                { id: 'buyer-orders', icon: 'ri-file-list-3-line', title: 'Mening Buyurtmalarim' },
-                { id: 'buyer-reports', icon: 'ri-camera-line', title: 'Foto Hisobot Yuklash' }
+                { id: 'buyer-orders', icon: 'ri-file-list-3-line', title: 'Buyurtmalarim' },
+                { id: 'buyer-reports', icon: 'ri-camera-line', title: 'Foto Hisobot' }
             ]
         };
 
         function initApp() {
             document.getElementById('auth-layout').classList.add('hidden');
             document.getElementById('app-layout').classList.remove('hidden');
-            
+
             document.getElementById('topbar-user-name').textContent = STATE.currentUser.name;
-            const roleNames = {admin: 'Administrator', seller: 'Sotuvchi (Seller)', buyer: 'Diler (Buyer)'};
+            const roleNames = { admin: 'Administrator', seller: 'Sotuvchi', buyer: 'Diler' };
             document.getElementById('topbar-user-role').textContent = roleNames[STATE.currentUser.role];
             document.getElementById('topbar-avatar').textContent = STATE.currentUser.name.charAt(0);
+            updateNotifBadge();
 
             const menuItems = MENU_CONFIG[STATE.currentUser.role];
-            const sidebarHtml = menuItems.map(m => `
+            document.getElementById('sidebar-menu').innerHTML = menuItems.map(m => `
                 <li class="menu-item" onclick="navigate('${m.id}', this)">
                     <i class="${m.icon}"></i> <span>${m.title}</span>
                 </li>
             `).join('');
-            document.getElementById('sidebar-menu').innerHTML = sidebarHtml;
 
-            const bNavHtml = menuItems.slice(0, 4).map(m => `
+            document.getElementById('bottom-nav').innerHTML = menuItems.slice(0, 4).map(m => `
                 <div class="bottom-nav-item" onclick="navigate('${m.id}', this, true)">
                     <i class="${m.icon}"></i> <span>${m.title.split(' ')[0]}</span>
                 </div>
             `).join('');
-            document.getElementById('bottom-nav').innerHTML = bNavHtml;
 
             navigate(menuItems[0].id, document.querySelector('.menu-item'));
         }
 
         function navigate(viewId, el, isMobile = false) {
             STATE.currentView = viewId;
-            document.getElementById('page-title').textContent = el.innerText.trim();
-            
+            const menuItems = MENU_CONFIG[STATE.currentUser.role];
+            const menuItem = menuItems.find(m => m.id === viewId);
+            if (menuItem) document.getElementById('page-title').textContent = menuItem.title;
+
             document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => i.classList.remove('active'));
-            if(el) {
-                // Find corresponding element in both navs
-                const text = el.innerText.trim().split(' ')[0];
-                document.querySelectorAll('.menu-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
-                document.querySelectorAll('.bottom-nav-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
+            if (el) {
+                const idx = menuItems.findIndex(m => m.id === viewId);
+                document.querySelectorAll('.menu-item').forEach((item, i) => { if (i === idx) item.classList.add('active'); });
+                document.querySelectorAll('.bottom-nav-item').forEach((item, i) => { if (i === idx) item.classList.add('active'); });
             }
-            
-            if(window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
+
+            closeSidebar();
 
             const viewArea = document.getElementById('view-area');
-            viewArea.innerHTML = ''; 
+            viewArea.innerHTML = '';
+            viewArea.scrollTop = 0;
 
             const renderMap = {
                 'admin-dash': renderAdminDash, 'admin-users': renderAdminUsers, 'admin-orders': renderAdminOrders, 'admin-comm': renderAdminComm, 'admin-reports': renderAdminReports,
@@ -594,12 +1585,9 @@
                 'buyer-vitrina': renderBuyerVitrina, 'buyer-cart': renderBuyerCart, 'buyer-orders': renderBuyerOrders, 'buyer-reports': renderBuyerReports
             };
 
-            if(renderMap[viewId]) renderMap[viewId](viewArea);
+            if (renderMap[viewId]) renderMap[viewId](viewArea);
         }
 
-        /* =========================================
-           5. DYNAMIC MODALS (EYE ICON LOGIC)
-           ========================================= */
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
@@ -607,163 +1595,230 @@
             const titleEl = document.getElementById('dm-title');
             const bodyEl = document.getElementById('dm-body');
             const footerEl = document.getElementById('dm-footer');
-            
+
             if (type === 'user') {
                 const u = MOCK_DB.users.find(x => x.id === id);
+                const roleColors = { admin: 'teal', seller: 'blue', buyer: 'orange' };
                 titleEl.textContent = "Foydalanuvchi ma'lumoti";
                 bodyEl.innerHTML = `
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="user-card-avatar" style="width:56px;height:56px;font-size:1.25rem;background:var(--${roleColors[u.role] === 'teal' ? 'primary-light' : (roleColors[u.role] === 'blue' ? 'info-light' : 'warning-light')});color:var(--${roleColors[u.role] === 'teal' ? 'primary' : (roleColors[u.role] === 'blue' ? 'info' : 'warning')});">${u.name.charAt(0)}</div>
+                        <div>
+                            <h3 style="font-size:1.05rem;">${u.name}</h3>
+                            <span class="badge badge-info badge-lg" style="margin-top:4px;">${u.role.toUpperCase()}</span>
+                        </div>
+                    </div>
                     <div class="details-list">
-                        <div class="details-row"><span class="details-label">Kompaniya nomi:</span><span class="details-value">${u.name}</span></div>
-                        <div class="details-row"><span class="details-label">INN (STIR):</span><span class="details-value">${u.inn}</span></div>
-                        <div class="details-row"><span class="details-label">Rol:</span><span class="details-value badge badge-info">${u.role.toUpperCase()}</span></div>
-                        <div class="details-row"><span class="details-label">Telefon:</span><span class="details-value">${u.phone}</span></div>
-                        <div class="details-row"><span class="details-label">Manzil:</span><span class="details-value">${u.address}</span></div>
-                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(u.status)}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-hashtag"></i> INN (STIR)</span><span class="details-value">${u.inn}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-phone-line"></i> Telefon</span><span class="details-value">${u.phone}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-map-pin-line"></i> Manzil</span><span class="details-value">${u.address}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-calendar-line"></i> Qo'shilgan sana</span><span class="details-value">${u.joinDate || '-'}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-shield-check-line"></i> Holati</span><span class="details-value">${getStatusBadge(u.status)}</span></div>
                     </div>
                 `;
                 footerEl.innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
-                    ${STATE.currentUser.role === 'admin' && u.id !== 1 ? 
-                        `<button class="btn ${u.status==='active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})">${u.status==='active' ? 'Bloklash' : 'Blokdan chiqarish'}</button>` 
-                    : ''}
+                    ${STATE.currentUser.role === 'admin' && u.id !== 1 ?
+                        `<button class="btn ${u.status === 'active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})">
+                            <i class="ri-${u.status === 'active' ? 'forbid-2-line' : 'checkbox-circle-line'}"></i>
+                            ${u.status === 'active' ? 'Bloklash' : 'Blokdan chiqarish'}
+                        </button>` : ''}
                 `;
-            } 
+            }
             else if (type === 'order') {
                 const o = MOCK_DB.orders.find(x => x.id === id);
                 const seller = getUserById(o.sellerId);
                 const buyer = getUserById(o.buyerId);
-                
                 const itemsHtml = o.items.map(it => {
                     const p = getProdById(it.prodId);
-                    return `<div class="p-2 bg-gray-50 rounded mb-2" style="background:#f9fafb; border:1px solid var(--border)">
-                        <div class="flex justify-between"><b>${p.name}</b> <span>${it.qty} dona</span></div>
-                        <div class="text-sm text-muted">Narx: ${formatMoney(p.price)} | Model: ${p.model === 'prepayment'?'Avans':'Realizatsiya'}</div>
+                    return `<div style="background: var(--bg); padding: 0.75rem 1rem; border-radius: var(--radius-xs); margin-bottom: 0.5rem; border: 1px solid var(--border-light);">
+                        <div class="flex justify-between items-center"><b class="text-sm">${p.name}</b> <span class="text-sm">${it.qty} dona</span></div>
+                        <div class="text-xs text-muted mt-1">Narx: ${formatMoney(p.price)} | ${p.model === 'prepayment' ? 'Avans' : 'Realizatsiya'}</div>
                     </div>`;
                 }).join('');
 
-                titleEl.textContent = `Buyurtma #${o.id} tafsilotlari`;
+                titleEl.textContent = `Buyurtma #${o.id}`;
                 bodyEl.innerHTML = `
                     <div class="details-list mb-4">
-                        <div class="details-row"><span class="details-label">Sana:</span><span class="details-value">${o.date}</span></div>
-                        <div class="details-row"><span class="details-label">Sotuvchi:</span><span class="details-value">${seller.name}</span></div>
-                        <div class="details-row"><span class="details-label">Xaridor:</span><span class="details-value">${buyer.name}</span></div>
-                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(o.status)}</span></div>
-                        <div class="details-row"><span class="details-label">Jami summa:</span><span class="details-value text-primary font-bold text-lg">${formatMoney(o.total)}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-calendar-line"></i> Sana</span><span class="details-value">${o.date}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-store-2-line"></i> Sotuvchi</span><span class="details-value">${seller.name}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-user-line"></i> Xaridor</span><span class="details-value">${buyer.name}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-shield-check-line"></i> Holati</span><span class="details-value">${getStatusBadge(o.status)}</span></div>
+                        <div class="details-row"><span class="details-label"><i class="ri-money-dollar-circle-line"></i> Jami summa</span><span class="details-value font-bold text-primary text-lg">${formatMoney(o.total)}</span></div>
                     </div>
-                    <h4 class="mb-2">Mahsulotlar ro'yxati:</h4>
+                    <h4 class="mb-3 text-sm" style="color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">Mahsulotlar</h4>
                     ${itemsHtml}
                     ${o.status === 'pending_sign' ? `
-                        <div class="mt-4 p-3 rounded" style="background:#fffbeb; border:1px solid #fde68a;">
-                            <i class="ri-information-line text-warning"></i> <b>Diqqat:</b> Ushbu buyurtma tomonlar E-IMZO orqali tasdiqlashini kutmoqda.
-                        </div>
-                    ` : ''}
+                        <div class="mt-4" style="background: var(--warning-light); border: 1px solid #fde68a; padding: 0.875rem; border-radius: var(--radius-xs);">
+                            <div class="flex items-center gap-2 text-sm"><i class="ri-information-line" style="color:var(--warning);font-size:1.2rem;"></i> <span>Ushbu buyurtma tomonlar E-IMZO orqali tasdiqlashini kutmoqda.</span></div>
+                        </div>` : ''}
                 `;
 
                 let actionBtn = '';
-                if(o.status === 'pending_sign') {
-                    if(STATE.currentUser.role === 'seller' && !o.signedBySeller) {
-                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'seller')"><i class="ri-markup-line"></i> Imzolash (Seller)</button>`;
-                    } else if(STATE.currentUser.role === 'buyer' && !o.signedByBuyer) {
-                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'buyer')"><i class="ri-markup-line"></i> Imzolash (Buyer)</button>`;
-                    }
-                } else if(o.status === 'active' && STATE.currentUser.role === 'buyer') {
-                    actionBtn = `<button class="btn btn-success" onclick="showToast('Mahsulot xaridorga sotilgani qayd etildi'); closeModal('detailsModal')"><i class="ri-checkbox-circle-line"></i> Sotildi deb belgilash</button>`;
+                if (o.status === 'pending_sign') {
+                    if (STATE.currentUser.role === 'seller' && !o.signedBySeller) actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'seller')"><i class="ri-markup-line"></i> Imzolash</button>`;
+                    else if (STATE.currentUser.role === 'buyer' && !o.signedByBuyer) actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'buyer')"><i class="ri-markup-line"></i> Imzolash</button>`;
+                } else if (o.status === 'active' && STATE.currentUser.role === 'buyer') {
+                    actionBtn = `<button class="btn btn-success" onclick="showToast('Mahsulot sotilgani qayd etildi'); closeModal('detailsModal')"><i class="ri-checkbox-circle-line"></i> Sotildi</button>`;
                 }
 
-                footerEl.innerHTML = `
-                    <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
-                    ${actionBtn}
-                `;
+                footerEl.innerHTML = `<button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button> ${actionBtn}`;
             }
-
             openModal('detailsModal');
         }
 
-        /* =========================================
-           6. VIEWS: ADMIN
-           ========================================= */
+        /* ===== ADMIN VIEWS ===== */
         function renderAdminDash(container) {
-            const activeOrders = MOCK_DB.orders.filter(o=>o.status==='active').length;
-            const totalComm = MOCK_DB.orders.reduce((sum,o)=>sum+o.comm,0);
-            
-            const stats = `
+            const activeOrders = MOCK_DB.orders.filter(o => o.status === 'active').length;
+            const totalComm = MOCK_DB.orders.reduce((sum, o) => sum + o.comm, 0);
+            const overdueReports = MOCK_DB.reports.filter(r => r.status === 'overdue').length;
+
+            container.innerHTML = `
                 <div class="grid-cards mb-6">
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-group-line text-info"></i> Jami Foydalanuvchilar</div><div class="text-lg font-bold mt-2">${MOCK_DB.users.length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-file-list-3-line text-success"></i> Faol Buyurtmalar</div><div class="text-lg font-bold mt-2">${activeOrders} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-money-dollar-circle-line text-primary"></i> Jami Komissiya</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(totalComm)}</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-error-warning-line text-danger"></i> Kechikkan Hisobotlar</div><div class="text-lg font-bold mt-2 text-danger">${MOCK_DB.reports.filter(r=>r.status==='overdue').length} ta</div></div>
+                    <div class="stat-card animate-in">
+                        <div class="stat-icon blue"><i class="ri-group-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Jami Foydalanuvchilar</div><div class="stat-value">${MOCK_DB.users.length}</div></div>
+                    </div>
+                    <div class="stat-card animate-in" style="animation-delay:0.05s;">
+                        <div class="stat-icon green"><i class="ri-file-list-3-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Faol Buyurtmalar</div><div class="stat-value">${activeOrders}</div></div>
+                    </div>
+                    <div class="stat-card animate-in" style="animation-delay:0.1s;">
+                        <div class="stat-icon teal"><i class="ri-money-dollar-circle-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Jami Komissiya</div><div class="stat-value text-primary">${formatMoney(totalComm)}</div></div>
+                    </div>
+                    <div class="stat-card animate-in" style="animation-delay:0.15s;">
+                        <div class="stat-icon red"><i class="ri-alarm-warning-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Kechikkan Hisobotlar</div><div class="stat-value text-danger">${overdueReports}</div></div>
+                    </div>
                 </div>
                 <div class="grid-cards mb-6" style="grid-template-columns: 2fr 1fr;">
-                    <div class="card">
-                        <h3 class="mb-4">Oylik aylanma va komissiya (mln UZS)</h3>
-                        <canvas id="chart-sales" style="max-height: 250px;"></canvas>
-                    </div>
-                    <div class="card">
-                        <h3 class="mb-4 text-center">Komissiya holati</h3>
-                        <canvas id="chart-comm" style="max-height: 250px;"></canvas>
-                    </div>
+                    <div class="card"><h3 class="mb-4 text-sm" style="text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);">Oylik aylanma va komissiya</h3><canvas id="chart-sales" style="max-height:240px;"></canvas></div>
+                    <div class="card"><h3 class="mb-4 text-sm text-center" style="text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);">Komissiya holati</h3><canvas id="chart-comm" style="max-height:240px;"></canvas></div>
                 </div>
-                <div class="card">
-                    <h3 class="mb-4">Foto hisobotlar statistikasi</h3>
-                    <canvas id="chart-reports" style="max-height: 200px;"></canvas>
-                </div>
+                <div class="card"><h3 class="mb-4 text-sm" style="text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);">Foto hisobotlar</h3><canvas id="chart-reports" style="max-height:200px;"></canvas></div>
             `;
-            container.innerHTML = stats;
 
-            // Render Charts (destroy old instances first)
             setTimeout(() => {
-                ['sales', 'comm', 'reports'].forEach(c => { if(STATE.charts[c]) STATE.charts[c].destroy(); });
-
+                ['sales', 'comm', 'reports'].forEach(c => { if (STATE.charts[c]) STATE.charts[c].destroy(); });
                 STATE.charts.sales = new Chart(document.getElementById('chart-sales'), {
                     type: 'bar',
-                    data: { 
-                        labels: ['May', 'Iyun', 'Iyul', 'Avgust', 'Sentyabr', 'Oktyabr'], 
-                        datasets: [
-                            { label: 'Sotuvlar aylanmasi', data: [12, 19, 15, 25, 22, 30], backgroundColor: '#e0f2fe', borderColor: '#3b82f6', borderWidth:1 },
-                            { label: 'Platforma komissiyasi', data: [0.6, 0.95, 0.75, 1.25, 1.1, 1.5], backgroundColor: '#0d9488' }
-                        ] 
-                    },
-                    options: { maintainAspectRatio: false }
+                    data: { labels: ['May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt'], datasets: [
+                        { label: 'Sotuvlar (mln)', data: [12, 19, 15, 25, 22, 30], backgroundColor: 'rgba(59,130,246,0.15)', borderColor: '#3b82f6', borderWidth: 2, borderRadius: 6 },
+                        { label: 'Komissiya (mln)', data: [0.6, 0.95, 0.75, 1.25, 1.1, 1.5], backgroundColor: 'rgba(13,148,136,0.8)', borderRadius: 6 }
+                    ]},
+                    options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' } } } }
                 });
-                
                 STATE.charts.comm = new Chart(document.getElementById('chart-comm'), {
                     type: 'doughnut',
-                    data: { labels: ['To\'langan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [60, 30, 10], backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'] }] },
-                    options: { maintainAspectRatio: false, cutout: '70%' }
+                    data: { labels: ["To'langan", 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [60, 30, 10], backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'], borderWidth: 0 }] },
+                    options: { maintainAspectRatio: false, cutout: '72%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12 } } } }
                 });
-
                 STATE.charts.reports = new Chart(document.getElementById('chart-reports'), {
                     type: 'pie',
-                    data: { labels: ['Bajarilgan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [45, 12, 5], backgroundColor: ['#22c55e', '#fde68a', '#ef4444'] }] },
-                    options: { maintainAspectRatio: false }
+                    data: { labels: ['Bajarilgan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [45, 12, 5], backgroundColor: ['#22c55e', '#fde68a', '#ef4444'], borderWidth: 0 }] },
+                    options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12 } } } }
                 });
             }, 100);
         }
 
         function renderAdminUsers(container) {
-            const rows = MOCK_DB.users.map(u => `
-                <tr>
-                    <td><b>${u.name}</b><br><span class="text-xs text-muted hide-sm">INN: ${u.inn}</span></td>
-                    <td class="hide-sm"><span class="badge badge-info">${u.role.toUpperCase()}</span></td>
+            const roleLabels = { admin: 'Admin', seller: 'Sotuvchi', buyer: 'Xaridor' };
+            const roleColors = { admin: 'teal', seller: 'blue', buyer: 'orange' };
+
+            let filtered = MOCK_DB.users.slice();
+            if (STATE.userFilter !== 'all') filtered = filtered.filter(u => {
+                if (STATE.userFilter === 'blocked') return u.status === 'blocked';
+                return u.role === STATE.userFilter;
+            });
+            if (STATE.userSearch) {
+                const q = STATE.userSearch.toLowerCase();
+                filtered = filtered.filter(u => u.name.toLowerCase().includes(q) || u.inn.includes(q) || u.phone.includes(q));
+            }
+
+            const rows = filtered.map(u => `
+                <tr class="animate-in">
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="user-card-avatar" style="background:var(--${roleColors[u.role] === 'teal' ? 'primary-light' : (roleColors[u.role] === 'blue' ? 'info-light' : 'warning-light')});color:var(--${roleColors[u.role] === 'teal' ? 'primary' : (roleColors[u.role] === 'blue' ? 'info' : 'warning')});width:38px;height:38px;font-size:0.875rem;">${u.name.charAt(0)}</div>
+                            <div>
+                                <b class="text-sm">${u.name}</b>
+                                <div class="text-xs text-muted">INN: ${u.inn}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="hide-sm"><span class="badge badge-info">${roleLabels[u.role]}</span></td>
                     <td>${getStatusBadge(u.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish">
-                            <i class="ri-eye-line"></i>
-                        </button>
+                        <div class="flex gap-1">
+                            <button class="btn btn-ghost btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish"><i class="ri-eye-line"></i></button>
+                            ${u.id !== 1 ? `<button class="btn btn-icon ${u.status === 'active' ? 'btn-ghost' : 'btn-ghost'}" onclick="toggleUserStatus(${u.id})" title="${u.status === 'active' ? 'Bloklash' : 'Blokdan chiqarish'}" style="color:${u.status === 'active' ? 'var(--danger)' : 'var(--success)'};">
+                                <i class="ri-${u.status === 'active' ? 'forbid-2-line' : 'checkbox-circle-line'}"></i>
+                            </button>` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
+
+            const mobileCards = filtered.map(u => `
+                <div class="user-card-mobile animate-in show-sm-only" style="display:none;">
+                    <div class="user-card-avatar" style="background:var(--${roleColors[u.role] === 'teal' ? 'primary-light' : (roleColors[u.role] === 'blue' ? 'info-light' : 'warning-light')});color:var(--${roleColors[u.role] === 'teal' ? 'primary' : (roleColors[u.role] === 'blue' ? 'info' : 'warning')});">${u.name.charAt(0)}</div>
+                    <div class="user-card-content">
+                        <div class="font-semibold text-sm">${u.name}</div>
+                        <div class="text-xs text-muted">INN: ${u.inn}</div>
+                        <div class="flex gap-2 mt-2">${getStatusBadge(u.status)} <span class="badge badge-info">${roleLabels[u.role]}</span></div>
+                    </div>
+                    <div class="user-card-actions">
+                        <button class="btn btn-ghost btn-icon" onclick="openDetails('user', ${u.id})"><i class="ri-eye-line"></i></button>
+                        ${u.id !== 1 ? `<button class="btn btn-ghost btn-icon" onclick="toggleUserStatus(${u.id})" style="color:${u.status === 'active' ? 'var(--danger)' : 'var(--success)'};">
+                            <i class="ri-${u.status === 'active' ? 'forbid-2-line' : 'checkbox-circle-line'}"></i>
+                        </button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+
             container.innerHTML = `
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h3>Foydalanuvchilar</h3>
+                        <p>${filtered.length} ta kompaniya topildi</p>
+                    </div>
+                </div>
+                <div class="card mb-4 card-flat" style="padding: 1rem;">
+                    <div class="flex gap-3 items-center flex-wrap">
+                        <div class="search-bar" style="flex: 1; min-width: 200px;">
+                            <i class="ri-search-line"></i>
+                            <input type="text" class="input-control" placeholder="Qidirish: nom, INN, telefon..." value="${STATE.userSearch}" oninput="STATE.userSearch = this.value; renderAdminUsers(document.getElementById('view-area'));">
+                        </div>
+                        <div class="filter-pills">
+                            <div class="filter-pill ${STATE.userFilter === 'all' ? 'active' : ''}" onclick="STATE.userFilter='all'; renderAdminUsers(document.getElementById('view-area'));">Barchasi</div>
+                            <div class="filter-pill ${STATE.userFilter === 'seller' ? 'active' : ''}" onclick="STATE.userFilter='seller'; renderAdminUsers(document.getElementById('view-area'));">Sotuvchilar</div>
+                            <div class="filter-pill ${STATE.userFilter === 'buyer' ? 'active' : ''}" onclick="STATE.userFilter='buyer'; renderAdminUsers(document.getElementById('view-area'));">Xaridorlar</div>
+                            <div class="filter-pill ${STATE.userFilter === 'blocked' ? 'active' : ''}" onclick="STATE.userFilter='blocked'; renderAdminUsers(document.getElementById('view-area'));" style="border-color:${STATE.userFilter === 'blocked' ? 'var(--danger)' : ''};color:${STATE.userFilter === 'blocked' ? 'white' : ''};background:${STATE.userFilter === 'blocked' ? 'var(--danger)' : ''};"><i class="ri-forbid-2-line"></i> Bloklangan</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card">
-                    <h3 class="mb-4">Tizimdagi kompaniyalar</h3>
-                    <div class="table-responsive"><table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div>
-                </div>`;
+                    <div class="table-responsive hide-sm-card">
+                        <table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table>
+                    </div>
+                    ${filtered.length === 0 ? `<div class="empty-state"><div class="empty-state-icon"><i class="ri-user-search-line"></i></div><h3 class="text-muted">Natija topilmadi</h3><p class="text-sm text-muted mt-2">Qidiruv so'zini o'zgartiring</p></div>` : ''}
+                </div>
+                <div class="flex-col gap-3 mt-4 show-sm-cards" style="display:none;">${mobileCards}</div>
+            `;
+
+            if (window.innerWidth <= 768) {
+                const tbl = container.querySelector('.hide-sm-card');
+                const cards = container.querySelector('.show-sm-cards');
+                if (tbl) tbl.style.display = 'none';
+                if (cards) { cards.style.display = 'flex'; cards.querySelectorAll('.show-sm-only').forEach(c => c.style.display = 'flex'); }
+            }
         }
 
         function toggleUserStatus(id) {
             const user = MOCK_DB.users.find(u => u.id === id);
             user.status = user.status === 'active' ? 'blocked' : 'active';
-            showToast(`Holat o'zgardi: ${user.status}`);
+            showToast(`${user.name}: ${user.status === 'active' ? 'Blokdan chiqarildi' : 'Bloklandi'}`, user.status === 'active' ? 'success' : 'warning');
             closeModal('detailsModal');
             renderAdminUsers(document.getElementById('view-area'));
         }
@@ -772,63 +1827,82 @@
             const rows = MOCK_DB.orders.map(o => `
                 <tr>
                     <td><b>#${o.id}</b></td>
-                    <td class="hide-sm">${getUserById(o.sellerId).name} <br> <span class="text-xs text-muted">→ ${getUserById(o.buyerId).name}</span></td>
+                    <td class="hide-sm"><div>${getUserById(o.sellerId).name}</div><div class="text-xs text-muted">→ ${getUserById(o.buyerId).name}</div></td>
                     <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
                     <td>${getStatusBadge(o.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
-                            <i class="ri-eye-line"></i>
-                        </button>
-                    </td>
+                    <td class="action-cell"><button class="btn btn-ghost btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td>
                 </tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Barcha buyurtmalar</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th class="hide-sm">Sotuvchi -> Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `
+                <div class="page-header"><div class="page-header-left"><h3>Barcha buyurtmalar</h3><p>${MOCK_DB.orders.length} ta buyurtma</p></div></div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>ID</th><th class="hide-sm">Sotuvchi / Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         function renderAdminComm(container) {
+            const totalComm = MOCK_DB.orders.reduce((s, o) => s + o.comm, 0);
+            const paidComm = MOCK_DB.orders.filter(o => o.commStatus === 'paid').reduce((s, o) => s + o.comm, 0);
             const rows = MOCK_DB.orders.map(o => `
                 <tr>
-                    <td>${getUserById(o.sellerId).name}</td>
-                    <td class="hide-sm">#${o.id}</td>
+                    <td><div class="font-semibold text-sm">${getUserById(o.sellerId).name}</div><div class="text-xs text-muted">#${o.id}</div></td>
                     <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
                     <td>${getStatusBadge(o.commStatus)}</td>
                 </tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Komissiya reyestri (5%)</h3><div class="table-responsive"><table><thead><tr><th>Sotuvchi</th><th class="hide-sm">Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
-        }
-        
-        function renderAdminReports(container) {
-            const rows = MOCK_DB.reports.map(r => `
-                <tr>
-                    <td>#${r.orderId}</td>
-                    <td class="hide-sm">${getProdById(r.prodId).name}</td>
-                    <td>${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Nazoratdagi Foto Hisobotlar</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Mahsulot</th><th>Muddat</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `
+                <div class="page-header"><div class="page-header-left"><h3>Komissiya reyestri (5%)</h3><p>Jami: ${formatMoney(totalComm)} | To'langan: ${formatMoney(paidComm)}</p></div></div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>Sotuvchi / Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
-        /* =========================================
-           7. VIEWS: SELLER
-           ========================================= */
+        function renderAdminReports(container) {
+            const doneCount = MOCK_DB.reports.filter(r => r.status === 'done').length;
+            const pendingCount = MOCK_DB.reports.filter(r => r.status === 'pending').length;
+            const overdueCount = MOCK_DB.reports.filter(r => r.status === 'overdue').length;
+
+            const rows = MOCK_DB.reports.map(r => {
+                const prod = getProdById(r.prodId);
+                const order = MOCK_DB.orders.find(o => o.id === r.orderId);
+                const buyer = order ? getUserById(order.buyerId) : { name: '-' };
+                return `
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div style="width:36px;height:36px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;"><i class="${prod.img}" style="font-size:1.1rem;color:var(--text-muted);"></i></div>
+                            <div><b class="text-sm">${prod.name}</b><div class="text-xs text-muted">#${r.orderId} | ${buyer.name}</div></div>
+                        </div>
+                    </td>
+                    <td class="hide-sm">${r.dueDate}</td>
+                    <td>${getStatusBadge(r.status)}</td>
+                    <td class="hide-sm">${r.photos && r.photos.length > 0 ? `<span class="text-sm text-success"><i class="ri-image-line"></i> ${r.photos.length}</span>` : '<span class="text-sm text-muted">-</span>'}</td>
+                </tr>`;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="page-header"><div class="page-header-left"><h3>Foto Hisobotlar Nazoratchisi</h3><p>Barcha hisobotlarni kuzating va nazorat qiling</p></div></div>
+                <div class="report-stats-grid">
+                    <div class="report-stat-item" style="background: var(--success-light);"><div class="report-stat-number text-success">${doneCount}</div><div class="report-stat-label">Bajarilgan</div></div>
+                    <div class="report-stat-item" style="background: var(--warning-light);"><div class="report-stat-number" style="color:var(--warning);">${pendingCount}</div><div class="report-stat-label">Kutilmoqda</div></div>
+                    <div class="report-stat-item" style="background: var(--danger-light);"><div class="report-stat-number text-danger">${overdueCount}</div><div class="report-stat-label">Kechikkan</div></div>
+                </div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>Mahsulot / Buyurtma</th><th class="hide-sm">Muddat</th><th>Holat</th><th class="hide-sm">Rasmlar</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+            `;
+        }
+
+        /* ===== SELLER VIEWS ===== */
         function renderSellerDash(container) {
             const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
             const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
             container.innerHTML = `
                 <div class="grid-cards mb-6">
-                    <div class="card"><div class="text-muted text-sm">Mening mahsulotlarim</div><div class="text-lg font-bold mt-2">${myProds.length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm">Faol Buyurtmalar</div><div class="text-lg font-bold mt-2 text-success">${myOrders.filter(o=>o.status==='active').length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm">Umumiy Sotuv Summasi</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(myOrders.reduce((s,o)=>s+o.total,0))}</div></div>
+                    <div class="stat-card animate-in"><div class="stat-icon teal"><i class="ri-function-line"></i></div><div class="stat-info"><div class="stat-label">Mahsulotlarim</div><div class="stat-value">${myProds.length}</div></div></div>
+                    <div class="stat-card animate-in" style="animation-delay:0.05s;"><div class="stat-icon green"><i class="ri-shopping-bag-3-line"></i></div><div class="stat-info"><div class="stat-label">Faol Buyurtmalar</div><div class="stat-value">${myOrders.filter(o => o.status === 'active').length}</div></div></div>
+                    <div class="stat-card animate-in" style="animation-delay:0.1s;"><div class="stat-icon blue"><i class="ri-wallet-3-line"></i></div><div class="stat-info"><div class="stat-label">Umumiy Sotuv</div><div class="stat-value text-primary">${formatMoney(myOrders.reduce((s, o) => s + o.total, 0))}</div></div></div>
                 </div>
                 <div class="card">
-                    <h3 class="mb-4">So'nggi buyurtmalar</h3>
-                    <div class="table-responsive">
-                        <table>
-                            <thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead>
-                            <tbody>${myOrders.slice(0,3).map(o=>`<tr><td><b>#${o.id}</b></td><td>${getUserById(o.buyerId).name}</td><td class="hide-sm">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td><td class="action-cell"><button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td></tr>`).join('')}</tbody>
-                        </table>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-sm" style="text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);">So'nggi buyurtmalar</h3>
                     </div>
+                    <div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead>
+                    <tbody>${myOrders.slice(0, 3).map(o => `<tr><td><b>#${o.id}</b></td><td>${getUserById(o.buyerId).name}</td><td class="hide-sm">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td><td class="action-cell"><button class="btn btn-ghost btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td></tr>`).join('')}</tbody></table></div>
                 </div>
             `;
         }
@@ -836,26 +1910,23 @@
         function renderSellerCatalog(container) {
             const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
             const cards = myProds.map(p => `
-                <div class="product-card">
+                <div class="product-card animate-in">
                     <div class="product-img"><i class="${p.img}"></i></div>
                     <div class="product-info">
-                        <div class="text-xs text-muted mb-1 flex justify-between"><span>SKU: ${p.sku}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
+                        <div class="text-xs text-muted mb-1 flex justify-between"><span>SKU: ${p.sku}</span><span class="badge ${p.model === 'prepayment' ? 'badge-info' : 'badge-pending'}">${p.model === 'prepayment' ? 'Avans' : 'Realizats.'}</span></div>
                         <div class="font-bold text-lg mb-2">${p.name}</div>
                         <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
                         <div class="text-sm text-muted mb-4 flex flex-col gap-1">
                             <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
                             <span><i class="ri-camera-line"></i> Foto hisobot: Har ${p.photoDays} kun</span>
                         </div>
-                        <div class="mt-auto flex gap-2">
-                            <button class="btn btn-outline w-full"><i class="ri-edit-line"></i> Tahrir</button>
-                        </div>
+                        <button class="btn btn-outline w-full mt-auto"><i class="ri-edit-line"></i> Tahrir</button>
                     </div>
                 </div>
             `).join('');
-
             container.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h3>Katalogim</h3>
+                <div class="page-header">
+                    <div class="page-header-left"><h3>Katalogim</h3><p>${myProds.length} ta mahsulot</p></div>
                     <button class="btn btn-primary" onclick="openModal('addProdModal')"><i class="ri-add-line"></i> Yangi Qo'shish</button>
                 </div>
                 <div class="grid-products">${cards}</div>
@@ -863,10 +1934,9 @@
         }
 
         function togglePrepayFields() {
-            const model = document.getElementById('p-model').value;
+            const val = document.getElementById('p-model-select').dataset.value;
             const prepayDiv = document.getElementById('prepay-fields');
-            if (model === 'prepayment') prepayDiv.classList.remove('hidden');
-            else prepayDiv.classList.add('hidden');
+            prepayDiv.classList.toggle('hidden', val !== 'prepayment');
         }
 
         function addMockProduct() {
@@ -878,61 +1948,49 @@
         function renderSellerOrders(container) {
             const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
             const rows = myOrders.map(o => `
-                <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td>${getUserById(o.buyerId).name}</td>
-                    <td class="hide-sm">${o.date}</td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
-                    <td>${getStatusBadge(o.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})" title="Ko'rish va Imzolash">
-                            <i class="ri-eye-line"></i>
-                        </button>
-                    </td>
-                </tr>
+                <tr><td><b>#${o.id}</b></td><td>${getUserById(o.buyerId).name}</td><td class="hide-sm">${o.date}</td><td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td>
+                <td class="action-cell"><button class="btn btn-ghost btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td></tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Sotuvlar (Buyurtmalar)</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `
+                <div class="page-header"><div class="page-header-left"><h3>Sotuvlar (Buyurtmalar)</h3><p>${myOrders.length} ta buyurtma</p></div></div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         function renderSellerFinance(container) {
             const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
+            const totalComm = myOrders.reduce((s, o) => s + o.comm, 0);
             const rows = myOrders.map(o => `
-                <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td class="hide-sm">${formatMoney(o.total)}</td>
-                    <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
-                    <td>${getStatusBadge(o.commStatus)}</td>
-                    <td class="action-cell">
-                        ${o.commStatus === 'pending' ? `<button class="btn btn-primary text-sm" onclick="showToast('To\\'lov tizimiga o\\'tilmoqda...')">To'lash</button>` : '-'}
-                    </td>
-                </tr>
+                <tr><td><b>#${o.id}</b></td><td class="hide-sm">${formatMoney(o.total)}</td><td class="text-primary font-bold">${formatMoney(o.comm)}</td><td>${getStatusBadge(o.commStatus)}</td>
+                <td class="action-cell">${o.commStatus === 'pending' ? `<button class="btn btn-primary btn-sm" onclick="showToast('To\\'lov tizimiga o\\'tilmoqda...')"><i class="ri-bank-card-line"></i> To'lash</button>` : '<span class="text-muted text-sm">-</span>'}</td></tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Moliya va Komissiya to'lovlari</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Baza Summa</th><th>Komissiya (5%)</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `
+                <div class="page-header"><div class="page-header-left"><h3>Moliya va Komissiya</h3><p>Jami komissiya: ${formatMoney(totalComm)}</p></div></div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Baza Summa</th><th>Komissiya (5%)</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
-        /* =========================================
-           8. VIEWS: BUYER (DEALER)
-           ========================================= */
+        /* ===== BUYER VIEWS ===== */
         function renderBuyerVitrina(container) {
             const cards = MOCK_DB.products.map(p => `
-                <div class="product-card">
+                <div class="product-card animate-in">
                     <div class="product-img"><i class="${p.img}"></i></div>
                     <div class="product-info">
-                        <div class="text-xs text-muted mb-1 flex justify-between"><span>${getUserById(p.sellerId).name}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
+                        <div class="text-xs text-muted mb-1 flex justify-between"><span>${getUserById(p.sellerId).name}</span><span class="badge ${p.model === 'prepayment' ? 'badge-info' : 'badge-pending'}">${p.model === 'prepayment' ? 'Avans' : 'Realizats.'}</span></div>
                         <div class="font-bold text-lg mb-2">${p.name}</div>
                         <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
-                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
-                            <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
-                        </div>
-                        <button class="btn btn-primary w-full mt-auto" onclick="addToCart(${p.id})"><i class="ri-shopping-cart-2-line"></i> Savatga qo'shish</button>
+                        <div class="text-sm text-muted mb-4"><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</div>
+                        <button class="btn btn-primary w-full mt-auto" onclick="addToCart(${p.id})"><i class="ri-shopping-cart-2-line"></i> Savatga</button>
                     </div>
                 </div>
             `).join('');
 
             container.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h3>Barcha mahsulotlar vitrinasi</h3>
-                    <div class="badge badge-pending px-3 py-2 text-sm cursor-pointer" onclick="navigate('buyer-cart', null)" style="font-size:1rem; cursor:pointer;"><i class="ri-shopping-cart-line"></i> <span id="cart-count">${MOCK_DB.cart.length}</span></div>
+                <div class="page-header">
+                    <div class="page-header-left"><h3>Barcha mahsulotlar</h3><p>${MOCK_DB.products.length} ta mahsulot</p></div>
+                    <div class="flex items-center gap-2">
+                        <div class="badge badge-pending badge-lg" style="cursor:pointer;padding:0.5rem 1rem;" onclick="navigate('buyer-cart', null)">
+                            <i class="ri-shopping-cart-line"></i> Savat: <b id="cart-count">${MOCK_DB.cart.length}</b>
+                        </div>
+                    </div>
                 </div>
                 <div class="grid-products">${cards}</div>
             `;
@@ -941,13 +1999,13 @@
         function addToCart(id) {
             MOCK_DB.cart.push({ prodId: id, qty: 1 });
             const counter = document.getElementById('cart-count');
-            if(counter) counter.innerText = MOCK_DB.cart.length;
+            if (counter) counter.innerText = MOCK_DB.cart.length;
             showToast("Mahsulot savatga qo'shildi");
         }
 
         function renderBuyerCart(container) {
-            if(MOCK_DB.cart.length === 0) {
-                container.innerHTML = `<div class="card text-center p-6 py-12"><i class="ri-shopping-cart-line text-muted" style="font-size:4rem"></i><h3 class="mt-4 text-muted">Savatingiz bo'sh</h3><button class="btn btn-primary mt-4" onclick="navigate('buyer-vitrina', document.querySelectorAll('.menu-item')[0])">Xaridni boshlash</button></div>`;
+            if (MOCK_DB.cart.length === 0) {
+                container.innerHTML = `<div class="card"><div class="empty-state"><div class="empty-state-icon"><i class="ri-shopping-cart-line"></i></div><h3 class="text-muted">Savatingiz bo'sh</h3><p class="text-sm text-muted mt-2">Mahsulotlar vitrinasidan savatga qo'shing</p><button class="btn btn-primary mt-4" onclick="navigate('buyer-vitrina', document.querySelectorAll('.menu-item')[0])"><i class="ri-store-2-line"></i> Xaridni boshlash</button></div></div>`;
                 return;
             }
 
@@ -956,35 +2014,38 @@
                 const p = getProdById(item.prodId);
                 total += p.price * item.qty;
                 return `<tr>
-                    <td><b>${p.name}</b><br><span class="text-xs text-muted hide-sm">${getUserById(p.sellerId).name}</span></td>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div style="width:36px;height:36px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;"><i class="${p.img}" style="font-size:1.1rem;color:var(--text-muted);"></i></div>
+                            <div><b class="text-sm">${p.name}</b><div class="text-xs text-muted hide-sm">${getUserById(p.sellerId).name}</div></div>
+                        </div>
+                    </td>
                     <td>
                         <div class="flex items-center gap-2">
-                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, -1)"><i class="ri-subtract-line"></i></button>
-                            <span class="w-8 text-center">${item.qty}</span>
-                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, 1)"><i class="ri-add-line"></i></button>
+                            <button class="btn btn-outline btn-icon" style="width:28px;height:28px;padding:0;" onclick="updateCart(${idx}, -1)"><i class="ri-subtract-line" style="font-size:0.875rem;"></i></button>
+                            <span style="width:28px;text-align:center;font-weight:600;">${item.qty}</span>
+                            <button class="btn btn-outline btn-icon" style="width:28px;height:28px;padding:0;" onclick="updateCart(${idx}, 1)"><i class="ri-add-line" style="font-size:0.875rem;"></i></button>
                         </div>
                     </td>
                     <td class="font-bold text-primary hide-sm">${formatMoney(p.price * item.qty)}</td>
-                    <td class="action-cell"><button class="btn btn-danger btn-icon" onclick="removeFromCart(${idx})"><i class="ri-delete-bin-line"></i></button></td>
+                    <td class="action-cell"><button class="btn btn-ghost btn-icon" style="color:var(--danger);" onclick="removeFromCart(${idx})"><i class="ri-delete-bin-line"></i></button></td>
                 </tr>`;
             }).join('');
 
             container.innerHTML = `
-                <div class="card mb-6">
-                    <h3 class="mb-4">Savatdagi mahsulotlar</h3>
-                    <div class="table-responsive">
-                        <table><thead><tr><th>Mahsulot</th><th>Miqdor</th><th class="hide-sm">Jami</th><th>O'chirish</th></tr></thead><tbody>${rows}</tbody></table>
-                    </div>
-                    <div class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-4 gap-4" style="border-top:1px solid var(--border)">
-                        <div class="text-lg">Jami to'lov: <span class="font-bold text-primary text-xl">${formatMoney(total)}</span></div>
-                        <button class="btn btn-success w-full sm:w-auto" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtmani rasmiylashtirish</button>
+                <div class="page-header"><div class="page-header-left"><h3>Savat</h3><p>${MOCK_DB.cart.length} ta mahsulot</p></div></div>
+                <div class="card">
+                    <div class="table-responsive"><table><thead><tr><th>Mahsulot</th><th>Miqdor</th><th class="hide-sm">Jami</th><th>O'chirish</th></tr></thead><tbody>${rows}</tbody></table></div>
+                    <div class="flex justify-between items-center mt-6 pt-4 flex-wrap gap-4" style="border-top:1px solid var(--border);">
+                        <div class="text-lg">Jami: <span class="font-bold text-primary text-xl">${formatMoney(total)}</span></div>
+                        <button class="btn btn-success btn-lg" onclick="checkout()"><i class="ri-check-double-line"></i> Rasmiylashtirish</button>
                     </div>
                 </div>
             `;
         }
 
         function updateCart(idx, change) {
-            if(MOCK_DB.cart[idx].qty + change > 0) MOCK_DB.cart[idx].qty += change;
+            if (MOCK_DB.cart[idx].qty + change > 0) MOCK_DB.cart[idx].qty += change;
             renderBuyerCart(document.getElementById('view-area'));
         }
 
@@ -995,27 +2056,19 @@
 
         function checkout() {
             showToast("Buyurtma rasmiylashtirildi. Imzolash uchun kutilmoqda...", "success");
-            MOCK_DB.cart = []; 
+            MOCK_DB.cart = [];
             setTimeout(() => navigate('buyer-orders', document.querySelectorAll('.menu-item')[2]), 1500);
         }
 
         function renderBuyerOrders(container) {
             const myOrders = MOCK_DB.orders.filter(o => o.buyerId === STATE.currentUser.id);
             const rows = myOrders.map(o => `
-                <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td>${getUserById(o.sellerId).name}</td>
-                    <td class="hide-sm">${o.date}</td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
-                    <td>${getStatusBadge(o.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
-                            <i class="ri-eye-line"></i>
-                        </button>
-                    </td>
-                </tr>
+                <tr><td><b>#${o.id}</b></td><td>${getUserById(o.sellerId).name}</td><td class="hide-sm">${o.date}</td><td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td>
+                <td class="action-cell"><button class="btn btn-ghost btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td></tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Mening Buyurtmalarim</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Sotuvchi</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `
+                <div class="page-header"><div class="page-header-left"><h3>Mening Buyurtmalarim</h3><p>${myOrders.length} ta buyurtma</p></div></div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>ID</th><th>Sotuvchi</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         function renderBuyerReports(container) {
@@ -1024,46 +2077,138 @@
                 return order && order.buyerId === STATE.currentUser.id;
             });
 
-            const rows = myReports.map(r => `
-                <tr>
-                    <td><b>#${r.orderId}</b></td>
-                    <td>${getProdById(r.prodId).name}</td>
-                    <td class="hide-sm text-danger font-bold">${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-primary btn-icon" onclick="showToast('Rasm yuklash oynasi ochilmoqda...')" title="Rasm yuklash">
-                            <i class="ri-upload-cloud-2-line"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card">
-                <h3 class="mb-4">Foto Hisobot Yuklash (Majburiy)</h3>
-                <div class="bg-blue-50 p-3 rounded mb-4 text-sm text-info flex items-center gap-2" style="background:#eff6ff; border:1px solid #bfdbfe;">
-                    <i class="ri-information-line"></i> Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklashingiz shart.
+            const doneCount = myReports.filter(r => r.status === 'done').length;
+            const pendingCount = myReports.filter(r => r.status === 'pending').length;
+            const overdueCount = myReports.filter(r => r.status === 'overdue').length;
+
+            const timelineItems = myReports.map(r => {
+                const prod = getProdById(r.prodId);
+                return `
+                <div class="report-timeline-item animate-in">
+                    <div class="report-timeline-dot ${r.status}">
+                        <i class="ri-${r.status === 'done' ? 'check-line' : (r.status === 'overdue' ? 'alarm-warning-line' : 'time-line')}"></i>
+                    </div>
+                    <div class="report-timeline-content">
+                        <div class="flex justify-between items-center flex-wrap gap-2">
+                            <div>
+                                <div class="font-semibold text-sm">${prod.name}</div>
+                                <div class="text-xs text-muted">Buyurtma #${r.orderId} | Muddat: ${r.dueDate}</div>
+                            </div>
+                            ${getStatusBadge(r.status)}
+                        </div>
+                        ${r.status === 'done' && r.photos && r.photos.length > 0 ? `
+                            <div class="mt-3 flex gap-2 flex-wrap">
+                                ${r.photos.map(() => `<div style="width:48px;height:48px;border-radius:6px;background:var(--bg);display:flex;align-items:center;justify-content:center;border:1px solid var(--border);"><i class="ri-image-line text-muted"></i></div>`).join('')}
+                            </div>
+                            ${r.note ? `<div class="text-xs text-muted mt-2"><i class="ri-chat-1-line"></i> ${r.note}</div>` : ''}
+                        ` : ''}
+                        ${r.status !== 'done' ? `
+                            <button class="btn btn-primary btn-sm mt-3" onclick="openPhotoUpload(${r.id})">
+                                <i class="ri-camera-line"></i> Rasm yuklash
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="page-header"><div class="page-header-left"><h3>Foto Hisobot Yuklash</h3><p>Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklang</p></div></div>
+                <div class="report-stats-grid">
+                    <div class="report-stat-item" style="background: var(--success-light);"><div class="report-stat-number text-success">${doneCount}</div><div class="report-stat-label">Bajarilgan</div></div>
+                    <div class="report-stat-item" style="background: var(--warning-light);"><div class="report-stat-number" style="color:var(--warning);">${pendingCount}</div><div class="report-stat-label">Kutilmoqda</div></div>
+                    <div class="report-stat-item" style="background: var(--danger-light);"><div class="report-stat-number text-danger">${overdueCount}</div><div class="report-stat-label">Kechikkan</div></div>
                 </div>
-                <div class="table-responsive">
-                    <table><thead><tr><th>Buyurtma</th><th>Mahsulot</th><th class="hide-sm">Muddat</th><th>Holat</th><th>Yuklash</th></tr></thead><tbody>${rows}</tbody></table>
+                ${overdueCount > 0 ? `<div class="mb-4" style="background: var(--danger-light); border: 1px solid #fecaca; padding: 0.875rem 1rem; border-radius: var(--radius-xs);">
+                    <div class="flex items-center gap-2 text-sm"><i class="ri-alarm-warning-fill" style="color:var(--danger);font-size:1.2rem;"></i> <span><b>Ogohlantirish:</b> ${overdueCount} ta kechikkan foto hisobot bor. Iltimos, tezroq yuklang!</span></div>
+                </div>` : ''}
+                <div class="card">
+                    <h4 class="mb-4 text-sm" style="text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);">Hisobotlar tarixi</h4>
+                    <div class="report-timeline">${timelineItems}</div>
+                    ${myReports.length === 0 ? `<div class="empty-state"><div class="empty-state-icon"><i class="ri-camera-off-line"></i></div><h3 class="text-muted">Foto hisobot yo'q</h3><p class="text-sm text-muted mt-2">Buyurtma bolganda foto hisobot talablari paydo bo'ladi</p></div>` : ''}
                 </div>
-            </div>`;
+            `;
+        }
+
+        function openPhotoUpload(reportId) {
+            const report = MOCK_DB.reports.find(r => r.id === reportId);
+            STATE.currentReportId = reportId;
+            STATE.reportPreviewPhotos = [];
+            document.getElementById('photo-upload-deadline').textContent = report.dueDate;
+            document.getElementById('report-img-preview').innerHTML = '';
+            document.getElementById('photo-upload-note').value = '';
+            openModal('photoUploadModal');
+        }
+
+        function handleReportImages(input) {
+            const previewGrid = document.getElementById('report-img-preview');
+            const files = Array.from(input.files);
+            files.forEach((file, i) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    STATE.reportPreviewPhotos.push(e.target.result);
+                    const idx = STATE.reportPreviewPhotos.length - 1;
+                    const div = document.createElement('div');
+                    div.className = 'photo-preview-item';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <div class="remove-photo" onclick="removeReportPhoto(${idx}, this.parentElement)"><i class="ri-close-line"></i></div>
+                    `;
+                    previewGrid.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeReportPhoto(idx, el) {
+            STATE.reportPreviewPhotos.splice(idx, 1);
+            el.remove();
+        }
+
+        function submitPhotoReport() {
+            if (STATE.reportPreviewPhotos.length === 0) {
+                showToast("Iltimos, kamida bitta rasm yuklang!", "warning");
+                return;
+            }
+            const report = MOCK_DB.reports.find(r => r.id === STATE.currentReportId);
+            if (report) {
+                report.status = 'done';
+                report.photos = STATE.reportPreviewPhotos.map((_, i) => `photo_${i}.jpg`);
+                report.note = document.getElementById('photo-upload-note').value || '';
+            }
+            showToast("Foto hisobot muvaffaqiyatli yuborildi!", "success");
+            closeModal('photoUploadModal');
+            renderBuyerReports(document.getElementById('view-area'));
         }
 
         function signOrder(orderId, role) {
             const order = MOCK_DB.orders.find(o => o.id === orderId);
-            if(role === 'seller') order.signedBySeller = true;
-            if(role === 'buyer') order.signedByBuyer = true;
-            
-            if(order.signedBySeller && order.signedByBuyer) order.status = 'active';
-            
+            if (role === 'seller') order.signedBySeller = true;
+            if (role === 'buyer') order.signedByBuyer = true;
+            if (order.signedBySeller && order.signedByBuyer) order.status = 'active';
             showToast("Hujjat E-IMZO orqali muvaffaqiyatli imzolandi!", "success");
             closeModal('detailsModal');
-            
-            if(role === 'seller') renderSellerOrders(document.getElementById('view-area'));
-            if(role === 'buyer') renderBuyerOrders(document.getElementById('view-area'));
+            if (role === 'seller') renderSellerOrders(document.getElementById('view-area'));
+            if (role === 'buyer') renderBuyerOrders(document.getElementById('view-area'));
         }
 
+        /* Drag & Drop for upload zones */
+        document.addEventListener('DOMContentLoaded', () => {
+            ['prod-upload-zone', 'report-upload-zone'].forEach(zoneId => {
+                const zone = document.getElementById(zoneId);
+                if (!zone) return;
+                zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('dragover'); });
+                zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('dragover');
+                    if (zoneId === 'report-upload-zone') {
+                        const input = document.getElementById('report-img-input');
+                        input.files = e.dataTransfer.files;
+                        handleReportImages(input);
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
-
-
