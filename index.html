@@ -42,14 +42,15 @@
         .flex { display: flex; } .flex-col { display: flex; flex-direction: column; }
         .items-center { align-items: center; } .justify-between { justify-content: space-between; } .justify-center { justify-content: center; }
         .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
-        .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
-        .w-full { width: 100%; } .text-center { text-align: center; }
+        .p-3 { padding: 0.75rem; } .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .mt-2 { margin-top: 0.5rem; } .mt-4 { margin-top: 1rem; } .mt-6 { margin-top: 1.5rem; } .mb-2 { margin-bottom: 0.5rem; } .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; }
+        .w-full { width: 100%; } .text-center { text-align: center; } .text-right { text-align: right; }
         .hidden { display: none !important; }
         
         /* Typography */
         h1, h2, h3, h4 { color: var(--text-main); font-weight: 600; }
         h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.1rem; }
-        .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.875rem; } .text-lg { font-size: 1.125rem; }
+        .text-muted { color: var(--text-muted); } .text-xs { font-size: 0.75rem; } .text-sm { font-size: 0.875rem; } .text-lg { font-size: 1.125rem; } .text-xl { font-size: 1.25rem; }
+        .text-primary { color: var(--primary); } .text-danger { color: var(--danger); } .text-success { color: var(--success); } .text-warning { color: var(--warning); } .text-info { color: var(--info); }
         .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
 
         /* UI Elements */
@@ -64,9 +65,25 @@
         .btn-outline { border: 1px solid var(--border); color: var(--text-main); } .btn-outline:hover { background: var(--bg); }
         
         .input-group { margin-bottom: 1rem; }
-        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-main); font-size: 0.875rem; }
-        .input-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: #f9fafb; transition: border 0.2s; }
-        .input-control:focus { border-color: var(--primary); background: white; }
+        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main); font-size: 0.875rem; }
+        .input-control { width: 100%; min-height: 46px; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(180deg, #ffffff, #f8fafc); transition: border 0.2s, box-shadow 0.2s, background 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 1px 2px rgba(15,23,42,0.03); color: var(--text-main); }
+        .input-control::placeholder { color: #9ca3af; }
+        .input-control:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(13,148,136,0.12); }
+        .filter-toolbar { display: grid; grid-template-columns: minmax(220px, 1.5fr) repeat(2, minmax(160px, 1fr)); gap: 1rem; align-items: end; margin-bottom: 1.25rem; padding: 1rem; border: 1px solid var(--border); border-radius: 18px; background: linear-gradient(135deg, #f8fafc, #ffffff); }
+        .search-field { position: relative; }
+        .search-field i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.15rem; }
+        .search-field .input-control { padding-left: 2.75rem; }
+        .custom-select { position: relative; }
+        .custom-select-trigger { width: 100%; min-height: 46px; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(180deg, #ffffff, #f8fafc); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-weight: 500; color: var(--text-main); box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+        .custom-select-trigger:hover, .custom-select.open .custom-select-trigger { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(13,148,136,0.1); }
+        .custom-select-menu { position: absolute; z-index: 45; top: calc(100% + 0.45rem); left: 0; right: 0; padding: 0.35rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-lg); display: none; max-height: 240px; overflow-y: auto; }
+        .custom-select.open .custom-select-menu { display: block; }
+        .custom-option { padding: 0.75rem 0.85rem; border-radius: 12px; display: flex; align-items: center; gap: 0.65rem; cursor: pointer; color: var(--text-main); }
+        .custom-option:hover, .custom-option.active { background: #ecfdf5; color: var(--primary); }
+        .custom-option i { font-size: 1.1rem; }
+        .segmented-control { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .segment-option { padding: 0.65rem 0.9rem; border: 1px solid var(--border); border-radius: 999px; background: white; color: var(--text-muted); font-weight: 600; cursor: pointer; }
+        .segment-option.active { color: white; background: var(--primary); border-color: var(--primary); box-shadow: 0 8px 18px rgba(13,148,136,0.25); }
         
         .badge { padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; display: inline-block; }
         .badge-pending { background: #fef3c7; color: #d97706; }
@@ -103,6 +120,23 @@
         #topbar { height: 70px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
         .user-info { display: flex; align-items: center; gap: 1rem; }
         .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); font-size: 1.2rem;}
+        .topbar-actions { display: flex; align-items: center; gap: 0.75rem; position: relative; }
+        .notification-wrap { position: relative; }
+        .notification-btn { width: 42px; height: 42px; border-radius: 14px; border: 1px solid var(--border); background: #fff; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main); position: relative; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+        .notification-btn:hover, .notification-btn.active { color: var(--primary); border-color: rgba(13,148,136,0.35); background: #f0fdfa; }
+        .notification-btn i { font-size: 1.25rem; }
+        .notification-dot { position: absolute; top: 8px; right: 8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--danger); color: white; font-size: 0.65rem; line-height: 16px; font-weight: 700; border: 2px solid white; }
+        .notification-dropdown { position: absolute; right: 0; top: calc(100% + 0.75rem); width: min(360px, calc(100vw - 2rem)); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-lg); overflow: hidden; display: none; z-index: 60; }
+        .notification-dropdown.open { display: block; animation: fadeDown 0.18s ease-out; }
+        .notification-head { padding: 1rem 1.1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #f0fdfa, #ffffff); }
+        .notification-list { max-height: 330px; overflow-y: auto; }
+        .notification-item { padding: 0.9rem 1.1rem; display: grid; grid-template-columns: 36px 1fr; gap: 0.75rem; border-bottom: 1px solid var(--border); cursor: pointer; }
+        .notification-item:hover { background: #f8fafc; }
+        .notification-icon { width: 36px; height: 36px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: #e0f2fe; color: var(--info); }
+        .notification-icon.warning { background: #fef3c7; color: var(--warning); }
+        .notification-icon.danger { background: #fee2e2; color: var(--danger); }
+        .notification-icon.success { background: #dcfce7; color: var(--success); }
+        @keyframes fadeDown { from { transform: translateY(-6px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
         /* View Area */
         #view-area { flex: 1; overflow-y: auto; padding: 2rem; }
@@ -146,6 +180,22 @@
         .details-label { color: var(--text-muted); font-size: 0.875rem; }
         .details-value { font-weight: 500; text-align: right; }
 
+        .user-card-list { display: none; flex-direction: column; gap: 0.85rem; }
+        .user-mini-card { border: 1px solid var(--border); border-radius: 18px; padding: 1rem; background: #fff; box-shadow: 0 1px 2px rgba(15,23,42,0.03); }
+        .user-mini-card-head { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem; }
+        .quick-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .photo-report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+        .report-stat-card { border: 1px solid var(--border); border-radius: 18px; padding: 1rem; background: linear-gradient(135deg, #ffffff, #f8fafc); display: flex; align-items: center; gap: 0.9rem; }
+        .report-stat-icon { width: 46px; height: 46px; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; background: #ccfbf1; color: var(--primary); }
+        .report-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+        .report-card { border: 1px solid var(--border); border-radius: 20px; background: #fff; padding: 1rem; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.75rem; }
+        .report-card.overdue { border-color: #fecaca; background: linear-gradient(180deg, #fff, #fff7f7); }
+        .report-card.done { border-color: #bbf7d0; }
+        .report-card.pending { border-color: #fde68a; }
+        .report-thumb { min-height: 120px; border-radius: 16px; background: linear-gradient(135deg, #ecfeff, #f8fafc); border: 1px dashed #99f6e4; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 2rem; }
+        .upload-zone { border: 2px dashed #99f6e4; border-radius: 18px; padding: 1.5rem; text-align: center; background: #f0fdfa; cursor: pointer; transition: border 0.2s, transform 0.2s; }
+        .upload-zone:hover { border-color: var(--primary); transform: translateY(-2px); }
+
         /* Notifications */
         #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
         .toast { background: var(--surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.75rem; border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; }
@@ -161,16 +211,27 @@
             #sidebar.open { transform: translateX(0); }
             #bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; }
             #view-area { padding: 1rem; padding-bottom: 80px; }
-            #topbar { padding: 0 1rem; }
+            #topbar { height: auto; min-height: 66px; padding: 0.75rem 1rem; gap: 0.75rem; }
+            #page-title { font-size: 1rem; max-width: 42vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .mobile-menu-btn { display: block !important; }
             .grid-cards { grid-template-columns: 1fr; }
             .grid-2 { grid-template-columns: 1fr; }
+            .card { padding: 1rem; border-radius: 18px; }
+            .auth-card { padding: 1.25rem; border-radius: 22px; }
+            .filter-toolbar { grid-template-columns: 1fr; padding: 0.85rem; border-radius: 18px; }
+            .custom-select-menu { position: fixed; left: 1rem; right: 1rem; top: auto; bottom: 5.25rem; max-height: 45vh; }
+            .notification-dropdown { position: fixed; top: 4.8rem; right: 1rem; left: 1rem; width: auto; }
+            .topbar-actions { gap: 0.5rem; }
+            .btn { padding: 0.65rem 0.9rem; }
+            .grid-products { grid-template-columns: 1fr; gap: 1rem; }
             
             /* Responsive Table classes */
             .hide-sm { display: none !important; }
             table { font-size: 0.875rem; }
             th, td { padding: 0.75rem 0.5rem; }
             .action-cell { width: 50px; text-align: center; }
+            .admin-users-table { display: none; }
+            .user-card-list { display: flex; }
         }
         .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); }
         .action-cell { white-space: nowrap; }
@@ -237,10 +298,16 @@
                 </div>
                 <div class="input-group">
                     <label>Rolni tanlang</label>
-                    <select id="reg-role" class="input-control">
-                        <option value="seller">Sotuvchi (Seller)</option>
-                        <option value="buyer">Diler/Xaridor (Buyer)</option>
-                    </select>
+                    <div class="custom-select" id="reg-role-select">
+                        <input type="hidden" id="reg-role" value="seller">
+                        <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('reg-role-select')">
+                            <span data-selected-label>Sotuvchi (Seller)</span><i class="ri-arrow-down-s-line"></i>
+                        </button>
+                        <div class="custom-select-menu">
+                            <div class="custom-option active" onclick="setCustomSelectValue('reg-role-select', 'reg-role', 'seller', 'Sotuvchi (Seller)')"><i class="ri-store-2-line"></i> Sotuvchi (Seller)</div>
+                            <div class="custom-option" onclick="setCustomSelectValue('reg-role-select', 'reg-role', 'buyer', 'Diler/Xaridor (Buyer)')"><i class="ri-shopping-bag-3-line"></i> Diler/Xaridor (Buyer)</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <button class="btn btn-primary w-full mt-4" onclick="doRegister()">Ro'yxatdan o'tish kutilmoqda</button>
@@ -274,7 +341,25 @@
                     </button>
                     <h2 id="page-title" class="text-lg">Dashboard</h2>
                 </div>
-                <div class="flex items-center gap-4">
+                <div class="topbar-actions">
+                    <div class="notification-wrap">
+                        <button class="notification-btn" id="notification-btn" onclick="toggleNotifications()" title="Xabarlar">
+                            <i class="ri-notification-3-line"></i>
+                            <span class="notification-dot" id="notification-count">0</span>
+                        </button>
+                        <div class="notification-dropdown" id="notification-dropdown">
+                            <div class="notification-head">
+                                <div>
+                                    <h3>Xabarlar</h3>
+                                    <div class="text-xs text-muted">Muhim eslatmalar va ogohlantirishlar</div>
+                                </div>
+                                <button class="btn btn-outline btn-icon" onclick="markNotificationsRead()" title="O'qildi">
+                                    <i class="ri-check-double-line"></i>
+                                </button>
+                            </div>
+                            <div class="notification-list" id="notification-list"></div>
+                        </div>
+                    </div>
                     <div class="user-info hide-sm">
                         <div class="text-right">
                             <div class="font-semibold" id="topbar-user-name">Foydalanuvchi</div>
@@ -337,7 +422,17 @@
                 <div class="grid-2">
                     <div class="input-group">
                         <label>Kategoriya</label>
-                        <select class="input-control"><option>Elektronika</option><option>Mebel</option><option>Boshqa</option></select>
+                        <div class="custom-select" id="p-category-select">
+                            <input type="hidden" id="p-category" value="electronics">
+                            <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('p-category-select')">
+                                <span data-selected-label>Elektronika</span><i class="ri-arrow-down-s-line"></i>
+                            </button>
+                            <div class="custom-select-menu">
+                                <div class="custom-option active" onclick="setCustomSelectValue('p-category-select', 'p-category', 'electronics', 'Elektronika')"><i class="ri-computer-line"></i> Elektronika</div>
+                                <div class="custom-option" onclick="setCustomSelectValue('p-category-select', 'p-category', 'furniture', 'Mebel')"><i class="ri-armchair-line"></i> Mebel</div>
+                                <div class="custom-option" onclick="setCustomSelectValue('p-category-select', 'p-category', 'other', 'Boshqa')"><i class="ri-box-3-line"></i> Boshqa</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Bazaviy narx (UZS)</label>
@@ -349,10 +444,16 @@
                 
                 <div class="input-group">
                     <label>To'lov modeli</label>
-                    <select id="p-model" class="input-control" onchange="togglePrepayFields()">
-                        <option value="realization">Realizatsiya (Sotilgandan so'ng)</option>
-                        <option value="prepayment">Oldindan to'lov (Avans)</option>
-                    </select>
+                    <div class="custom-select" id="p-model-select">
+                        <input type="hidden" id="p-model" value="realization">
+                        <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('p-model-select')">
+                            <span data-selected-label>Realizatsiya</span><i class="ri-arrow-down-s-line"></i>
+                        </button>
+                        <div class="custom-select-menu">
+                            <div class="custom-option active" onclick="setCustomSelectValue('p-model-select', 'p-model', 'realization', 'Realizatsiya', 'togglePrepayFields')"><i class="ri-refresh-line"></i> Realizatsiya</div>
+                            <div class="custom-option" onclick="setCustomSelectValue('p-model-select', 'p-model', 'prepayment', 'Oldindan to&apos;lov', 'togglePrepayFields')"><i class="ri-bank-card-line"></i> Oldindan to'lov</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div id="prepay-fields" class="hidden grid-2 bg-blue-50 p-4 rounded-lg mb-4" style="background:#f0f9ff; border:1px solid #bae6fd;">
@@ -369,12 +470,18 @@
                     </div>
                     <div class="input-group">
                         <label>Foto hisobot davri</label>
-                        <select id="p-photodays" class="input-control">
-                            <option value="5">Har 5 kunda</option>
-                            <option value="10">Har 10 kunda</option>
-                            <option value="15" selected>Har 15 kunda</option>
-                            <option value="30">Har 30 kunda</option>
-                        </select>
+                        <div class="custom-select" id="p-photodays-select">
+                            <input type="hidden" id="p-photodays" value="15">
+                            <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('p-photodays-select')">
+                                <span data-selected-label>Har 15 kunda</span><i class="ri-arrow-down-s-line"></i>
+                            </button>
+                            <div class="custom-select-menu">
+                                <div class="custom-option" onclick="setCustomSelectValue('p-photodays-select', 'p-photodays', '5', 'Har 5 kunda')"><i class="ri-calendar-check-line"></i> Har 5 kunda</div>
+                                <div class="custom-option" onclick="setCustomSelectValue('p-photodays-select', 'p-photodays', '10', 'Har 10 kunda')"><i class="ri-calendar-check-line"></i> Har 10 kunda</div>
+                                <div class="custom-option active" onclick="setCustomSelectValue('p-photodays-select', 'p-photodays', '15', 'Har 15 kunda')"><i class="ri-calendar-check-line"></i> Har 15 kunda</div>
+                                <div class="custom-option" onclick="setCustomSelectValue('p-photodays-select', 'p-photodays', '30', 'Har 30 kunda')"><i class="ri-calendar-check-line"></i> Har 30 kunda</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -433,7 +540,10 @@
         let STATE = {
             currentUser: null,
             currentView: '',
-            charts: {}
+            charts: {},
+            userFilters: { search: '', role: 'all', status: 'all' },
+            reportFilter: 'all',
+            notificationsRead: false
         };
 
         /* =========================================
@@ -465,6 +575,115 @@
 
         const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || {name: 'Noma\'lum'};
         const getProdById = (id) => MOCK_DB.products.find(p => p.id === id);
+
+        function toggleCustomSelect(selectId) {
+            const target = document.getElementById(selectId);
+            document.querySelectorAll('.custom-select').forEach(select => {
+                if (select !== target) select.classList.remove('open');
+            });
+            target.classList.toggle('open');
+        }
+
+        function setCustomSelectValue(selectId, inputId, value, label, callbackName = '') {
+            const select = document.getElementById(selectId);
+            const input = document.getElementById(inputId);
+            input.value = value;
+            select.querySelector('[data-selected-label]').textContent = label;
+            select.querySelectorAll('.custom-option').forEach(option => option.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            select.classList.remove('open');
+            if (callbackName && typeof window[callbackName] === 'function') window[callbackName](value);
+        }
+
+        function customSelectHtml({ selectId, inputId, value, label, options, callbackName = '' }) {
+            const optionsHtml = options.map(opt => `
+                <div class="custom-option ${opt.value === value ? 'active' : ''}" onclick="setCustomSelectValue('${selectId}', '${inputId}', '${opt.value}', '${opt.label}', '${callbackName}')">
+                    <i class="${opt.icon}"></i> ${opt.label}
+                </div>
+            `).join('');
+
+            return `
+                <div class="custom-select" id="${selectId}">
+                    <input type="hidden" id="${inputId}" value="${value}">
+                    <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('${selectId}')">
+                        <span data-selected-label>${label}</span><i class="ri-arrow-down-s-line"></i>
+                    </button>
+                    <div class="custom-select-menu">${optionsHtml}</div>
+                </div>
+            `;
+        }
+
+        function getNotifications() {
+            if (!STATE.currentUser) return [];
+            const overdueReports = MOCK_DB.reports.filter(r => r.status === 'overdue');
+            const pendingReports = MOCK_DB.reports.filter(r => r.status === 'pending');
+            const unsignedOrders = MOCK_DB.orders.filter(o => o.status === 'pending_sign');
+            const pendingComm = MOCK_DB.orders.filter(o => o.commStatus === 'pending');
+
+            const base = {
+                admin: [
+                    { icon: 'ri-error-warning-line', tone: 'danger', title: `${overdueReports.length} ta kechikkan foto hisobot`, text: 'Foto hisobotlar bo\'limida nazorat qiling.', view: 'admin-reports' },
+                    { icon: 'ri-group-line', tone: '', title: `${MOCK_DB.users.length} ta foydalanuvchi`, text: 'Qidiruv, filter va bloklash amallari tayyor.', view: 'admin-users' },
+                    { icon: 'ri-money-dollar-circle-line', tone: 'warning', title: `${pendingComm.length} ta komissiya kutilmoqda`, text: 'Moliya reyestrini tekshiring.', view: 'admin-comm' }
+                ],
+                seller: [
+                    { icon: 'ri-markup-line', tone: 'warning', title: `${unsignedOrders.filter(o => o.sellerId === STATE.currentUser.id && !o.signedBySeller).length} ta imzo kutilmoqda`, text: 'Buyurtmani ko\'rib E-IMZO bilan tasdiqlang.', view: 'seller-orders' },
+                    { icon: 'ri-camera-line', tone: '', title: 'Foto hisobot davrlari faol', text: 'Katalogdagi mahsulotlar uchun hisobot muddati ko\'rinadi.', view: 'seller-catalog' }
+                ],
+                buyer: [
+                    { icon: 'ri-camera-lens-line', tone: overdueReports.some(r => MOCK_DB.orders.find(o => o.id === r.orderId)?.buyerId === STATE.currentUser.id) ? 'danger' : 'warning', title: 'Foto hisobot eslatmasi', text: 'Muddatdagi mahsulot rasmlarini yuklang.', view: 'buyer-reports' },
+                    { icon: 'ri-shopping-cart-line', tone: 'success', title: `${MOCK_DB.cart.length} ta mahsulot savatda`, text: 'Buyurtmani rasmiylashtirishga tayyor.', view: 'buyer-cart' }
+                ]
+            };
+            return base[STATE.currentUser.role] || [];
+        }
+
+        function renderNotifications() {
+            const items = getNotifications();
+            const countEl = document.getElementById('notification-count');
+            const listEl = document.getElementById('notification-list');
+            if (!countEl || !listEl) return;
+            countEl.textContent = STATE.notificationsRead ? 0 : items.length;
+            countEl.style.display = STATE.notificationsRead ? 'none' : 'inline-block';
+            listEl.innerHTML = items.map(item => `
+                <div class="notification-item" onclick="openNotificationView('${item.view}')">
+                    <div class="notification-icon ${item.tone}"><i class="${item.icon}"></i></div>
+                    <div>
+                        <div class="font-semibold">${item.title}</div>
+                        <div class="text-xs text-muted mt-1">${item.text}</div>
+                    </div>
+                </div>
+            `).join('') || `<div class="p-4 text-center text-muted">Yangi xabarlar yo'q</div>`;
+        }
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notification-dropdown');
+            const button = document.getElementById('notification-btn');
+            dropdown.classList.toggle('open');
+            button.classList.toggle('active', dropdown.classList.contains('open'));
+            renderNotifications();
+        }
+
+        function markNotificationsRead() {
+            STATE.notificationsRead = true;
+            renderNotifications();
+            showToast("Xabarlar o'qildi deb belgilandi", "success");
+        }
+
+        function openNotificationView(viewId) {
+            const navEl = Array.from(document.querySelectorAll('.menu-item')).find(item => item.getAttribute('onclick')?.includes(viewId));
+            navigate(viewId, navEl || null);
+            document.getElementById('notification-dropdown')?.classList.remove('open');
+            document.getElementById('notification-btn')?.classList.remove('active');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-select')) document.querySelectorAll('.custom-select').forEach(select => select.classList.remove('open'));
+            if (!e.target.closest('.notification-wrap')) {
+                document.getElementById('notification-dropdown')?.classList.remove('open');
+                document.getElementById('notification-btn')?.classList.remove('active');
+            }
+        });
 
         /* =========================================
            3. AUTHENTICATION (LOGIN / REGISTER)
@@ -547,6 +766,7 @@
         function initApp() {
             document.getElementById('auth-layout').classList.add('hidden');
             document.getElementById('app-layout').classList.remove('hidden');
+            STATE.notificationsRead = false;
             
             document.getElementById('topbar-user-name').textContent = STATE.currentUser.name;
             const roleNames = {admin: 'Administrator', seller: 'Sotuvchi (Seller)', buyer: 'Diler (Buyer)'};
@@ -567,13 +787,16 @@
                 </div>
             `).join('');
             document.getElementById('bottom-nav').innerHTML = bNavHtml;
+            renderNotifications();
 
             navigate(menuItems[0].id, document.querySelector('.menu-item'));
         }
 
         function navigate(viewId, el, isMobile = false) {
             STATE.currentView = viewId;
-            document.getElementById('page-title').textContent = el.innerText.trim();
+            const menuItems = MENU_CONFIG[STATE.currentUser.role] || [];
+            const matchedMenu = menuItems.find(m => m.id === viewId);
+            document.getElementById('page-title').textContent = el ? el.innerText.trim() : (matchedMenu?.title || 'Dashboard');
             
             document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => i.classList.remove('active'));
             if(el) {
@@ -581,6 +804,10 @@
                 const text = el.innerText.trim().split(' ')[0];
                 document.querySelectorAll('.menu-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
                 document.querySelectorAll('.bottom-nav-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
+            } else if (matchedMenu) {
+                document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => {
+                    if (i.innerText.includes(matchedMenu.title.split(' ')[0])) i.classList.add('active');
+                });
             }
             
             if(window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
@@ -741,23 +968,116 @@
         }
 
         function renderAdminUsers(container) {
-            const rows = MOCK_DB.users.map(u => `
+            const roleLabels = { all: 'Barcha rollar', admin: 'Admin', seller: 'Sotuvchi', buyer: 'Diler/Xaridor' };
+            const statusLabels = { all: 'Barcha holatlar', active: 'Faol', blocked: 'Bloklangan' };
+            const search = STATE.userFilters.search.toLowerCase();
+            const filteredUsers = MOCK_DB.users.filter(u => {
+                const matchesSearch = [u.name, u.inn, u.phone, u.address].join(' ').toLowerCase().includes(search);
+                const matchesRole = STATE.userFilters.role === 'all' || u.role === STATE.userFilters.role;
+                const matchesStatus = STATE.userFilters.status === 'all' || u.status === STATE.userFilters.status;
+                return matchesSearch && matchesRole && matchesStatus;
+            });
+
+            const rows = filteredUsers.map(u => `
                 <tr>
-                    <td><b>${u.name}</b><br><span class="text-xs text-muted hide-sm">INN: ${u.inn}</span></td>
+                    <td><b>${u.name}</b><br><span class="text-xs text-muted hide-sm">INN: ${u.inn} | ${u.phone}</span></td>
                     <td class="hide-sm"><span class="badge badge-info">${u.role.toUpperCase()}</span></td>
                     <td>${getStatusBadge(u.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish">
-                            <i class="ri-eye-line"></i>
-                        </button>
+                        <div class="quick-actions">
+                            <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish"><i class="ri-eye-line"></i></button>
+                            ${u.id !== 1 ? `<button class="btn ${u.status === 'active' ? 'btn-danger' : 'btn-success'} btn-icon" onclick="toggleUserStatus(${u.id})" title="${u.status === 'active' ? 'Bloklash' : 'Blokdan chiqarish'}"><i class="${u.status === 'active' ? 'ri-forbid-2-line' : 'ri-lock-unlock-line'}"></i></button>` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
+
+            const cards = filteredUsers.map(u => `
+                <div class="user-mini-card">
+                    <div class="user-mini-card-head">
+                        <div>
+                            <h3>${u.name}</h3>
+                            <div class="text-xs text-muted">INN: ${u.inn} | ${u.phone}</div>
+                        </div>
+                        ${getStatusBadge(u.status)}
+                    </div>
+                    <div class="flex justify-between mb-4">
+                        <span class="badge badge-info">${u.role.toUpperCase()}</span>
+                        <span class="text-sm text-muted">${u.address}</span>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="btn btn-outline" onclick="openDetails('user', ${u.id})"><i class="ri-eye-line"></i> Ko'rish</button>
+                        ${u.id !== 1 ? `<button class="btn ${u.status === 'active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})"><i class="${u.status === 'active' ? 'ri-forbid-2-line' : 'ri-lock-unlock-line'}"></i> ${u.status === 'active' ? 'Bloklash' : 'Ochish'}</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+
             container.innerHTML = `
                 <div class="card">
-                    <h3 class="mb-4">Tizimdagi kompaniyalar</h3>
-                    <div class="table-responsive"><table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div>
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <h3>Tizimdagi kompaniyalar</h3>
+                            <p class="text-sm text-muted">${filteredUsers.length} ta foydalanuvchi topildi</p>
+                        </div>
+                    </div>
+                    <div class="filter-toolbar">
+                        <div class="input-group mb-0">
+                            <label>Qidirish</label>
+                            <div class="search-field">
+                                <i class="ri-search-line"></i>
+                                <input type="search" class="input-control" value="${STATE.userFilters.search}" placeholder="Kompaniya, INN, telefon..." oninput="updateUserFilter('search', this.value)">
+                            </div>
+                        </div>
+                        <div class="input-group mb-0">
+                            <label>Rol bo'yicha</label>
+                            ${customSelectHtml({
+                                selectId: 'user-role-filter',
+                                inputId: 'user-role-value',
+                                value: STATE.userFilters.role,
+                                label: roleLabels[STATE.userFilters.role],
+                                callbackName: 'applyUserRoleFilter',
+                                options: [
+                                    { value: 'all', label: 'Barcha rollar', icon: 'ri-apps-line' },
+                                    { value: 'admin', label: 'Admin', icon: 'ri-shield-user-line' },
+                                    { value: 'seller', label: 'Sotuvchi', icon: 'ri-store-2-line' },
+                                    { value: 'buyer', label: 'Diler/Xaridor', icon: 'ri-shopping-bag-3-line' }
+                                ]
+                            })}
+                        </div>
+                        <div class="input-group mb-0">
+                            <label>Holat</label>
+                            ${customSelectHtml({
+                                selectId: 'user-status-filter',
+                                inputId: 'user-status-value',
+                                value: STATE.userFilters.status,
+                                label: statusLabels[STATE.userFilters.status],
+                                callbackName: 'applyUserStatusFilter',
+                                options: [
+                                    { value: 'all', label: 'Barcha holatlar', icon: 'ri-list-check' },
+                                    { value: 'active', label: 'Faol', icon: 'ri-checkbox-circle-line' },
+                                    { value: 'blocked', label: 'Bloklangan', icon: 'ri-forbid-2-line' }
+                                ]
+                            })}
+                        </div>
+                    </div>
+                    <div class="table-responsive admin-users-table">
+                        <table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows || `<tr><td colspan="4" class="text-center text-muted">Mos foydalanuvchi topilmadi</td></tr>`}</tbody></table>
+                    </div>
+                    <div class="user-card-list">${cards || `<div class="text-center text-muted p-4">Mos foydalanuvchi topilmadi</div>`}</div>
                 </div>`;
+        }
+
+        function updateUserFilter(key, value) {
+            STATE.userFilters[key] = value;
+            renderAdminUsers(document.getElementById('view-area'));
+        }
+
+        function applyUserRoleFilter(value) {
+            updateUserFilter('role', value || document.getElementById('user-role-value')?.value || 'all');
+        }
+
+        function applyUserStatusFilter(value) {
+            updateUserFilter('status', value || document.getElementById('user-status-value')?.value || 'all');
         }
 
         function toggleUserStatus(id) {
@@ -798,15 +1118,89 @@
         }
         
         function renderAdminReports(container) {
-            const rows = MOCK_DB.reports.map(r => `
-                <tr>
-                    <td>#${r.orderId}</td>
-                    <td class="hide-sm">${getProdById(r.prodId).name}</td>
-                    <td>${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Nazoratdagi Foto Hisobotlar</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Mahsulot</th><th>Muddat</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            const counts = {
+                all: MOCK_DB.reports.length,
+                overdue: MOCK_DB.reports.filter(r => r.status === 'overdue').length,
+                pending: MOCK_DB.reports.filter(r => r.status === 'pending').length,
+                done: MOCK_DB.reports.filter(r => r.status === 'done').length
+            };
+            const cards = MOCK_DB.reports.map(r => {
+                const order = MOCK_DB.orders.find(o => o.id === r.orderId);
+                const product = getProdById(r.prodId);
+                const buyer = getUserById(order?.buyerId);
+                return `
+                    <div class="report-card ${r.status}">
+                        <div class="report-thumb"><i class="${product.img}"></i></div>
+                        <div class="flex justify-between items-center gap-2">
+                            <div>
+                                <div class="font-bold">#${r.orderId} - ${product.name}</div>
+                                <div class="text-sm text-muted">${buyer.name}</div>
+                            </div>
+                            ${getStatusBadge(r.status)}
+                        </div>
+                        <div class="details-row"><span class="details-label">Muddat:</span><span class="details-value">${r.dueDate}</span></div>
+                        <div class="details-row"><span class="details-label">Davr:</span><span class="details-value">Har ${product.photoDays} kun</span></div>
+                        <button class="btn btn-outline w-full" onclick="openReportDetails(${r.id})"><i class="ri-eye-line"></i> Hisobotni ko'rish</button>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="photo-report-grid">
+                    <div class="report-stat-card"><div class="report-stat-icon"><i class="ri-camera-lens-line"></i></div><div><div class="text-sm text-muted">Jami hisobot</div><div class="text-xl font-bold">${counts.all} ta</div></div></div>
+                    <div class="report-stat-card"><div class="report-stat-icon" style="background:#fee2e2;color:var(--danger)"><i class="ri-alarm-warning-line"></i></div><div><div class="text-sm text-muted">Kechikkan</div><div class="text-xl font-bold text-danger">${counts.overdue} ta</div></div></div>
+                    <div class="report-stat-card"><div class="report-stat-icon" style="background:#fef3c7;color:var(--warning)"><i class="ri-time-line"></i></div><div><div class="text-sm text-muted">Kutilmoqda</div><div class="text-xl font-bold text-warning">${counts.pending} ta</div></div></div>
+                    <div class="report-stat-card"><div class="report-stat-icon" style="background:#dcfce7;color:var(--success)"><i class="ri-checkbox-circle-line"></i></div><div><div class="text-sm text-muted">Bajarilgan</div><div class="text-xl font-bold text-success">${counts.done} ta</div></div></div>
+                </div>
+                <div class="card">
+                    <div class="flex justify-between items-center gap-4 mb-4" style="flex-wrap:wrap;">
+                        <div>
+                            <h3>Nazoratdagi Foto Hisobotlar</h3>
+                            <p class="text-sm text-muted mt-2">Har bir shartnoma bo'yicha foto dalillar va muddatlar kuzatuvi.</p>
+                        </div>
+                        <button class="btn btn-outline" onclick="showToast('Hisobotlar eksportga tayyorlanmoqda...', 'info')"><i class="ri-download-cloud-line"></i> Eksport</button>
+                    </div>
+                    <div class="report-card-grid">${cards}</div>
+                </div>`;
+        }
+
+        function openReportDetails(reportId) {
+            const report = MOCK_DB.reports.find(r => r.id === reportId);
+            const order = MOCK_DB.orders.find(o => o.id === report.orderId);
+            const product = getProdById(report.prodId);
+            const buyer = getUserById(order?.buyerId);
+            const seller = getUserById(order?.sellerId);
+            document.getElementById('dm-title').textContent = `Foto hisobot #${report.id}`;
+            document.getElementById('dm-body').innerHTML = `
+                <div class="report-thumb mb-4"><i class="${product.img}"></i></div>
+                <div class="details-list">
+                    <div class="details-row"><span class="details-label">Buyurtma:</span><span class="details-value">#${report.orderId}</span></div>
+                    <div class="details-row"><span class="details-label">Mahsulot:</span><span class="details-value">${product.name}</span></div>
+                    <div class="details-row"><span class="details-label">Sotuvchi:</span><span class="details-value">${seller.name}</span></div>
+                    <div class="details-row"><span class="details-label">Xaridor:</span><span class="details-value">${buyer.name}</span></div>
+                    <div class="details-row"><span class="details-label">Muddat:</span><span class="details-value">${report.dueDate}</span></div>
+                    <div class="details-row"><span class="details-label">Holat:</span><span class="details-value">${getStatusBadge(report.status)}</span></div>
+                </div>
+                <div class="mt-4 p-3 rounded" style="background:#f8fafc; border:1px solid var(--border);">
+                    <b>Tekshiruv qaydi:</b>
+                    <p class="text-sm text-muted mt-2">Rasta ko'rinishi, mahsulot miqdori va sana belgisi hisobotda aniq ko'rinishi kerak.</p>
+                </div>
+            `;
+            document.getElementById('dm-footer').innerHTML = `
+                <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
+                ${report.status !== 'done' ? `<button class="btn btn-success" onclick="markReportDone(${report.id})"><i class="ri-check-line"></i> Tasdiqlash</button>` : ''}
+            `;
+            openModal('detailsModal');
+        }
+
+        function markReportDone(reportId) {
+            const report = MOCK_DB.reports.find(r => r.id === reportId);
+            report.status = 'done';
+            showToast("Foto hisobot tasdiqlandi", "success");
+            closeModal('detailsModal');
+            if (STATE.currentView === 'admin-reports') renderAdminReports(document.getElementById('view-area'));
+            if (STATE.currentView === 'buyer-reports') renderBuyerReports(document.getElementById('view-area'));
+            renderNotifications();
         }
 
         /* =========================================
@@ -1024,28 +1418,45 @@
                 return order && order.buyerId === STATE.currentUser.id;
             });
 
-            const rows = myReports.map(r => `
-                <tr>
-                    <td><b>#${r.orderId}</b></td>
-                    <td>${getProdById(r.prodId).name}</td>
-                    <td class="hide-sm text-danger font-bold">${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-primary btn-icon" onclick="showToast('Rasm yuklash oynasi ochilmoqda...')" title="Rasm yuklash">
-                            <i class="ri-upload-cloud-2-line"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card">
-                <h3 class="mb-4">Foto Hisobot Yuklash (Majburiy)</h3>
-                <div class="bg-blue-50 p-3 rounded mb-4 text-sm text-info flex items-center gap-2" style="background:#eff6ff; border:1px solid #bfdbfe;">
-                    <i class="ri-information-line"></i> Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklashingiz shart.
+            const cards = myReports.map(r => {
+                const product = getProdById(r.prodId);
+                const isDone = r.status === 'done';
+                return `
+                    <div class="report-card ${r.status}">
+                        <div class="report-thumb"><i class="${isDone ? 'ri-image-check-line' : product.img}"></i></div>
+                        <div class="flex justify-between items-center gap-2">
+                            <div>
+                                <div class="font-bold">${product.name}</div>
+                                <div class="text-sm text-muted">Buyurtma #${r.orderId}</div>
+                            </div>
+                            ${getStatusBadge(r.status)}
+                        </div>
+                        <div class="details-row"><span class="details-label">Topshirish muddati:</span><span class="details-value ${r.status === 'overdue' ? 'text-danger' : ''}">${r.dueDate}</span></div>
+                        <div class="details-row"><span class="details-label">Talab:</span><span class="details-value">Rasta / ombor foto</span></div>
+                        <div class="upload-zone" onclick="submitReportUpload(${r.id})">
+                            <i class="${isDone ? 'ri-checkbox-circle-line' : 'ri-upload-cloud-2-line'}" style="font-size:2rem;color:var(--primary)"></i>
+                            <div class="font-semibold mt-2">${isDone ? 'Foto qabul qilingan' : 'Foto yuklash'}</div>
+                            <div class="text-xs text-muted mt-2">${isDone ? 'Hisobot bajarilgan deb belgilangan' : 'JPG/PNG fayl tanlang yoki kameradan rasm oling'}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="card mb-4">
+                    <h3 class="mb-2">Foto Hisobot Yuklash (Majburiy)</h3>
+                    <div class="text-sm text-muted">Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklang. Kechikkan hisobotlar qizil rang bilan ajratildi.</div>
                 </div>
-                <div class="table-responsive">
-                    <table><thead><tr><th>Buyurtma</th><th>Mahsulot</th><th class="hide-sm">Muddat</th><th>Holat</th><th>Yuklash</th></tr></thead><tbody>${rows}</tbody></table>
-                </div>
-            </div>`;
+                <div class="report-card-grid">${cards || `<div class="card text-center text-muted">Sizda foto hisobot vazifalari yo'q.</div>`}</div>
+            `;
+        }
+
+        function submitReportUpload(reportId) {
+            const report = MOCK_DB.reports.find(r => r.id === reportId);
+            if (!report) return;
+            report.status = 'done';
+            showToast("Foto hisobot yuklandi va bajarildi deb belgilandi", "success");
+            renderBuyerReports(document.getElementById('view-area'));
         }
 
         function signOrder(orderId, role) {
