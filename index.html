@@ -224,85 +224,53 @@
             align-items: center;
             justify-content: center;
             padding: 28px;
+            background: linear-gradient(135deg, #f0fdfa 0%, #f3f4f6 40%, #ecfdf5 100%);
         }
 
-        .auth-shell {
+        .login-shell {
             width: 100%;
-            max-width: 1160px;
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-            gap: 24px;
+            max-width: 480px;
         }
 
-        .auth-card,
-        .preview-card {
-            padding: 34px;
+        .login-card {
+            padding: 40px 36px 32px;
         }
 
-        .auth-copy h2 {
-            margin-top: 14px;
-            font-size: 34px;
-            line-height: 1.1;
+        .login-brand {
+            text-align: center;
+            margin-bottom: 32px;
         }
 
-        .auth-copy p {
-            margin-top: 12px;
-            max-width: 600px;
-            color: var(--muted);
-            line-height: 1.65;
-        }
-
-        .role-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            margin: 30px 0;
-        }
-
-        .role-option {
-            padding: 18px;
-            border-radius: 22px;
-            border: 1px solid var(--border);
-            background: var(--surface-soft);
-            text-align: left;
-        }
-
-        .role-option.active {
-            background: #fff;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 1px var(--primary);
-        }
-
-        .role-option i {
+        .login-logo {
             display: inline-flex;
-            width: 42px;
-            height: 42px;
-            border-radius: 14px;
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
             align-items: center;
             justify-content: center;
-            background: var(--surface-muted);
-            color: var(--primary);
-            font-size: 20px;
-            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary), #14b8a6);
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 16px;
         }
 
-        .role-option strong {
-            display: block;
-            font-size: 15px;
+        .login-brand h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
         }
 
-        .role-option span {
-            display: block;
-            margin-top: 6px;
-            font-size: 12px;
+        .login-brand p {
+            margin-top: 8px;
             color: var(--muted);
-            line-height: 1.5;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 16px;
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
 
         .field {
@@ -321,52 +289,177 @@
             grid-column: 1 / -1;
         }
 
-        .auth-actions {
+        .input-icon-wrap {
+            position: relative;
+        }
+
+        .input-icon-wrap i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        .input-icon-wrap .input-control {
+            padding-left: 46px;
+        }
+
+        .login-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .login-error {
+            text-align: center;
+            color: var(--danger);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 16px;
+            background: #fef2f2;
+            border-radius: var(--radius-sm);
+            border: 1px solid #fecaca;
+        }
+
+        .demo-divider {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             gap: 16px;
-            margin-top: 24px;
-            flex-wrap: wrap;
+            margin: 28px 0;
         }
 
-        .helper-note {
-            max-width: 420px;
+        .demo-divider::before,
+        .demo-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .demo-divider span {
+            font-size: 12px;
             color: var(--muted);
-            font-size: 13px;
-            line-height: 1.6;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
         }
 
-        .preview-card {
+        .demo-cards {
             display: flex;
             flex-direction: column;
-            gap: 22px;
-            background: linear-gradient(180deg, #ffffff 0%, #f7f9fa 100%);
+            gap: 12px;
         }
 
-        .preview-head h3 {
-            font-size: 26px;
-            margin-top: 12px;
-        }
-
-        .preview-head p {
-            margin-top: 10px;
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .preview-profile {
-            padding: 22px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            background: var(--surface);
-        }
-
-        .preview-profile-top {
+        .demo-card {
             display: flex;
             align-items: center;
             gap: 14px;
-            margin-bottom: 18px;
+            padding: 16px 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: var(--surface-soft);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            width: 100%;
+        }
+
+        .demo-card:hover {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 1px var(--primary-ring), var(--shadow-soft);
+            transform: translateY(-1px);
+        }
+
+        .demo-card-icon {
+            display: flex;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .demo-card-icon.admin-icon {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .demo-card-icon.seller-icon {
+            background: #ecfdf5;
+            color: var(--primary);
+        }
+
+        .demo-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .demo-card-info strong {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .demo-card-email {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .demo-card-pass {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 1px;
+            opacity: 0.7;
+        }
+
+        .demo-card-arrow {
+            font-size: 20px;
+            color: var(--muted);
+            transition: transform 0.2s ease;
+        }
+
+        .demo-card:hover .demo-card-arrow {
+            transform: translateX(3px);
+            color: var(--primary);
+        }
+
+        .login-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .login-footer i {
+            font-size: 14px;
+        }
+
+        @media (max-width: 520px) {
+            .login-card {
+                padding: 28px 20px 24px;
+            }
+
+            .login-brand h1 {
+                font-size: 24px;
+            }
         }
 
         .avatar,
@@ -1124,7 +1217,6 @@
         }
 
         @media (max-width: 1100px) {
-            .auth-shell,
             .profile-hero,
             .stats-grid,
             .dual-grid,
@@ -1161,8 +1253,7 @@
             }
 
             .section-card,
-            .auth-card,
-            .preview-card {
+            .login-card {
                 padding: 22px;
             }
 
@@ -1181,12 +1272,6 @@
                 padding: 16px;
             }
 
-            .role-grid,
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .auth-copy h2,
             .section-head h3 {
                 font-size: 26px;
             }
@@ -1215,69 +1300,71 @@
 </head>
 <body>
     <div id="auth-layout">
-        <div class="auth-shell">
-            <section class="auth-card card-surface">
-                <div class="auth-copy">
-                    <span class="section-kicker">Minimal onboarding</span>
-                    <h2>Ro'yxatdan o'tish</h2>
-                    <p>Login bo'limi olib tashlandi. Endi rol tanlab, profil ma'lumotlarini kiriting va to'g'ridan-to'g'ri minimal panelga kiring.</p>
+        <div class="login-shell">
+            <section class="login-card card-surface">
+                <div class="login-brand">
+                    <div class="login-logo">
+                        <i class="ri-store-3-line"></i>
+                    </div>
+                    <h1>B2B Panel</h1>
+                    <p>Demo rejimda kirish — parolni kiriting yoki kartalardan birini tanlang</p>
                 </div>
 
-                <div class="role-grid" id="auth-role-grid">
-                    <button class="role-option active" data-role="seller" onclick="setAuthRole('seller')">
-                        <i class="ri-store-2-line"></i>
-                        <strong>Sotuvchi</strong>
-                        <span>Katalog, buyurtma va moliya bo'limlari tayyor.</span>
+                <form class="login-form" onsubmit="doLogin(event)">
+                    <div class="field">
+                        <label for="login-email">Email</label>
+                        <div class="input-icon-wrap">
+                            <i class="ri-mail-line"></i>
+                            <input class="input-control" id="login-email" type="email" placeholder="email@company.uz" autocomplete="email">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="login-password">Parol</label>
+                        <div class="input-icon-wrap">
+                            <i class="ri-lock-line"></i>
+                            <input class="input-control" id="login-password" type="password" placeholder="Parolni kiriting" autocomplete="current-password">
+                        </div>
+                    </div>
+                    <button class="primary-btn login-btn" type="submit">
+                        <i class="ri-login-box-line"></i> Kirish
                     </button>
-                    <button class="role-option" data-role="buyer" onclick="setAuthRole('buyer')">
-                        <i class="ri-shopping-bag-3-line"></i>
-                        <strong>Xaridor</strong>
-                        <span>Vitrina, savat va hisobotlarni boshqaradi.</span>
+                    <div id="login-error" class="login-error hidden"></div>
+                </form>
+
+                <div class="demo-divider">
+                    <span>yoki demo akkaunt bilan kiring</span>
+                </div>
+
+                <div class="demo-cards">
+                    <button class="demo-card" onclick="demoLogin('admin')">
+                        <div class="demo-card-icon admin-icon">
+                            <i class="ri-shield-user-line"></i>
+                        </div>
+                        <div class="demo-card-info">
+                            <strong>Admin</strong>
+                            <span class="demo-card-email">admin@mydiller.uz</span>
+                            <span class="demo-card-pass">Parol: admin123</span>
+                        </div>
+                        <i class="ri-arrow-right-s-line demo-card-arrow"></i>
                     </button>
-                    <button class="role-option" data-role="admin" onclick="setAuthRole('admin')">
-                        <i class="ri-shield-user-line"></i>
-                        <strong>Admin</strong>
-                        <span>Foydalanuvchi, buyurtma va nazorat paneli.</span>
+                    <button class="demo-card" onclick="demoLogin('seller')">
+                        <div class="demo-card-icon seller-icon">
+                            <i class="ri-store-2-line"></i>
+                        </div>
+                        <div class="demo-card-info">
+                            <strong>Sotuvchi</strong>
+                            <span class="demo-card-email">seller@texnofarm.uz</span>
+                            <span class="demo-card-pass">Parol: seller123</span>
+                        </div>
+                        <i class="ri-arrow-right-s-line demo-card-arrow"></i>
                     </button>
                 </div>
 
-                <div class="form-grid">
-                    <div class="field">
-                        <label for="auth-name">Mas'ul shaxs</label>
-                        <input class="input-control" id="auth-name" type="text" placeholder="Ism familiya">
-                    </div>
-                    <div class="field">
-                        <label for="auth-company">Kompaniya / bo'lim</label>
-                        <input class="input-control" id="auth-company" type="text" placeholder="Kompaniya nomi">
-                    </div>
-                    <div class="field">
-                        <label for="auth-phone">Telefon raqam</label>
-                        <input class="input-control" id="auth-phone" type="tel" placeholder="+998 90 123 45 67">
-                    </div>
-                    <div class="field">
-                        <label for="auth-email">Email</label>
-                        <input class="input-control" id="auth-email" type="email" placeholder="email@company.uz">
-                    </div>
-                    <div class="field full">
-                        <label for="auth-bio">Qisqa izoh</label>
-                        <textarea class="text-control" id="auth-bio" placeholder="Faoliyat turi, yo'nalish yoki ish uslubingiz haqida 1-2 gap yozing."></textarea>
-                    </div>
-                </div>
-
-                <div class="auth-actions">
-                    <button class="primary-btn" onclick="createProfile()"><i class="ri-arrow-right-up-line"></i> Profil yaratish</button>
-                    <div class="helper-note">Tanlangan rolga mos demo ma'lumotlar yuklanadi, lekin ko'rinish siz kiritgan profil bilan ishlaydi.</div>
+                <div class="login-footer">
+                    <i class="ri-information-line"></i>
+                    Demo rejim — haqiqiy ma'lumotlar saqlanmaydi
                 </div>
             </section>
-
-            <aside class="preview-card card-surface">
-                <div class="preview-head">
-                    <span class="section-kicker">Preview</span>
-                    <h3>Yangi minimal ko'rinish</h3>
-                    <p>Umumiy fon <strong>#f3f4f6</strong>, yumshoq sidebar va har bir jadval ustida qidiruv maydoni hamda <strong>Filter</strong> tugmasi orqali ochiladigan menyular.</p>
-                </div>
-                <div id="auth-preview"></div>
-            </aside>
         </div>
     </div>
 
@@ -1334,30 +1421,6 @@
     <div id="toast-container"></div>
 
     <script>
-        const AUTH_PRESETS = {
-            admin: {
-                contactName: 'Aziza Rahimova',
-                company: 'My Diller UZ',
-                phone: '+998 90 111 22 33',
-                email: 'admin@mydiller.uz',
-                bio: 'Platformadagi foydalanuvchilar, buyurtmalar va hisobotlar nazoratini yuritaman.'
-            },
-            seller: {
-                contactName: 'Akbar Aliyev',
-                company: 'TexnoFarm MChJ',
-                phone: '+998 90 222 33 44',
-                email: 'seller@texnofarm.uz',
-                bio: 'Elektronika mahsulotlari katalogini boshqaraman va buyurtmalarni kuzataman.'
-            },
-            buyer: {
-                contactName: 'Madina Karimova',
-                company: 'SuperMart MChJ',
-                phone: '+998 90 444 55 66',
-                email: 'buyer@supermart.uz',
-                bio: 'Mahsulotlarni vitrinadan tanlayman, savat va foto hisobotlarni nazorat qilaman.'
-            }
-        };
-
         const MOCK_DB = {
             users: [
                 {
@@ -1631,79 +1694,55 @@
             `;
         }
 
-        function setAuthRole(role) {
-            STATE.authRole = role;
-            document.querySelectorAll('.role-option').forEach(option => {
-                option.classList.toggle('active', option.dataset.role === role);
-            });
-            fillAuthForm(role);
-            renderAuthPreview();
+        const DEMO_CREDENTIALS = {
+            'admin@mydiller.uz':   { password: 'admin123',  role: 'admin',  userId: 1 },
+            'seller@texnofarm.uz': { password: 'seller123', role: 'seller', userId: 2 }
+        };
+
+        function showLoginError(msg) {
+            const el = document.getElementById('login-error');
+            el.textContent = msg;
+            el.classList.remove('hidden');
         }
 
-        function fillAuthForm(role) {
-            const preset = AUTH_PRESETS[role];
-            document.getElementById('auth-name').value = preset.contactName;
-            document.getElementById('auth-company').value = preset.company;
-            document.getElementById('auth-phone').value = preset.phone;
-            document.getElementById('auth-email').value = preset.email;
-            document.getElementById('auth-bio').value = preset.bio;
+        function hideLoginError() {
+            document.getElementById('login-error').classList.add('hidden');
         }
 
-        function renderAuthPreview() {
-            const preset = AUTH_PRESETS[STATE.authRole];
-            document.getElementById('auth-preview').innerHTML = `
-                <div class="preview-profile">
-                    <div class="preview-profile-top">
-                        <div class="avatar">${initials(preset.contactName)}</div>
-                        <div>
-                            <strong style="display:block; font-size:16px;">${escapeHtml(preset.contactName)}</strong>
-                            <div class="mini-muted">${escapeHtml(preset.company)}</div>
-                            <div class="mini-muted">${roleLabel(STATE.authRole)}</div>
-                        </div>
-                    </div>
-                    <div class="sidebar-badges">
-                        <span class="pill"><i class="ri-phone-line"></i> ${escapeHtml(preset.phone)}</span>
-                        <span class="pill"><i class="ri-mail-line"></i> ${escapeHtml(preset.email)}</span>
-                    </div>
-                </div>
-                <ul class="preview-list">
-                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Katta inputlar</strong> Maydonlar kattalashtirildi va minimal chiziqli ko'rinishga o'tkazildi.</li>
-                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">Jadval ustidagi qidiruv</strong> Har bir ro'yxatdan oldin qidiruv maydoni va <strong>Filter</strong> tugmasi orqali ochiladigan menyular.</li>
-                    <li><strong style="display:block; color:var(--text); margin-bottom:6px;">To'liq profil</strong> Aloqa, ish faoliyati, status va vaqt chizig'i ko'rinadi.</li>
-                </ul>
-            `;
-        }
-
-        function createProfile() {
-            const name = document.getElementById('auth-name').value.trim();
-            const company = document.getElementById('auth-company').value.trim();
-            const phone = document.getElementById('auth-phone').value.trim();
-            const email = document.getElementById('auth-email').value.trim();
-            const bio = document.getElementById('auth-bio').value.trim();
-
-            if (!name || !company || !phone || !email) {
-                showToast('Barcha asosiy maydonlarni to\'ldiring.', 'warning');
-                return;
-            }
-
-            const normalizedPhone = phone.replace(/\s+/g, '');
-            if (!normalizedPhone.startsWith('+998') || normalizedPhone.length < 13) {
-                showToast('Telefon raqami +998 bilan boshlanishi kerak.', 'warning');
-                return;
-            }
-
-            const templateId = { admin: 1, seller: 2, buyer: 4 }[STATE.authRole];
-            const user = getUserById(templateId);
-
-            user.contactName = name;
-            user.name = company;
-            user.phone = normalizedPhone;
-            user.email = email;
-            user.bio = bio || AUTH_PRESETS[STATE.authRole].bio;
-
+        function loginAs(role) {
+            const cred = Object.values(DEMO_CREDENTIALS).find(c => c.role === role);
+            if (!cred) return;
+            const user = getUserById(cred.userId);
             STATE.currentUser = user;
             initApp();
-            showToast('Profil muvaffaqiyatli yaratildi.');
+            showToast(roleLabel(role) + ' sifatida kirdingiz.');
+        }
+
+        function demoLogin(role) {
+            hideLoginError();
+            loginAs(role);
+        }
+
+        function doLogin(event) {
+            event.preventDefault();
+            hideLoginError();
+
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                showLoginError('Email va parolni kiriting.');
+                return;
+            }
+
+            const cred = DEMO_CREDENTIALS[email];
+
+            if (!cred || cred.password !== password) {
+                showLoginError('Email yoki parol noto\'g\'ri. Demo parollarni tekshiring.');
+                return;
+            }
+
+            loginAs(cred.role);
         }
 
         function toggleSidebar() {
@@ -1723,6 +1762,9 @@
             document.getElementById('app-layout').classList.add('hidden');
             document.getElementById('auth-layout').classList.remove('hidden');
             document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+            hideLoginError();
             closeToolMenus();
             showToast('Sessiya yopildi.', 'warning');
         }
@@ -2700,8 +2742,7 @@
             }
         });
 
-        fillAuthForm(STATE.authRole);
-        renderAuthPreview();
+        // Login page ready
     </script>
 </body>
 </html>
