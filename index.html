@@ -3,192 +3,638 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0d9488">
     <title>My Diller UZ - B2B Platforma</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Remix Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
         :root {
             --primary: #0d9488;
             --primary-hover: #0f766e;
-            --bg: #f3f4f6;
+            --primary-light: #ccfbf1;
+            --primary-soft: #f0fdfa;
+            --bg: #f4f6fa;
             --surface: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
             --danger: #ef4444;
-            --success: #22c55e;
+            --danger-light: #fee2e2;
+            --success: #10b981;
+            --success-light: #d1fae5;
             --warning: #f59e0b;
+            --warning-light: #fef3c7;
             --info: #3b82f6;
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --sidebar-width: 280px;
+            --info-light: #dbeafe;
+            --radius-sm: 8px;
+            --radius: 14px;
+            --radius-lg: 20px;
+            --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+            --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.10);
+            --shadow-xl: 0 20px 50px rgba(15, 23, 42, 0.18);
+            --sidebar-width: 270px;
+            --topbar-height: 70px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); font-size: 14px; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        html, body { height: 100%; }
+        body { background-color: var(--bg); color: var(--text-main); font-size: 14px; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
-        button, input, select, textarea { outline: none; border: none; background: none; font-family: inherit; }
-        button { cursor: pointer; transition: all 0.2s; }
-        
-        /* Utility Classes */
+        button, input, select, textarea { outline: none; border: none; background: none; font-family: inherit; font-size: inherit; color: inherit; }
+        button { cursor: pointer; transition: var(--transition); }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* ================ Utility ================ */
         .flex { display: flex; } .flex-col { display: flex; flex-direction: column; }
-        .items-center { align-items: center; } .justify-between { justify-content: space-between; } .justify-center { justify-content: center; }
-        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
-        .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
-        .w-full { width: 100%; } .text-center { text-align: center; }
+        .items-center { align-items: center; } .items-start { align-items: flex-start; }
+        .justify-between { justify-content: space-between; } .justify-center { justify-content: center; } .justify-end { justify-content: flex-end; }
+        .gap-1 { gap: 0.25rem; } .gap-2 { gap: 0.5rem; } .gap-3 { gap: 0.75rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
+        .p-2 { padding: 0.5rem; } .p-3 { padding: 0.75rem; } .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; } .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .mt-2 { margin-top: 0.5rem; } .mt-4 { margin-top: 1rem; } .mt-6 { margin-top: 1.5rem; } .mt-auto { margin-top: auto; }
+        .mb-2 { margin-bottom: 0.5rem; } .mb-3 { margin-bottom: 0.75rem; } .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; }
+        .ml-auto { margin-left: auto; }
+        .w-full { width: 100%; } .text-center { text-align: center; } .text-right { text-align: right; }
         .hidden { display: none !important; }
-        
-        /* Typography */
-        h1, h2, h3, h4 { color: var(--text-main); font-weight: 600; }
-        h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.1rem; }
-        .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.875rem; } .text-lg { font-size: 1.125rem; }
-        .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
+        .relative { position: relative; }
+        .flex-1 { flex: 1; }
+        .rounded { border-radius: 8px; } .rounded-lg { border-radius: 12px; } .rounded-full { border-radius: 999px; }
+        .cursor-pointer { cursor: pointer; }
 
-        /* UI Elements */
-        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
-        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn-icon { padding: 0.5rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+        h1, h2, h3, h4, h5 { color: var(--text-main); font-weight: 700; line-height: 1.3; }
+        h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.1rem; } h4 { font-size: 1rem; }
+        .text-muted { color: var(--text-muted); } .text-light { color: var(--text-light); }
+        .text-xs { font-size: 0.75rem; } .text-sm { font-size: 0.875rem; } .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; } .text-xl { font-size: 1.25rem; } .text-2xl { font-size: 1.5rem; }
+        .font-medium { font-weight: 500; } .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
+        .text-primary { color: var(--primary); } .text-success { color: var(--success); } .text-danger { color: var(--danger); } .text-warning { color: var(--warning); } .text-info { color: var(--info); }
+
+        /* ================ UI Elements ================ */
+        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
+        .card-hover:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+        .btn { padding: 0.7rem 1.25rem; border-radius: 10px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 0.875rem; white-space: nowrap; }
+        .btn-icon { padding: 0.55rem; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; }
+        .btn-icon i { font-size: 1.15rem; }
+        .btn-sm { padding: 0.4rem 0.85rem; font-size: 0.8rem; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
-        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { background: #dc2626; }
-        .btn-success { background: var(--success); color: white; } .btn-warning { background: var(--warning); color: white; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25); }
+        .btn-primary:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(13, 148, 136, 0.35); }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-success { background: var(--success); color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25); }
+        .btn-success:hover { background: #059669; transform: translateY(-1px); }
+        .btn-warning { background: var(--warning); color: white; }
         .btn-info { background: var(--info); color: white; }
-        .btn-outline { border: 1px solid var(--border); color: var(--text-main); } .btn-outline:hover { background: var(--bg); }
-        
-        .input-group { margin-bottom: 1rem; }
-        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-main); font-size: 0.875rem; }
-        .input-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: #f9fafb; transition: border 0.2s; }
-        .input-control:focus { border-color: var(--primary); background: white; }
-        
-        .badge { padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; display: inline-block; }
-        .badge-pending { background: #fef3c7; color: #d97706; }
-        .badge-active { background: #d1fae5; color: #059669; }
-        .badge-danger { background: #fee2e2; color: #dc2626; }
-        .badge-info { background: #dbeafe; color: #2563eb; }
+        .btn-ghost { background: transparent; color: var(--text-muted); }
+        .btn-ghost:hover { background: var(--border-light); color: var(--text-main); }
+        .btn-outline { border: 1.5px solid var(--border); color: var(--text-main); background: var(--surface); }
+        .btn-outline:hover { background: var(--bg); border-color: var(--primary); color: var(--primary); }
+        .btn-soft-primary { background: var(--primary-light); color: var(--primary); }
+        .btn-soft-primary:hover { background: var(--primary); color: white; }
+        .btn-soft-danger { background: var(--danger-light); color: var(--danger); }
+        .btn-soft-danger:hover { background: var(--danger); color: white; }
+        .btn-soft-success { background: var(--success-light); color: var(--success); }
+        .btn-soft-success:hover { background: var(--success); color: white; }
+        .btn-soft-info { background: var(--info-light); color: var(--info); }
+        .btn-soft-info:hover { background: var(--info); color: white; }
 
-        /* Tables */
-        .table-responsive { overflow-x: auto; width: 100%; }
+        /* ================ Inputs ================ */
+        .input-group { margin-bottom: 1.1rem; }
+        .input-group label { display: block; margin-bottom: 0.45rem; font-weight: 600; color: var(--text-main); font-size: 0.8rem; }
+        .input-control,
+        .custom-select-trigger {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            transition: var(--transition);
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+        .input-control:hover,
+        .custom-select-trigger:hover { border-color: #cbd5e1; }
+        .input-control:focus,
+        .custom-select-trigger:focus,
+        .input-wrap.focused .custom-select-trigger,
+        .custom-select.open .custom-select-trigger {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.10);
+            background: var(--surface);
+        }
+        .input-control::placeholder { color: var(--text-light); }
+
+        .input-wrap { position: relative; }
+        .input-wrap > i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; pointer-events: none; }
+        .input-wrap.has-icon .input-control { padding-left: 2.6rem; }
+        .input-wrap .input-trail { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; padding: 0.25rem; border-radius: 6px; }
+        .input-wrap .input-trail:hover { color: var(--primary); background: var(--primary-soft); }
+
+        /* Custom Select (no native <select>) */
+        .custom-select { position: relative; }
+        .custom-select-trigger {
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; user-select: none;
+        }
+        .custom-select-trigger .cs-value { flex: 1; text-align: left; color: var(--text-main); }
+        .custom-select-trigger .cs-value.placeholder { color: var(--text-light); }
+        .custom-select-trigger .cs-arrow { color: var(--text-muted); transition: transform 0.25s; font-size: 1.2rem; line-height: 1; }
+        .custom-select.open .cs-arrow { transform: rotate(180deg); color: var(--primary); }
+        .custom-select-menu {
+            position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            max-height: 260px; overflow-y: auto;
+            z-index: 30;
+            opacity: 0; transform: translateY(-8px); pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+            padding: 0.4rem;
+        }
+        .custom-select.open .custom-select-menu { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .cs-option {
+            padding: 0.7rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 0.65rem;
+            font-size: 0.875rem; color: var(--text-main);
+        }
+        .cs-option:hover { background: var(--bg); }
+        .cs-option.selected { background: var(--primary-soft); color: var(--primary); font-weight: 600; }
+        .cs-option .ri-check-line { margin-left: auto; opacity: 0; color: var(--primary); }
+        .cs-option.selected .ri-check-line { opacity: 1; }
+
+        .badge { padding: 0.3rem 0.7rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; line-height: 1; }
+        .badge-pending { background: var(--warning-light); color: #b45309; }
+        .badge-active { background: var(--success-light); color: #047857; }
+        .badge-danger { background: var(--danger-light); color: #b91c1c; }
+        .badge-info { background: var(--info-light); color: #1d4ed8; }
+        .badge-muted { background: var(--border-light); color: var(--text-muted); }
+        .badge-primary { background: var(--primary-light); color: var(--primary-hover); }
+        .badge-dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
+
+        /* ================ Tables ================ */
+        .table-responsive { overflow-x: auto; width: 100%; margin: 0 -0.5rem; padding: 0 0.5rem; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
-        th { background: #f9fafb; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        tbody tr:nth-child(even) { background: #f9fafb; }
-        tbody tr:hover { background: #f3f4f6; }
+        th, td { padding: 0.95rem 0.85rem; text-align: left; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+        th { background: transparent; font-weight: 700; color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; padding-top: 0.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        tbody tr { transition: background 0.15s; }
+        tbody tr:hover { background: var(--bg); }
+        tbody tr:last-child td { border-bottom: none; }
 
-        /* App Layout */
+        /* ================ App Layout ================ */
         #app-layout { display: flex; height: 100vh; overflow: hidden; }
-        
-        /* Sidebar */
-        #sidebar { width: var(--sidebar-width); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; transition: transform 0.3s; }
-        .sidebar-header { padding: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--border); }
-        .sidebar-logo { width: 36px; height: 36px; background: var(--primary); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
-        .sidebar-title { font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
-        .sidebar-menu { flex: 1; overflow-y: auto; padding: 1.5rem 0; }
-        .menu-item { padding: 0.8rem 1.5rem; margin: 0.2rem 1rem; border-radius: 8px; display: flex; align-items: center; gap: 1rem; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        .menu-item:hover { background: #f3f4f6; color: var(--primary); }
-        .menu-item.active { background: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4); }
-        .menu-item i { font-size: 1.25rem; }
-        
-        /* Main Content */
-        #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        
+        .sidebar-overlay {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px); z-index: 9; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+
+        /* ================ Sidebar ================ */
+        #sidebar {
+            width: var(--sidebar-width); background: var(--surface);
+            border-right: 1px solid var(--border-light);
+            display: flex; flex-direction: column; z-index: 10;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+        .sidebar-header { padding: 1.4rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+        .sidebar-logo {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, var(--primary), #14b8a6);
+            color: white; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+            box-shadow: 0 6px 16px rgba(13, 148, 136, 0.35);
+        }
+        .sidebar-title { font-weight: 800; font-size: 1.2rem; color: var(--text-main); letter-spacing: -0.02em; }
+        .sidebar-title span { color: var(--primary); }
+        .sidebar-menu { flex: 1; overflow-y: auto; padding: 0.5rem 0 1rem; }
+        .sidebar-section { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); padding: 1rem 1.5rem 0.5rem; font-weight: 700; }
+        .menu-item {
+            padding: 0.75rem 1rem; margin: 0.15rem 0.85rem; border-radius: 10px;
+            display: flex; align-items: center; gap: 0.85rem; color: var(--text-muted);
+            font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.875rem;
+        }
+        .menu-item:hover { background: var(--bg); color: var(--text-main); }
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--primary), #14b8a6);
+            color: white;
+            box-shadow: 0 8px 18px -4px rgba(13, 148, 136, 0.4);
+        }
+        .menu-item i { font-size: 1.2rem; }
+        .menu-item .menu-badge { margin-left: auto; background: var(--danger); color: white; font-size: 0.65rem; padding: 0.1rem 0.5rem; border-radius: 999px; font-weight: 700; }
+        .menu-item.active .menu-badge { background: rgba(255,255,255,0.25); }
+        .sidebar-footer { padding: 1rem; border-top: 1px solid var(--border-light); }
+        .sidebar-user { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem; border-radius: 10px; }
+        .sidebar-user:hover { background: var(--bg); }
+
+        /* ================ Main Content ================ */
+        #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
         /* Topbar */
-        #topbar { height: 70px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
-        .user-info { display: flex; align-items: center; gap: 1rem; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); font-size: 1.2rem;}
-        
+        #topbar {
+            height: var(--topbar-height); background: var(--surface);
+            padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid var(--border-light); z-index: 5; flex-shrink: 0; gap: 1rem;
+        }
+        .topbar-search {
+            flex: 1; max-width: 420px; position: relative;
+        }
+        .topbar-search input {
+            width: 100%; padding: 0.65rem 1rem 0.65rem 2.5rem;
+            background: var(--bg); border: 1.5px solid transparent;
+            border-radius: 10px; transition: var(--transition);
+            font-size: 0.875rem;
+        }
+        .topbar-search input:focus { background: white; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.10); }
+        .topbar-search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; }
+
+        .user-info { display: flex; align-items: center; gap: 0.75rem; }
+        .user-avatar {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-light), #a7f3d0);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: var(--primary-hover); font-size: 1rem;
+            border: 2px solid white; box-shadow: var(--shadow-xs);
+        }
+
+        /* Bell Notification */
+        .bell-wrapper { position: relative; }
+        .bell-btn {
+            width: 42px; height: 42px; border-radius: 12px;
+            background: var(--bg); display: flex; align-items: center; justify-content: center;
+            color: var(--text-main); font-size: 1.2rem; border: 1.5px solid transparent; position: relative;
+        }
+        .bell-btn:hover { background: var(--primary-soft); color: var(--primary); }
+        .bell-btn.has-unread::after {
+            content: attr(data-count); position: absolute; top: -4px; right: -4px;
+            min-width: 18px; height: 18px; padding: 0 4px;
+            background: var(--danger); color: white; font-size: 0.65rem; font-weight: 700;
+            border-radius: 999px; display: flex; align-items: center; justify-content: center;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+            50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+        }
+        .notif-dropdown {
+            position: absolute; right: 0; top: calc(100% + 12px);
+            width: 380px; max-width: calc(100vw - 2rem);
+            background: var(--surface); border-radius: var(--radius);
+            box-shadow: var(--shadow-xl); border: 1px solid var(--border-light);
+            opacity: 0; transform: translateY(-8px) scale(0.97); pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s; z-index: 40; overflow: hidden;
+        }
+        .notif-dropdown.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .notif-header { padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); }
+        .notif-list { max-height: 380px; overflow-y: auto; }
+        .notif-item { padding: 0.85rem 1.25rem; display: flex; gap: 0.75rem; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border-light); position: relative; }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-item:hover { background: var(--bg); }
+        .notif-item.unread { background: var(--primary-soft); }
+        .notif-item.unread:hover { background: var(--primary-light); }
+        .notif-item.unread::before { content: ''; position: absolute; left: 6px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; background: var(--primary); border-radius: 50%; }
+        .notif-icon {
+            width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+        }
+        .notif-content { flex: 1; min-width: 0; }
+        .notif-title { font-weight: 600; font-size: 0.875rem; margin-bottom: 0.15rem; }
+        .notif-text { color: var(--text-muted); font-size: 0.8rem; line-height: 1.45; }
+        .notif-time { color: var(--text-light); font-size: 0.7rem; margin-top: 0.25rem; }
+        .notif-empty { padding: 2rem; text-align: center; color: var(--text-muted); }
+        .notif-footer { padding: 0.75rem; border-top: 1px solid var(--border-light); text-align: center; }
+        .notif-footer a { color: var(--primary); font-weight: 600; font-size: 0.85rem; }
+
         /* View Area */
-        #view-area { flex: 1; overflow-y: auto; padding: 2rem; }
-        
+        #view-area { flex: 1; overflow-y: auto; padding: 1.75rem; }
+        .page-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .page-header h2 { font-size: 1.4rem; letter-spacing: -0.02em; }
+        .page-header p { color: var(--text-muted); font-size: 0.875rem; margin-top: 0.15rem; }
+
         /* Bottom Nav (Mobile) */
-        #bottom-nav { display: none; background: var(--surface); box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1); padding: 0.5rem; justify-content: space-around; z-index: 20; border-top: 1px solid var(--border); }
-        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; color: var(--text-muted); padding: 0.5rem; font-size: 0.75rem; flex: 1; }
+        #bottom-nav {
+            display: none; background: var(--surface);
+            box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+            padding: 0.5rem; justify-content: space-around; z-index: 20;
+            border-top: 1px solid var(--border-light);
+            padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+        }
+        .bottom-nav-item {
+            display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+            color: var(--text-muted); padding: 0.5rem 0.4rem; font-size: 0.65rem;
+            flex: 1; border-radius: 10px; font-weight: 600;
+            transition: var(--transition);
+            min-width: 0;
+        }
+        .bottom-nav-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
         .bottom-nav-item.active { color: var(--primary); }
-        .bottom-nav-item i { font-size: 1.5rem; }
+        .bottom-nav-item.active i { transform: scale(1.15); }
+        .bottom-nav-item i { font-size: 1.4rem; transition: transform 0.2s; }
 
-        /* Auth Layout (Login/Register) */
-        #auth-layout { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; background: var(--bg); }
-        .auth-card { width: 100%; max-width: 450px; background: white; padding: 2.5rem; }
-        .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-        .auth-tab { flex: 1; text-align: center; padding: 1rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; }
-        .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        /* ================ Auth ================ */
+        #auth-layout {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #5eead4 100%);
+            position: relative; overflow: hidden;
+        }
+        #auth-layout::before, #auth-layout::after {
+            content: ""; position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5;
+        }
+        #auth-layout::before { width: 400px; height: 400px; background: white; top: -100px; left: -100px; }
+        #auth-layout::after { width: 500px; height: 500px; background: #99f6e4; bottom: -150px; right: -150px; }
+        .auth-card {
+            width: 100%; max-width: 460px; background: white;
+            padding: 2.5rem; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl); position: relative; z-index: 1;
+        }
+        .auth-tabs { display: flex; background: var(--bg); padding: 0.3rem; border-radius: 12px; margin-bottom: 1.75rem; }
+        .auth-tab {
+            flex: 1; text-align: center; padding: 0.75rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; border-radius: 9px; transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        .auth-tab.active { background: white; color: var(--primary); box-shadow: var(--shadow-xs); }
 
-        /* Grid Layouts */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-        .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        /* ================ Grids ================ */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+        .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+        /* Stat Card */
+        .stat-card {
+            background: var(--surface); border-radius: var(--radius); padding: 1.4rem;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
+            display: flex; align-items: flex-start; gap: 1rem;
+            transition: var(--transition); cursor: default;
+            position: relative; overflow: hidden;
+        }
+        .stat-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+        .stat-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;
+        }
+        .stat-info { flex: 1; min-width: 0; }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+        .stat-value { font-size: 1.5rem; font-weight: 800; margin-top: 0.25rem; letter-spacing: -0.02em; }
+        .stat-change { font-size: 0.75rem; color: var(--success); font-weight: 600; margin-top: 0.35rem; display: inline-flex; align-items: center; gap: 0.2rem; }
+
         /* Product Card */
-        .product-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; border: 1px solid var(--border); transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-        .product-img { height: 180px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #cbd5e1; position: relative; border-bottom: 1px solid var(--border); }
-        .product-info { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
-        
-        /* Modals */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 1rem; }
+        .product-card {
+            background: var(--surface); border-radius: var(--radius); overflow: hidden;
+            box-shadow: var(--shadow-sm); display: flex; flex-direction: column;
+            border: 1px solid var(--border-light); transition: var(--transition);
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary-light); }
+        .product-img {
+            height: 180px; background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; color: #94a3b8; position: relative;
+        }
+        .product-info { padding: 1.1rem; flex: 1; display: flex; flex-direction: column; }
+        .product-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; line-height: 1.3; }
+        .product-price { font-size: 1.25rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; }
+
+        /* ================ Modals ================ */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
+            z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 1rem;
+        }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-radius: var(--radius) var(--radius) 0 0; }
+        .modal-content {
+            background: var(--surface); border-radius: var(--radius-lg);
+            width: 100%; max-width: 600px; max-height: 90vh;
+            display: flex; flex-direction: column; box-shadow: var(--shadow-xl);
+            transform: translateY(20px) scale(0.97); transition: transform 0.3s;
+            overflow: hidden;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        .modal-header {
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-light);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-header h3 { font-size: 1.15rem; }
         .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
-        .modal-footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem; background: #f8fafc; border-radius: 0 0 var(--radius) var(--radius); }
+        .modal-footer {
+            padding: 1rem 1.5rem; border-top: 1px solid var(--border-light);
+            display: flex; justify-content: flex-end; gap: 0.75rem; flex-wrap: wrap;
+        }
 
-        /* Details List (for modals) */
-        .details-list { display: flex; flex-direction: column; gap: 0.75rem; }
-        .details-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--border); }
-        .details-label { color: var(--text-muted); font-size: 0.875rem; }
-        .details-value { font-weight: 500; text-align: right; }
+        /* Details List */
+        .details-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .details-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.65rem 0.85rem; border-radius: 8px; background: var(--bg);
+        }
+        .details-label { color: var(--text-muted); font-size: 0.825rem; font-weight: 500; }
+        .details-value { font-weight: 600; text-align: right; }
 
-        /* Notifications */
-        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: var(--surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.75rem; border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        /* Toast */
+        #toast-container {
+            position: fixed; bottom: 20px; right: 20px; z-index: 100;
+            display: flex; flex-direction: column; gap: 10px;
+            max-width: calc(100vw - 40px);
+        }
+        .toast {
+            background: var(--surface); color: var(--text-main); padding: 0.85rem 1.1rem;
+            border-radius: 12px; box-shadow: var(--shadow-xl);
+            display: flex; align-items: center; gap: 0.75rem; min-width: 280px;
+            border: 1px solid var(--border-light);
+            animation: slideIn 0.3s forwards; transition: opacity 0.3s, transform 0.3s;
+        }
+        .toast .toast-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.05rem; }
+        .toast.success .toast-icon { background: var(--success-light); color: var(--success); }
+        .toast.warning .toast-icon { background: var(--warning-light); color: var(--warning); }
+        .toast.info .toast-icon { background: var(--info-light); color: var(--info); }
+        .toast.error .toast-icon { background: var(--danger-light); color: var(--danger); }
+        .toast-msg { font-size: 0.875rem; font-weight: 500; line-height: 1.4; }
+        @keyframes slideIn { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* Responsive UI Adjustments */
+        /* Filter Bar */
+        .filter-bar {
+            display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;
+            margin-bottom: 1.25rem;
+        }
+        .filter-bar .input-wrap { flex: 1; min-width: 220px; max-width: 380px; }
+        .filter-bar .custom-select { min-width: 180px; }
+        .filter-chip {
+            padding: 0.5rem 0.85rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+            background: var(--surface); color: var(--text-muted); cursor: pointer; border: 1.5px solid var(--border);
+            transition: var(--transition); display: inline-flex; align-items: center; gap: 0.35rem;
+        }
+        .filter-chip:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* User Card (mobile) */
+        .user-list-card {
+            background: var(--surface); border-radius: var(--radius); padding: 1rem;
+            border: 1px solid var(--border-light); display: flex; gap: 0.85rem; align-items: center;
+            transition: var(--transition);
+        }
+        .user-list-card:hover { box-shadow: var(--shadow); }
+
+        /* Photo Report Gallery */
+        .photo-report-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;
+        }
+        .photo-report-card {
+            background: var(--surface); border-radius: var(--radius); overflow: hidden;
+            border: 1px solid var(--border-light); transition: var(--transition);
+            display: flex; flex-direction: column;
+        }
+        .photo-report-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+        .photo-report-img {
+            aspect-ratio: 4 / 3; background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #94a3b8;
+            position: relative; cursor: pointer; overflow: hidden;
+        }
+        .photo-report-img img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-report-img .photo-status {
+            position: absolute; top: 0.5rem; left: 0.5rem;
+        }
+        .photo-report-info { padding: 0.85rem; }
+        .photo-report-info .photo-title { font-weight: 700; font-size: 0.875rem; margin-bottom: 0.15rem; }
+        .photo-report-info .photo-meta { font-size: 0.75rem; color: var(--text-muted); }
+        .photo-report-actions { padding: 0.6rem 0.85rem; border-top: 1px solid var(--border-light); display: flex; gap: 0.4rem; }
+
+        .upload-zone {
+            border: 2px dashed var(--border); border-radius: var(--radius);
+            padding: 2.5rem 1rem; text-align: center;
+            cursor: pointer; transition: var(--transition);
+            background: var(--bg);
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--primary); background: var(--primary-soft);
+        }
+        .upload-zone i { font-size: 3rem; color: var(--text-light); }
+        .upload-zone:hover i, .upload-zone.dragover i { color: var(--primary); }
+
+        .empty-state {
+            padding: 3rem 1.5rem; text-align: center; color: var(--text-muted);
+        }
+        .empty-state i { font-size: 4rem; color: var(--border); margin-bottom: 1rem; display: block; }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.92);
+            display: flex; align-items: center; justify-content: center; padding: 2rem;
+            z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .lightbox.active { opacity: 1; pointer-events: auto; }
+        .lightbox img { max-width: 95%; max-height: 95vh; object-fit: contain; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 20px;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,0.15); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; backdrop-filter: blur(10px);
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.25); }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none; font-size: 1.5rem; background: var(--bg);
+            cursor: pointer; color: var(--text-main);
+            width: 42px; height: 42px; border-radius: 12px;
+            align-items: center; justify-content: center;
+        }
+
+        /* ================ Responsive ================ */
         @media (max-width: 1024px) {
             .grid-cards { grid-template-columns: repeat(2, 1fr); }
+            .topbar-search { display: none; }
         }
 
         @media (max-width: 768px) {
-            #sidebar { position: fixed; transform: translateX(-100%); height: 100%; }
+            #sidebar {
+                position: fixed; transform: translateX(-100%);
+                height: 100%; width: 280px;
+                box-shadow: var(--shadow-xl);
+            }
             #sidebar.open { transform: translateX(0); }
             #bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; }
-            #view-area { padding: 1rem; padding-bottom: 80px; }
-            #topbar { padding: 0 1rem; }
-            .mobile-menu-btn { display: block !important; }
-            .grid-cards { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
-            
-            /* Responsive Table classes */
+            #view-area { padding: 1rem; padding-bottom: 90px; }
+            #topbar { padding: 0 1rem; height: 60px; gap: 0.5rem; }
+            .mobile-menu-btn { display: flex; }
+            .grid-cards { grid-template-columns: 1fr; gap: 0.85rem; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .grid-products { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+            .auth-card { padding: 1.75rem; }
+
             .hide-sm { display: none !important; }
-            table { font-size: 0.875rem; }
-            th, td { padding: 0.75rem 0.5rem; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 0.7rem 0.45rem; }
             .action-cell { width: 50px; text-align: center; }
+
+            .card { padding: 1rem; border-radius: 12px; }
+            .stat-card { padding: 1rem; }
+            .stat-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+            .stat-value { font-size: 1.2rem; }
+            h1 { font-size: 1.25rem; } h2 { font-size: 1.1rem; } h3 { font-size: 1rem; }
+            .modal-content { border-radius: 16px 16px 0 0; max-height: 92vh; align-self: flex-end; margin: 0 -1rem -1rem; }
+            .modal-overlay { align-items: flex-end; padding: 0; }
+            .modal-overlay.active .modal-content { transform: translateY(0); }
+            .modal-content { transform: translateY(100%); }
+            .modal-body { padding: 1.25rem; }
+            .modal-header { padding: 1rem 1.25rem; }
+            .modal-footer { padding: 0.85rem 1.25rem; flex-direction: column-reverse; }
+            .modal-footer .btn { width: 100%; }
+
+            .product-img { height: 130px; font-size: 2.5rem; }
+            .product-info { padding: 0.85rem; }
+            .product-title { font-size: 0.875rem; }
+            .product-price { font-size: 1rem; }
+
+            .notif-dropdown {
+                position: fixed; top: 65px; right: 1rem; left: 1rem; width: auto;
+            }
+
+            .filter-bar .input-wrap { min-width: 100%; max-width: 100%; }
+            .filter-bar .custom-select { min-width: 100%; }
+
+            .photo-report-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+            .photo-report-info { padding: 0.6rem; }
+
+            .page-header { gap: 0.75rem; margin-bottom: 1rem; }
+            .page-header h2 { font-size: 1.15rem; }
+
+            .toast { min-width: auto; width: 100%; }
+            #toast-container { left: 10px; right: 10px; bottom: 75px; max-width: none; }
         }
-        .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); }
-        .action-cell { white-space: nowrap; }
+
+        @media (max-width: 480px) {
+            .grid-products { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Auth View -->
+    <!-- ========== AUTH ========== -->
     <div id="auth-layout">
-        <div class="card auth-card">
+        <div class="auth-card">
             <div class="flex items-center justify-center gap-2 mb-6">
                 <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
-                <h1 class="font-bold text-xl text-primary">My Diller UZ</h1>
+                <h1 class="font-bold text-xl">My <span class="text-primary">Diller</span> UZ</h1>
             </div>
-            
+
             <div class="auth-tabs">
-                <div class="auth-tab active" onclick="switchAuthTab('login')">Kirish</div>
-                <div class="auth-tab" onclick="switchAuthTab('register')">Ro'yxatdan o'tish</div>
+                <div class="auth-tab active" data-tab="login" onclick="switchAuthTab('login', this)">Kirish</div>
+                <div class="auth-tab" data-tab="register" onclick="switchAuthTab('register', this)">Ro'yxatdan o'tish</div>
             </div>
 
             <!-- Login Form -->
@@ -199,25 +645,34 @@
                 </div>
                 <div class="input-group">
                     <label>Telefon raqam</label>
-                    <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                    <div class="input-wrap has-icon">
+                        <i class="ri-phone-line"></i>
+                        <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
+                    </div>
                 </div>
                 <div class="input-group mb-6">
                     <label>Parol</label>
-                    <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                    <div class="input-wrap has-icon">
+                        <i class="ri-lock-2-line"></i>
+                        <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
+                        <span class="input-trail" onclick="togglePassword('login-password', this)">
+                            <i class="ri-eye-line"></i>
+                        </span>
+                    </div>
                 </div>
-                <button class="btn btn-primary w-full mb-4" onclick="doLogin()">Kirish</button>
-                
+                <button class="btn btn-primary w-full mb-4" onclick="doLogin()"><i class="ri-login-box-line"></i> Kirish</button>
+
                 <div class="flex items-center gap-4 mb-4">
                     <hr class="w-full" style="border-color: var(--border);">
                     <span class="text-muted text-sm">yoki</span>
                     <hr class="w-full" style="border-color: var(--border);">
                 </div>
-                
+
                 <button class="btn btn-outline w-full" disabled title="Hozircha ishlamaydi">
                     <i class="ri-file-shield-2-line"></i> E-IMZO orqali kirish
                 </button>
-                
-                <div class="mt-6 p-3 bg-blue-50 rounded-lg text-xs text-muted" style="background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
+
+                <div class="mt-6 p-3 text-xs text-muted" style="background:#f0f9ff; border-radius:10px; border:1px solid #bae6fd;">
                     <b>Demo parol kiritish:</b><br>
                     Admin: <code>admin</code><br>
                     Sotuvchi: <code>seller1</code> yoki <code>seller2</code><br>
@@ -229,163 +684,191 @@
             <div id="register-form" class="hidden">
                 <div class="input-group">
                     <label>Kompaniya nomi</label>
-                    <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                    <div class="input-wrap has-icon">
+                        <i class="ri-building-line"></i>
+                        <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>INN (STIR)</label>
-                    <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                    <div class="input-wrap has-icon">
+                        <i class="ri-bank-card-line"></i>
+                        <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
+                    </div>
                 </div>
                 <div class="input-group">
                     <label>Rolni tanlang</label>
-                    <select id="reg-role" class="input-control">
-                        <option value="seller">Sotuvchi (Seller)</option>
-                        <option value="buyer">Diler/Xaridor (Buyer)</option>
-                    </select>
+                    <div id="reg-role-cs"></div>
                 </div>
-                
-                <button class="btn btn-primary w-full mt-4" onclick="doRegister()">Ro'yxatdan o'tish kutilmoqda</button>
+
+                <button class="btn btn-primary w-full mt-4" onclick="doRegister()"><i class="ri-user-add-line"></i> Ro'yxatdan o'tish</button>
             </div>
         </div>
     </div>
 
-    <!-- Main Dashboard Layout -->
+    <!-- ========== APP ========== -->
     <div id="app-layout" class="hidden">
-        <!-- Sidebar -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar(false)"></div>
         <aside id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
-                <span class="sidebar-title">My Diller</span>
-                <button class="mobile-menu-btn hide-sm ml-auto" onclick="document.getElementById('sidebar').classList.remove('open')" style="display:none;">
+                <span class="sidebar-title">My <span>Diller</span></span>
+                <button class="btn-icon ml-auto btn-ghost hide-sm-only" onclick="toggleSidebar(false)">
                     <i class="ri-close-line"></i>
                 </button>
             </div>
-            <ul class="sidebar-menu" id="sidebar-menu">
-                <!-- Dynamic Menu Items -->
-            </ul>
-        </aside>
-
-        <!-- Main Area -->
-        <main id="main-content">
-            <!-- Topbar -->
-            <header id="topbar">
-                <div class="flex items-center gap-4">
-                    <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.add('open')">
-                        <i class="ri-menu-2-line"></i>
-                    </button>
-                    <h2 id="page-title" class="text-lg">Dashboard</h2>
-                </div>
-                <div class="flex items-center gap-4">
-                    <div class="user-info hide-sm">
-                        <div class="text-right">
-                            <div class="font-semibold" id="topbar-user-name">Foydalanuvchi</div>
-                            <div class="text-xs text-muted" id="topbar-user-role">Rol</div>
-                        </div>
+            <ul class="sidebar-menu" id="sidebar-menu"></ul>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="sidebar-avatar">U</div>
+                    <div class="flex-1" style="min-width:0;">
+                        <div class="font-semibold" id="sidebar-user-name" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">User</div>
+                        <div class="text-xs text-muted" id="sidebar-user-role">Rol</div>
                     </div>
-                    <div class="user-avatar" id="topbar-avatar">U</div>
-                    <button class="btn btn-outline btn-icon" onclick="doLogout()" title="Chiqish">
+                    <button class="btn-icon btn-ghost" onclick="doLogout()" title="Chiqish">
                         <i class="ri-logout-box-r-line"></i>
                     </button>
                 </div>
+            </div>
+        </aside>
+
+        <main id="main-content">
+            <header id="topbar">
+                <div class="flex items-center gap-3">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar(true)">
+                        <i class="ri-menu-2-line"></i>
+                    </button>
+                    <div>
+                        <h2 id="page-title" style="font-size:1.05rem;">Dashboard</h2>
+                    </div>
+                </div>
+
+                <div class="topbar-search hide-sm">
+                    <i class="ri-search-line"></i>
+                    <input type="text" placeholder="Mahsulot, buyurtma yoki foydalanuvchi qidirish...">
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="bell-wrapper">
+                        <button class="bell-btn" id="bell-btn" onclick="toggleNotifDropdown(event)" title="Bildirishnomalar">
+                            <i class="ri-notification-3-line"></i>
+                        </button>
+                        <div class="notif-dropdown" id="notif-dropdown">
+                            <div class="notif-header">
+                                <div class="font-bold">Bildirishnomalar</div>
+                                <button class="text-sm text-primary font-semibold" onclick="markAllNotifsRead()" style="background:none;">Hammasini o'qildi</button>
+                            </div>
+                            <div class="notif-list" id="notif-list"></div>
+                            <div class="notif-footer">
+                                <a href="javascript:void(0)" onclick="closeNotifDropdown()">Yopish</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-info hide-sm">
+                        <div class="text-right" style="line-height:1.2;">
+                            <div class="font-semibold" id="topbar-user-name">User</div>
+                            <div class="text-xs text-muted" id="topbar-user-role">Rol</div>
+                        </div>
+                        <div class="user-avatar" id="topbar-avatar">U</div>
+                    </div>
+                </div>
             </header>
 
-            <!-- Views Container -->
-            <div id="view-area">
-                <!-- Views will be injected here dynamically -->
-            </div>
+            <div id="view-area"></div>
 
-            <!-- Bottom Nav (Mobile) -->
-            <nav id="bottom-nav">
-                <!-- Dynamic Bottom Nav -->
-            </nav>
+            <nav id="bottom-nav"></nav>
         </main>
     </div>
 
-    <!-- Universal Details Modal -->
+    <!-- ========== Modals ========== -->
     <div class="modal-overlay" id="detailsModal" onclick="if(event.target===this) closeModal('detailsModal')">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="dm-title">Ma'lumot</h3>
-                <button class="btn-icon" onclick="closeModal('detailsModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
+                <button class="btn-icon btn-ghost" onclick="closeModal('detailsModal')"><i class="ri-close-line"></i></button>
             </div>
-            <div class="modal-body" id="dm-body">
-                <!-- Dynamic Content -->
-            </div>
-            <div class="modal-footer" id="dm-footer">
-                <!-- Dynamic Buttons -->
-            </div>
+            <div class="modal-body" id="dm-body"></div>
+            <div class="modal-footer" id="dm-footer"></div>
         </div>
     </div>
 
-    <!-- Add Product Modal (Seller) -->
     <div class="modal-overlay" id="addProdModal" onclick="if(event.target===this) closeModal('addProdModal')">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Yangi mahsulot qo'shish</h3>
-                <button class="btn-icon" onclick="closeModal('addProdModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
+                <button class="btn-icon btn-ghost" onclick="closeModal('addProdModal')"><i class="ri-close-line"></i></button>
             </div>
             <div class="modal-body">
                 <div class="grid-2">
                     <div class="input-group">
                         <label>SKU (Artikul)</label>
-                        <input type="text" id="p-sku" class="input-control" placeholder="Masalan: PRD-001">
+                        <div class="input-wrap has-icon">
+                            <i class="ri-barcode-line"></i>
+                            <input type="text" id="p-sku" class="input-control" placeholder="PRD-001">
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Mahsulot nomi</label>
-                        <input type="text" id="p-name" class="input-control" placeholder="Nomini kiriting">
+                        <div class="input-wrap has-icon">
+                            <i class="ri-archive-line"></i>
+                            <input type="text" id="p-name" class="input-control" placeholder="Nomini kiriting">
+                        </div>
                     </div>
                 </div>
                 <div class="grid-2">
                     <div class="input-group">
                         <label>Kategoriya</label>
-                        <select class="input-control"><option>Elektronika</option><option>Mebel</option><option>Boshqa</option></select>
+                        <div id="p-category-cs"></div>
                     </div>
                     <div class="input-group">
                         <label>Bazaviy narx (UZS)</label>
-                        <input type="number" id="p-price" class="input-control" placeholder="0.00">
+                        <div class="input-wrap has-icon">
+                            <i class="ri-money-dollar-circle-line"></i>
+                            <input type="number" id="p-price" class="input-control" placeholder="0">
+                        </div>
                     </div>
                 </div>
-                
-                <hr class="mb-4" style="border-color:var(--border)">
-                
+
+                <hr class="mb-4" style="border-color:var(--border-light)">
+
                 <div class="input-group">
                     <label>To'lov modeli</label>
-                    <select id="p-model" class="input-control" onchange="togglePrepayFields()">
-                        <option value="realization">Realizatsiya (Sotilgandan so'ng)</option>
-                        <option value="prepayment">Oldindan to'lov (Avans)</option>
-                    </select>
+                    <div id="p-model-cs"></div>
                 </div>
-                
-                <div id="prepay-fields" class="hidden grid-2 bg-blue-50 p-4 rounded-lg mb-4" style="background:#f0f9ff; border:1px solid #bae6fd;">
-                    <div class="input-group mb-0">
-                        <label>Oldindan to'lov (%)</label>
-                        <input type="number" id="p-percent" class="input-control" placeholder="Masalan: 30" value="30">
+
+                <div id="prepay-fields" class="hidden p-4 mb-4" style="background:#f0fdfa; border:1px solid #99f6e4; border-radius:12px;">
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label>Oldindan to'lov foizi (%)</label>
+                        <div class="input-wrap has-icon">
+                            <i class="ri-percent-line"></i>
+                            <input type="number" id="p-percent" class="input-control" placeholder="30" value="30">
+                        </div>
                     </div>
                 </div>
 
                 <div class="grid-2">
                     <div class="input-group">
                         <label>Realizatsiya muddati (kun)</label>
-                        <input type="number" id="p-realdays" class="input-control" placeholder="Masalan: 30" value="30">
+                        <div class="input-wrap has-icon">
+                            <i class="ri-calendar-line"></i>
+                            <input type="number" id="p-realdays" class="input-control" placeholder="30" value="30">
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Foto hisobot davri</label>
-                        <select id="p-photodays" class="input-control">
-                            <option value="5">Har 5 kunda</option>
-                            <option value="10">Har 10 kunda</option>
-                            <option value="15" selected>Har 15 kunda</option>
-                            <option value="30">Har 30 kunda</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label>Mahsulot rasmi</label>
-                    <div style="border: 2px dashed var(--border); padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer;">
-                        <i class="ri-image-add-line" style="font-size: 2rem; color: var(--text-muted)"></i>
-                        <p class="mt-2 text-sm text-muted">Rasmni yuklash uchun bosing</p>
+                        <div id="p-photodays-cs"></div>
                     </div>
                 </div>
 
+                <div class="input-group">
+                    <label>Mahsulot rasmi</label>
+                    <div class="upload-zone" onclick="showToast('Rasm yuklash demo rejimida','info')">
+                        <i class="ri-image-add-line"></i>
+                        <p class="mt-2 text-sm font-semibold">Rasmni yuklash uchun bosing</p>
+                        <p class="text-xs text-muted mt-2">PNG, JPG yoki WEBP (maks. 5 MB)</p>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeModal('addProdModal')">Bekor qilish</button>
@@ -394,84 +877,245 @@
         </div>
     </div>
 
-    <!-- Toasts Container -->
+    <!-- Photo Upload Modal -->
+    <div class="modal-overlay" id="uploadPhotoModal" onclick="if(event.target===this) closeModal('uploadPhotoModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Foto hisobot yuklash</h3>
+                <button class="btn-icon btn-ghost" onclick="closeModal('uploadPhotoModal')"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="uph-info" class="mb-4"></div>
+                <div class="upload-zone" id="uph-zone" onclick="document.getElementById('uph-file').click()">
+                    <i class="ri-camera-3-line"></i>
+                    <p class="mt-2 text-sm font-semibold">Rasm tanlang yoki shu yerga olib tashlang</p>
+                    <p class="text-xs text-muted mt-2">PNG, JPG yoki WEBP (maks. 5 MB)</p>
+                    <input type="file" id="uph-file" accept="image/*" hidden onchange="handlePhotoSelect(event)">
+                </div>
+                <div id="uph-preview" class="hidden mt-4"></div>
+                <div class="input-group mt-4">
+                    <label>Izoh (ixtiyoriy)</label>
+                    <input type="text" id="uph-comment" class="input-control" placeholder="Masalan: Mahsulot rastada chiroyli joylashtirildi">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('uploadPhotoModal')">Bekor qilish</button>
+                <button class="btn btn-primary" onclick="submitPhotoReport()"><i class="ri-upload-cloud-2-line"></i> Yuklash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()"><i class="ri-close-line"></i></button>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
     <div id="toast-container"></div>
 
     <script>
         /* =========================================
-           1. MOCK DATA & STATE MANAGEMENT
+           1. MOCK DATA & STATE
            ========================================= */
         const MOCK_DB = {
             users: [
-                { id: 1, role: 'admin', inn: '00000000', name: 'Tizim Administratori', status: 'active', phone: '+998901112233', address: 'Toshkent sh.' },
-                { id: 2, role: 'seller', inn: '12345678', name: 'TexnoFarm MChJ', status: 'active', phone: '+998902223344', address: 'Samarqand sh.' },
-                { id: 3, role: 'seller', inn: '65432198', name: 'MebelPro MChJ', status: 'active', phone: '+998903334455', address: 'Buxoro sh.' },
-                { id: 4, role: 'buyer', inn: '11111111', name: 'SuperMart MChJ', status: 'active', phone: '+998904445566', address: 'Toshkent sh.' },
-                { id: 5, role: 'buyer', inn: '22222222', name: 'CityStore MChJ', status: 'active', phone: '+998905556677', address: 'Namangan sh.' }
+                { id: 1, role: 'admin', inn: '00000000', name: 'Tizim Administratori', status: 'active', phone: '+998901112233', address: 'Toshkent sh.', joined: '2023-01-10' },
+                { id: 2, role: 'seller', inn: '12345678', name: 'TexnoFarm MChJ', status: 'active', phone: '+998902223344', address: 'Samarqand sh.', joined: '2023-03-15' },
+                { id: 3, role: 'seller', inn: '65432198', name: 'MebelPro MChJ', status: 'active', phone: '+998903334455', address: 'Buxoro sh.', joined: '2023-05-22' },
+                { id: 4, role: 'buyer', inn: '11111111', name: 'SuperMart MChJ', status: 'active', phone: '+998904445566', address: 'Toshkent sh.', joined: '2023-06-01' },
+                { id: 5, role: 'buyer', inn: '22222222', name: 'CityStore MChJ', status: 'active', phone: '+998905556677', address: 'Namangan sh.', joined: '2023-07-19' },
+                { id: 6, role: 'buyer', inn: '33333333', name: 'Diler-Plus YATT', status: 'pending', phone: '+998906667788', address: 'Andijon sh.', joined: '2023-09-05' },
+                { id: 7, role: 'seller', inn: '44444444', name: 'GadgetWorld MChJ', status: 'blocked', phone: '+998907778899', address: 'Farg\'ona sh.', joined: '2023-04-12' }
             ],
             products: [
-                { id: 1, sellerId: 2, name: 'Smart Chiroq LED', sku: 'TF-001', price: 100000, model: 'prepayment', prepayPercent: 30, realDays: 30, photoDays: 10, img: 'ri-lightbulb-flash-line' },
-                { id: 2, sellerId: 2, name: 'Type-C USB Kabel', sku: 'TF-002', price: 20000, model: 'realization', realDays: 15, photoDays: 5, img: 'ri-usb-line' },
-                { id: 3, sellerId: 2, name: 'Elektr choynak 2L', sku: 'TF-003', price: 150000, model: 'realization', realDays: 30, photoDays: 15, img: 'ri-cup-line' },
-                { id: 4, sellerId: 3, name: 'Ofis kreslosi "Ergo"', sku: 'MB-001', price: 1500000, model: 'prepayment', prepayPercent: 50, realDays: 45, photoDays: 15, img: 'ri-armchair-line' },
-                { id: 5, sellerId: 3, name: 'Yog\'och tokcha 3 qavat', sku: 'MB-002', price: 300000, model: 'realization', realDays: 30, photoDays: 10, img: 'ri-archive-drawer-line' },
-                { id: 6, sellerId: 3, name: 'Kitob javoni Premium', sku: 'MB-003', price: 800000, model: 'prepayment', prepayPercent: 100, realDays: 35, photoDays: 15, img: 'ri-book-read-line' }
+                { id: 1, sellerId: 2, name: 'Smart Chiroq LED', sku: 'TF-001', price: 100000, model: 'prepayment', prepayPercent: 30, realDays: 30, photoDays: 10, img: 'ri-lightbulb-flash-line', category: 'Elektronika' },
+                { id: 2, sellerId: 2, name: 'Type-C USB Kabel', sku: 'TF-002', price: 20000, model: 'realization', realDays: 15, photoDays: 5, img: 'ri-usb-line', category: 'Elektronika' },
+                { id: 3, sellerId: 2, name: 'Elektr choynak 2L', sku: 'TF-003', price: 150000, model: 'realization', realDays: 30, photoDays: 15, img: 'ri-cup-line', category: 'Elektronika' },
+                { id: 4, sellerId: 3, name: 'Ofis kreslosi "Ergo"', sku: 'MB-001', price: 1500000, model: 'prepayment', prepayPercent: 50, realDays: 45, photoDays: 15, img: 'ri-armchair-line', category: 'Mebel' },
+                { id: 5, sellerId: 3, name: 'Yog\'och tokcha', sku: 'MB-002', price: 300000, model: 'realization', realDays: 30, photoDays: 10, img: 'ri-archive-drawer-line', category: 'Mebel' },
+                { id: 6, sellerId: 3, name: 'Kitob javoni Premium', sku: 'MB-003', price: 800000, model: 'prepayment', prepayPercent: 100, realDays: 35, photoDays: 15, img: 'ri-book-read-line', category: 'Mebel' }
             ],
             orders: [
                 { id: 1001, sellerId: 2, buyerId: 4, date: '2023-10-01', total: 900000, status: 'pending_sign', items: [{prodId: 1, qty: 5}, {prodId: 2, qty: 20}], signedBySeller: false, signedByBuyer: true, comm: 45000, commStatus: 'pending' },
                 { id: 1002, sellerId: 3, buyerId: 5, date: '2023-09-15', total: 3000000, status: 'active', items: [{prodId: 4, qty: 2, sold: 1, received: 2}], signedBySeller: true, signedByBuyer: true, comm: 150000, commStatus: 'pending' },
-                { id: 1003, sellerId: 2, buyerId: 5, date: '2023-08-10', total: 1500000, status: 'completed', items: [{prodId: 3, qty: 10, sold: 10, received: 10}], signedBySeller: true, signedByBuyer: true, comm: 75000, commStatus: 'paid' }
+                { id: 1003, sellerId: 2, buyerId: 5, date: '2023-08-10', total: 1500000, status: 'completed', items: [{prodId: 3, qty: 10, sold: 10, received: 10}], signedBySeller: true, signedByBuyer: true, comm: 75000, commStatus: 'paid' },
+                { id: 1004, sellerId: 3, buyerId: 4, date: '2023-10-05', total: 2400000, status: 'active', items: [{prodId: 6, qty: 3, sold: 0, received: 3}], signedBySeller: true, signedByBuyer: true, comm: 120000, commStatus: 'pending' }
             ],
             cart: [],
             reports: [
-                { id: 1, orderId: 1002, prodId: 4, type: 'photo', status: 'overdue', dueDate: '2023-09-30' },
-                { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-25' },
-                { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2023-10-15' }
+                { id: 1, orderId: 1002, prodId: 4, type: 'photo', status: 'overdue', dueDate: '2023-09-30', uploadedAt: null, comment: '', img: null },
+                { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-25', uploadedAt: '2023-08-24', comment: 'Rastada chiroyli joylashtirildi', img: 'placeholder' },
+                { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2023-10-15', uploadedAt: null, comment: '', img: null },
+                { id: 4, orderId: 1004, prodId: 6, type: 'photo', status: 'pending', dueDate: '2023-10-20', uploadedAt: null, comment: '', img: null },
+                { id: 5, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-10', uploadedAt: '2023-08-09', comment: 'Birinchi davr hisoboti', img: 'placeholder' }
+            ],
+            notifications: [
+                { id: 1, type: 'order', icon: 'ri-shopping-bag-3-line', color: 'info', title: "Yangi buyurtma #1004", text: "SuperMart MChJ sizdan buyurtma berdi.", time: "5 daqiqa oldin", read: false, role: 'seller' },
+                { id: 2, type: 'sign', icon: 'ri-markup-line', color: 'warning', title: "Imzolash kutilmoqda", text: "Buyurtma #1001 sizning imzongizni kutmoqda.", time: "1 soat oldin", read: false, role: 'seller' },
+                { id: 3, type: 'comm', icon: 'ri-money-dollar-circle-line', color: 'success', title: "Komissiya qabul qilindi", text: "75 000 UZS komissiya tushdi.", time: "1 kun oldin", read: true, role: 'admin' },
+                { id: 4, type: 'photo', icon: 'ri-camera-line', color: 'danger', title: "Foto hisobot kechikdi", text: "Buyurtma #1002 bo'yicha hisobot muddati o'tdi.", time: "2 kun oldin", read: false, role: 'admin' },
+                { id: 5, type: 'photo', icon: 'ri-camera-line', color: 'warning', title: "Foto hisobot vaqti", text: "Buyurtma #1004 uchun rasm yuklang.", time: "3 soat oldin", read: false, role: 'buyer' },
+                { id: 6, type: 'order', icon: 'ri-checkbox-circle-line', color: 'success', title: "Buyurtma faollashdi", text: "Buyurtma #1002 faol holatga o'tdi.", time: "1 hafta oldin", read: true, role: 'buyer' }
             ]
         };
 
         let STATE = {
             currentUser: null,
             currentView: '',
-            charts: {}
+            charts: {},
+            usersFilter: { search: '', role: 'all', status: 'all' },
+            reportsFilter: { search: '', status: 'all' },
+            currentUploadReportId: null,
+            pendingPhotoData: null
         };
 
         /* =========================================
-           2. UTILITIES & HELPERS
+           2. UTILITIES
            ========================================= */
         const formatMoney = (amount) => new Intl.NumberFormat('uz-UZ').format(amount) + ' UZS';
-        
+        const escapeHtml = (str) => String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[s]);
+
         const showToast = (msg, type = 'success') => {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `toast`;
-            toast.innerHTML = `<i class="ri-${type === 'success' ? 'checkbox-circle' : (type==='warning'?'error-warning':'information')}-fill" style="color: var(--${type}); font-size: 1.5rem;"></i> <span>${msg}</span>`;
+            toast.className = `toast ${type}`;
+            const iconMap = { success: 'check', warning: 'error-warning', info: 'information', error: 'close-circle' };
+            toast.innerHTML = `<div class="toast-icon"><i class="ri-${iconMap[type] || 'information'}-fill"></i></div><div class="toast-msg">${msg}</div>`;
             container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = 0; setTimeout(() => toast.remove(), 300); }, 3000);
+            setTimeout(() => { toast.style.opacity = 0; toast.style.transform = 'translateX(110%)'; setTimeout(() => toast.remove(), 300); }, 3500);
         };
 
         const getStatusBadge = (status) => {
             const map = {
-                'active': '<span class="badge badge-active">Faol</span>',
-                'pending': '<span class="badge badge-pending">Kutilmoqda</span>',
-                'pending_sign': '<span class="badge badge-info">Imzo kutilmoqda</span>',
-                'completed': '<span class="badge badge-active" style="background:#dcfce7; color:#166534;">Yakunlangan</span>',
-                'overdue': '<span class="badge badge-danger">Kechikkan</span>',
-                'paid': '<span class="badge badge-active">To\'langan</span>',
-                'done': '<span class="badge badge-active">Bajarildi</span>'
+                'active': '<span class="badge badge-active badge-dot">Faol</span>',
+                'pending': '<span class="badge badge-pending badge-dot">Kutilmoqda</span>',
+                'pending_sign': '<span class="badge badge-info badge-dot">Imzo kutilmoqda</span>',
+                'completed': '<span class="badge badge-active badge-dot">Yakunlangan</span>',
+                'overdue': '<span class="badge badge-danger badge-dot">Kechikkan</span>',
+                'paid': '<span class="badge badge-active badge-dot">To\'langan</span>',
+                'done': '<span class="badge badge-active badge-dot">Bajarildi</span>',
+                'blocked': '<span class="badge badge-danger badge-dot">Bloklangan</span>'
             };
-            return map[status] || `<span class="badge">${status}</span>`;
+            return map[status] || `<span class="badge badge-muted">${status}</span>`;
         };
 
-        const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || {name: 'Noma\'lum'};
+        const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || {name: 'Noma\'lum', inn: '-'};
         const getProdById = (id) => MOCK_DB.products.find(p => p.id === id);
 
         /* =========================================
-           3. AUTHENTICATION (LOGIN / REGISTER)
+           3. CUSTOM SELECT (no native <select>)
            ========================================= */
-        function switchAuthTab(tab) {
+        function createCustomSelect(mountEl, { options, value, placeholder = 'Tanlang...', onChange, icon = null } = {}) {
+            const root = document.createElement('div');
+            root.className = 'custom-select';
+            const trigger = document.createElement('div');
+            trigger.className = 'custom-select-trigger';
+            trigger.tabIndex = 0;
+            const valueEl = document.createElement('span');
+            valueEl.className = 'cs-value';
+            const arrow = document.createElement('i');
+            arrow.className = 'ri-arrow-down-s-line cs-arrow';
+            trigger.appendChild(valueEl);
+            trigger.appendChild(arrow);
+
+            const menu = document.createElement('div');
+            menu.className = 'custom-select-menu';
+
+            root.appendChild(trigger);
+            root.appendChild(menu);
+
+            let currentValue = value !== undefined ? value : null;
+
+            const renderValue = () => {
+                const selected = options.find(o => o.value === currentValue);
+                if (selected) {
+                    valueEl.classList.remove('placeholder');
+                    valueEl.innerHTML = (selected.icon ? `<i class="${selected.icon}" style="margin-right:0.4rem; color: var(--primary);"></i>` : '') + escapeHtml(selected.label);
+                } else {
+                    valueEl.classList.add('placeholder');
+                    valueEl.textContent = placeholder;
+                }
+            };
+
+            const renderMenu = () => {
+                menu.innerHTML = '';
+                options.forEach(opt => {
+                    const item = document.createElement('div');
+                    item.className = 'cs-option' + (opt.value === currentValue ? ' selected' : '');
+                    item.innerHTML = `
+                        ${opt.icon ? `<i class="${opt.icon}" style="font-size:1.05rem; color: var(--text-muted);"></i>` : ''}
+                        <span style="flex:1;">${escapeHtml(opt.label)}</span>
+                        <i class="ri-check-line"></i>
+                    `;
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        currentValue = opt.value;
+                        renderValue();
+                        renderMenu();
+                        close();
+                        if (onChange) onChange(currentValue);
+                    });
+                    menu.appendChild(item);
+                });
+            };
+
+            const open = () => {
+                document.querySelectorAll('.custom-select.open').forEach(cs => cs.classList.remove('open'));
+                root.classList.add('open');
+            };
+            const close = () => root.classList.remove('open');
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (root.classList.contains('open')) close(); else open();
+            });
+            trigger.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+                if (e.key === 'Escape') close();
+            });
+
+            renderValue();
+            renderMenu();
+
+            if (mountEl) {
+                if (typeof mountEl === 'string') mountEl = document.getElementById(mountEl);
+                mountEl.replaceWith(root);
+                root.id = mountEl.id;
+            }
+
+            return {
+                el: root,
+                getValue: () => currentValue,
+                setValue: (v) => { currentValue = v; renderValue(); renderMenu(); }
+            };
+        }
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.custom-select.open').forEach(cs => cs.classList.remove('open'));
+        });
+
+        /* =========================================
+           4. AUTH
+           ========================================= */
+        let regRoleSelect = null;
+
+        function initAuthSelects() {
+            const mount = document.getElementById('reg-role-cs');
+            if (mount) {
+                regRoleSelect = createCustomSelect(mount, {
+                    options: [
+                        { value: 'seller', label: 'Sotuvchi (Seller)', icon: 'ri-store-3-line' },
+                        { value: 'buyer', label: 'Diler / Xaridor (Buyer)', icon: 'ri-shopping-cart-2-line' }
+                    ],
+                    value: 'seller',
+                    placeholder: 'Rolni tanlang'
+                });
+            }
+        }
+
+        function switchAuthTab(tab, btn) {
             document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
+            btn.classList.add('active');
             if(tab === 'login') {
                 document.getElementById('login-form').classList.remove('hidden');
                 document.getElementById('register-form').classList.add('hidden');
@@ -481,35 +1125,38 @@
             }
         }
 
-        function doLogin() {
-            const phone = document.getElementById('login-phone').value;
-            const pass = document.getElementById('login-password').value.toLowerCase();
-            
-            if(!pass) {
-                showToast("Iltimos, parolni kiriting", "warning");
-                return;
+        function togglePassword(id, btn) {
+            const inp = document.getElementById(id);
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                btn.innerHTML = '<i class="ri-eye-off-line"></i>';
+            } else {
+                inp.type = 'password';
+                btn.innerHTML = '<i class="ri-eye-line"></i>';
             }
-            
+        }
+
+        function doLogin() {
+            const pass = (document.getElementById('login-password').value || '').toLowerCase();
+            if(!pass) return showToast("Iltimos, parolni kiriting", "warning");
+
             let user = null;
             if (pass.includes('admin')) user = MOCK_DB.users[0];
             else if (pass.includes('seller1')) user = MOCK_DB.users[1];
             else if (pass.includes('seller2')) user = MOCK_DB.users[2];
             else if (pass.includes('buyer1')) user = MOCK_DB.users[3];
             else if (pass.includes('buyer2')) user = MOCK_DB.users[4];
-            else {
-                user = MOCK_DB.users[3];
-                showToast("Bunday parol topilmadi, test xaridor bo'lib kirdingiz", "info");
-            }
+            else { user = MOCK_DB.users[3]; showToast("Bunday parol topilmadi, test xaridor sifatida kirdingiz", "info"); }
 
             if (user) {
-                if(user.status === 'blocked') return alert("Akkaunt bloklangan!");
+                if(user.status === 'blocked') return showToast("Akkaunt bloklangan!", "error");
                 STATE.currentUser = user;
                 initApp();
             }
         }
 
         function doRegister() {
-            showToast("Ro'yxatdan o'tish demo versiyada faqat ma'lumot qabul qiladi.");
+            showToast("Ro'yxatdan o'tish demo versiyada faqat ma'lumot qabul qiladi.", "info");
         }
 
         function doLogout() {
@@ -517,88 +1164,156 @@
             document.getElementById('app-layout').classList.add('hidden');
             document.getElementById('auth-layout').classList.remove('hidden');
             document.getElementById('login-password').value = '';
+            closeNotifDropdown();
         }
 
         /* =========================================
-           4. APP INITIALIZATION & ROUTING
+           5. APP INIT & ROUTING
            ========================================= */
         const MENU_CONFIG = {
             admin: [
                 { id: 'admin-dash', icon: 'ri-dashboard-3-line', title: 'Dashboard' },
                 { id: 'admin-users', icon: 'ri-group-line', title: 'Foydalanuvchilar' },
-                { id: 'admin-orders', icon: 'ri-file-list-3-line', title: 'Barcha Buyurtmalar' },
+                { id: 'admin-orders', icon: 'ri-file-list-3-line', title: 'Buyurtmalar' },
                 { id: 'admin-comm', icon: 'ri-money-dollar-circle-line', title: 'Komissiya' },
                 { id: 'admin-reports', icon: 'ri-camera-lens-line', title: 'Foto Hisobotlar' }
             ],
             seller: [
                 { id: 'seller-dash', icon: 'ri-dashboard-line', title: 'Dashboard' },
-                { id: 'seller-catalog', icon: 'ri-function-line', title: 'Mening Katalogim' },
-                { id: 'seller-orders', icon: 'ri-shopping-bag-3-line', title: 'Sotuvlar (Buyurtma)' },
-                { id: 'seller-finance', icon: 'ri-wallet-3-line', title: 'Moliya va Komissiya' }
+                { id: 'seller-catalog', icon: 'ri-function-line', title: 'Katalogim' },
+                { id: 'seller-orders', icon: 'ri-shopping-bag-3-line', title: 'Sotuvlar' },
+                { id: 'seller-finance', icon: 'ri-wallet-3-line', title: 'Moliya' }
             ],
             buyer: [
-                { id: 'buyer-vitrina', icon: 'ri-store-2-line', title: 'Barcha Mahsulotlar' },
+                { id: 'buyer-vitrina', icon: 'ri-store-2-line', title: 'Vitrina' },
                 { id: 'buyer-cart', icon: 'ri-shopping-cart-line', title: 'Savat' },
-                { id: 'buyer-orders', icon: 'ri-file-list-3-line', title: 'Mening Buyurtmalarim' },
-                { id: 'buyer-reports', icon: 'ri-camera-line', title: 'Foto Hisobot Yuklash' }
+                { id: 'buyer-orders', icon: 'ri-file-list-3-line', title: 'Buyurtmalarim' },
+                { id: 'buyer-reports', icon: 'ri-camera-line', title: 'Foto Hisobot' }
             ]
         };
 
         function initApp() {
             document.getElementById('auth-layout').classList.add('hidden');
             document.getElementById('app-layout').classList.remove('hidden');
-            
-            document.getElementById('topbar-user-name').textContent = STATE.currentUser.name;
-            const roleNames = {admin: 'Administrator', seller: 'Sotuvchi (Seller)', buyer: 'Diler (Buyer)'};
-            document.getElementById('topbar-user-role').textContent = roleNames[STATE.currentUser.role];
-            document.getElementById('topbar-avatar').textContent = STATE.currentUser.name.charAt(0);
 
-            const menuItems = MENU_CONFIG[STATE.currentUser.role];
-            const sidebarHtml = menuItems.map(m => `
-                <li class="menu-item" onclick="navigate('${m.id}', this)">
+            const u = STATE.currentUser;
+            const roleNames = {admin: 'Administrator', seller: 'Sotuvchi', buyer: 'Diler'};
+            document.getElementById('topbar-user-name').textContent = u.name;
+            document.getElementById('topbar-user-role').textContent = roleNames[u.role];
+            document.getElementById('topbar-avatar').textContent = u.name.charAt(0);
+            document.getElementById('sidebar-user-name').textContent = u.name;
+            document.getElementById('sidebar-user-role').textContent = roleNames[u.role];
+            document.getElementById('sidebar-avatar').textContent = u.name.charAt(0);
+
+            const menuItems = MENU_CONFIG[u.role];
+            document.getElementById('sidebar-menu').innerHTML = `
+                <div class="sidebar-section">Asosiy</div>
+                ${menuItems.map(m => `
+                    <li class="menu-item" data-view="${m.id}" onclick="navigate('${m.id}', this)">
+                        <i class="${m.icon}"></i> <span>${m.title}</span>
+                    </li>
+                `).join('')}
+            `;
+
+            document.getElementById('bottom-nav').innerHTML = menuItems.slice(0, 4).map(m => `
+                <div class="bottom-nav-item" data-view="${m.id}" onclick="navigate('${m.id}', this, true)">
                     <i class="${m.icon}"></i> <span>${m.title}</span>
-                </li>
-            `).join('');
-            document.getElementById('sidebar-menu').innerHTML = sidebarHtml;
-
-            const bNavHtml = menuItems.slice(0, 4).map(m => `
-                <div class="bottom-nav-item" onclick="navigate('${m.id}', this, true)">
-                    <i class="${m.icon}"></i> <span>${m.title.split(' ')[0]}</span>
                 </div>
             `).join('');
-            document.getElementById('bottom-nav').innerHTML = bNavHtml;
 
-            navigate(menuItems[0].id, document.querySelector('.menu-item'));
+            renderNotifications();
+            navigate(menuItems[0].id);
         }
 
-        function navigate(viewId, el, isMobile = false) {
+        function toggleSidebar(open) {
+            const sb = document.getElementById('sidebar');
+            const ov = document.getElementById('sidebar-overlay');
+            if (open) { sb.classList.add('open'); ov.classList.add('active'); }
+            else { sb.classList.remove('open'); ov.classList.remove('active'); }
+        }
+
+        function navigate(viewId) {
             STATE.currentView = viewId;
-            document.getElementById('page-title').textContent = el.innerText.trim();
-            
-            document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => i.classList.remove('active'));
-            if(el) {
-                // Find corresponding element in both navs
-                const text = el.innerText.trim().split(' ')[0];
-                document.querySelectorAll('.menu-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
-                document.querySelectorAll('.bottom-nav-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
-            }
-            
-            if(window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
+
+            document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => {
+                i.classList.toggle('active', i.dataset.view === viewId);
+            });
+
+            const activeMenu = document.querySelector(`.menu-item[data-view="${viewId}"]`);
+            if (activeMenu) document.getElementById('page-title').textContent = activeMenu.querySelector('span').textContent;
+
+            if(window.innerWidth < 768) toggleSidebar(false);
 
             const viewArea = document.getElementById('view-area');
-            viewArea.innerHTML = ''; 
+            viewArea.innerHTML = '';
 
             const renderMap = {
                 'admin-dash': renderAdminDash, 'admin-users': renderAdminUsers, 'admin-orders': renderAdminOrders, 'admin-comm': renderAdminComm, 'admin-reports': renderAdminReports,
                 'seller-dash': renderSellerDash, 'seller-catalog': renderSellerCatalog, 'seller-orders': renderSellerOrders, 'seller-finance': renderSellerFinance,
                 'buyer-vitrina': renderBuyerVitrina, 'buyer-cart': renderBuyerCart, 'buyer-orders': renderBuyerOrders, 'buyer-reports': renderBuyerReports
             };
-
             if(renderMap[viewId]) renderMap[viewId](viewArea);
         }
 
         /* =========================================
-           5. DYNAMIC MODALS (EYE ICON LOGIC)
+           6. NOTIFICATIONS BELL
+           ========================================= */
+        function getMyNotifications() {
+            return MOCK_DB.notifications.filter(n => n.role === STATE.currentUser?.role);
+        }
+
+        function renderNotifications() {
+            const list = document.getElementById('notif-list');
+            const bell = document.getElementById('bell-btn');
+            const items = getMyNotifications();
+            const unread = items.filter(n => !n.read).length;
+
+            bell.classList.toggle('has-unread', unread > 0);
+            if (unread > 0) bell.setAttribute('data-count', unread > 9 ? '9+' : unread);
+
+            if (items.length === 0) {
+                list.innerHTML = `<div class="notif-empty"><i class="ri-notification-off-line" style="font-size:2.5rem; color: var(--border); display:block; margin-bottom: 0.5rem;"></i>Bildirishnomalar yo'q</div>`;
+                return;
+            }
+            list.innerHTML = items.map(n => `
+                <div class="notif-item ${n.read ? '' : 'unread'}" onclick="readNotif(${n.id})">
+                    <div class="notif-icon" style="background: var(--${n.color}-light); color: var(--${n.color});">
+                        <i class="${n.icon}"></i>
+                    </div>
+                    <div class="notif-content">
+                        <div class="notif-title">${escapeHtml(n.title)}</div>
+                        <div class="notif-text">${escapeHtml(n.text)}</div>
+                        <div class="notif-time"><i class="ri-time-line"></i> ${escapeHtml(n.time)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleNotifDropdown(e) {
+            if (e) e.stopPropagation();
+            const d = document.getElementById('notif-dropdown');
+            d.classList.toggle('active');
+        }
+        function closeNotifDropdown() {
+            document.getElementById('notif-dropdown').classList.remove('active');
+        }
+        function readNotif(id) {
+            const n = MOCK_DB.notifications.find(x => x.id === id);
+            if (n) { n.read = true; renderNotifications(); }
+        }
+        function markAllNotifsRead() {
+            getMyNotifications().forEach(n => n.read = true);
+            renderNotifications();
+            showToast("Barcha bildirishnomalar o'qildi deb belgilandi", "success");
+        }
+
+        document.addEventListener('click', (e) => {
+            const wrap = document.querySelector('.bell-wrapper');
+            if (wrap && !wrap.contains(e.target)) closeNotifDropdown();
+        });
+
+        /* =========================================
+           7. MODALS
            ========================================= */
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
@@ -607,226 +1322,465 @@
             const titleEl = document.getElementById('dm-title');
             const bodyEl = document.getElementById('dm-body');
             const footerEl = document.getElementById('dm-footer');
-            
+
             if (type === 'user') {
                 const u = MOCK_DB.users.find(x => x.id === id);
                 titleEl.textContent = "Foydalanuvchi ma'lumoti";
                 bodyEl.innerHTML = `
+                    <div class="flex items-center gap-4 mb-4 p-4" style="background: var(--bg); border-radius: 12px;">
+                        <div class="user-avatar" style="width:56px; height:56px; font-size:1.4rem;">${u.name.charAt(0)}</div>
+                        <div>
+                            <div class="font-bold text-lg">${escapeHtml(u.name)}</div>
+                            <div class="text-muted text-sm">${escapeHtml(u.phone)}</div>
+                        </div>
+                    </div>
                     <div class="details-list">
-                        <div class="details-row"><span class="details-label">Kompaniya nomi:</span><span class="details-value">${u.name}</span></div>
-                        <div class="details-row"><span class="details-label">INN (STIR):</span><span class="details-value">${u.inn}</span></div>
-                        <div class="details-row"><span class="details-label">Rol:</span><span class="details-value badge badge-info">${u.role.toUpperCase()}</span></div>
-                        <div class="details-row"><span class="details-label">Telefon:</span><span class="details-value">${u.phone}</span></div>
-                        <div class="details-row"><span class="details-label">Manzil:</span><span class="details-value">${u.address}</span></div>
-                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(u.status)}</span></div>
+                        <div class="details-row"><span class="details-label">INN (STIR)</span><span class="details-value">${escapeHtml(u.inn)}</span></div>
+                        <div class="details-row"><span class="details-label">Rol</span><span class="details-value"><span class="badge badge-primary">${u.role.toUpperCase()}</span></span></div>
+                        <div class="details-row"><span class="details-label">Manzil</span><span class="details-value">${escapeHtml(u.address)}</span></div>
+                        <div class="details-row"><span class="details-label">Qo'shilgan</span><span class="details-value">${u.joined}</span></div>
+                        <div class="details-row"><span class="details-label">Holati</span><span class="details-value">${getStatusBadge(u.status)}</span></div>
                     </div>
                 `;
                 footerEl.innerHTML = `
                     <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
-                    ${STATE.currentUser.role === 'admin' && u.id !== 1 ? 
-                        `<button class="btn ${u.status==='active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})">${u.status==='active' ? 'Bloklash' : 'Blokdan chiqarish'}</button>` 
-                    : ''}
+                    ${STATE.currentUser.role === 'admin' && u.id !== 1 ?
+                        `<button class="btn ${u.status==='active' ? 'btn-soft-danger' : 'btn-soft-success'}" onclick="toggleUserStatus(${u.id})">
+                            <i class="ri-${u.status==='active' ? 'forbid-2-line' : 'check-line'}"></i>
+                            ${u.status==='active' ? 'Bloklash' : 'Blokdan chiqarish'}
+                        </button>` : ''}
                 `;
-            } 
-            else if (type === 'order') {
+            } else if (type === 'order') {
                 const o = MOCK_DB.orders.find(x => x.id === id);
                 const seller = getUserById(o.sellerId);
                 const buyer = getUserById(o.buyerId);
-                
+
                 const itemsHtml = o.items.map(it => {
                     const p = getProdById(it.prodId);
-                    return `<div class="p-2 bg-gray-50 rounded mb-2" style="background:#f9fafb; border:1px solid var(--border)">
-                        <div class="flex justify-between"><b>${p.name}</b> <span>${it.qty} dona</span></div>
-                        <div class="text-sm text-muted">Narx: ${formatMoney(p.price)} | Model: ${p.model === 'prepayment'?'Avans':'Realizatsiya'}</div>
+                    return `<div class="p-3 mb-2" style="background: var(--bg); border-radius: 10px;">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-semibold">${escapeHtml(p.name)}</div>
+                                <div class="text-xs text-muted mt-1">${formatMoney(p.price)} • ${p.model === 'prepayment'?'Avans':'Realizatsiya'}</div>
+                            </div>
+                            <div class="font-bold text-primary">×${it.qty}</div>
+                        </div>
                     </div>`;
                 }).join('');
 
-                titleEl.textContent = `Buyurtma #${o.id} tafsilotlari`;
+                titleEl.textContent = `Buyurtma #${o.id}`;
                 bodyEl.innerHTML = `
                     <div class="details-list mb-4">
-                        <div class="details-row"><span class="details-label">Sana:</span><span class="details-value">${o.date}</span></div>
-                        <div class="details-row"><span class="details-label">Sotuvchi:</span><span class="details-value">${seller.name}</span></div>
-                        <div class="details-row"><span class="details-label">Xaridor:</span><span class="details-value">${buyer.name}</span></div>
-                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(o.status)}</span></div>
-                        <div class="details-row"><span class="details-label">Jami summa:</span><span class="details-value text-primary font-bold text-lg">${formatMoney(o.total)}</span></div>
+                        <div class="details-row"><span class="details-label">Sana</span><span class="details-value">${o.date}</span></div>
+                        <div class="details-row"><span class="details-label">Sotuvchi</span><span class="details-value">${escapeHtml(seller.name)}</span></div>
+                        <div class="details-row"><span class="details-label">Xaridor</span><span class="details-value">${escapeHtml(buyer.name)}</span></div>
+                        <div class="details-row"><span class="details-label">Holati</span><span class="details-value">${getStatusBadge(o.status)}</span></div>
+                        <div class="details-row"><span class="details-label">Jami summa</span><span class="details-value text-primary font-bold text-lg">${formatMoney(o.total)}</span></div>
                     </div>
-                    <h4 class="mb-2">Mahsulotlar ro'yxati:</h4>
+                    <h4 class="mb-2">Mahsulotlar</h4>
                     ${itemsHtml}
                     ${o.status === 'pending_sign' ? `
-                        <div class="mt-4 p-3 rounded" style="background:#fffbeb; border:1px solid #fde68a;">
-                            <i class="ri-information-line text-warning"></i> <b>Diqqat:</b> Ushbu buyurtma tomonlar E-IMZO orqali tasdiqlashini kutmoqda.
-                        </div>
-                    ` : ''}
+                        <div class="mt-4 p-3" style="background:#fffbeb; border:1px solid #fde68a; border-radius:10px;">
+                            <i class="ri-information-line text-warning"></i> <b>Diqqat:</b> Buyurtma E-IMZO orqali tasdiqlashini kutmoqda.
+                        </div>` : ''}
                 `;
 
                 let actionBtn = '';
                 if(o.status === 'pending_sign') {
-                    if(STATE.currentUser.role === 'seller' && !o.signedBySeller) {
-                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'seller')"><i class="ri-markup-line"></i> Imzolash (Seller)</button>`;
-                    } else if(STATE.currentUser.role === 'buyer' && !o.signedByBuyer) {
-                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'buyer')"><i class="ri-markup-line"></i> Imzolash (Buyer)</button>`;
-                    }
-                } else if(o.status === 'active' && STATE.currentUser.role === 'buyer') {
+                    if(STATE.currentUser.role === 'seller' && !o.signedBySeller)
+                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'seller')"><i class="ri-markup-line"></i> Imzolash</button>`;
+                    else if(STATE.currentUser.role === 'buyer' && !o.signedByBuyer)
+                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'buyer')"><i class="ri-markup-line"></i> Imzolash</button>`;
+                } else if(o.status === 'active' && STATE.currentUser.role === 'buyer')
                     actionBtn = `<button class="btn btn-success" onclick="showToast('Mahsulot xaridorga sotilgani qayd etildi'); closeModal('detailsModal')"><i class="ri-checkbox-circle-line"></i> Sotildi deb belgilash</button>`;
-                }
 
-                footerEl.innerHTML = `
-                    <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
-                    ${actionBtn}
-                `;
+                footerEl.innerHTML = `<button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>${actionBtn}`;
             }
 
             openModal('detailsModal');
         }
 
         /* =========================================
-           6. VIEWS: ADMIN
+           8. ADMIN VIEWS
            ========================================= */
         function renderAdminDash(container) {
             const activeOrders = MOCK_DB.orders.filter(o=>o.status==='active').length;
             const totalComm = MOCK_DB.orders.reduce((sum,o)=>sum+o.comm,0);
-            
-            const stats = `
+            const overdueReports = MOCK_DB.reports.filter(r=>r.status==='overdue').length;
+
+            container.innerHTML = `
+                <div class="page-header">
+                    <div>
+                        <h2>Boshqaruv paneli</h2>
+                        <p>Tizim umumiy holati va statistikasi</p>
+                    </div>
+                </div>
                 <div class="grid-cards mb-6">
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-group-line text-info"></i> Jami Foydalanuvchilar</div><div class="text-lg font-bold mt-2">${MOCK_DB.users.length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-file-list-3-line text-success"></i> Faol Buyurtmalar</div><div class="text-lg font-bold mt-2">${activeOrders} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-money-dollar-circle-line text-primary"></i> Jami Komissiya</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(totalComm)}</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-error-warning-line text-danger"></i> Kechikkan Hisobotlar</div><div class="text-lg font-bold mt-2 text-danger">${MOCK_DB.reports.filter(r=>r.status==='overdue').length} ta</div></div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--info-light); color: var(--info);"><i class="ri-group-line"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">Foydalanuvchilar</div>
+                            <div class="stat-value">${MOCK_DB.users.length}</div>
+                            <div class="stat-change"><i class="ri-arrow-up-line"></i> +12% bu oy</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--success-light); color: var(--success);"><i class="ri-file-list-3-line"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">Faol Buyurtmalar</div>
+                            <div class="stat-value">${activeOrders}</div>
+                            <div class="stat-change"><i class="ri-arrow-up-line"></i> +5 bu hafta</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--primary-light); color: var(--primary);"><i class="ri-money-dollar-circle-line"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">Jami Komissiya</div>
+                            <div class="stat-value text-primary">${formatMoney(totalComm)}</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--danger-light); color: var(--danger);"><i class="ri-error-warning-line"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">Kechikkan Hisobotlar</div>
+                            <div class="stat-value text-danger">${overdueReports}</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="grid-cards mb-6" style="grid-template-columns: 2fr 1fr;">
                     <div class="card">
-                        <h3 class="mb-4">Oylik aylanma va komissiya (mln UZS)</h3>
-                        <canvas id="chart-sales" style="max-height: 250px;"></canvas>
+                        <h3 class="mb-4">Oylik aylanma va komissiya</h3>
+                        <canvas id="chart-sales" style="max-height: 280px;"></canvas>
                     </div>
                     <div class="card">
                         <h3 class="mb-4 text-center">Komissiya holati</h3>
-                        <canvas id="chart-comm" style="max-height: 250px;"></canvas>
+                        <canvas id="chart-comm" style="max-height: 280px;"></canvas>
                     </div>
                 </div>
                 <div class="card">
                     <h3 class="mb-4">Foto hisobotlar statistikasi</h3>
-                    <canvas id="chart-reports" style="max-height: 200px;"></canvas>
+                    <canvas id="chart-reports" style="max-height: 220px;"></canvas>
                 </div>
             `;
-            container.innerHTML = stats;
 
-            // Render Charts (destroy old instances first)
             setTimeout(() => {
                 ['sales', 'comm', 'reports'].forEach(c => { if(STATE.charts[c]) STATE.charts[c].destroy(); });
 
                 STATE.charts.sales = new Chart(document.getElementById('chart-sales'), {
                     type: 'bar',
-                    data: { 
-                        labels: ['May', 'Iyun', 'Iyul', 'Avgust', 'Sentyabr', 'Oktyabr'], 
+                    data: {
+                        labels: ['May', 'Iyun', 'Iyul', 'Avgust', 'Sentyabr', 'Oktyabr'],
                         datasets: [
-                            { label: 'Sotuvlar aylanmasi', data: [12, 19, 15, 25, 22, 30], backgroundColor: '#e0f2fe', borderColor: '#3b82f6', borderWidth:1 },
-                            { label: 'Platforma komissiyasi', data: [0.6, 0.95, 0.75, 1.25, 1.1, 1.5], backgroundColor: '#0d9488' }
-                        ] 
+                            { label: 'Aylanma (mln UZS)', data: [12, 19, 15, 25, 22, 30], backgroundColor: 'rgba(59, 130, 246, 0.6)', borderRadius: 6 },
+                            { label: 'Komissiya', data: [0.6, 0.95, 0.75, 1.25, 1.1, 1.5], backgroundColor: 'rgba(13, 148, 136, 0.85)', borderRadius: 6 }
+                        ]
                     },
-                    options: { maintainAspectRatio: false }
+                    options: { maintainAspectRatio: false, responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
                 });
-                
+
                 STATE.charts.comm = new Chart(document.getElementById('chart-comm'), {
                     type: 'doughnut',
-                    data: { labels: ['To\'langan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [60, 30, 10], backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'] }] },
-                    options: { maintainAspectRatio: false, cutout: '70%' }
+                    data: { labels: ['To\'langan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [60, 30, 10], backgroundColor: ['#10b981', '#f59e0b', '#ef4444'], borderWidth: 0 }] },
+                    options: { maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
                 });
 
                 STATE.charts.reports = new Chart(document.getElementById('chart-reports'), {
-                    type: 'pie',
-                    data: { labels: ['Bajarilgan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [45, 12, 5], backgroundColor: ['#22c55e', '#fde68a', '#ef4444'] }] },
-                    options: { maintainAspectRatio: false }
+                    type: 'line',
+                    data: {
+                        labels: ['1-hafta', '2-hafta', '3-hafta', '4-hafta', '5-hafta', '6-hafta'],
+                        datasets: [
+                            { label: 'Bajarilgan', data: [12, 18, 15, 22, 20, 25], borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', tension: 0.4, fill: true },
+                            { label: 'Kechikkan', data: [3, 2, 4, 1, 3, 2], borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', tension: 0.4, fill: true }
+                        ]
+                    },
+                    options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
                 });
             }, 100);
         }
 
         function renderAdminUsers(container) {
-            const rows = MOCK_DB.users.map(u => `
+            container.innerHTML = `
+                <div class="page-header">
+                    <div>
+                        <h2>Foydalanuvchilar</h2>
+                        <p>Tizimdagi barcha kompaniyalarni boshqaring</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="filter-bar">
+                        <div class="input-wrap has-icon">
+                            <i class="ri-search-line"></i>
+                            <input type="text" class="input-control" id="users-search" placeholder="Nom, INN yoki telefon bo'yicha qidirish..." oninput="onUsersSearch(this.value)">
+                        </div>
+                        <div id="users-role-filter" style="min-width:160px;"></div>
+                        <div id="users-status-filter" style="min-width:160px;"></div>
+                    </div>
+                    <div id="users-results"></div>
+                </div>
+            `;
+
+            createCustomSelect(document.getElementById('users-role-filter'), {
+                options: [
+                    { value: 'all', label: 'Barcha rollar', icon: 'ri-team-line' },
+                    { value: 'admin', label: 'Administrator', icon: 'ri-shield-user-line' },
+                    { value: 'seller', label: 'Sotuvchi', icon: 'ri-store-3-line' },
+                    { value: 'buyer', label: 'Diler/Xaridor', icon: 'ri-shopping-cart-2-line' }
+                ],
+                value: STATE.usersFilter.role,
+                onChange: (v) => { STATE.usersFilter.role = v; renderUsersList(); }
+            });
+            createCustomSelect(document.getElementById('users-status-filter'), {
+                options: [
+                    { value: 'all', label: 'Barcha holat', icon: 'ri-filter-2-line' },
+                    { value: 'active', label: 'Faol', icon: 'ri-checkbox-circle-line' },
+                    { value: 'pending', label: 'Kutilmoqda', icon: 'ri-time-line' },
+                    { value: 'blocked', label: 'Bloklangan', icon: 'ri-forbid-2-line' }
+                ],
+                value: STATE.usersFilter.status,
+                onChange: (v) => { STATE.usersFilter.status = v; renderUsersList(); }
+            });
+
+            renderUsersList();
+        }
+
+        function onUsersSearch(value) {
+            STATE.usersFilter.search = value.toLowerCase();
+            renderUsersList();
+        }
+
+        function renderUsersList() {
+            const f = STATE.usersFilter;
+            const filtered = MOCK_DB.users.filter(u => {
+                if (f.role !== 'all' && u.role !== f.role) return false;
+                if (f.status !== 'all' && u.status !== f.status) return false;
+                if (f.search && !(`${u.name} ${u.inn} ${u.phone}`.toLowerCase().includes(f.search))) return false;
+                return true;
+            });
+
+            const container = document.getElementById('users-results');
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="ri-search-line"></i><h4>Hech narsa topilmadi</h4><p class="text-sm mt-2">Filtr parametrlarini o'zgartirib ko'ring</p></div>`;
+                return;
+            }
+
+            const isMobile = window.innerWidth < 768;
+
+            if (isMobile) {
+                container.innerHTML = filtered.map(u => `
+                    <div class="user-list-card mb-2" onclick="openDetails('user', ${u.id})">
+                        <div class="user-avatar">${u.name.charAt(0)}</div>
+                        <div class="flex-1" style="min-width:0;">
+                            <div class="font-bold" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(u.name)}</div>
+                            <div class="text-xs text-muted">INN: ${u.inn}</div>
+                            <div class="flex gap-2 mt-2">
+                                <span class="badge badge-primary">${u.role.toUpperCase()}</span>
+                                ${getStatusBadge(u.status)}
+                            </div>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-muted text-xl"></i>
+                    </div>
+                `).join('');
+                return;
+            }
+
+            const rows = filtered.map(u => `
                 <tr>
-                    <td><b>${u.name}</b><br><span class="text-xs text-muted hide-sm">INN: ${u.inn}</span></td>
-                    <td class="hide-sm"><span class="badge badge-info">${u.role.toUpperCase()}</span></td>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="user-avatar" style="width:36px; height:36px; font-size:0.85rem;">${u.name.charAt(0)}</div>
+                            <div>
+                                <div class="font-semibold">${escapeHtml(u.name)}</div>
+                                <div class="text-xs text-muted">INN: ${u.inn}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="badge badge-primary">${u.role.toUpperCase()}</span></td>
+                    <td>${escapeHtml(u.phone)}</td>
                     <td>${getStatusBadge(u.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish">
-                            <i class="ri-eye-line"></i>
-                        </button>
+                        <div class="flex gap-1 justify-end">
+                            <button class="btn btn-soft-info btn-icon btn-sm" onclick="openDetails('user', ${u.id})" title="Ko'rish">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                            ${u.id !== 1 ? `
+                                <button class="btn ${u.status==='active' ? 'btn-soft-danger' : 'btn-soft-success'} btn-icon btn-sm" onclick="toggleUserStatus(${u.id})" title="${u.status==='active'?'Bloklash':'Aktivlash'}">
+                                    <i class="ri-${u.status==='active' ? 'forbid-2' : 'check'}-line"></i>
+                                </button>
+                            ` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
             container.innerHTML = `
-                <div class="card">
-                    <h3 class="mb-4">Tizimdagi kompaniyalar</h3>
-                    <div class="table-responsive"><table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div>
-                </div>`;
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Kompaniya</th><th>Rol</th><th>Telefon</th><th>Holat</th><th class="text-right">Amallar</th></tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>
+                <div class="text-sm text-muted mt-4">Topildi: <b>${filtered.length}</b> ta foydalanuvchi</div>
+            `;
         }
 
         function toggleUserStatus(id) {
             const user = MOCK_DB.users.find(u => u.id === id);
             user.status = user.status === 'active' ? 'blocked' : 'active';
-            showToast(`Holat o'zgardi: ${user.status}`);
+            showToast(`${user.name}: ${user.status === 'blocked' ? 'bloklandi' : 'faollashtirildi'}`, user.status === 'blocked' ? 'warning' : 'success');
             closeModal('detailsModal');
-            renderAdminUsers(document.getElementById('view-area'));
+            if (STATE.currentView === 'admin-users') renderUsersList();
         }
 
         function renderAdminOrders(container) {
             const rows = MOCK_DB.orders.map(o => `
                 <tr>
                     <td><b>#${o.id}</b></td>
-                    <td class="hide-sm">${getUserById(o.sellerId).name} <br> <span class="text-xs text-muted">→ ${getUserById(o.buyerId).name}</span></td>
+                    <td class="hide-sm">
+                        <div class="font-semibold">${escapeHtml(getUserById(o.sellerId).name)}</div>
+                        <div class="text-xs text-muted">→ ${escapeHtml(getUserById(o.buyerId).name)}</div>
+                    </td>
                     <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
                     <td>${getStatusBadge(o.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
+                        <button class="btn btn-soft-info btn-icon btn-sm" onclick="openDetails('order', ${o.id})">
                             <i class="ri-eye-line"></i>
                         </button>
                     </td>
                 </tr>
             `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Barcha buyurtmalar</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th class="hide-sm">Sotuvchi -> Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `
+                <div class="page-header">
+                    <div><h2>Barcha buyurtmalar</h2><p>Tizimdagi har bir buyurtma haqida ma'lumot</p></div>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table><thead><tr><th>ID</th><th class="hide-sm">Sotuvchi → Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+                    </div>
+                </div>`;
         }
 
         function renderAdminComm(container) {
             const rows = MOCK_DB.orders.map(o => `
                 <tr>
-                    <td>${getUserById(o.sellerId).name}</td>
+                    <td>${escapeHtml(getUserById(o.sellerId).name)}</td>
                     <td class="hide-sm">#${o.id}</td>
                     <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
                     <td>${getStatusBadge(o.commStatus)}</td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Komissiya reyestri (5%)</h3><div class="table-responsive"><table><thead><tr><th>Sotuvchi</th><th class="hide-sm">Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+                </tr>`).join('');
+            container.innerHTML = `
+                <div class="page-header"><div><h2>Komissiya reyestri</h2><p>Platforma daromadi (5%)</p></div></div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>Sotuvchi</th><th class="hide-sm">Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
-        
+
         function renderAdminReports(container) {
-            const rows = MOCK_DB.reports.map(r => `
-                <tr>
-                    <td>#${r.orderId}</td>
-                    <td class="hide-sm">${getProdById(r.prodId).name}</td>
-                    <td>${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Nazoratdagi Foto Hisobotlar</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Mahsulot</th><th>Muddat</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+            container.innerHTML = `
+                <div class="page-header">
+                    <div><h2>Foto hisobotlar</h2><p>Tizimdagi barcha foto hisobotlar nazorati</p></div>
+                </div>
+                <div class="card mb-6">
+                    <div class="filter-bar">
+                        <div class="input-wrap has-icon">
+                            <i class="ri-search-line"></i>
+                            <input type="text" class="input-control" placeholder="Buyurtma yoki mahsulot bo'yicha qidirish..." oninput="STATE.reportsFilter.search=this.value.toLowerCase(); renderAdminReportsList();">
+                        </div>
+                        <div id="rep-status-filter" style="min-width: 200px;"></div>
+                    </div>
+                    <div id="rep-list-area"></div>
+                </div>
+            `;
+
+            createCustomSelect(document.getElementById('rep-status-filter'), {
+                options: [
+                    { value: 'all', label: 'Barcha holatlar', icon: 'ri-filter-2-line' },
+                    { value: 'pending', label: 'Kutilmoqda', icon: 'ri-time-line' },
+                    { value: 'done', label: 'Bajarildi', icon: 'ri-check-line' },
+                    { value: 'overdue', label: 'Kechikkan', icon: 'ri-alarm-warning-line' }
+                ],
+                value: STATE.reportsFilter.status,
+                onChange: (v) => { STATE.reportsFilter.status = v; renderAdminReportsList(); }
+            });
+
+            renderAdminReportsList();
+        }
+
+        function renderAdminReportsList() {
+            const f = STATE.reportsFilter;
+            const filtered = MOCK_DB.reports.filter(r => {
+                if (f.status !== 'all' && r.status !== f.status) return false;
+                if (f.search) {
+                    const p = getProdById(r.prodId);
+                    if (!(`${r.orderId} ${p ? p.name : ''}`.toLowerCase().includes(f.search))) return false;
+                }
+                return true;
+            });
+
+            const container = document.getElementById('rep-list-area');
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="ri-camera-off-line"></i><h4>Hisobotlar topilmadi</h4></div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="photo-report-grid">
+                    ${filtered.map(r => {
+                        const p = getProdById(r.prodId);
+                        return `
+                            <div class="photo-report-card">
+                                <div class="photo-report-img" onclick="${r.img ? `openLightboxPlaceholder('${escapeHtml(p?.name||'')}')` : ''}">
+                                    ${r.img ? `<i class="${p?.img||'ri-image-line'}"></i>` : `<i class="ri-image-line"></i>`}
+                                    <div class="photo-status">${getStatusBadge(r.status)}</div>
+                                </div>
+                                <div class="photo-report-info">
+                                    <div class="photo-title">${escapeHtml(p?.name || 'Mahsulot')}</div>
+                                    <div class="photo-meta"><i class="ri-hashtag"></i> Buyurtma #${r.orderId}</div>
+                                    <div class="photo-meta mt-2"><i class="ri-calendar-line"></i> Muddat: ${r.dueDate}</div>
+                                    ${r.uploadedAt ? `<div class="photo-meta"><i class="ri-upload-cloud-2-line"></i> ${r.uploadedAt}</div>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                <div class="text-sm text-muted mt-4">Topildi: <b>${filtered.length}</b> ta hisobot</div>
+            `;
         }
 
         /* =========================================
-           7. VIEWS: SELLER
+           9. SELLER VIEWS
            ========================================= */
         function renderSellerDash(container) {
             const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
             const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
             container.innerHTML = `
+                <div class="page-header">
+                    <div><h2>Salom, ${escapeHtml(STATE.currentUser.name)}!</h2><p>Sizning sotuvlaringiz statistikasi</p></div>
+                </div>
                 <div class="grid-cards mb-6">
-                    <div class="card"><div class="text-muted text-sm">Mening mahsulotlarim</div><div class="text-lg font-bold mt-2">${myProds.length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm">Faol Buyurtmalar</div><div class="text-lg font-bold mt-2 text-success">${myOrders.filter(o=>o.status==='active').length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm">Umumiy Sotuv Summasi</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(myOrders.reduce((s,o)=>s+o.total,0))}</div></div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--info-light); color: var(--info);"><i class="ri-archive-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Mahsulotlar</div><div class="stat-value">${myProds.length}</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--success-light); color: var(--success);"><i class="ri-shopping-bag-3-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Faol Buyurtmalar</div><div class="stat-value">${myOrders.filter(o=>o.status==='active').length}</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--primary-light); color: var(--primary);"><i class="ri-line-chart-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Umumiy Sotuv</div><div class="stat-value text-primary" style="font-size:1.15rem;">${formatMoney(myOrders.reduce((s,o)=>s+o.total,0))}</div></div>
+                    </div>
                 </div>
                 <div class="card">
                     <h3 class="mb-4">So'nggi buyurtmalar</h3>
                     <div class="table-responsive">
                         <table>
-                            <thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead>
-                            <tbody>${myOrders.slice(0,3).map(o=>`<tr><td><b>#${o.id}</b></td><td>${getUserById(o.buyerId).name}</td><td class="hide-sm">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td><td class="action-cell"><button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td></tr>`).join('')}</tbody>
+                            <thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th></th></tr></thead>
+                            <tbody>${myOrders.slice(0,5).map(o=>`
+                                <tr>
+                                    <td><b>#${o.id}</b></td>
+                                    <td>${escapeHtml(getUserById(o.buyerId).name)}</td>
+                                    <td class="hide-sm font-bold text-primary">${formatMoney(o.total)}</td>
+                                    <td>${getStatusBadge(o.status)}</td>
+                                    <td class="action-cell"><button class="btn btn-soft-info btn-icon btn-sm" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td>
+                                </tr>`).join('')}
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -839,40 +1793,69 @@
                 <div class="product-card">
                     <div class="product-img"><i class="${p.img}"></i></div>
                     <div class="product-info">
-                        <div class="text-xs text-muted mb-1 flex justify-between"><span>SKU: ${p.sku}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
-                        <div class="font-bold text-lg mb-2">${p.name}</div>
-                        <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
-                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
+                        <div class="text-xs text-muted mb-2 flex justify-between items-center">
+                            <span>SKU: ${escapeHtml(p.sku)}</span>
+                            <span class="badge badge-primary">${p.model==='prepayment'?'Avans':'Realiz.'}</span>
+                        </div>
+                        <div class="product-title">${escapeHtml(p.name)}</div>
+                        <div class="product-price mb-3">${formatMoney(p.price)}</div>
+                        <div class="text-xs text-muted mb-3 flex flex-col gap-1">
                             <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
                             <span><i class="ri-camera-line"></i> Foto hisobot: Har ${p.photoDays} kun</span>
                         </div>
                         <div class="mt-auto flex gap-2">
-                            <button class="btn btn-outline w-full"><i class="ri-edit-line"></i> Tahrir</button>
+                            <button class="btn btn-outline w-full btn-sm"><i class="ri-edit-line"></i> Tahrir</button>
                         </div>
                     </div>
                 </div>
             `).join('');
 
             container.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h3>Katalogim</h3>
-                    <button class="btn btn-primary" onclick="openModal('addProdModal')"><i class="ri-add-line"></i> Yangi Qo'shish</button>
+                <div class="page-header">
+                    <div><h2>Mening katalogim</h2><p>${myProds.length} ta mahsulot</p></div>
+                    <button class="btn btn-primary" onclick="openAddProductModal()"><i class="ri-add-line"></i> Yangi qo'shish</button>
                 </div>
                 <div class="grid-products">${cards}</div>
             `;
         }
 
-        function togglePrepayFields() {
-            const model = document.getElementById('p-model').value;
-            const prepayDiv = document.getElementById('prepay-fields');
-            if (model === 'prepayment') prepayDiv.classList.remove('hidden');
-            else prepayDiv.classList.add('hidden');
+        function openAddProductModal() {
+            openModal('addProdModal');
+            setTimeout(() => {
+                createCustomSelect(document.getElementById('p-category-cs'), {
+                    options: [
+                        { value: 'Elektronika', label: 'Elektronika', icon: 'ri-cpu-line' },
+                        { value: 'Mebel', label: 'Mebel', icon: 'ri-armchair-line' },
+                        { value: 'Boshqa', label: 'Boshqa', icon: 'ri-more-line' }
+                    ],
+                    value: 'Elektronika'
+                });
+                createCustomSelect(document.getElementById('p-model-cs'), {
+                    options: [
+                        { value: 'realization', label: 'Realizatsiya (Sotilgandan so\'ng)', icon: 'ri-time-line' },
+                        { value: 'prepayment', label: 'Oldindan to\'lov (Avans)', icon: 'ri-bank-card-line' }
+                    ],
+                    value: 'realization',
+                    onChange: (v) => {
+                        document.getElementById('prepay-fields').classList.toggle('hidden', v !== 'prepayment');
+                    }
+                });
+                createCustomSelect(document.getElementById('p-photodays-cs'), {
+                    options: [
+                        { value: '5', label: 'Har 5 kunda' },
+                        { value: '10', label: 'Har 10 kunda' },
+                        { value: '15', label: 'Har 15 kunda' },
+                        { value: '30', label: 'Har 30 kunda' }
+                    ],
+                    value: '15'
+                });
+            }, 50);
         }
 
         function addMockProduct() {
             showToast("Yangi mahsulot katalogga qo'shildi!", "success");
             closeModal('addProdModal');
-            setTimeout(() => showToast("Eslatma: Yangi mahsulot savdosi uchun Master shartnoma imzolanishi kerak.", "info"), 1500);
+            setTimeout(() => showToast("Eslatma: Master shartnoma imzolanishi kerak.", "info"), 1500);
         }
 
         function renderSellerOrders(container) {
@@ -880,22 +1863,26 @@
             const rows = myOrders.map(o => `
                 <tr>
                     <td><b>#${o.id}</b></td>
-                    <td>${getUserById(o.buyerId).name}</td>
+                    <td>${escapeHtml(getUserById(o.buyerId).name)}</td>
                     <td class="hide-sm">${o.date}</td>
                     <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
                     <td>${getStatusBadge(o.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})" title="Ko'rish va Imzolash">
+                        <button class="btn btn-soft-info btn-icon btn-sm" onclick="openDetails('order', ${o.id})">
                             <i class="ri-eye-line"></i>
                         </button>
                     </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Sotuvlar (Buyurtmalar)</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+                </tr>`).join('');
+            container.innerHTML = `
+                <div class="page-header"><div><h2>Sotuvlar</h2><p>Sizdagi barcha buyurtmalar</p></div></div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         function renderSellerFinance(container) {
             const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
+            const totalComm = myOrders.reduce((s,o)=>s+o.comm,0);
+            const pendingComm = myOrders.filter(o=>o.commStatus==='pending').reduce((s,o)=>s+o.comm,0);
+
             const rows = myOrders.map(o => `
                 <tr>
                     <td><b>#${o.id}</b></td>
@@ -903,43 +1890,52 @@
                     <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
                     <td>${getStatusBadge(o.commStatus)}</td>
                     <td class="action-cell">
-                        ${o.commStatus === 'pending' ? `<button class="btn btn-primary text-sm" onclick="showToast('To\\'lov tizimiga o\\'tilmoqda...')">To'lash</button>` : '-'}
+                        ${o.commStatus === 'pending' ? `<button class="btn btn-primary btn-sm" onclick="showToast('To\\'lov tizimiga o\\'tilmoqda...','info')">To'lash</button>` : '<span class="text-muted">-</span>'}
                     </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Moliya va Komissiya to'lovlari</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Baza Summa</th><th>Komissiya (5%)</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+                </tr>`).join('');
+            container.innerHTML = `
+                <div class="page-header"><div><h2>Moliya</h2><p>Komissiya to'lovlari va hisobotlar</p></div></div>
+                <div class="grid-cards mb-6">
+                    <div class="stat-card"><div class="stat-icon" style="background: var(--primary-light); color: var(--primary);"><i class="ri-coins-line"></i></div><div class="stat-info"><div class="stat-label">Jami komissiya</div><div class="stat-value text-primary" style="font-size:1.15rem;">${formatMoney(totalComm)}</div></div></div>
+                    <div class="stat-card"><div class="stat-icon" style="background: var(--warning-light); color: var(--warning);"><i class="ri-time-line"></i></div><div class="stat-info"><div class="stat-label">Kutilayotgan</div><div class="stat-value text-warning" style="font-size:1.15rem;">${formatMoney(pendingComm)}</div></div></div>
+                </div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Summa</th><th>Komissiya (5%)</th><th>Holat</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         /* =========================================
-           8. VIEWS: BUYER (DEALER)
+           10. BUYER VIEWS
            ========================================= */
         function renderBuyerVitrina(container) {
             const cards = MOCK_DB.products.map(p => `
                 <div class="product-card">
                     <div class="product-img"><i class="${p.img}"></i></div>
                     <div class="product-info">
-                        <div class="text-xs text-muted mb-1 flex justify-between"><span>${getUserById(p.sellerId).name}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
-                        <div class="font-bold text-lg mb-2">${p.name}</div>
-                        <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
-                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
-                            <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
+                        <div class="text-xs text-muted mb-2 flex justify-between items-center" style="gap:0.4rem;">
+                            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(getUserById(p.sellerId).name)}</span>
+                            <span class="badge badge-primary" style="flex-shrink:0;">${p.model==='prepayment'?'Avans':'Realiz.'}</span>
                         </div>
-                        <button class="btn btn-primary w-full mt-auto" onclick="addToCart(${p.id})"><i class="ri-shopping-cart-2-line"></i> Savatga qo'shish</button>
+                        <div class="product-title">${escapeHtml(p.name)}</div>
+                        <div class="product-price mb-3">${formatMoney(p.price)}</div>
+                        <div class="text-xs text-muted mb-3"><i class="ri-time-line"></i> ${p.realDays} kun realizatsiya</div>
+                        <button class="btn btn-primary w-full mt-auto btn-sm" onclick="addToCart(${p.id})"><i class="ri-shopping-cart-2-line"></i> Savatga</button>
                     </div>
                 </div>
             `).join('');
 
             container.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h3>Barcha mahsulotlar vitrinasi</h3>
-                    <div class="badge badge-pending px-3 py-2 text-sm cursor-pointer" onclick="navigate('buyer-cart', null)" style="font-size:1rem; cursor:pointer;"><i class="ri-shopping-cart-line"></i> <span id="cart-count">${MOCK_DB.cart.length}</span></div>
+                <div class="page-header">
+                    <div><h2>Mahsulotlar vitrinasi</h2><p>Barcha sotuvchilardan mahsulotlar</p></div>
+                    <div class="filter-chip" onclick="navigate('buyer-cart')">
+                        <i class="ri-shopping-cart-line"></i> Savat (<span id="cart-count">${MOCK_DB.cart.length}</span>)
+                    </div>
                 </div>
                 <div class="grid-products">${cards}</div>
             `;
         }
 
         function addToCart(id) {
-            MOCK_DB.cart.push({ prodId: id, qty: 1 });
+            const exists = MOCK_DB.cart.find(c => c.prodId === id);
+            if (exists) exists.qty++; else MOCK_DB.cart.push({ prodId: id, qty: 1 });
             const counter = document.getElementById('cart-count');
             if(counter) counter.innerText = MOCK_DB.cart.length;
             showToast("Mahsulot savatga qo'shildi");
@@ -947,7 +1943,14 @@
 
         function renderBuyerCart(container) {
             if(MOCK_DB.cart.length === 0) {
-                container.innerHTML = `<div class="card text-center p-6 py-12"><i class="ri-shopping-cart-line text-muted" style="font-size:4rem"></i><h3 class="mt-4 text-muted">Savatingiz bo'sh</h3><button class="btn btn-primary mt-4" onclick="navigate('buyer-vitrina', document.querySelectorAll('.menu-item')[0])">Xaridni boshlash</button></div>`;
+                container.innerHTML = `
+                    <div class="page-header"><div><h2>Savatim</h2></div></div>
+                    <div class="card empty-state">
+                        <i class="ri-shopping-cart-line"></i>
+                        <h3>Savatingiz bo'sh</h3>
+                        <p class="text-sm mt-2 mb-4">Vitrinadan mahsulotlarni qo'shing</p>
+                        <button class="btn btn-primary" onclick="navigate('buyer-vitrina')"><i class="ri-store-2-line"></i> Vitrinaga o'tish</button>
+                    </div>`;
                 return;
             }
 
@@ -956,28 +1959,34 @@
                 const p = getProdById(item.prodId);
                 total += p.price * item.qty;
                 return `<tr>
-                    <td><b>${p.name}</b><br><span class="text-xs text-muted hide-sm">${getUserById(p.sellerId).name}</span></td>
+                    <td>
+                        <div class="font-semibold">${escapeHtml(p.name)}</div>
+                        <div class="text-xs text-muted">${escapeHtml(getUserById(p.sellerId).name)}</div>
+                    </td>
                     <td>
                         <div class="flex items-center gap-2">
-                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, -1)"><i class="ri-subtract-line"></i></button>
-                            <span class="w-8 text-center">${item.qty}</span>
-                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, 1)"><i class="ri-add-line"></i></button>
+                            <button class="btn btn-soft-primary btn-icon btn-sm" onclick="updateCart(${idx}, -1)"><i class="ri-subtract-line"></i></button>
+                            <span class="font-bold" style="min-width: 24px; text-align:center;">${item.qty}</span>
+                            <button class="btn btn-soft-primary btn-icon btn-sm" onclick="updateCart(${idx}, 1)"><i class="ri-add-line"></i></button>
                         </div>
                     </td>
                     <td class="font-bold text-primary hide-sm">${formatMoney(p.price * item.qty)}</td>
-                    <td class="action-cell"><button class="btn btn-danger btn-icon" onclick="removeFromCart(${idx})"><i class="ri-delete-bin-line"></i></button></td>
+                    <td class="action-cell"><button class="btn btn-soft-danger btn-icon btn-sm" onclick="removeFromCart(${idx})"><i class="ri-delete-bin-line"></i></button></td>
                 </tr>`;
             }).join('');
 
             container.innerHTML = `
+                <div class="page-header"><div><h2>Savatim</h2><p>${MOCK_DB.cart.length} ta mahsulot</p></div></div>
                 <div class="card mb-6">
-                    <h3 class="mb-4">Savatdagi mahsulotlar</h3>
                     <div class="table-responsive">
-                        <table><thead><tr><th>Mahsulot</th><th>Miqdor</th><th class="hide-sm">Jami</th><th>O'chirish</th></tr></thead><tbody>${rows}</tbody></table>
+                        <table><thead><tr><th>Mahsulot</th><th>Miqdor</th><th class="hide-sm">Jami</th><th></th></tr></thead><tbody>${rows}</tbody></table>
                     </div>
-                    <div class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-4 gap-4" style="border-top:1px solid var(--border)">
-                        <div class="text-lg">Jami to'lov: <span class="font-bold text-primary text-xl">${formatMoney(total)}</span></div>
-                        <button class="btn btn-success w-full sm:w-auto" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtmani rasmiylashtirish</button>
+                    <div class="flex justify-between items-center mt-6 pt-4 gap-4" style="border-top:1px solid var(--border-light); flex-wrap:wrap;">
+                        <div>
+                            <div class="text-sm text-muted">Jami to'lov</div>
+                            <div class="font-bold text-primary text-2xl">${formatMoney(total)}</div>
+                        </div>
+                        <button class="btn btn-success" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtmani rasmiylashtirish</button>
                     </div>
                 </div>
             `;
@@ -987,16 +1996,14 @@
             if(MOCK_DB.cart[idx].qty + change > 0) MOCK_DB.cart[idx].qty += change;
             renderBuyerCart(document.getElementById('view-area'));
         }
-
         function removeFromCart(idx) {
             MOCK_DB.cart.splice(idx, 1);
             renderBuyerCart(document.getElementById('view-area'));
         }
-
         function checkout() {
-            showToast("Buyurtma rasmiylashtirildi. Imzolash uchun kutilmoqda...", "success");
-            MOCK_DB.cart = []; 
-            setTimeout(() => navigate('buyer-orders', document.querySelectorAll('.menu-item')[2]), 1500);
+            showToast("Buyurtma rasmiylashtirildi. Imzolash kutilmoqda...", "success");
+            MOCK_DB.cart = [];
+            setTimeout(() => navigate('buyer-orders'), 1500);
         }
 
         function renderBuyerOrders(container) {
@@ -1004,18 +2011,19 @@
             const rows = myOrders.map(o => `
                 <tr>
                     <td><b>#${o.id}</b></td>
-                    <td>${getUserById(o.sellerId).name}</td>
+                    <td>${escapeHtml(getUserById(o.sellerId).name)}</td>
                     <td class="hide-sm">${o.date}</td>
                     <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
                     <td>${getStatusBadge(o.status)}</td>
                     <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
+                        <button class="btn btn-soft-info btn-icon btn-sm" onclick="openDetails('order', ${o.id})">
                             <i class="ri-eye-line"></i>
                         </button>
                     </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Mening Buyurtmalarim</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Sotuvchi</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+                </tr>`).join('');
+            container.innerHTML = `
+                <div class="page-header"><div><h2>Buyurtmalarim</h2><p>${myOrders.length} ta buyurtma</p></div></div>
+                <div class="card"><div class="table-responsive"><table><thead><tr><th>ID</th><th>Sotuvchi</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
         }
 
         function renderBuyerReports(container) {
@@ -1024,46 +2032,208 @@
                 return order && order.buyerId === STATE.currentUser.id;
             });
 
-            const rows = myReports.map(r => `
-                <tr>
-                    <td><b>#${r.orderId}</b></td>
-                    <td>${getProdById(r.prodId).name}</td>
-                    <td class="hide-sm text-danger font-bold">${r.dueDate}</td>
-                    <td>${getStatusBadge(r.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-primary btn-icon" onclick="showToast('Rasm yuklash oynasi ochilmoqda...')" title="Rasm yuklash">
-                            <i class="ri-upload-cloud-2-line"></i>
+            const stats = {
+                pending: myReports.filter(r=>r.status==='pending').length,
+                done: myReports.filter(r=>r.status==='done').length,
+                overdue: myReports.filter(r=>r.status==='overdue').length
+            };
+
+            container.innerHTML = `
+                <div class="page-header"><div><h2>Foto hisobotlarim</h2><p>Mahsulot rastalari fotosuratlari</p></div></div>
+                <div class="grid-cards mb-6">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--warning-light); color: var(--warning);"><i class="ri-time-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Kutilmoqda</div><div class="stat-value text-warning">${stats.pending}</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--success-light); color: var(--success);"><i class="ri-check-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Bajarildi</div><div class="stat-value text-success">${stats.done}</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--danger-light); color: var(--danger);"><i class="ri-alarm-warning-line"></i></div>
+                        <div class="stat-info"><div class="stat-label">Kechikkan</div><div class="stat-value text-danger">${stats.overdue}</div></div>
+                    </div>
+                </div>
+                <div class="card mb-6">
+                    <div class="filter-bar">
+                        <div class="input-wrap has-icon">
+                            <i class="ri-search-line"></i>
+                            <input type="text" class="input-control" placeholder="Buyurtma yoki mahsulot..." oninput="STATE.reportsFilter.search=this.value.toLowerCase(); renderBuyerReportsList();">
+                        </div>
+                        <div id="buyer-rep-filter" style="min-width: 200px;"></div>
+                    </div>
+                    <div id="buyer-rep-list"></div>
+                </div>
+                <div class="card" style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 1px solid #99f6e4;">
+                    <div class="flex items-center gap-3">
+                        <div class="stat-icon" style="background: white; color: var(--primary);"><i class="ri-information-line"></i></div>
+                        <div>
+                            <div class="font-bold">Eslatma</div>
+                            <div class="text-sm text-muted">Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklashingiz shart. Aks holda, hisobot kechikkan deb belgilanadi.</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            createCustomSelect(document.getElementById('buyer-rep-filter'), {
+                options: [
+                    { value: 'all', label: 'Barcha holatlar', icon: 'ri-filter-2-line' },
+                    { value: 'pending', label: 'Kutilmoqda', icon: 'ri-time-line' },
+                    { value: 'done', label: 'Bajarildi', icon: 'ri-check-line' },
+                    { value: 'overdue', label: 'Kechikkan', icon: 'ri-alarm-warning-line' }
+                ],
+                value: STATE.reportsFilter.status,
+                onChange: (v) => { STATE.reportsFilter.status = v; renderBuyerReportsList(); }
+            });
+
+            renderBuyerReportsList();
+        }
+
+        function renderBuyerReportsList() {
+            const myReports = MOCK_DB.reports.filter(r => {
+                const order = MOCK_DB.orders.find(o => o.id === r.orderId);
+                return order && order.buyerId === STATE.currentUser.id;
+            });
+
+            const f = STATE.reportsFilter;
+            const filtered = myReports.filter(r => {
+                if (f.status !== 'all' && r.status !== f.status) return false;
+                if (f.search) {
+                    const p = getProdById(r.prodId);
+                    if (!(`${r.orderId} ${p ? p.name : ''}`.toLowerCase().includes(f.search))) return false;
+                }
+                return true;
+            });
+
+            const container = document.getElementById('buyer-rep-list');
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="ri-camera-off-line"></i><h4>Hisobotlar topilmadi</h4></div>`;
+                return;
+            }
+            container.innerHTML = `
+                <div class="photo-report-grid">
+                    ${filtered.map(r => {
+                        const p = getProdById(r.prodId);
+                        const canUpload = r.status === 'pending' || r.status === 'overdue';
+                        return `
+                            <div class="photo-report-card">
+                                <div class="photo-report-img" ${r.img ? `onclick="openLightboxPlaceholder('${escapeHtml(p?.name||'')}')"` : ''}>
+                                    <i class="${r.img ? (p?.img||'ri-image-line') : 'ri-image-line'}"></i>
+                                    <div class="photo-status">${getStatusBadge(r.status)}</div>
+                                </div>
+                                <div class="photo-report-info">
+                                    <div class="photo-title">${escapeHtml(p?.name || 'Mahsulot')}</div>
+                                    <div class="photo-meta"><i class="ri-hashtag"></i> Buyurtma #${r.orderId}</div>
+                                    <div class="photo-meta mt-2"><i class="ri-calendar-line"></i> Muddat: ${r.dueDate}</div>
+                                </div>
+                                <div class="photo-report-actions">
+                                    ${canUpload ? `
+                                        <button class="btn btn-primary btn-sm w-full" onclick="openUploadModal(${r.id})">
+                                            <i class="ri-upload-cloud-2-line"></i> Yuklash
+                                        </button>` : `
+                                        <button class="btn btn-soft-success btn-sm w-full" onclick="openLightboxPlaceholder('${escapeHtml(p?.name||'')}')">
+                                            <i class="ri-image-line"></i> Ko'rish
+                                        </button>`
+                                    }
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        /* ========== Photo upload ========== */
+        function openUploadModal(reportId) {
+            STATE.currentUploadReportId = reportId;
+            STATE.pendingPhotoData = null;
+            const r = MOCK_DB.reports.find(x => x.id === reportId);
+            const p = getProdById(r.prodId);
+            document.getElementById('uph-info').innerHTML = `
+                <div class="p-3 mb-2" style="background: var(--bg); border-radius: 10px;">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="font-bold">${escapeHtml(p?.name || 'Mahsulot')}</div>
+                            <div class="text-xs text-muted mt-1">Buyurtma #${r.orderId} • Muddat: ${r.dueDate}</div>
+                        </div>
+                        ${getStatusBadge(r.status)}
+                    </div>
+                </div>
+            `;
+            document.getElementById('uph-preview').classList.add('hidden');
+            document.getElementById('uph-preview').innerHTML = '';
+            document.getElementById('uph-comment').value = '';
+            document.getElementById('uph-file').value = '';
+            openModal('uploadPhotoModal');
+        }
+
+        function handlePhotoSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                STATE.pendingPhotoData = evt.target.result;
+                const preview = document.getElementById('uph-preview');
+                preview.classList.remove('hidden');
+                preview.innerHTML = `
+                    <div style="position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--border);">
+                        <img src="${evt.target.result}" style="width:100%; max-height: 280px; object-fit:cover; display:block;">
+                        <button class="btn-icon" style="position:absolute; top:10px; right:10px; background: rgba(0,0,0,0.6); color: white; backdrop-filter: blur(4px);" onclick="clearPhotoPreview()">
+                            <i class="ri-close-line"></i>
                         </button>
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card">
-                <h3 class="mb-4">Foto Hisobot Yuklash (Majburiy)</h3>
-                <div class="bg-blue-50 p-3 rounded mb-4 text-sm text-info flex items-center gap-2" style="background:#eff6ff; border:1px solid #bfdbfe;">
-                    <i class="ri-information-line"></i> Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklashingiz shart.
-                </div>
-                <div class="table-responsive">
-                    <table><thead><tr><th>Buyurtma</th><th>Mahsulot</th><th class="hide-sm">Muddat</th><th>Holat</th><th>Yuklash</th></tr></thead><tbody>${rows}</tbody></table>
-                </div>
-            </div>`;
+                    </div>
+                    <div class="text-xs text-muted mt-2"><i class="ri-file-line"></i> ${escapeHtml(file.name)} • ${(file.size/1024).toFixed(1)} KB</div>
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+        function clearPhotoPreview() {
+            STATE.pendingPhotoData = null;
+            document.getElementById('uph-preview').classList.add('hidden');
+            document.getElementById('uph-file').value = '';
+        }
+        function submitPhotoReport() {
+            if (!STATE.pendingPhotoData) return showToast("Iltimos, rasmni tanlang", "warning");
+            const r = MOCK_DB.reports.find(x => x.id === STATE.currentUploadReportId);
+            if (r) {
+                r.status = 'done';
+                r.uploadedAt = new Date().toISOString().split('T')[0];
+                r.img = STATE.pendingPhotoData;
+                r.comment = document.getElementById('uph-comment').value;
+            }
+            closeModal('uploadPhotoModal');
+            showToast("Foto hisobot muvaffaqiyatli yuklandi!", "success");
+            if (STATE.currentView === 'buyer-reports') renderBuyerReports(document.getElementById('view-area'));
+        }
+
+        function openLightboxPlaceholder(title) {
+            document.getElementById('lightbox-img').alt = title;
+            document.getElementById('lightbox-img').src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400"><rect width="600" height="400" fill="%230d9488"/><text x="50%" y="50%" font-family="sans-serif" font-size="32" fill="white" text-anchor="middle" dy=".3em">📷 ${encodeURIComponent(title)}</text></svg>`;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
         }
 
         function signOrder(orderId, role) {
             const order = MOCK_DB.orders.find(o => o.id === orderId);
             if(role === 'seller') order.signedBySeller = true;
             if(role === 'buyer') order.signedByBuyer = true;
-            
             if(order.signedBySeller && order.signedByBuyer) order.status = 'active';
-            
             showToast("Hujjat E-IMZO orqali muvaffaqiyatli imzolandi!", "success");
             closeModal('detailsModal');
-            
-            if(role === 'seller') renderSellerOrders(document.getElementById('view-area'));
-            if(role === 'buyer') renderBuyerOrders(document.getElementById('view-area'));
+            navigate(STATE.currentView);
         }
 
+        /* =========================================
+           11. INIT
+           ========================================= */
+        window.addEventListener('DOMContentLoaded', () => {
+            initAuthSelects();
+        });
+        window.addEventListener('resize', () => {
+            if (STATE.currentView === 'admin-users') renderUsersList();
+        });
     </script>
 </body>
 </html>
-
-
