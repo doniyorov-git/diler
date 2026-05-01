@@ -1,1480 +1,2411 @@
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Diller UZ - B2B Platforma</title>
-    <!-- Google Fonts -->
+    <title>My Diller UZ - Minimal Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Remix Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #0d9488;
-            --primary-hover: #0f766e;
-            --bg: #f3f4f6;
+            --bg: #e8ecef;
             --surface: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --danger: #ef4444;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --sidebar-width: 280px;
+            --surface-soft: #f5f7f8;
+            --surface-muted: #edf1f4;
+            --border: #d4dbe2;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --primary: #1a1a2e;
+            --primary-soft: #eef0f6;
+            --success: #166534;
+            --success-soft: #eefbf2;
+            --warning: #9a6700;
+            --warning-soft: #fff7e8;
+            --danger: #b42318;
+            --danger-soft: #fff1f1;
+            --info: #1d4ed8;
+            --info-soft: #eef4ff;
+            --radius-lg: 26px;
+            --radius-md: 20px;
+            --radius-sm: 16px;
+            --sidebar-width: 300px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); font-size: 14px; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        button, input, select, textarea { outline: none; border: none; background: none; font-family: inherit; }
-        button { cursor: pointer; transition: all 0.2s; }
-        
-        /* Utility Classes */
-        .flex { display: flex; } .flex-col { display: flex; flex-direction: column; }
-        .items-center { align-items: center; } .justify-between { justify-content: space-between; } .justify-center { justify-content: center; }
-        .gap-2 { gap: 0.5rem; } .gap-4 { gap: 1rem; } .gap-6 { gap: 1.5rem; }
-        .p-3 { padding: 0.75rem; } .p-4 { padding: 1rem; } .p-6 { padding: 1.5rem; } .mt-2 { margin-top: 0.5rem; } .mt-4 { margin-top: 1rem; } .mt-6 { margin-top: 1.5rem; } .mb-2 { margin-bottom: 0.5rem; } .mb-4 { margin-bottom: 1rem; } .mb-6 { margin-bottom: 1.5rem; }
-        .w-full { width: 100%; } .text-center { text-align: center; } .text-right { text-align: right; }
-        .hidden { display: none !important; }
-        
-        /* Typography */
-        h1, h2, h3, h4 { color: var(--text-main); font-weight: 600; }
-        h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1.1rem; }
-        .text-muted { color: var(--text-muted); } .text-xs { font-size: 0.75rem; } .text-sm { font-size: 0.875rem; } .text-lg { font-size: 1.125rem; } .text-xl { font-size: 1.25rem; }
-        .text-primary { color: var(--primary); } .text-danger { color: var(--danger); } .text-success { color: var(--success); } .text-warning { color: var(--warning); } .text-info { color: var(--info); }
-        .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
-
-        /* UI Elements */
-        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
-        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn-icon { padding: 0.5rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-primary { background: var(--primary); color: white; } .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
-        .btn-danger { background: var(--danger); color: white; } .btn-danger:hover { background: #dc2626; }
-        .btn-success { background: var(--success); color: white; } .btn-warning { background: var(--warning); color: white; }
-        .btn-info { background: var(--info); color: white; }
-        .btn-outline { border: 1px solid var(--border); color: var(--text-main); } .btn-outline:hover { background: var(--bg); }
-        
-        .input-group { margin-bottom: 1rem; }
-        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main); font-size: 0.875rem; }
-        .input-control { width: 100%; min-height: 46px; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(180deg, #ffffff, #f8fafc); transition: border 0.2s, box-shadow 0.2s, background 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 1px 2px rgba(15,23,42,0.03); color: var(--text-main); }
-        .input-control::placeholder { color: #9ca3af; }
-        .input-control:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(13,148,136,0.12); }
-        .filter-toolbar { display: grid; grid-template-columns: minmax(220px, 1.5fr) repeat(2, minmax(160px, 1fr)); gap: 1rem; align-items: end; margin-bottom: 1.25rem; padding: 1rem; border: 1px solid var(--border); border-radius: 18px; background: linear-gradient(135deg, #f8fafc, #ffffff); }
-        .search-field { position: relative; }
-        .search-field i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.15rem; }
-        .search-field .input-control { padding-left: 2.75rem; }
-        .custom-select { position: relative; }
-        .custom-select-trigger { width: 100%; min-height: 46px; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(180deg, #ffffff, #f8fafc); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-weight: 500; color: var(--text-main); box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
-        .custom-select-trigger:hover, .custom-select.open .custom-select-trigger { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(13,148,136,0.1); }
-        .custom-select-menu { position: absolute; z-index: 45; top: calc(100% + 0.45rem); left: 0; right: 0; padding: 0.35rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-lg); display: none; max-height: 240px; overflow-y: auto; }
-        .custom-select.open .custom-select-menu { display: block; }
-        .custom-option { padding: 0.75rem 0.85rem; border-radius: 12px; display: flex; align-items: center; gap: 0.65rem; cursor: pointer; color: var(--text-main); }
-        .custom-option:hover, .custom-option.active { background: #ecfdf5; color: var(--primary); }
-        .custom-option i { font-size: 1.1rem; }
-        .segmented-control { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .segment-option { padding: 0.65rem 0.9rem; border: 1px solid var(--border); border-radius: 999px; background: white; color: var(--text-muted); font-weight: 600; cursor: pointer; }
-        .segment-option.active { color: white; background: var(--primary); border-color: var(--primary); box-shadow: 0 8px 18px rgba(13,148,136,0.25); }
-        
-        .badge { padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; display: inline-block; }
-        .badge-pending { background: #fef3c7; color: #d97706; }
-        .badge-active { background: #d1fae5; color: #059669; }
-        .badge-danger { background: #fee2e2; color: #dc2626; }
-        .badge-info { background: #dbeafe; color: #2563eb; }
-
-        /* Tables */
-        .table-responsive { overflow-x: auto; width: 100%; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
-        th { background: #f9fafb; font-weight: 600; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        tbody tr:nth-child(even) { background: #f9fafb; }
-        tbody tr:hover { background: #f3f4f6; }
-
-        /* App Layout */
-        #app-layout { display: flex; height: 100vh; overflow: hidden; }
-        
-        /* Sidebar */
-        #sidebar { width: var(--sidebar-width); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; transition: transform 0.3s; }
-        .sidebar-header { padding: 1.5rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid var(--border); }
-        .sidebar-logo { width: 36px; height: 36px; background: var(--primary); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
-        .sidebar-title { font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
-        .sidebar-menu { flex: 1; overflow-y: auto; padding: 1.5rem 0; }
-        .menu-item { padding: 0.8rem 1.5rem; margin: 0.2rem 1rem; border-radius: 8px; display: flex; align-items: center; gap: 1rem; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: all 0.2s; }
-        .menu-item:hover { background: #f3f4f6; color: var(--primary); }
-        .menu-item.active { background: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4); }
-        .menu-item i { font-size: 1.25rem; }
-        
-        /* Main Content */
-        #main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        
-        /* Topbar */
-        #topbar { height: 70px; background: var(--surface); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); z-index: 5; }
-        .user-info { display: flex; align-items: center; gap: 1rem; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); font-size: 1.2rem;}
-        .topbar-actions { display: flex; align-items: center; gap: 0.75rem; position: relative; }
-        .notification-wrap { position: relative; }
-        .notification-btn { width: 42px; height: 42px; border-radius: 14px; border: 1px solid var(--border); background: #fff; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main); position: relative; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
-        .notification-btn:hover, .notification-btn.active { color: var(--primary); border-color: rgba(13,148,136,0.35); background: #f0fdfa; }
-        .notification-btn i { font-size: 1.25rem; }
-        .notification-dot { position: absolute; top: 8px; right: 8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--danger); color: white; font-size: 0.65rem; line-height: 16px; font-weight: 700; border: 2px solid white; }
-        .notification-dropdown { position: absolute; right: 0; top: calc(100% + 0.75rem); width: min(360px, calc(100vw - 2rem)); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-lg); overflow: hidden; display: none; z-index: 60; }
-        .notification-dropdown.open { display: block; animation: fadeDown 0.18s ease-out; }
-        .notification-head { padding: 1rem 1.1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #f0fdfa, #ffffff); }
-        .notification-list { max-height: 330px; overflow-y: auto; }
-        .notification-item { padding: 0.9rem 1.1rem; display: grid; grid-template-columns: 36px 1fr; gap: 0.75rem; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .notification-item:hover { background: #f8fafc; }
-        .notification-icon { width: 36px; height: 36px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: #e0f2fe; color: var(--info); }
-        .notification-icon.warning { background: #fef3c7; color: var(--warning); }
-        .notification-icon.danger { background: #fee2e2; color: var(--danger); }
-        .notification-icon.success { background: #dcfce7; color: var(--success); }
-        @keyframes fadeDown { from { transform: translateY(-6px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        /* View Area */
-        #view-area { flex: 1; overflow-y: auto; padding: 2rem; }
-        
-        /* Bottom Nav (Mobile) */
-        #bottom-nav { display: none; background: var(--surface); box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1); padding: 0.5rem; justify-content: space-around; z-index: 20; border-top: 1px solid var(--border); }
-        .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; color: var(--text-muted); padding: 0.5rem; font-size: 0.75rem; flex: 1; }
-        .bottom-nav-item.active { color: var(--primary); }
-        .bottom-nav-item i { font-size: 1.5rem; }
-
-        /* Auth Layout (Login/Register) */
-        #auth-layout { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; background: var(--bg); }
-        .auth-card { width: 100%; max-width: 450px; background: white; padding: 2.5rem; }
-        .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-        .auth-tab { flex: 1; text-align: center; padding: 1rem; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; }
-        .auth-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-
-        /* Grid Layouts */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-        .grid-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        
-        /* Product Card */
-        .product-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; border: 1px solid var(--border); transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-        .product-img { height: 180px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: #cbd5e1; position: relative; border-bottom: 1px solid var(--border); }
-        .product-info { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
-        
-        /* Modals */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 1rem; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-radius: var(--radius) var(--radius) 0 0; }
-        .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
-        .modal-footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem; background: #f8fafc; border-radius: 0 0 var(--radius) var(--radius); }
-
-        /* Details List (for modals) */
-        .details-list { display: flex; flex-direction: column; gap: 0.75rem; }
-        .details-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--border); }
-        .details-label { color: var(--text-muted); font-size: 0.875rem; }
-        .details-value { font-weight: 500; text-align: right; }
-
-        .user-card-list { display: none; flex-direction: column; gap: 0.85rem; }
-        .user-mini-card { border: 1px solid var(--border); border-radius: 18px; padding: 1rem; background: #fff; box-shadow: 0 1px 2px rgba(15,23,42,0.03); }
-        .user-mini-card-head { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem; }
-        .quick-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .photo-report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
-        .report-stat-card { border: 1px solid var(--border); border-radius: 18px; padding: 1rem; background: linear-gradient(135deg, #ffffff, #f8fafc); display: flex; align-items: center; gap: 0.9rem; }
-        .report-stat-icon { width: 46px; height: 46px; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.35rem; background: #ccfbf1; color: var(--primary); }
-        .report-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-        .report-card { border: 1px solid var(--border); border-radius: 20px; background: #fff; padding: 1rem; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.75rem; }
-        .report-card.overdue { border-color: #fecaca; background: linear-gradient(180deg, #fff, #fff7f7); }
-        .report-card.done { border-color: #bbf7d0; }
-        .report-card.pending { border-color: #fde68a; }
-        .report-thumb { min-height: 120px; border-radius: 16px; background: linear-gradient(135deg, #ecfeff, #f8fafc); border: 1px dashed #99f6e4; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 2rem; }
-        .upload-zone { border: 2px dashed #99f6e4; border-radius: 18px; padding: 1.5rem; text-align: center; background: #f0fdfa; cursor: pointer; transition: border 0.2s, transform 0.2s; }
-        .upload-zone:hover { border-color: var(--primary); transform: translateY(-2px); }
-
-        /* Notifications */
-        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: var(--surface); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 0.75rem; border-left: 4px solid var(--primary); animation: slideIn 0.3s forwards; }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        /* Responsive UI Adjustments */
-        @media (max-width: 1024px) {
-            .grid-cards { grid-template-columns: repeat(2, 1fr); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
         }
 
-        @media (max-width: 768px) {
-            #sidebar { position: fixed; transform: translateX(-100%); height: 100%; }
-            #sidebar.open { transform: translateX(0); }
-            #bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; }
-            #view-area { padding: 1rem; padding-bottom: 80px; }
-            #topbar { height: auto; min-height: 66px; padding: 0.75rem 1rem; gap: 0.75rem; }
-            #page-title { font-size: 1rem; max-width: 42vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .mobile-menu-btn { display: block !important; }
-            .grid-cards { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
-            .card { padding: 1rem; border-radius: 18px; }
-            .auth-card { padding: 1.25rem; border-radius: 22px; }
-            .filter-toolbar { grid-template-columns: 1fr; padding: 0.85rem; border-radius: 18px; }
-            .custom-select-menu { position: fixed; left: 1rem; right: 1rem; top: auto; bottom: 5.25rem; max-height: 45vh; }
-            .notification-dropdown { position: fixed; top: 4.8rem; right: 1rem; left: 1rem; width: auto; }
-            .topbar-actions { gap: 0.5rem; }
-            .btn { padding: 0.65rem 0.9rem; }
-            .grid-products { grid-template-columns: 1fr; gap: 1rem; }
-            
-            /* Responsive Table classes */
-            .hide-sm { display: none !important; }
-            table { font-size: 0.875rem; }
-            th, td { padding: 0.75rem 0.5rem; }
-            .action-cell { width: 50px; text-align: center; }
-            .admin-users-table { display: none; }
-            .user-card-list { display: flex; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
         }
-        .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-main); }
-        .action-cell { white-space: nowrap; }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .text-muted {
+            color: var(--muted);
+        }
+
+        .text-xs {
+            font-size: 12px;
+        }
+
+        .text-sm {
+            font-size: 13px;
+        }
+
+        .text-lg {
+            font-size: 18px;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+        }
+
+        .btn {
+            min-height: 54px;
+            border-radius: 16px;
+            padding: 0 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #272742;
+        }
+
+        .btn-outline {
+            background: #fff;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-outline:hover {
+            background: var(--surface-soft);
+        }
+
+        .btn-soft {
+            background: var(--surface-soft);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-soft:hover {
+            background: var(--surface-muted);
+        }
+
+        .btn-icon {
+            width: 50px;
+            min-width: 50px;
+            padding: 0;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .input-control,
+        .select-control {
+            width: 100%;
+            min-height: 58px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--surface-soft);
+            color: var(--text);
+            padding: 0 18px;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        .input-control:focus,
+        .select-control:focus {
+            border-color: #bbc4ce;
+            background: #fff;
+        }
+
+        .search-input-wrap {
+            position: relative;
+        }
+
+        .search-input-wrap i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 18px;
+        }
+
+        .search-input-wrap .input-control {
+            padding-left: 46px;
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pill {
+            min-height: 40px;
+            border-radius: 999px;
+            padding: 0 14px;
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pill.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .badge {
+            min-height: 30px;
+            padding: 0 12px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+
+        .badge-active {
+            color: var(--success);
+            background: var(--success-soft);
+            border-color: #c7edd4;
+        }
+
+        .badge-pending {
+            color: var(--warning);
+            background: var(--warning-soft);
+            border-color: #f5ddb1;
+        }
+
+        .badge-danger {
+            color: var(--danger);
+            background: var(--danger-soft);
+            border-color: #f0c8c8;
+        }
+
+        .badge-info {
+            color: var(--info);
+            background: var(--info-soft);
+            border-color: #cbd9fb;
+        }
+
+        .layout {
+            min-height: 100vh;
+        }
+
+        #auth-layout {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .auth-shell {
+            width: 100%;
+            max-width: 1180px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+            gap: 18px;
+        }
+
+        .auth-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 24px;
+        }
+
+        .auth-panel.muted {
+            background: #f1f4f6;
+        }
+
+        .brand-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .brand-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 18px;
+            background: var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 36px;
+            border-radius: 999px;
+            padding: 0 14px;
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .auth-title {
+            font-size: 32px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 22px;
+        }
+
+        .feature-list,
+        .demo-role-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .feature-card,
+        .demo-role-card {
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: #fff;
+            padding: 16px;
+        }
+
+        .feature-card {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-soft);
+            color: var(--primary);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .demo-role-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: left;
+            width: 100%;
+        }
+
+        .demo-role-card:hover {
+            background: var(--surface-soft);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .note-box {
+            border-radius: 20px;
+            padding: 16px;
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        #app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        #sidebar {
+            width: var(--sidebar-width);
+            background: #f0f3f5;
+            border-right: 1px solid var(--border);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .sidebar-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 16px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-title {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item {
+            min-height: 56px;
+            border-radius: 18px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            border: 1px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: #fff;
+            border-color: var(--border);
+            color: var(--text);
+        }
+
+        .menu-item.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .profile-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 18px;
+            background: var(--surface-muted);
+            color: var(--primary);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .profile-meta {
+            display: grid;
+            gap: 8px;
+        }
+
+        .profile-meta-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .profile-meta-item span:last-child {
+            color: var(--text);
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .mini-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .mini-stat {
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+        }
+
+        .mini-stat strong {
+            display: block;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .mini-stat span {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        #main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        #topbar {
+            min-height: 82px;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .icon-button {
+            width: 52px;
+            height: 52px;
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            position: relative;
+        }
+
+        .icon-button:hover,
+        .icon-button.active {
+            background: var(--surface-soft);
+        }
+
+        .count-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            background: var(--danger);
+            color: #fff;
+            font-size: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        .profile-trigger {
+            min-height: 52px;
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 0 12px 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-trigger:hover,
+        .profile-trigger.active {
+            background: var(--surface-soft);
+        }
+
+        .floating-panel {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: min(360px, calc(100vw - 32px));
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 16px;
+            display: none;
+            z-index: 40;
+        }
+
+        .floating-panel.open {
+            display: block;
+        }
+
+        .notification-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .notification-item {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface-soft);
+            cursor: pointer;
+        }
+
+        .notification-item:hover {
+            background: var(--surface-muted);
+        }
+
+        #view-area {
+            padding: 20px 24px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .section-shell {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .section-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .section-tools {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .tool-wrap {
+            position: relative;
+        }
+
+        .tool-panel {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: min(320px, calc(100vw - 32px));
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 16px;
+            display: none;
+            z-index: 20;
+        }
+
+        .tool-panel.open {
+            display: block;
+        }
+
+        .tool-panel h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .tool-panel p {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .toolbar-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 14px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 16px;
+            background: var(--surface-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 14px;
+        }
+
+        .table-wrap {
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            vertical-align: middle;
+            font-size: 13px;
+        }
+
+        th {
+            background: var(--surface-soft);
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        tbody tr:hover {
+            background: #fafbfc;
+        }
+
+        .list-card {
+            display: grid;
+            gap: 12px;
+        }
+
+        .list-item {
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 16px;
+            background: #fff;
+        }
+
+        .list-item-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .product-grid,
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 14px;
+        }
+
+        .product-card,
+        .report-card {
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .product-cover,
+        .report-cover {
+            min-height: 148px;
+            background: var(--surface-soft);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bcc5ce;
+            font-size: 48px;
+        }
+
+        .product-body,
+        .report-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .order-total {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .empty-state {
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 24px;
+            padding: 28px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .progress-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .progress-item {
+            display: grid;
+            gap: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: var(--surface-soft);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 999px;
+        }
+
+        #bottom-nav {
+            display: none;
+        }
+
+        @media (max-width: 1100px) {
+            .auth-shell,
+            .split-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 820px) {
+            #sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                transform: translateX(-100%);
+                z-index: 60;
+                width: min(88vw, 320px);
+                transition: 0.25s ease;
+            }
+
+            #sidebar.open {
+                transform: translateX(0);
+            }
+
+            #topbar,
+            #view-area,
+            #auth-layout {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            #topbar {
+                min-height: 74px;
+            }
+
+            .auth-shell,
+            .form-grid,
+            .stats-grid,
+            .product-grid,
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-trigger-meta,
+            .hide-sm {
+                display: none !important;
+            }
+
+            #bottom-nav {
+                display: flex;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: #fff;
+                border-top: 1px solid var(--border);
+                padding: 8px;
+                z-index: 50;
+            }
+
+            .bottom-nav-item {
+                flex: 1;
+                min-height: 56px;
+                border-radius: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                color: var(--muted);
+                font-size: 11px;
+            }
+
+            .bottom-nav-item.active {
+                background: var(--surface-soft);
+                color: var(--primary);
+            }
+
+            #view-area {
+                padding-bottom: 90px;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="auth-layout" class="layout">
+        <div class="auth-shell">
+            <section class="auth-panel muted">
+                <div class="kicker"><i class="ri-palette-line"></i> Minimal dizayn</div>
+                <div class="brand-row">
+                    <div class="brand-logo"><i class="ri-store-2-line"></i></div>
+                    <div>
+                        <div class="font-bold text-lg">My Diller UZ</div>
+                        <div class="text-sm text-muted">Sokin ranglar va soddalashtirilgan boshqaruv</div>
+                    </div>
+                </div>
+                <div class="auth-title">Yangi, toza va foydalanishga qulay panel</div>
+                <div class="auth-subtitle">
+                    Login qismi olib tashlandi. Umumiy fon <b>#e8ecef</b> ga o'tkazildi, inputlar kattalashdi,
+                    sidebar va profil bo'limlari minimal ko'rinishda qayta ishlatildi. Har bir sahifada search va filter ikonlari bosilganda dropdown ochiladi.
+                </div>
 
-    <!-- Auth View -->
-    <div id="auth-layout">
-        <div class="card auth-card">
-            <div class="flex items-center justify-center gap-2 mb-6">
-                <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
-                <h1 class="font-bold text-xl text-primary">My Diller UZ</h1>
-            </div>
-            
-            <div class="auth-tabs">
-                <div class="auth-tab active" onclick="switchAuthTab('login')">Kirish</div>
-                <div class="auth-tab" onclick="switchAuthTab('register')">Ro'yxatdan o'tish</div>
-            </div>
-
-            <!-- Login Form -->
-            <div id="login-form">
-                <div class="text-center mb-6">
-                    <h2 class="mb-2">Tizimga kirish</h2>
-                    <p class="text-muted text-sm">Telefon raqam va parolingizni kiriting</p>
-                </div>
-                <div class="input-group">
-                    <label>Telefon raqam</label>
-                    <input type="tel" id="login-phone" class="input-control" placeholder="+998 90 123 45 67">
-                </div>
-                <div class="input-group mb-6">
-                    <label>Parol</label>
-                    <input type="password" id="login-password" class="input-control" placeholder="Parolni kiriting">
-                </div>
-                <button class="btn btn-primary w-full mb-4" onclick="doLogin()">Kirish</button>
-                
-                <div class="flex items-center gap-4 mb-4">
-                    <hr class="w-full" style="border-color: var(--border);">
-                    <span class="text-muted text-sm">yoki</span>
-                    <hr class="w-full" style="border-color: var(--border);">
-                </div>
-                
-                <button class="btn btn-outline w-full" disabled title="Hozircha ishlamaydi">
-                    <i class="ri-file-shield-2-line"></i> E-IMZO orqali kirish
-                </button>
-                
-                <div class="mt-6 p-3 bg-blue-50 rounded-lg text-xs text-muted" style="background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
-                    <b>Demo parol kiritish:</b><br>
-                    Admin: <code>admin</code><br>
-                    Sotuvchi: <code>seller1</code> yoki <code>seller2</code><br>
-                    Xaridor: <code>buyer1</code> yoki <code>buyer2</code>
-                </div>
-            </div>
-
-            <!-- Register Form -->
-            <div id="register-form" class="hidden">
-                <div class="input-group">
-                    <label>Kompaniya nomi</label>
-                    <input type="text" id="reg-name" class="input-control" placeholder="MChJ / YATT nomi">
-                </div>
-                <div class="input-group">
-                    <label>INN (STIR)</label>
-                    <input type="text" id="reg-inn" class="input-control" placeholder="9 xonali raqam">
-                </div>
-                <div class="input-group">
-                    <label>Rolni tanlang</label>
-                    <div class="custom-select" id="reg-role-select">
-                        <input type="hidden" id="reg-role" value="seller">
-                        <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('reg-role-select')">
-                            <span data-selected-label>Sotuvchi (Seller)</span><i class="ri-arrow-down-s-line"></i>
-                        </button>
-                        <div class="custom-select-menu">
-                            <div class="custom-option active" onclick="setCustomSelectValue('reg-role-select', 'reg-role', 'seller', 'Sotuvchi (Seller)')"><i class="ri-store-2-line"></i> Sotuvchi (Seller)</div>
-                            <div class="custom-option" onclick="setCustomSelectValue('reg-role-select', 'reg-role', 'buyer', 'Diler/Xaridor (Buyer)')"><i class="ri-shopping-bag-3-line"></i> Diler/Xaridor (Buyer)</div>
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-layout-grid-line"></i></div>
+                        <div>
+                            <div class="font-semibold">Ortiqcha ranglarsiz interfeys</div>
+                            <div class="text-sm text-muted">Asosiy urg'u bitta rangda, barcha bloklar chegara va bo'shliqlar bilan ajratildi.</div>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-search-line"></i></div>
+                        <div>
+                            <div class="font-semibold">Har bo'limda search va filter</div>
+                            <div class="text-sm text-muted">Search/filter ikonlari bir xil joyda turadi va o'sha bo'limga mos dropdownni ochadi.</div>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="ri-user-settings-line"></i></div>
+                        <div>
+                            <div class="font-semibold">To'liq profil paneli</div>
+                            <div class="text-sm text-muted">Sidebar pastida ham, topbar ichida ham foydalanuvchi ma'lumotlari chiroyli ko'rinadi.</div>
                         </div>
                     </div>
                 </div>
-                
-                <button class="btn btn-primary w-full mt-4" onclick="doRegister()">Ro'yxatdan o'tish kutilmoqda</button>
-            </div>
+
+                <div class="note-box" style="margin-top:16px;">
+                    <div class="font-semibold">Tezkor demo kirish</div>
+                    <div style="margin-top:8px;">Pastdagi kartalardan birini bossangiz, rol va ma'lumotlar forma ichiga avtomatik joylanadi.</div>
+                </div>
+
+                <div class="demo-role-list" style="margin-top:12px;">
+                    <button type="button" class="demo-role-card" onclick="fillDemoRole('admin')">
+                        <div>
+                            <div class="font-semibold">Administrator</div>
+                            <div class="text-sm text-muted" style="margin-top:6px;">Foydalanuvchilar, buyurtmalar va hisobotlar nazorati</div>
+                        </div>
+                        <i class="ri-arrow-right-up-line"></i>
+                    </button>
+                    <button type="button" class="demo-role-card" onclick="fillDemoRole('seller')">
+                        <div>
+                            <div class="font-semibold">Sotuvchi</div>
+                            <div class="text-sm text-muted" style="margin-top:6px;">Katalog, buyurtmalar va moliya bo'limlari</div>
+                        </div>
+                        <i class="ri-arrow-right-up-line"></i>
+                    </button>
+                    <button type="button" class="demo-role-card" onclick="fillDemoRole('buyer')">
+                        <div>
+                            <div class="font-semibold">Diler / Xaridor</div>
+                            <div class="text-sm text-muted" style="margin-top:6px;">Market, savat, buyurtmalar va foto hisobotlar</div>
+                        </div>
+                        <i class="ri-arrow-right-up-line"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section class="auth-panel">
+                <div class="kicker"><i class="ri-user-add-line"></i> Ro'yxatdan o'tish</div>
+                <div class="font-bold text-lg" style="margin-bottom:8px;">Yangi profil yarating</div>
+                <div class="text-sm text-muted" style="margin-bottom:16px;">Kattaroq inputlar va minimal ko'rinishdagi forma orqali tizimga kiring.</div>
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Kompaniya nomi</label>
+                        <input id="reg-name" class="input-control" type="text" placeholder="Kompaniya yoki filial nomi">
+                    </div>
+                    <div class="input-group">
+                        <label>Telefon raqam</label>
+                        <input id="reg-phone" class="input-control" type="tel" placeholder="+998 90 123 45 67">
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>INN (STIR)</label>
+                        <input id="reg-inn" class="input-control" type="text" placeholder="9 xonali raqam">
+                    </div>
+                    <div class="input-group">
+                        <label>Hudud / manzil</label>
+                        <input id="reg-address" class="input-control" type="text" placeholder="Toshkent shahri">
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-bottom:16px;">
+                    <label>Rolni tanlang</label>
+                    <select id="reg-role" class="select-control">
+                        <option value="admin">Administrator</option>
+                        <option value="seller" selected>Sotuvchi</option>
+                        <option value="buyer">Diler / Xaridor</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary w-full" onclick="doRegister()">
+                    <i class="ri-arrow-right-line"></i>
+                    Platformaga kirish
+                </button>
+
+                <div class="note-box" style="margin-top:16px;">
+                    Login bo'limi butunlay olib tashlandi. Tanlangan rol asosida demo ma'lumotlar bilan to'g'ridan-to'g'ri dashboard ochiladi.
+                </div>
+            </section>
         </div>
     </div>
 
-    <!-- Main Dashboard Layout -->
-    <div id="app-layout" class="hidden">
-        <!-- Sidebar -->
+    <div id="app-layout" class="layout hidden">
         <aside id="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><i class="ri-store-2-line"></i></div>
-                <span class="sidebar-title">My Diller</span>
-                <button class="mobile-menu-btn hide-sm ml-auto" onclick="document.getElementById('sidebar').classList.remove('open')" style="display:none;">
+            <div class="sidebar-card sidebar-header">
+                <div class="brand-logo" style="width:48px;height:48px;"><i class="ri-store-2-line"></i></div>
+                <div>
+                    <div class="sidebar-title">My Diller</div>
+                    <div class="text-xs text-muted">Minimal boshqaruv paneli</div>
+                </div>
+                <button class="btn btn-soft btn-icon" style="margin-left:auto;" onclick="toggleSidebar(false)">
                     <i class="ri-close-line"></i>
                 </button>
             </div>
-            <ul class="sidebar-menu" id="sidebar-menu">
-                <!-- Dynamic Menu Items -->
-            </ul>
+
+            <div class="sidebar-card">
+                <div class="sidebar-menu" id="sidebar-menu"></div>
+            </div>
+
+            <div class="sidebar-card profile-card" id="sidebar-profile"></div>
         </aside>
 
-        <!-- Main Area -->
-        <main id="main-content">
-            <!-- Topbar -->
+        <main id="main">
             <header id="topbar">
-                <div class="flex items-center gap-4">
-                    <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.add('open')">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <button class="icon-button" onclick="toggleSidebar(true)">
                         <i class="ri-menu-2-line"></i>
                     </button>
-                    <h2 id="page-title" class="text-lg">Dashboard</h2>
+                    <div>
+                        <div class="text-xs text-muted">Faol bo'lim</div>
+                        <div class="font-bold text-lg" id="page-title">Dashboard</div>
+                    </div>
                 </div>
+
                 <div class="topbar-actions">
-                    <div class="notification-wrap">
-                        <button class="notification-btn" id="notification-btn" onclick="toggleNotifications()" title="Xabarlar">
+                    <div style="position:relative;">
+                        <button class="icon-button" id="notification-btn" onclick="toggleNotifications()">
                             <i class="ri-notification-3-line"></i>
-                            <span class="notification-dot" id="notification-count">0</span>
+                            <span class="count-dot" id="notification-count">0</span>
                         </button>
-                        <div class="notification-dropdown" id="notification-dropdown">
-                            <div class="notification-head">
-                                <div>
-                                    <h3>Xabarlar</h3>
-                                    <div class="text-xs text-muted">Muhim eslatmalar va ogohlantirishlar</div>
-                                </div>
-                                <button class="btn btn-outline btn-icon" onclick="markNotificationsRead()" title="O'qildi">
-                                    <i class="ri-check-double-line"></i>
-                                </button>
-                            </div>
+                        <div class="floating-panel" id="notification-panel">
+                            <div class="font-semibold">Xabarlar</div>
+                            <div class="text-xs text-muted" style="margin-top:4px;">Muhim eslatmalar va tizim holati</div>
                             <div class="notification-list" id="notification-list"></div>
+                            <div class="action-row" style="margin-top:14px;">
+                                <button class="btn btn-outline w-full" onclick="markNotificationsRead()">Barchasini o'qildi qilish</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="user-info hide-sm">
-                        <div class="text-right">
-                            <div class="font-semibold" id="topbar-user-name">Foydalanuvchi</div>
-                            <div class="text-xs text-muted" id="topbar-user-role">Rol</div>
+
+                    <div style="position:relative;">
+                        <button class="profile-trigger" id="profile-btn" onclick="toggleProfile()">
+                            <div class="avatar" id="top-avatar">U</div>
+                            <div class="profile-trigger-meta">
+                                <div class="font-semibold" id="top-user-name">Foydalanuvchi</div>
+                                <div class="text-xs text-muted" id="top-user-role">Rol</div>
+                            </div>
+                            <i class="ri-arrow-down-s-line"></i>
+                        </button>
+                        <div class="floating-panel" id="profile-panel">
+                            <div class="font-semibold">Profil</div>
+                            <div class="text-xs text-muted" style="margin-top:4px;">Shaxsiy ma'lumotlar va tezkor amallar</div>
+                            <div id="profile-panel-body" style="display:grid;gap:10px;margin-top:14px;"></div>
+                            <div class="action-row" style="margin-top:14px;">
+                                <button class="btn btn-outline" onclick="navigate(getMenuForRole(STATE.currentUser.role)[0].id)">Asosiy sahifa</button>
+                                <button class="btn btn-primary" onclick="doLogout()">Chiqish</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="user-avatar" id="topbar-avatar">U</div>
-                    <button class="btn btn-outline btn-icon" onclick="doLogout()" title="Chiqish">
-                        <i class="ri-logout-box-r-line"></i>
-                    </button>
                 </div>
             </header>
 
-            <!-- Views Container -->
-            <div id="view-area">
-                <!-- Views will be injected here dynamically -->
-            </div>
+            <div id="view-area"></div>
 
-            <!-- Bottom Nav (Mobile) -->
-            <nav id="bottom-nav">
-                <!-- Dynamic Bottom Nav -->
-            </nav>
+            <nav id="bottom-nav"></nav>
         </main>
     </div>
 
-    <!-- Universal Details Modal -->
-    <div class="modal-overlay" id="detailsModal" onclick="if(event.target===this) closeModal('detailsModal')">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="dm-title">Ma'lumot</h3>
-                <button class="btn-icon" onclick="closeModal('detailsModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
-            </div>
-            <div class="modal-body" id="dm-body">
-                <!-- Dynamic Content -->
-            </div>
-            <div class="modal-footer" id="dm-footer">
-                <!-- Dynamic Buttons -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Product Modal (Seller) -->
-    <div class="modal-overlay" id="addProdModal" onclick="if(event.target===this) closeModal('addProdModal')">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Yangi mahsulot qo'shish</h3>
-                <button class="btn-icon" onclick="closeModal('addProdModal')"><i class="ri-close-line" style="font-size:1.5rem"></i></button>
-            </div>
-            <div class="modal-body">
-                <div class="grid-2">
-                    <div class="input-group">
-                        <label>SKU (Artikul)</label>
-                        <input type="text" id="p-sku" class="input-control" placeholder="Masalan: PRD-001">
-                    </div>
-                    <div class="input-group">
-                        <label>Mahsulot nomi</label>
-                        <input type="text" id="p-name" class="input-control" placeholder="Nomini kiriting">
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <div class="input-group">
-                        <label>Kategoriya</label>
-                        <div class="custom-select" id="p-category-select">
-                            <input type="hidden" id="p-category" value="electronics">
-                            <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('p-category-select')">
-                                <span data-selected-label>Elektronika</span><i class="ri-arrow-down-s-line"></i>
-                            </button>
-                            <div class="custom-select-menu">
-                                <div class="custom-option active" onclick="setCustomSelectValue('p-category-select', 'p-category', 'electronics', 'Elektronika')"><i class="ri-computer-line"></i> Elektronika</div>
-                                <div class="custom-option" onclick="setCustomSelectValue('p-category-select', 'p-category', 'furniture', 'Mebel')"><i class="ri-armchair-line"></i> Mebel</div>
-                                <div class="custom-option" onclick="setCustomSelectValue('p-category-select', 'p-category', 'other', 'Boshqa')"><i class="ri-box-3-line"></i> Boshqa</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label>Bazaviy narx (UZS)</label>
-                        <input type="number" id="p-price" class="input-control" placeholder="0.00">
-                    </div>
-                </div>
-                
-                <hr class="mb-4" style="border-color:var(--border)">
-                
-                <div class="input-group">
-                    <label>To'lov modeli</label>
-                    <div class="custom-select" id="p-model-select">
-                        <input type="hidden" id="p-model" value="realization">
-                        <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('p-model-select')">
-                            <span data-selected-label>Realizatsiya</span><i class="ri-arrow-down-s-line"></i>
-                        </button>
-                        <div class="custom-select-menu">
-                            <div class="custom-option active" onclick="setCustomSelectValue('p-model-select', 'p-model', 'realization', 'Realizatsiya', 'togglePrepayFields')"><i class="ri-refresh-line"></i> Realizatsiya</div>
-                            <div class="custom-option" onclick="setCustomSelectValue('p-model-select', 'p-model', 'prepayment', 'Oldindan to&apos;lov', 'togglePrepayFields')"><i class="ri-bank-card-line"></i> Oldindan to'lov</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="prepay-fields" class="hidden grid-2 bg-blue-50 p-4 rounded-lg mb-4" style="background:#f0f9ff; border:1px solid #bae6fd;">
-                    <div class="input-group mb-0">
-                        <label>Oldindan to'lov (%)</label>
-                        <input type="number" id="p-percent" class="input-control" placeholder="Masalan: 30" value="30">
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="input-group">
-                        <label>Realizatsiya muddati (kun)</label>
-                        <input type="number" id="p-realdays" class="input-control" placeholder="Masalan: 30" value="30">
-                    </div>
-                    <div class="input-group">
-                        <label>Foto hisobot davri</label>
-                        <div class="custom-select" id="p-photodays-select">
-                            <input type="hidden" id="p-photodays" value="15">
-                            <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('p-photodays-select')">
-                                <span data-selected-label>Har 15 kunda</span><i class="ri-arrow-down-s-line"></i>
-                            </button>
-                            <div class="custom-select-menu">
-                                <div class="custom-option" onclick="setCustomSelectValue('p-photodays-select', 'p-photodays', '5', 'Har 5 kunda')"><i class="ri-calendar-check-line"></i> Har 5 kunda</div>
-                                <div class="custom-option" onclick="setCustomSelectValue('p-photodays-select', 'p-photodays', '10', 'Har 10 kunda')"><i class="ri-calendar-check-line"></i> Har 10 kunda</div>
-                                <div class="custom-option active" onclick="setCustomSelectValue('p-photodays-select', 'p-photodays', '15', 'Har 15 kunda')"><i class="ri-calendar-check-line"></i> Har 15 kunda</div>
-                                <div class="custom-option" onclick="setCustomSelectValue('p-photodays-select', 'p-photodays', '30', 'Har 30 kunda')"><i class="ri-calendar-check-line"></i> Har 30 kunda</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label>Mahsulot rasmi</label>
-                    <div style="border: 2px dashed var(--border); padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer;">
-                        <i class="ri-image-add-line" style="font-size: 2rem; color: var(--text-muted)"></i>
-                        <p class="mt-2 text-sm text-muted">Rasmni yuklash uchun bosing</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('addProdModal')">Bekor qilish</button>
-                <button class="btn btn-primary" onclick="addMockProduct()"><i class="ri-save-line"></i> Saqlash</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toasts Container -->
-    <div id="toast-container"></div>
-
     <script>
-        /* =========================================
-           1. MOCK DATA & STATE MANAGEMENT
-           ========================================= */
-        const MOCK_DB = {
+        const DB = {
             users: [
-                { id: 1, role: 'admin', inn: '00000000', name: 'Tizim Administratori', status: 'active', phone: '+998901112233', address: 'Toshkent sh.' },
-                { id: 2, role: 'seller', inn: '12345678', name: 'TexnoFarm MChJ', status: 'active', phone: '+998902223344', address: 'Samarqand sh.' },
-                { id: 3, role: 'seller', inn: '65432198', name: 'MebelPro MChJ', status: 'active', phone: '+998903334455', address: 'Buxoro sh.' },
-                { id: 4, role: 'buyer', inn: '11111111', name: 'SuperMart MChJ', status: 'active', phone: '+998904445566', address: 'Toshkent sh.' },
-                { id: 5, role: 'buyer', inn: '22222222', name: 'CityStore MChJ', status: 'active', phone: '+998905556677', address: 'Namangan sh.' }
+                { id: 1, role: "admin", name: "Tizim Administratori", inn: "000000001", phone: "+998901112233", address: "Toshkent shahri", status: "active" },
+                { id: 2, role: "seller", name: "TexnoFarm MChJ", inn: "123456789", phone: "+998902223344", address: "Samarqand", status: "active" },
+                { id: 3, role: "seller", name: "MebelPro MChJ", inn: "987654321", phone: "+998903334455", address: "Buxoro", status: "active" },
+                { id: 4, role: "buyer", name: "SuperMart MChJ", inn: "456123789", phone: "+998904445566", address: "Toshkent shahri", status: "active" },
+                { id: 5, role: "buyer", name: "CityStore MChJ", inn: "654123987", phone: "+998905556677", address: "Namangan", status: "active" }
             ],
             products: [
-                { id: 1, sellerId: 2, name: 'Smart Chiroq LED', sku: 'TF-001', price: 100000, model: 'prepayment', prepayPercent: 30, realDays: 30, photoDays: 10, img: 'ri-lightbulb-flash-line' },
-                { id: 2, sellerId: 2, name: 'Type-C USB Kabel', sku: 'TF-002', price: 20000, model: 'realization', realDays: 15, photoDays: 5, img: 'ri-usb-line' },
-                { id: 3, sellerId: 2, name: 'Elektr choynak 2L', sku: 'TF-003', price: 150000, model: 'realization', realDays: 30, photoDays: 15, img: 'ri-cup-line' },
-                { id: 4, sellerId: 3, name: 'Ofis kreslosi "Ergo"', sku: 'MB-001', price: 1500000, model: 'prepayment', prepayPercent: 50, realDays: 45, photoDays: 15, img: 'ri-armchair-line' },
-                { id: 5, sellerId: 3, name: 'Yog\'och tokcha 3 qavat', sku: 'MB-002', price: 300000, model: 'realization', realDays: 30, photoDays: 10, img: 'ri-archive-drawer-line' },
-                { id: 6, sellerId: 3, name: 'Kitob javoni Premium', sku: 'MB-003', price: 800000, model: 'prepayment', prepayPercent: 100, realDays: 35, photoDays: 15, img: 'ri-book-read-line' }
+                { id: 1, sellerId: 2, name: "Smart chiroq LED", sku: "TF-001", price: 100000, model: "prepayment", realDays: 30, photoDays: 10, icon: "ri-lightbulb-flash-line" },
+                { id: 2, sellerId: 2, name: "USB-C kabel", sku: "TF-002", price: 35000, model: "realization", realDays: 20, photoDays: 7, icon: "ri-usb-line" },
+                { id: 3, sellerId: 3, name: "Ofis kreslosi", sku: "MB-001", price: 1450000, model: "prepayment", realDays: 40, photoDays: 15, icon: "ri-armchair-line" },
+                { id: 4, sellerId: 3, name: "Kitob javoni", sku: "MB-002", price: 890000, model: "realization", realDays: 25, photoDays: 12, icon: "ri-book-shelf-line" },
+                { id: 5, sellerId: 2, name: "Elektr choynak", sku: "TF-003", price: 240000, model: "realization", realDays: 18, photoDays: 6, icon: "ri-cup-line" }
             ],
             orders: [
-                { id: 1001, sellerId: 2, buyerId: 4, date: '2023-10-01', total: 900000, status: 'pending_sign', items: [{prodId: 1, qty: 5}, {prodId: 2, qty: 20}], signedBySeller: false, signedByBuyer: true, comm: 45000, commStatus: 'pending' },
-                { id: 1002, sellerId: 3, buyerId: 5, date: '2023-09-15', total: 3000000, status: 'active', items: [{prodId: 4, qty: 2, sold: 1, received: 2}], signedBySeller: true, signedByBuyer: true, comm: 150000, commStatus: 'pending' },
-                { id: 1003, sellerId: 2, buyerId: 5, date: '2023-08-10', total: 1500000, status: 'completed', items: [{prodId: 3, qty: 10, sold: 10, received: 10}], signedBySeller: true, signedByBuyer: true, comm: 75000, commStatus: 'paid' }
+                { id: 1001, sellerId: 2, buyerId: 4, date: "2026-04-01", total: 900000, status: "pending", comm: 45000 },
+                { id: 1002, sellerId: 3, buyerId: 5, date: "2026-04-08", total: 3000000, status: "active", comm: 150000 },
+                { id: 1003, sellerId: 2, buyerId: 5, date: "2026-04-11", total: 1600000, status: "completed", comm: 80000 },
+                { id: 1004, sellerId: 2, buyerId: 4, date: "2026-04-17", total: 420000, status: "active", comm: 21000 },
+                { id: 1005, sellerId: 3, buyerId: 4, date: "2026-04-20", total: 1780000, status: "pending", comm: 89000 }
             ],
-            cart: [],
             reports: [
-                { id: 1, orderId: 1002, prodId: 4, type: 'photo', status: 'overdue', dueDate: '2023-09-30' },
-                { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2023-08-25' },
-                { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2023-10-15' }
+                { id: 1, orderId: 1002, productId: 3, dueDate: "2026-05-03", status: "pending" },
+                { id: 2, orderId: 1003, productId: 2, dueDate: "2026-04-22", status: "done" },
+                { id: 3, orderId: 1004, productId: 1, dueDate: "2026-04-28", status: "overdue" },
+                { id: 4, orderId: 1005, productId: 4, dueDate: "2026-05-08", status: "pending" }
+            ],
+            cart: [{ productId: 1, qty: 2 }, { productId: 4, qty: 1 }]
+        };
+
+        const MENU = {
+            admin: [
+                { id: "admin-dashboard", title: "Dashboard", icon: "ri-dashboard-line" },
+                { id: "admin-users", title: "Foydalanuvchilar", icon: "ri-group-line" },
+                { id: "admin-orders", title: "Buyurtmalar", icon: "ri-file-list-3-line" },
+                { id: "admin-reports", title: "Foto hisobotlar", icon: "ri-camera-line" }
+            ],
+            seller: [
+                { id: "seller-dashboard", title: "Dashboard", icon: "ri-dashboard-line" },
+                { id: "seller-catalog", title: "Katalog", icon: "ri-box-3-line" },
+                { id: "seller-orders", title: "Buyurtmalar", icon: "ri-shopping-bag-3-line" },
+                { id: "seller-finance", title: "Moliya", icon: "ri-wallet-3-line" }
+            ],
+            buyer: [
+                { id: "buyer-market", title: "Market", icon: "ri-store-2-line" },
+                { id: "buyer-cart", title: "Savat", icon: "ri-shopping-cart-line" },
+                { id: "buyer-orders", title: "Buyurtmalar", icon: "ri-file-list-3-line" },
+                { id: "buyer-reports", title: "Hisobotlar", icon: "ri-camera-lens-line" }
             ]
         };
 
-        let STATE = {
+        const ROLE_LABELS = {
+            admin: "Administrator",
+            seller: "Sotuvchi",
+            buyer: "Diler / Xaridor"
+        };
+
+        const STATE = {
             currentUser: null,
-            currentView: '',
-            charts: {},
-            userFilters: { search: '', role: 'all', status: 'all' },
-            reportFilter: 'all',
-            notificationsRead: false
+            currentView: "",
+            notificationsRead: false,
+            filters: {
+                "admin-dashboard": { search: "", period: "all" },
+                "admin-users": { search: "", role: "all", status: "all" },
+                "admin-orders": { search: "", status: "all" },
+                "admin-reports": { search: "", status: "all" },
+                "seller-dashboard": { search: "", status: "all" },
+                "seller-catalog": { search: "", model: "all" },
+                "seller-orders": { search: "", status: "all" },
+                "seller-finance": { search: "", status: "all" },
+                "buyer-market": { search: "", seller: "all", model: "all" },
+                "buyer-cart": { search: "", sort: "default" },
+                "buyer-orders": { search: "", status: "all" },
+                "buyer-reports": { search: "", status: "all" }
+            },
+            ui: {
+                sectionPanel: "",
+                profileOpen: false,
+                notificationsOpen: false
+            }
         };
 
-        /* =========================================
-           2. UTILITIES & HELPERS
-           ========================================= */
-        const formatMoney = (amount) => new Intl.NumberFormat('uz-UZ').format(amount) + ' UZS';
-        
-        const showToast = (msg, type = 'success') => {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast`;
-            toast.innerHTML = `<i class="ri-${type === 'success' ? 'checkbox-circle' : (type==='warning'?'error-warning':'information')}-fill" style="color: var(--${type}); font-size: 1.5rem;"></i> <span>${msg}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = 0; setTimeout(() => toast.remove(), 300); }, 3000);
-        };
+        function formatMoney(amount) {
+            return new Intl.NumberFormat("uz-UZ").format(amount) + " UZS";
+        }
 
-        const getStatusBadge = (status) => {
+        function getMenuForRole(role) {
+            return MENU[role] || [];
+        }
+
+        function getInitials(text) {
+            return (text || "U")
+                .split(" ")
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part[0])
+                .join("")
+                .toUpperCase();
+        }
+
+        function getUserById(id) {
+            return DB.users.find(user => user.id === id);
+        }
+
+        function getProductById(id) {
+            return DB.products.find(product => product.id === id);
+        }
+
+        function getStatusBadge(status) {
             const map = {
-                'active': '<span class="badge badge-active">Faol</span>',
-                'pending': '<span class="badge badge-pending">Kutilmoqda</span>',
-                'pending_sign': '<span class="badge badge-info">Imzo kutilmoqda</span>',
-                'completed': '<span class="badge badge-active" style="background:#dcfce7; color:#166534;">Yakunlangan</span>',
-                'overdue': '<span class="badge badge-danger">Kechikkan</span>',
-                'paid': '<span class="badge badge-active">To\'langan</span>',
-                'done': '<span class="badge badge-active">Bajarildi</span>'
+                active: '<span class="badge badge-active">Faol</span>',
+                completed: '<span class="badge badge-active">Yakunlangan</span>',
+                pending: '<span class="badge badge-pending">Kutilmoqda</span>',
+                done: '<span class="badge badge-active">Bajarildi</span>',
+                overdue: '<span class="badge badge-danger">Kechikkan</span>',
+                blocked: '<span class="badge badge-danger">Bloklangan</span>'
             };
-            return map[status] || `<span class="badge">${status}</span>`;
-        };
-
-        const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || {name: 'Noma\'lum'};
-        const getProdById = (id) => MOCK_DB.products.find(p => p.id === id);
-
-        function toggleCustomSelect(selectId) {
-            const target = document.getElementById(selectId);
-            document.querySelectorAll('.custom-select').forEach(select => {
-                if (select !== target) select.classList.remove('open');
-            });
-            target.classList.toggle('open');
+            return map[status] || '<span class="badge badge-info">Ma\'lumot</span>';
         }
 
-        function setCustomSelectValue(selectId, inputId, value, label, callbackName = '') {
-            const select = document.getElementById(selectId);
-            const input = document.getElementById(inputId);
-            input.value = value;
-            select.querySelector('[data-selected-label]').textContent = label;
-            select.querySelectorAll('.custom-option').forEach(option => option.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            select.classList.remove('open');
-            if (callbackName && typeof window[callbackName] === 'function') window[callbackName](value);
-        }
-
-        function customSelectHtml({ selectId, inputId, value, label, options, callbackName = '' }) {
-            const optionsHtml = options.map(opt => `
-                <div class="custom-option ${opt.value === value ? 'active' : ''}" onclick="setCustomSelectValue('${selectId}', '${inputId}', '${opt.value}', '${opt.label}', '${callbackName}')">
-                    <i class="${opt.icon}"></i> ${opt.label}
-                </div>
-            `).join('');
-
-            return `
-                <div class="custom-select" id="${selectId}">
-                    <input type="hidden" id="${inputId}" value="${value}">
-                    <button type="button" class="custom-select-trigger" onclick="toggleCustomSelect('${selectId}')">
-                        <span data-selected-label>${label}</span><i class="ri-arrow-down-s-line"></i>
-                    </button>
-                    <div class="custom-select-menu">${optionsHtml}</div>
-                </div>
-            `;
-        }
-
-        function getNotifications() {
-            if (!STATE.currentUser) return [];
-            const overdueReports = MOCK_DB.reports.filter(r => r.status === 'overdue');
-            const pendingReports = MOCK_DB.reports.filter(r => r.status === 'pending');
-            const unsignedOrders = MOCK_DB.orders.filter(o => o.status === 'pending_sign');
-            const pendingComm = MOCK_DB.orders.filter(o => o.commStatus === 'pending');
-
-            const base = {
-                admin: [
-                    { icon: 'ri-error-warning-line', tone: 'danger', title: `${overdueReports.length} ta kechikkan foto hisobot`, text: 'Foto hisobotlar bo\'limida nazorat qiling.', view: 'admin-reports' },
-                    { icon: 'ri-group-line', tone: '', title: `${MOCK_DB.users.length} ta foydalanuvchi`, text: 'Qidiruv, filter va bloklash amallari tayyor.', view: 'admin-users' },
-                    { icon: 'ri-money-dollar-circle-line', tone: 'warning', title: `${pendingComm.length} ta komissiya kutilmoqda`, text: 'Moliya reyestrini tekshiring.', view: 'admin-comm' }
-                ],
-                seller: [
-                    { icon: 'ri-markup-line', tone: 'warning', title: `${unsignedOrders.filter(o => o.sellerId === STATE.currentUser.id && !o.signedBySeller).length} ta imzo kutilmoqda`, text: 'Buyurtmani ko\'rib E-IMZO bilan tasdiqlang.', view: 'seller-orders' },
-                    { icon: 'ri-camera-line', tone: '', title: 'Foto hisobot davrlari faol', text: 'Katalogdagi mahsulotlar uchun hisobot muddati ko\'rinadi.', view: 'seller-catalog' }
-                ],
-                buyer: [
-                    { icon: 'ri-camera-lens-line', tone: overdueReports.some(r => MOCK_DB.orders.find(o => o.id === r.orderId)?.buyerId === STATE.currentUser.id) ? 'danger' : 'warning', title: 'Foto hisobot eslatmasi', text: 'Muddatdagi mahsulot rasmlarini yuklang.', view: 'buyer-reports' },
-                    { icon: 'ri-shopping-cart-line', tone: 'success', title: `${MOCK_DB.cart.length} ta mahsulot savatda`, text: 'Buyurtmani rasmiylashtirishga tayyor.', view: 'buyer-cart' }
-                ]
+        function fillDemoRole(role) {
+            const presets = {
+                admin: {
+                    name: "Tizim Administratori",
+                    phone: "+998 90 111 22 33",
+                    inn: "000000001",
+                    address: "Toshkent shahri"
+                },
+                seller: {
+                    name: "TexnoFarm MChJ",
+                    phone: "+998 90 222 33 44",
+                    inn: "123456789",
+                    address: "Samarqand"
+                },
+                buyer: {
+                    name: "SuperMart MChJ",
+                    phone: "+998 90 444 55 66",
+                    inn: "456123789",
+                    address: "Toshkent shahri"
+                }
             };
-            return base[STATE.currentUser.role] || [];
-        }
-
-        function renderNotifications() {
-            const items = getNotifications();
-            const countEl = document.getElementById('notification-count');
-            const listEl = document.getElementById('notification-list');
-            if (!countEl || !listEl) return;
-            countEl.textContent = STATE.notificationsRead ? 0 : items.length;
-            countEl.style.display = STATE.notificationsRead ? 'none' : 'inline-block';
-            listEl.innerHTML = items.map(item => `
-                <div class="notification-item" onclick="openNotificationView('${item.view}')">
-                    <div class="notification-icon ${item.tone}"><i class="${item.icon}"></i></div>
-                    <div>
-                        <div class="font-semibold">${item.title}</div>
-                        <div class="text-xs text-muted mt-1">${item.text}</div>
-                    </div>
-                </div>
-            `).join('') || `<div class="p-4 text-center text-muted">Yangi xabarlar yo'q</div>`;
-        }
-
-        function toggleNotifications() {
-            const dropdown = document.getElementById('notification-dropdown');
-            const button = document.getElementById('notification-btn');
-            dropdown.classList.toggle('open');
-            button.classList.toggle('active', dropdown.classList.contains('open'));
-            renderNotifications();
-        }
-
-        function markNotificationsRead() {
-            STATE.notificationsRead = true;
-            renderNotifications();
-            showToast("Xabarlar o'qildi deb belgilandi", "success");
-        }
-
-        function openNotificationView(viewId) {
-            const navEl = Array.from(document.querySelectorAll('.menu-item')).find(item => item.getAttribute('onclick')?.includes(viewId));
-            navigate(viewId, navEl || null);
-            document.getElementById('notification-dropdown')?.classList.remove('open');
-            document.getElementById('notification-btn')?.classList.remove('active');
-        }
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.custom-select')) document.querySelectorAll('.custom-select').forEach(select => select.classList.remove('open'));
-            if (!e.target.closest('.notification-wrap')) {
-                document.getElementById('notification-dropdown')?.classList.remove('open');
-                document.getElementById('notification-btn')?.classList.remove('active');
-            }
-        });
-
-        /* =========================================
-           3. AUTHENTICATION (LOGIN / REGISTER)
-           ========================================= */
-        function switchAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            if(tab === 'login') {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('register-form').classList.add('hidden');
-            } else {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
-            }
-        }
-
-        function doLogin() {
-            const phone = document.getElementById('login-phone').value;
-            const pass = document.getElementById('login-password').value.toLowerCase();
-            
-            if(!pass) {
-                showToast("Iltimos, parolni kiriting", "warning");
-                return;
-            }
-            
-            let user = null;
-            if (pass.includes('admin')) user = MOCK_DB.users[0];
-            else if (pass.includes('seller1')) user = MOCK_DB.users[1];
-            else if (pass.includes('seller2')) user = MOCK_DB.users[2];
-            else if (pass.includes('buyer1')) user = MOCK_DB.users[3];
-            else if (pass.includes('buyer2')) user = MOCK_DB.users[4];
-            else {
-                user = MOCK_DB.users[3];
-                showToast("Bunday parol topilmadi, test xaridor bo'lib kirdingiz", "info");
-            }
-
-            if (user) {
-                if(user.status === 'blocked') return alert("Akkaunt bloklangan!");
-                STATE.currentUser = user;
-                initApp();
-            }
+            const preset = presets[role];
+            document.getElementById("reg-role").value = role;
+            document.getElementById("reg-name").value = preset.name;
+            document.getElementById("reg-phone").value = preset.phone;
+            document.getElementById("reg-inn").value = preset.inn;
+            document.getElementById("reg-address").value = preset.address;
         }
 
         function doRegister() {
-            showToast("Ro'yxatdan o'tish demo versiyada faqat ma'lumot qabul qiladi.");
+            const role = document.getElementById("reg-role").value;
+            const name = document.getElementById("reg-name").value.trim();
+            const phone = document.getElementById("reg-phone").value.trim();
+            const inn = document.getElementById("reg-inn").value.trim();
+            const address = document.getElementById("reg-address").value.trim();
+
+            if (!name || !phone || !inn || !address) {
+                alert("Barcha maydonlarni to'ldiring.");
+                return;
+            }
+
+            const seedMap = {
+                admin: DB.users[0],
+                seller: DB.users.find(user => user.role === "seller"),
+                buyer: DB.users.find(user => user.role === "buyer")
+            };
+
+            const seed = seedMap[role];
+            STATE.currentUser = {
+                ...seed,
+                role,
+                name,
+                phone,
+                inn,
+                address
+            };
+
+            document.getElementById("auth-layout").classList.add("hidden");
+            document.getElementById("app-layout").classList.remove("hidden");
+            STATE.notificationsRead = false;
+            STATE.ui.sectionPanel = "";
+            STATE.ui.profileOpen = false;
+            STATE.ui.notificationsOpen = false;
+            renderChrome();
+            navigate(getMenuForRole(role)[0].id);
         }
 
         function doLogout() {
             STATE.currentUser = null;
-            document.getElementById('app-layout').classList.add('hidden');
-            document.getElementById('auth-layout').classList.remove('hidden');
-            document.getElementById('login-password').value = '';
+            STATE.currentView = "";
+            STATE.ui.sectionPanel = "";
+            STATE.ui.profileOpen = false;
+            STATE.ui.notificationsOpen = false;
+            document.getElementById("auth-layout").classList.remove("hidden");
+            document.getElementById("app-layout").classList.add("hidden");
         }
 
-        /* =========================================
-           4. APP INITIALIZATION & ROUTING
-           ========================================= */
-        const MENU_CONFIG = {
-            admin: [
-                { id: 'admin-dash', icon: 'ri-dashboard-3-line', title: 'Dashboard' },
-                { id: 'admin-users', icon: 'ri-group-line', title: 'Foydalanuvchilar' },
-                { id: 'admin-orders', icon: 'ri-file-list-3-line', title: 'Barcha Buyurtmalar' },
-                { id: 'admin-comm', icon: 'ri-money-dollar-circle-line', title: 'Komissiya' },
-                { id: 'admin-reports', icon: 'ri-camera-lens-line', title: 'Foto Hisobotlar' }
-            ],
-            seller: [
-                { id: 'seller-dash', icon: 'ri-dashboard-line', title: 'Dashboard' },
-                { id: 'seller-catalog', icon: 'ri-function-line', title: 'Mening Katalogim' },
-                { id: 'seller-orders', icon: 'ri-shopping-bag-3-line', title: 'Sotuvlar (Buyurtma)' },
-                { id: 'seller-finance', icon: 'ri-wallet-3-line', title: 'Moliya va Komissiya' }
-            ],
-            buyer: [
-                { id: 'buyer-vitrina', icon: 'ri-store-2-line', title: 'Barcha Mahsulotlar' },
-                { id: 'buyer-cart', icon: 'ri-shopping-cart-line', title: 'Savat' },
-                { id: 'buyer-orders', icon: 'ri-file-list-3-line', title: 'Mening Buyurtmalarim' },
-                { id: 'buyer-reports', icon: 'ri-camera-line', title: 'Foto Hisobot Yuklash' }
-            ]
-        };
-
-        function initApp() {
-            document.getElementById('auth-layout').classList.add('hidden');
-            document.getElementById('app-layout').classList.remove('hidden');
-            STATE.notificationsRead = false;
-            
-            document.getElementById('topbar-user-name').textContent = STATE.currentUser.name;
-            const roleNames = {admin: 'Administrator', seller: 'Sotuvchi (Seller)', buyer: 'Diler (Buyer)'};
-            document.getElementById('topbar-user-role').textContent = roleNames[STATE.currentUser.role];
-            document.getElementById('topbar-avatar').textContent = STATE.currentUser.name.charAt(0);
-
-            const menuItems = MENU_CONFIG[STATE.currentUser.role];
-            const sidebarHtml = menuItems.map(m => `
-                <li class="menu-item" onclick="navigate('${m.id}', this)">
-                    <i class="${m.icon}"></i> <span>${m.title}</span>
-                </li>
-            `).join('');
-            document.getElementById('sidebar-menu').innerHTML = sidebarHtml;
-
-            const bNavHtml = menuItems.slice(0, 4).map(m => `
-                <div class="bottom-nav-item" onclick="navigate('${m.id}', this, true)">
-                    <i class="${m.icon}"></i> <span>${m.title.split(' ')[0]}</span>
-                </div>
-            `).join('');
-            document.getElementById('bottom-nav').innerHTML = bNavHtml;
-            renderNotifications();
-
-            navigate(menuItems[0].id, document.querySelector('.menu-item'));
-        }
-
-        function navigate(viewId, el, isMobile = false) {
-            STATE.currentView = viewId;
-            const menuItems = MENU_CONFIG[STATE.currentUser.role] || [];
-            const matchedMenu = menuItems.find(m => m.id === viewId);
-            document.getElementById('page-title').textContent = el ? el.innerText.trim() : (matchedMenu?.title || 'Dashboard');
-            
-            document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => i.classList.remove('active'));
-            if(el) {
-                // Find corresponding element in both navs
-                const text = el.innerText.trim().split(' ')[0];
-                document.querySelectorAll('.menu-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
-                document.querySelectorAll('.bottom-nav-item').forEach(i => { if(i.innerText.includes(text)) i.classList.add('active'); });
-            } else if (matchedMenu) {
-                document.querySelectorAll('.menu-item, .bottom-nav-item').forEach(i => {
-                    if (i.innerText.includes(matchedMenu.title.split(' ')[0])) i.classList.add('active');
-                });
-            }
-            
-            if(window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
-
-            const viewArea = document.getElementById('view-area');
-            viewArea.innerHTML = ''; 
-
-            const renderMap = {
-                'admin-dash': renderAdminDash, 'admin-users': renderAdminUsers, 'admin-orders': renderAdminOrders, 'admin-comm': renderAdminComm, 'admin-reports': renderAdminReports,
-                'seller-dash': renderSellerDash, 'seller-catalog': renderSellerCatalog, 'seller-orders': renderSellerOrders, 'seller-finance': renderSellerFinance,
-                'buyer-vitrina': renderBuyerVitrina, 'buyer-cart': renderBuyerCart, 'buyer-orders': renderBuyerOrders, 'buyer-reports': renderBuyerReports
-            };
-
-            if(renderMap[viewId]) renderMap[viewId](viewArea);
-        }
-
-        /* =========================================
-           5. DYNAMIC MODALS (EYE ICON LOGIC)
-           ========================================= */
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-        function openDetails(type, id) {
-            const titleEl = document.getElementById('dm-title');
-            const bodyEl = document.getElementById('dm-body');
-            const footerEl = document.getElementById('dm-footer');
-            
-            if (type === 'user') {
-                const u = MOCK_DB.users.find(x => x.id === id);
-                titleEl.textContent = "Foydalanuvchi ma'lumoti";
-                bodyEl.innerHTML = `
-                    <div class="details-list">
-                        <div class="details-row"><span class="details-label">Kompaniya nomi:</span><span class="details-value">${u.name}</span></div>
-                        <div class="details-row"><span class="details-label">INN (STIR):</span><span class="details-value">${u.inn}</span></div>
-                        <div class="details-row"><span class="details-label">Rol:</span><span class="details-value badge badge-info">${u.role.toUpperCase()}</span></div>
-                        <div class="details-row"><span class="details-label">Telefon:</span><span class="details-value">${u.phone}</span></div>
-                        <div class="details-row"><span class="details-label">Manzil:</span><span class="details-value">${u.address}</span></div>
-                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(u.status)}</span></div>
-                    </div>
-                `;
-                footerEl.innerHTML = `
-                    <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
-                    ${STATE.currentUser.role === 'admin' && u.id !== 1 ? 
-                        `<button class="btn ${u.status==='active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})">${u.status==='active' ? 'Bloklash' : 'Blokdan chiqarish'}</button>` 
-                    : ''}
-                `;
-            } 
-            else if (type === 'order') {
-                const o = MOCK_DB.orders.find(x => x.id === id);
-                const seller = getUserById(o.sellerId);
-                const buyer = getUserById(o.buyerId);
-                
-                const itemsHtml = o.items.map(it => {
-                    const p = getProdById(it.prodId);
-                    return `<div class="p-2 bg-gray-50 rounded mb-2" style="background:#f9fafb; border:1px solid var(--border)">
-                        <div class="flex justify-between"><b>${p.name}</b> <span>${it.qty} dona</span></div>
-                        <div class="text-sm text-muted">Narx: ${formatMoney(p.price)} | Model: ${p.model === 'prepayment'?'Avans':'Realizatsiya'}</div>
-                    </div>`;
-                }).join('');
-
-                titleEl.textContent = `Buyurtma #${o.id} tafsilotlari`;
-                bodyEl.innerHTML = `
-                    <div class="details-list mb-4">
-                        <div class="details-row"><span class="details-label">Sana:</span><span class="details-value">${o.date}</span></div>
-                        <div class="details-row"><span class="details-label">Sotuvchi:</span><span class="details-value">${seller.name}</span></div>
-                        <div class="details-row"><span class="details-label">Xaridor:</span><span class="details-value">${buyer.name}</span></div>
-                        <div class="details-row"><span class="details-label">Holati:</span><span class="details-value">${getStatusBadge(o.status)}</span></div>
-                        <div class="details-row"><span class="details-label">Jami summa:</span><span class="details-value text-primary font-bold text-lg">${formatMoney(o.total)}</span></div>
-                    </div>
-                    <h4 class="mb-2">Mahsulotlar ro'yxati:</h4>
-                    ${itemsHtml}
-                    ${o.status === 'pending_sign' ? `
-                        <div class="mt-4 p-3 rounded" style="background:#fffbeb; border:1px solid #fde68a;">
-                            <i class="ri-information-line text-warning"></i> <b>Diqqat:</b> Ushbu buyurtma tomonlar E-IMZO orqali tasdiqlashini kutmoqda.
-                        </div>
-                    ` : ''}
-                `;
-
-                let actionBtn = '';
-                if(o.status === 'pending_sign') {
-                    if(STATE.currentUser.role === 'seller' && !o.signedBySeller) {
-                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'seller')"><i class="ri-markup-line"></i> Imzolash (Seller)</button>`;
-                    } else if(STATE.currentUser.role === 'buyer' && !o.signedByBuyer) {
-                        actionBtn = `<button class="btn btn-primary" onclick="signOrder(${o.id}, 'buyer')"><i class="ri-markup-line"></i> Imzolash (Buyer)</button>`;
-                    }
-                } else if(o.status === 'active' && STATE.currentUser.role === 'buyer') {
-                    actionBtn = `<button class="btn btn-success" onclick="showToast('Mahsulot xaridorga sotilgani qayd etildi'); closeModal('detailsModal')"><i class="ri-checkbox-circle-line"></i> Sotildi deb belgilash</button>`;
-                }
-
-                footerEl.innerHTML = `
-                    <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
-                    ${actionBtn}
-                `;
-            }
-
-            openModal('detailsModal');
-        }
-
-        /* =========================================
-           6. VIEWS: ADMIN
-           ========================================= */
-        function renderAdminDash(container) {
-            const activeOrders = MOCK_DB.orders.filter(o=>o.status==='active').length;
-            const totalComm = MOCK_DB.orders.reduce((sum,o)=>sum+o.comm,0);
-            
-            const stats = `
-                <div class="grid-cards mb-6">
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-group-line text-info"></i> Jami Foydalanuvchilar</div><div class="text-lg font-bold mt-2">${MOCK_DB.users.length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-file-list-3-line text-success"></i> Faol Buyurtmalar</div><div class="text-lg font-bold mt-2">${activeOrders} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-money-dollar-circle-line text-primary"></i> Jami Komissiya</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(totalComm)}</div></div>
-                    <div class="card"><div class="text-muted text-sm flex items-center gap-2"><i class="ri-error-warning-line text-danger"></i> Kechikkan Hisobotlar</div><div class="text-lg font-bold mt-2 text-danger">${MOCK_DB.reports.filter(r=>r.status==='overdue').length} ta</div></div>
-                </div>
-                <div class="grid-cards mb-6" style="grid-template-columns: 2fr 1fr;">
-                    <div class="card">
-                        <h3 class="mb-4">Oylik aylanma va komissiya (mln UZS)</h3>
-                        <canvas id="chart-sales" style="max-height: 250px;"></canvas>
-                    </div>
-                    <div class="card">
-                        <h3 class="mb-4 text-center">Komissiya holati</h3>
-                        <canvas id="chart-comm" style="max-height: 250px;"></canvas>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3 class="mb-4">Foto hisobotlar statistikasi</h3>
-                    <canvas id="chart-reports" style="max-height: 200px;"></canvas>
-                </div>
-            `;
-            container.innerHTML = stats;
-
-            // Render Charts (destroy old instances first)
-            setTimeout(() => {
-                ['sales', 'comm', 'reports'].forEach(c => { if(STATE.charts[c]) STATE.charts[c].destroy(); });
-
-                STATE.charts.sales = new Chart(document.getElementById('chart-sales'), {
-                    type: 'bar',
-                    data: { 
-                        labels: ['May', 'Iyun', 'Iyul', 'Avgust', 'Sentyabr', 'Oktyabr'], 
-                        datasets: [
-                            { label: 'Sotuvlar aylanmasi', data: [12, 19, 15, 25, 22, 30], backgroundColor: '#e0f2fe', borderColor: '#3b82f6', borderWidth:1 },
-                            { label: 'Platforma komissiyasi', data: [0.6, 0.95, 0.75, 1.25, 1.1, 1.5], backgroundColor: '#0d9488' }
-                        ] 
-                    },
-                    options: { maintainAspectRatio: false }
-                });
-                
-                STATE.charts.comm = new Chart(document.getElementById('chart-comm'), {
-                    type: 'doughnut',
-                    data: { labels: ['To\'langan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [60, 30, 10], backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'] }] },
-                    options: { maintainAspectRatio: false, cutout: '70%' }
-                });
-
-                STATE.charts.reports = new Chart(document.getElementById('chart-reports'), {
-                    type: 'pie',
-                    data: { labels: ['Bajarilgan', 'Kutilmoqda', 'Kechikkan'], datasets: [{ data: [45, 12, 5], backgroundColor: ['#22c55e', '#fde68a', '#ef4444'] }] },
-                    options: { maintainAspectRatio: false }
-                });
-            }, 100);
-        }
-
-        function renderAdminUsers(container) {
-            const roleLabels = { all: 'Barcha rollar', admin: 'Admin', seller: 'Sotuvchi', buyer: 'Diler/Xaridor' };
-            const statusLabels = { all: 'Barcha holatlar', active: 'Faol', blocked: 'Bloklangan' };
-            const search = STATE.userFilters.search.toLowerCase();
-            const filteredUsers = MOCK_DB.users.filter(u => {
-                const matchesSearch = [u.name, u.inn, u.phone, u.address].join(' ').toLowerCase().includes(search);
-                const matchesRole = STATE.userFilters.role === 'all' || u.role === STATE.userFilters.role;
-                const matchesStatus = STATE.userFilters.status === 'all' || u.status === STATE.userFilters.status;
-                return matchesSearch && matchesRole && matchesStatus;
-            });
-
-            const rows = filteredUsers.map(u => `
-                <tr>
-                    <td><b>${u.name}</b><br><span class="text-xs text-muted hide-sm">INN: ${u.inn} | ${u.phone}</span></td>
-                    <td class="hide-sm"><span class="badge badge-info">${u.role.toUpperCase()}</span></td>
-                    <td>${getStatusBadge(u.status)}</td>
-                    <td class="action-cell">
-                        <div class="quick-actions">
-                            <button class="btn btn-outline btn-icon" onclick="openDetails('user', ${u.id})" title="Ko'rish"><i class="ri-eye-line"></i></button>
-                            ${u.id !== 1 ? `<button class="btn ${u.status === 'active' ? 'btn-danger' : 'btn-success'} btn-icon" onclick="toggleUserStatus(${u.id})" title="${u.status === 'active' ? 'Bloklash' : 'Blokdan chiqarish'}"><i class="${u.status === 'active' ? 'ri-forbid-2-line' : 'ri-lock-unlock-line'}"></i></button>` : ''}
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-
-            const cards = filteredUsers.map(u => `
-                <div class="user-mini-card">
-                    <div class="user-mini-card-head">
-                        <div>
-                            <h3>${u.name}</h3>
-                            <div class="text-xs text-muted">INN: ${u.inn} | ${u.phone}</div>
-                        </div>
-                        ${getStatusBadge(u.status)}
-                    </div>
-                    <div class="flex justify-between mb-4">
-                        <span class="badge badge-info">${u.role.toUpperCase()}</span>
-                        <span class="text-sm text-muted">${u.address}</span>
-                    </div>
-                    <div class="quick-actions">
-                        <button class="btn btn-outline" onclick="openDetails('user', ${u.id})"><i class="ri-eye-line"></i> Ko'rish</button>
-                        ${u.id !== 1 ? `<button class="btn ${u.status === 'active' ? 'btn-danger' : 'btn-success'}" onclick="toggleUserStatus(${u.id})"><i class="${u.status === 'active' ? 'ri-forbid-2-line' : 'ri-lock-unlock-line'}"></i> ${u.status === 'active' ? 'Bloklash' : 'Ochish'}</button>` : ''}
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="card">
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
-                            <h3>Tizimdagi kompaniyalar</h3>
-                            <p class="text-sm text-muted">${filteredUsers.length} ta foydalanuvchi topildi</p>
-                        </div>
-                    </div>
-                    <div class="filter-toolbar">
-                        <div class="input-group mb-0">
-                            <label>Qidirish</label>
-                            <div class="search-field">
-                                <i class="ri-search-line"></i>
-                                <input type="search" class="input-control" value="${STATE.userFilters.search}" placeholder="Kompaniya, INN, telefon..." oninput="updateUserFilter('search', this.value)">
-                            </div>
-                        </div>
-                        <div class="input-group mb-0">
-                            <label>Rol bo'yicha</label>
-                            ${customSelectHtml({
-                                selectId: 'user-role-filter',
-                                inputId: 'user-role-value',
-                                value: STATE.userFilters.role,
-                                label: roleLabels[STATE.userFilters.role],
-                                callbackName: 'applyUserRoleFilter',
-                                options: [
-                                    { value: 'all', label: 'Barcha rollar', icon: 'ri-apps-line' },
-                                    { value: 'admin', label: 'Admin', icon: 'ri-shield-user-line' },
-                                    { value: 'seller', label: 'Sotuvchi', icon: 'ri-store-2-line' },
-                                    { value: 'buyer', label: 'Diler/Xaridor', icon: 'ri-shopping-bag-3-line' }
-                                ]
-                            })}
-                        </div>
-                        <div class="input-group mb-0">
-                            <label>Holat</label>
-                            ${customSelectHtml({
-                                selectId: 'user-status-filter',
-                                inputId: 'user-status-value',
-                                value: STATE.userFilters.status,
-                                label: statusLabels[STATE.userFilters.status],
-                                callbackName: 'applyUserStatusFilter',
-                                options: [
-                                    { value: 'all', label: 'Barcha holatlar', icon: 'ri-list-check' },
-                                    { value: 'active', label: 'Faol', icon: 'ri-checkbox-circle-line' },
-                                    { value: 'blocked', label: 'Bloklangan', icon: 'ri-forbid-2-line' }
-                                ]
-                            })}
-                        </div>
-                    </div>
-                    <div class="table-responsive admin-users-table">
-                        <table><thead><tr><th>Kompaniya</th><th class="hide-sm">Rol</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows || `<tr><td colspan="4" class="text-center text-muted">Mos foydalanuvchi topilmadi</td></tr>`}</tbody></table>
-                    </div>
-                    <div class="user-card-list">${cards || `<div class="text-center text-muted p-4">Mos foydalanuvchi topilmadi</div>`}</div>
-                </div>`;
-        }
-
-        function updateUserFilter(key, value) {
-            STATE.userFilters[key] = value;
-            renderAdminUsers(document.getElementById('view-area'));
-        }
-
-        function applyUserRoleFilter(value) {
-            updateUserFilter('role', value || document.getElementById('user-role-value')?.value || 'all');
-        }
-
-        function applyUserStatusFilter(value) {
-            updateUserFilter('status', value || document.getElementById('user-status-value')?.value || 'all');
-        }
-
-        function toggleUserStatus(id) {
-            const user = MOCK_DB.users.find(u => u.id === id);
-            user.status = user.status === 'active' ? 'blocked' : 'active';
-            showToast(`Holat o'zgardi: ${user.status}`);
-            closeModal('detailsModal');
-            renderAdminUsers(document.getElementById('view-area'));
-        }
-
-        function renderAdminOrders(container) {
-            const rows = MOCK_DB.orders.map(o => `
-                <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td class="hide-sm">${getUserById(o.sellerId).name} <br> <span class="text-xs text-muted">→ ${getUserById(o.buyerId).name}</span></td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
-                    <td>${getStatusBadge(o.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
-                            <i class="ri-eye-line"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Barcha buyurtmalar</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th class="hide-sm">Sotuvchi -> Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
-        }
-
-        function renderAdminComm(container) {
-            const rows = MOCK_DB.orders.map(o => `
-                <tr>
-                    <td>${getUserById(o.sellerId).name}</td>
-                    <td class="hide-sm">#${o.id}</td>
-                    <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
-                    <td>${getStatusBadge(o.commStatus)}</td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Komissiya reyestri (5%)</h3><div class="table-responsive"><table><thead><tr><th>Sotuvchi</th><th class="hide-sm">Buyurtma</th><th>Komissiya</th><th>Holat</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
-        }
-        
-        function renderAdminReports(container) {
-            const counts = {
-                all: MOCK_DB.reports.length,
-                overdue: MOCK_DB.reports.filter(r => r.status === 'overdue').length,
-                pending: MOCK_DB.reports.filter(r => r.status === 'pending').length,
-                done: MOCK_DB.reports.filter(r => r.status === 'done').length
-            };
-            const cards = MOCK_DB.reports.map(r => {
-                const order = MOCK_DB.orders.find(o => o.id === r.orderId);
-                const product = getProdById(r.prodId);
-                const buyer = getUserById(order?.buyerId);
-                return `
-                    <div class="report-card ${r.status}">
-                        <div class="report-thumb"><i class="${product.img}"></i></div>
-                        <div class="flex justify-between items-center gap-2">
-                            <div>
-                                <div class="font-bold">#${r.orderId} - ${product.name}</div>
-                                <div class="text-sm text-muted">${buyer.name}</div>
-                            </div>
-                            ${getStatusBadge(r.status)}
-                        </div>
-                        <div class="details-row"><span class="details-label">Muddat:</span><span class="details-value">${r.dueDate}</span></div>
-                        <div class="details-row"><span class="details-label">Davr:</span><span class="details-value">Har ${product.photoDays} kun</span></div>
-                        <button class="btn btn-outline w-full" onclick="openReportDetails(${r.id})"><i class="ri-eye-line"></i> Hisobotni ko'rish</button>
-                    </div>
-                `;
-            }).join('');
-
-            container.innerHTML = `
-                <div class="photo-report-grid">
-                    <div class="report-stat-card"><div class="report-stat-icon"><i class="ri-camera-lens-line"></i></div><div><div class="text-sm text-muted">Jami hisobot</div><div class="text-xl font-bold">${counts.all} ta</div></div></div>
-                    <div class="report-stat-card"><div class="report-stat-icon" style="background:#fee2e2;color:var(--danger)"><i class="ri-alarm-warning-line"></i></div><div><div class="text-sm text-muted">Kechikkan</div><div class="text-xl font-bold text-danger">${counts.overdue} ta</div></div></div>
-                    <div class="report-stat-card"><div class="report-stat-icon" style="background:#fef3c7;color:var(--warning)"><i class="ri-time-line"></i></div><div><div class="text-sm text-muted">Kutilmoqda</div><div class="text-xl font-bold text-warning">${counts.pending} ta</div></div></div>
-                    <div class="report-stat-card"><div class="report-stat-icon" style="background:#dcfce7;color:var(--success)"><i class="ri-checkbox-circle-line"></i></div><div><div class="text-sm text-muted">Bajarilgan</div><div class="text-xl font-bold text-success">${counts.done} ta</div></div></div>
-                </div>
-                <div class="card">
-                    <div class="flex justify-between items-center gap-4 mb-4" style="flex-wrap:wrap;">
-                        <div>
-                            <h3>Nazoratdagi Foto Hisobotlar</h3>
-                            <p class="text-sm text-muted mt-2">Har bir shartnoma bo'yicha foto dalillar va muddatlar kuzatuvi.</p>
-                        </div>
-                        <button class="btn btn-outline" onclick="showToast('Hisobotlar eksportga tayyorlanmoqda...', 'info')"><i class="ri-download-cloud-line"></i> Eksport</button>
-                    </div>
-                    <div class="report-card-grid">${cards}</div>
-                </div>`;
-        }
-
-        function openReportDetails(reportId) {
-            const report = MOCK_DB.reports.find(r => r.id === reportId);
-            const order = MOCK_DB.orders.find(o => o.id === report.orderId);
-            const product = getProdById(report.prodId);
-            const buyer = getUserById(order?.buyerId);
-            const seller = getUserById(order?.sellerId);
-            document.getElementById('dm-title').textContent = `Foto hisobot #${report.id}`;
-            document.getElementById('dm-body').innerHTML = `
-                <div class="report-thumb mb-4"><i class="${product.img}"></i></div>
-                <div class="details-list">
-                    <div class="details-row"><span class="details-label">Buyurtma:</span><span class="details-value">#${report.orderId}</span></div>
-                    <div class="details-row"><span class="details-label">Mahsulot:</span><span class="details-value">${product.name}</span></div>
-                    <div class="details-row"><span class="details-label">Sotuvchi:</span><span class="details-value">${seller.name}</span></div>
-                    <div class="details-row"><span class="details-label">Xaridor:</span><span class="details-value">${buyer.name}</span></div>
-                    <div class="details-row"><span class="details-label">Muddat:</span><span class="details-value">${report.dueDate}</span></div>
-                    <div class="details-row"><span class="details-label">Holat:</span><span class="details-value">${getStatusBadge(report.status)}</span></div>
-                </div>
-                <div class="mt-4 p-3 rounded" style="background:#f8fafc; border:1px solid var(--border);">
-                    <b>Tekshiruv qaydi:</b>
-                    <p class="text-sm text-muted mt-2">Rasta ko'rinishi, mahsulot miqdori va sana belgisi hisobotda aniq ko'rinishi kerak.</p>
-                </div>
-            `;
-            document.getElementById('dm-footer').innerHTML = `
-                <button class="btn btn-outline" onclick="closeModal('detailsModal')">Yopish</button>
-                ${report.status !== 'done' ? `<button class="btn btn-success" onclick="markReportDone(${report.id})"><i class="ri-check-line"></i> Tasdiqlash</button>` : ''}
-            `;
-            openModal('detailsModal');
-        }
-
-        function markReportDone(reportId) {
-            const report = MOCK_DB.reports.find(r => r.id === reportId);
-            report.status = 'done';
-            showToast("Foto hisobot tasdiqlandi", "success");
-            closeModal('detailsModal');
-            if (STATE.currentView === 'admin-reports') renderAdminReports(document.getElementById('view-area'));
-            if (STATE.currentView === 'buyer-reports') renderBuyerReports(document.getElementById('view-area'));
-            renderNotifications();
-        }
-
-        /* =========================================
-           7. VIEWS: SELLER
-           ========================================= */
-        function renderSellerDash(container) {
-            const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
-            const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
-            container.innerHTML = `
-                <div class="grid-cards mb-6">
-                    <div class="card"><div class="text-muted text-sm">Mening mahsulotlarim</div><div class="text-lg font-bold mt-2">${myProds.length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm">Faol Buyurtmalar</div><div class="text-lg font-bold mt-2 text-success">${myOrders.filter(o=>o.status==='active').length} ta</div></div>
-                    <div class="card"><div class="text-muted text-sm">Umumiy Sotuv Summasi</div><div class="text-lg font-bold mt-2 text-primary">${formatMoney(myOrders.reduce((s,o)=>s+o.total,0))}</div></div>
-                </div>
-                <div class="card">
-                    <h3 class="mb-4">So'nggi buyurtmalar</h3>
-                    <div class="table-responsive">
-                        <table>
-                            <thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead>
-                            <tbody>${myOrders.slice(0,3).map(o=>`<tr><td><b>#${o.id}</b></td><td>${getUserById(o.buyerId).name}</td><td class="hide-sm">${formatMoney(o.total)}</td><td>${getStatusBadge(o.status)}</td><td class="action-cell"><button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})"><i class="ri-eye-line"></i></button></td></tr>`).join('')}</tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderSellerCatalog(container) {
-            const myProds = MOCK_DB.products.filter(p => p.sellerId === STATE.currentUser.id);
-            const cards = myProds.map(p => `
-                <div class="product-card">
-                    <div class="product-img"><i class="${p.img}"></i></div>
-                    <div class="product-info">
-                        <div class="text-xs text-muted mb-1 flex justify-between"><span>SKU: ${p.sku}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
-                        <div class="font-bold text-lg mb-2">${p.name}</div>
-                        <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
-                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
-                            <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
-                            <span><i class="ri-camera-line"></i> Foto hisobot: Har ${p.photoDays} kun</span>
-                        </div>
-                        <div class="mt-auto flex gap-2">
-                            <button class="btn btn-outline w-full"><i class="ri-edit-line"></i> Tahrir</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h3>Katalogim</h3>
-                    <button class="btn btn-primary" onclick="openModal('addProdModal')"><i class="ri-add-line"></i> Yangi Qo'shish</button>
-                </div>
-                <div class="grid-products">${cards}</div>
-            `;
-        }
-
-        function togglePrepayFields() {
-            const model = document.getElementById('p-model').value;
-            const prepayDiv = document.getElementById('prepay-fields');
-            if (model === 'prepayment') prepayDiv.classList.remove('hidden');
-            else prepayDiv.classList.add('hidden');
-        }
-
-        function addMockProduct() {
-            showToast("Yangi mahsulot katalogga qo'shildi!", "success");
-            closeModal('addProdModal');
-            setTimeout(() => showToast("Eslatma: Yangi mahsulot savdosi uchun Master shartnoma imzolanishi kerak.", "info"), 1500);
-        }
-
-        function renderSellerOrders(container) {
-            const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
-            const rows = myOrders.map(o => `
-                <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td>${getUserById(o.buyerId).name}</td>
-                    <td class="hide-sm">${o.date}</td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
-                    <td>${getStatusBadge(o.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})" title="Ko'rish va Imzolash">
-                            <i class="ri-eye-line"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Sotuvlar (Buyurtmalar)</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Xaridor</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
-        }
-
-        function renderSellerFinance(container) {
-            const myOrders = MOCK_DB.orders.filter(o => o.sellerId === STATE.currentUser.id);
-            const rows = myOrders.map(o => `
-                <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td class="hide-sm">${formatMoney(o.total)}</td>
-                    <td class="text-primary font-bold">${formatMoney(o.comm)}</td>
-                    <td>${getStatusBadge(o.commStatus)}</td>
-                    <td class="action-cell">
-                        ${o.commStatus === 'pending' ? `<button class="btn btn-primary text-sm" onclick="showToast('To\\'lov tizimiga o\\'tilmoqda...')">To'lash</button>` : '-'}
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Moliya va Komissiya to'lovlari</h3><div class="table-responsive"><table><thead><tr><th>Buyurtma</th><th class="hide-sm">Baza Summa</th><th>Komissiya (5%)</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
-        }
-
-        /* =========================================
-           8. VIEWS: BUYER (DEALER)
-           ========================================= */
-        function renderBuyerVitrina(container) {
-            const cards = MOCK_DB.products.map(p => `
-                <div class="product-card">
-                    <div class="product-img"><i class="${p.img}"></i></div>
-                    <div class="product-info">
-                        <div class="text-xs text-muted mb-1 flex justify-between"><span>${getUserById(p.sellerId).name}</span> <span class="badge badge-info">${p.model==='prepayment'?'Avans':'Realizats.'}</span></div>
-                        <div class="font-bold text-lg mb-2">${p.name}</div>
-                        <div class="text-xl font-bold text-primary mb-3">${formatMoney(p.price)}</div>
-                        <div class="text-sm text-muted mb-4 flex flex-col gap-1">
-                            <span><i class="ri-time-line"></i> Realizatsiya: ${p.realDays} kun</span>
-                        </div>
-                        <button class="btn btn-primary w-full mt-auto" onclick="addToCart(${p.id})"><i class="ri-shopping-cart-2-line"></i> Savatga qo'shish</button>
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h3>Barcha mahsulotlar vitrinasi</h3>
-                    <div class="badge badge-pending px-3 py-2 text-sm cursor-pointer" onclick="navigate('buyer-cart', null)" style="font-size:1rem; cursor:pointer;"><i class="ri-shopping-cart-line"></i> <span id="cart-count">${MOCK_DB.cart.length}</span></div>
-                </div>
-                <div class="grid-products">${cards}</div>
-            `;
-        }
-
-        function addToCart(id) {
-            MOCK_DB.cart.push({ prodId: id, qty: 1 });
-            const counter = document.getElementById('cart-count');
-            if(counter) counter.innerText = MOCK_DB.cart.length;
-            showToast("Mahsulot savatga qo'shildi");
-        }
-
-        function renderBuyerCart(container) {
-            if(MOCK_DB.cart.length === 0) {
-                container.innerHTML = `<div class="card text-center p-6 py-12"><i class="ri-shopping-cart-line text-muted" style="font-size:4rem"></i><h3 class="mt-4 text-muted">Savatingiz bo'sh</h3><button class="btn btn-primary mt-4" onclick="navigate('buyer-vitrina', document.querySelectorAll('.menu-item')[0])">Xaridni boshlash</button></div>`;
+        function toggleSidebar(forceOpen) {
+            const sidebar = document.getElementById("sidebar");
+            if (typeof forceOpen === "boolean") {
+                sidebar.classList.toggle("open", forceOpen);
                 return;
             }
+            sidebar.classList.toggle("open");
+        }
 
-            let total = 0;
-            const rows = MOCK_DB.cart.map((item, idx) => {
-                const p = getProdById(item.prodId);
-                total += p.price * item.qty;
-                return `<tr>
-                    <td><b>${p.name}</b><br><span class="text-xs text-muted hide-sm">${getUserById(p.sellerId).name}</span></td>
-                    <td>
-                        <div class="flex items-center gap-2">
-                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, -1)"><i class="ri-subtract-line"></i></button>
-                            <span class="w-8 text-center">${item.qty}</span>
-                            <button class="btn btn-outline btn-icon" style="padding:0.2rem;" onclick="updateCart(${idx}, 1)"><i class="ri-add-line"></i></button>
-                        </div>
-                    </td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(p.price * item.qty)}</td>
-                    <td class="action-cell"><button class="btn btn-danger btn-icon" onclick="removeFromCart(${idx})"><i class="ri-delete-bin-line"></i></button></td>
-                </tr>`;
-            }).join('');
+        function getNotifications() {
+            if (!STATE.currentUser) return [];
 
-            container.innerHTML = `
-                <div class="card mb-6">
-                    <h3 class="mb-4">Savatdagi mahsulotlar</h3>
-                    <div class="table-responsive">
-                        <table><thead><tr><th>Mahsulot</th><th>Miqdor</th><th class="hide-sm">Jami</th><th>O'chirish</th></tr></thead><tbody>${rows}</tbody></table>
+            const overdueReports = DB.reports.filter(report => report.status === "overdue").length;
+            const pendingOrders = DB.orders.filter(order => order.status === "pending").length;
+
+            const shared = [
+                {
+                    view: STATE.currentUser.role === "buyer" ? "buyer-orders" : STATE.currentUser.role === "seller" ? "seller-orders" : "admin-orders",
+                    title: pendingOrders + " ta buyurtma nazoratda",
+                    text: "Kutilayotgan buyurtmalarni tekshirib chiqing."
+                }
+            ];
+
+            if (STATE.currentUser.role === "admin") {
+                shared.push({
+                    view: "admin-reports",
+                    title: overdueReports + " ta kechikkan hisobot",
+                    text: "Foto hisobotlar bo'limida nazorat kerak."
+                });
+            }
+
+            if (STATE.currentUser.role === "seller") {
+                shared.push({
+                    view: "seller-catalog",
+                    title: "Katalog yangilanishi tayyor",
+                    text: "Mahsulot kartalarida minimal dizayn qo'llandi."
+                });
+            }
+
+            if (STATE.currentUser.role === "buyer") {
+                shared.push({
+                    view: "buyer-cart",
+                    title: DB.cart.length + " ta mahsulot savatda",
+                    text: "Buyurtmani rasmiylashtirish mumkin."
+                });
+            }
+
+            return shared;
+        }
+
+        function markNotificationsRead() {
+            STATE.notificationsRead = true;
+            renderChrome();
+        }
+
+        function toggleNotifications() {
+            STATE.ui.notificationsOpen = !STATE.ui.notificationsOpen;
+            STATE.ui.profileOpen = false;
+            STATE.ui.sectionPanel = "";
+            renderChrome();
+            renderCurrentView();
+        }
+
+        function toggleProfile() {
+            STATE.ui.profileOpen = !STATE.ui.profileOpen;
+            STATE.ui.notificationsOpen = false;
+            STATE.ui.sectionPanel = "";
+            renderChrome();
+            renderCurrentView();
+        }
+
+        function renderChrome() {
+            if (!STATE.currentUser) return;
+
+            const name = STATE.currentUser.name;
+            const initials = getInitials(name);
+            const notifications = getNotifications();
+            const unread = STATE.notificationsRead ? 0 : notifications.length;
+
+            document.getElementById("top-user-name").textContent = name;
+            document.getElementById("top-user-role").textContent = ROLE_LABELS[STATE.currentUser.role];
+            document.getElementById("top-avatar").textContent = initials;
+            document.getElementById("page-title").textContent = getMenuForRole(STATE.currentUser.role).find(item => item.id === STATE.currentView)?.title || "Dashboard";
+
+            const notificationBtn = document.getElementById("notification-btn");
+            const profileBtn = document.getElementById("profile-btn");
+            notificationBtn.classList.toggle("active", STATE.ui.notificationsOpen);
+            profileBtn.classList.toggle("active", STATE.ui.profileOpen);
+            document.getElementById("notification-panel").classList.toggle("open", STATE.ui.notificationsOpen);
+            document.getElementById("profile-panel").classList.toggle("open", STATE.ui.profileOpen);
+
+            document.getElementById("notification-count").style.display = unread ? "inline-flex" : "none";
+            document.getElementById("notification-count").textContent = unread;
+            document.getElementById("notification-list").innerHTML = notifications.map(item => `
+                <div class="notification-item" onclick="openNotificationView('${item.view}')">
+                    <div class="font-semibold">${item.title}</div>
+                    <div class="text-xs text-muted" style="margin-top:4px;">${item.text}</div>
+                </div>
+            `).join("") || '<div class="text-sm text-muted">Yangi xabarlar yo\'q.</div>';
+
+            document.getElementById("profile-panel-body").innerHTML = `
+                <div class="profile-meta-item"><span>Foydalanuvchi</span><span>${STATE.currentUser.name}</span></div>
+                <div class="profile-meta-item"><span>Rol</span><span>${ROLE_LABELS[STATE.currentUser.role]}</span></div>
+                <div class="profile-meta-item"><span>Telefon</span><span>${STATE.currentUser.phone}</span></div>
+                <div class="profile-meta-item"><span>INN</span><span>${STATE.currentUser.inn}</span></div>
+                <div class="profile-meta-item"><span>Manzil</span><span>${STATE.currentUser.address}</span></div>
+            `;
+
+            renderSidebar();
+            renderBottomNav();
+        }
+
+        function renderSidebar() {
+            const menu = getMenuForRole(STATE.currentUser.role);
+            document.getElementById("sidebar-menu").innerHTML = menu.map(item => `
+                <button class="menu-item ${STATE.currentView === item.id ? "active" : ""}" onclick="navigate('${item.id}')">
+                    <i class="${item.icon}"></i>
+                    <span>${item.title}</span>
+                </button>
+            `).join("");
+
+            const roleOrdersCount = STATE.currentUser.role === "admin"
+                ? DB.orders.length
+                : STATE.currentUser.role === "seller"
+                    ? DB.orders.filter(order => order.sellerId === STATE.currentUser.id).length
+                    : DB.orders.filter(order => order.buyerId === STATE.currentUser.id).length;
+
+            document.getElementById("sidebar-profile").innerHTML = `
+                <div class="profile-head">
+                    <div class="avatar">${getInitials(STATE.currentUser.name)}</div>
+                    <div>
+                        <div class="font-semibold">${STATE.currentUser.name}</div>
+                        <div class="text-xs text-muted">${ROLE_LABELS[STATE.currentUser.role]}</div>
                     </div>
-                    <div class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-4 gap-4" style="border-top:1px solid var(--border)">
-                        <div class="text-lg">Jami to'lov: <span class="font-bold text-primary text-xl">${formatMoney(total)}</span></div>
-                        <button class="btn btn-success w-full sm:w-auto" onclick="checkout()"><i class="ri-check-double-line"></i> Buyurtmani rasmiylashtirish</button>
+                </div>
+                <span class="pill" style="width:max-content;background:var(--surface-soft);border-color:var(--border);color:var(--muted);">Profil markazi</span>
+                <div class="profile-meta">
+                    <div class="profile-meta-item"><span>Telefon</span><span>${STATE.currentUser.phone}</span></div>
+                    <div class="profile-meta-item"><span>INN</span><span>${STATE.currentUser.inn}</span></div>
+                    <div class="profile-meta-item"><span>Hudud</span><span>${STATE.currentUser.address}</span></div>
+                    <div class="profile-meta-item"><span>Faol bo'lim</span><span>${getMenuForRole(STATE.currentUser.role).find(item => item.id === STATE.currentView)?.title || "-"}</span></div>
+                </div>
+                <div class="mini-stats">
+                    <div class="mini-stat">
+                        <strong>${roleOrdersCount}</strong>
+                        <span>buyurtma</span>
+                    </div>
+                    <div class="mini-stat">
+                        <strong>${STATE.notificationsRead ? 0 : getNotifications().length}</strong>
+                        <span>xabar</span>
                     </div>
                 </div>
             `;
         }
 
-        function updateCart(idx, change) {
-            if(MOCK_DB.cart[idx].qty + change > 0) MOCK_DB.cart[idx].qty += change;
-            renderBuyerCart(document.getElementById('view-area'));
+        function renderBottomNav() {
+            const menu = getMenuForRole(STATE.currentUser.role).slice(0, 4);
+            document.getElementById("bottom-nav").innerHTML = menu.map(item => `
+                <button class="bottom-nav-item ${STATE.currentView === item.id ? "active" : ""}" onclick="navigate('${item.id}')">
+                    <i class="${item.icon}"></i>
+                    <span>${item.title}</span>
+                </button>
+            `).join("");
         }
 
-        function removeFromCart(idx) {
-            MOCK_DB.cart.splice(idx, 1);
-            renderBuyerCart(document.getElementById('view-area'));
+        function openNotificationView(viewId) {
+            STATE.notificationsRead = true;
+            STATE.ui.notificationsOpen = false;
+            navigate(viewId);
+        }
+
+        function navigate(viewId) {
+            STATE.currentView = viewId;
+            STATE.ui.sectionPanel = "";
+            STATE.ui.profileOpen = false;
+            STATE.ui.notificationsOpen = false;
+            renderChrome();
+            renderCurrentView();
+            if (window.innerWidth <= 820) {
+                toggleSidebar(false);
+            }
+        }
+
+        function getFilterState(viewId) {
+            return STATE.filters[viewId];
+        }
+
+        function setViewSearch(viewId, value) {
+            getFilterState(viewId).search = value;
+            STATE.ui.sectionPanel = viewId + ":search";
+            renderCurrentView();
+        }
+
+        function setViewFilter(viewId, key, value) {
+            getFilterState(viewId)[key] = value;
+            STATE.ui.sectionPanel = viewId + ":filter";
+            renderCurrentView();
+        }
+
+        function toggleSectionPanel(viewId, kind) {
+            const key = viewId + ":" + kind;
+            STATE.ui.sectionPanel = STATE.ui.sectionPanel === key ? "" : key;
+            STATE.ui.profileOpen = false;
+            STATE.ui.notificationsOpen = false;
+            renderChrome();
+            renderCurrentView();
+        }
+
+        function matchesSearch(text, search) {
+            return text.toLowerCase().includes((search || "").trim().toLowerCase());
+        }
+
+        function renderChips(viewId, key, items, activeValue) {
+            return items.map(item => `
+                <button class="pill ${activeValue === item.value ? "active" : ""}" onclick="setViewFilter('${viewId}', '${key}', '${item.value}')">${item.label}</button>
+            `).join("");
+        }
+
+        function renderSection(viewId, config) {
+            const openSearch = STATE.ui.sectionPanel === viewId + ":search";
+            const openFilter = STATE.ui.sectionPanel === viewId + ":filter";
+
+            return `
+                <section class="section-shell">
+                    <div class="section-top">
+                        <div>
+                            <div class="font-bold text-lg">${config.title}</div>
+                            <div class="text-sm text-muted" style="margin-top:6px;">${config.subtitle}</div>
+                        </div>
+                        <div class="section-tools">
+                            ${config.extraAction || ""}
+                            <div class="tool-wrap">
+                                <button class="icon-button ${openSearch ? "active" : ""}" onclick="toggleSectionPanel('${viewId}', 'search')">
+                                    <i class="ri-search-line"></i>
+                                </button>
+                                <div class="tool-panel ${openSearch ? "open" : ""}">
+                                    <h4>Qidiruv</h4>
+                                    <p>${config.searchHint || "Ma'lumotlarni tezkor qidirish"}</p>
+                                    <div class="search-input-wrap">
+                                        <i class="ri-search-line"></i>
+                                        <input class="input-control" type="search" value="${config.searchValue || ""}" placeholder="${config.searchPlaceholder || "Qidirish"}" oninput="setViewSearch('${viewId}', this.value)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tool-wrap">
+                                <button class="icon-button ${openFilter ? "active" : ""}" onclick="toggleSectionPanel('${viewId}', 'filter')">
+                                    <i class="ri-equalizer-2-line"></i>
+                                </button>
+                                <div class="tool-panel ${openFilter ? "open" : ""}">
+                                    <h4>Filter</h4>
+                                    <p>${config.filterHint || "Bo'lim ko'rinishini tez sozlash"}</p>
+                                    ${config.filterHtml}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ${config.pillsHtml ? `<div class="pill-row">${config.pillsHtml}</div>` : ""}
+                    ${config.bodyHtml}
+                </section>
+            `;
+        }
+
+        function renderCurrentView() {
+            const viewArea = document.getElementById("view-area");
+            const renderers = {
+                "admin-dashboard": renderAdminDashboard,
+                "admin-users": renderAdminUsers,
+                "admin-orders": renderAdminOrders,
+                "admin-reports": renderAdminReports,
+                "seller-dashboard": renderSellerDashboard,
+                "seller-catalog": renderSellerCatalog,
+                "seller-orders": renderSellerOrders,
+                "seller-finance": renderSellerFinance,
+                "buyer-market": renderBuyerMarket,
+                "buyer-cart": renderBuyerCart,
+                "buyer-orders": renderBuyerOrders,
+                "buyer-reports": renderBuyerReports
+            };
+            viewArea.innerHTML = renderers[STATE.currentView] ? renderers[STATE.currentView]() : "";
+        }
+
+        function renderAdminDashboard() {
+            const filter = getFilterState("admin-dashboard");
+            const cards = [
+                { title: "Jami foydalanuvchilar", value: DB.users.length + " ta", icon: "ri-group-line" },
+                { title: "Faol buyurtmalar", value: DB.orders.filter(order => order.status === "active").length + " ta", icon: "ri-shopping-bag-3-line" },
+                { title: "Kechikkan hisobotlar", value: DB.reports.filter(report => report.status === "overdue").length + " ta", icon: "ri-error-warning-line" },
+                { title: "Jami komissiya", value: formatMoney(DB.orders.reduce((sum, order) => sum + order.comm, 0)), icon: "ri-wallet-3-line" }
+            ].filter(card => matchesSearch(card.title, filter.search));
+
+            const recentOrders = DB.orders
+                .filter(order => filter.period === "all" || order.status === filter.period)
+                .slice(0, 4)
+                .map(order => `
+                    <tr>
+                        <td>#${order.id}</td>
+                        <td>${getUserById(order.sellerId).name}</td>
+                        <td>${getUserById(order.buyerId).name}</td>
+                        <td>${formatMoney(order.total)}</td>
+                        <td>${getStatusBadge(order.status)}</td>
+                    </tr>
+                `).join("");
+
+            return renderSection("admin-dashboard", {
+                title: "Administrator paneli",
+                subtitle: "Tizimning umumiy holati va so'nggi jarayonlar",
+                searchValue: filter.search,
+                searchPlaceholder: "Karta yoki blok qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("admin-dashboard", "period", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "active", label: "Faol" },
+                            { value: "pending", label: "Kutilmoqda" }
+                        ], filter.period)}
+                    </div>
+                `,
+                pillsHtml: `
+                    <span class="pill">Minimal dashboard</span>
+                    <span class="pill">Umumiy fon: #e8ecef</span>
+                    <span class="pill">Faol filter: ${filter.period === "all" ? "Barchasi" : filter.period}</span>
+                `,
+                bodyHtml: `
+                    <div class="stats-grid">
+                        ${cards.map(card => `
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="${card.icon}"></i></div>
+                                <div class="text-sm text-muted">${card.title}</div>
+                                <div class="font-bold text-lg">${card.value}</div>
+                            </div>
+                        `).join("")}
+                    </div>
+                    <div class="split-grid">
+                        <div class="card">
+                            <div class="font-semibold" style="margin-bottom:14px;">So'nggi buyurtmalar</div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr><th>ID</th><th>Sotuvchi</th><th>Xaridor</th><th>Jami</th><th>Holat</th></tr>
+                                    </thead>
+                                    <tbody>${recentOrders}</tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="font-semibold" style="margin-bottom:14px;">Jarayon holati</div>
+                            <div class="progress-list">
+                                <div class="progress-item">
+                                    <div style="display:flex;justify-content:space-between;"><span class="text-sm">Buyurtmalar bajarilishi</span><span class="text-sm text-muted">72%</span></div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:72%;"></div></div>
+                                </div>
+                                <div class="progress-item">
+                                    <div style="display:flex;justify-content:space-between;"><span class="text-sm">Foto hisobot nazorati</span><span class="text-sm text-muted">58%</span></div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:58%;"></div></div>
+                                </div>
+                                <div class="progress-item">
+                                    <div style="display:flex;justify-content:space-between;"><span class="text-sm">Komissiya yig'imi</span><span class="text-sm text-muted">81%</span></div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:81%;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            });
+        }
+
+        function renderAdminUsers() {
+            const filter = getFilterState("admin-users");
+            const users = DB.users.filter(user => {
+                const matches = matchesSearch([user.name, user.phone, user.inn, user.address].join(" "), filter.search);
+                const matchesRole = filter.role === "all" || user.role === filter.role;
+                const matchesStatus = filter.status === "all" || user.status === filter.status;
+                return matches && matchesRole && matchesStatus;
+            });
+
+            return renderSection("admin-users", {
+                title: "Foydalanuvchilar",
+                subtitle: "Tizimdagi kompaniyalar va ularning holati",
+                searchValue: filter.search,
+                searchPlaceholder: "Kompaniya, telefon yoki INN qidirish",
+                filterHtml: `
+                    <div style="display:grid;gap:14px;">
+                        <div>
+                            <div class="text-sm font-semibold" style="margin-bottom:8px;">Rol</div>
+                            <div class="toolbar-pills">
+                                ${renderChips("admin-users", "role", [
+                                    { value: "all", label: "Barchasi" },
+                                    { value: "admin", label: "Admin" },
+                                    { value: "seller", label: "Sotuvchi" },
+                                    { value: "buyer", label: "Xaridor" }
+                                ], filter.role)}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold" style="margin-bottom:8px;">Holat</div>
+                            <div class="toolbar-pills">
+                                ${renderChips("admin-users", "status", [
+                                    { value: "all", label: "Barchasi" },
+                                    { value: "active", label: "Faol" },
+                                    { value: "blocked", label: "Bloklangan" }
+                                ], filter.status)}
+                            </div>
+                        </div>
+                    </div>
+                `,
+                pillsHtml: `
+                    <span class="pill">${users.length} ta foydalanuvchi</span>
+                    <span class="pill">Rol: ${filter.role}</span>
+                    <span class="pill">Holat: ${filter.status}</span>
+                `,
+                bodyHtml: users.length ? `
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Kompaniya</th><th>Rol</th><th>Telefon</th><th>Manzil</th><th>Holat</th></tr>
+                            </thead>
+                            <tbody>
+                                ${users.map(user => `
+                                    <tr>
+                                        <td><div class="font-semibold">${user.name}</div><div class="text-xs text-muted">INN: ${user.inn}</div></td>
+                                        <td>${ROLE_LABELS[user.role]}</td>
+                                        <td>${user.phone}</td>
+                                        <td>${user.address}</td>
+                                        <td>${getStatusBadge(user.status)}</td>
+                                    </tr>
+                                `).join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                ` : '<div class="empty-state">Mos foydalanuvchi topilmadi.</div>'
+            });
+        }
+
+        function renderAdminOrders() {
+            const filter = getFilterState("admin-orders");
+            const orders = DB.orders.filter(order => {
+                const matches = matchesSearch([
+                    order.id,
+                    getUserById(order.sellerId).name,
+                    getUserById(order.buyerId).name
+                ].join(" "), filter.search);
+                const matchesStatus = filter.status === "all" || order.status === filter.status;
+                return matches && matchesStatus;
+            });
+
+            return renderSection("admin-orders", {
+                title: "Buyurtmalar",
+                subtitle: "Barcha sotuvchi va xaridorlar buyurtmalari",
+                searchValue: filter.search,
+                searchPlaceholder: "ID, sotuvchi yoki xaridor qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("admin-orders", "status", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "pending", label: "Kutilmoqda" },
+                            { value: "active", label: "Faol" },
+                            { value: "completed", label: "Yakunlangan" }
+                        ], filter.status)}
+                    </div>
+                `,
+                pillsHtml: `
+                    <span class="pill">${orders.length} ta natija</span>
+                    <span class="pill">Status: ${filter.status}</span>
+                `,
+                bodyHtml: orders.length ? `
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>ID</th><th>Sotuvchi</th><th>Xaridor</th><th>Sana</th><th>Jami</th><th>Holat</th></tr>
+                            </thead>
+                            <tbody>
+                                ${orders.map(order => `
+                                    <tr>
+                                        <td>#${order.id}</td>
+                                        <td>${getUserById(order.sellerId).name}</td>
+                                        <td>${getUserById(order.buyerId).name}</td>
+                                        <td>${order.date}</td>
+                                        <td class="font-semibold">${formatMoney(order.total)}</td>
+                                        <td>${getStatusBadge(order.status)}</td>
+                                    </tr>
+                                `).join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                ` : '<div class="empty-state">Mos buyurtma topilmadi.</div>'
+            });
+        }
+
+        function renderAdminReports() {
+            const filter = getFilterState("admin-reports");
+            const reports = DB.reports.filter(report => {
+                const product = getProductById(report.productId);
+                const matches = matchesSearch([report.id, product.name, report.dueDate].join(" "), filter.search);
+                const matchesStatus = filter.status === "all" || report.status === filter.status;
+                return matches && matchesStatus;
+            });
+
+            return renderSection("admin-reports", {
+                title: "Foto hisobotlar",
+                subtitle: "Muddat, mahsulot va topshirilgan hisobotlar kuzatuvi",
+                searchValue: filter.search,
+                searchPlaceholder: "Mahsulot yoki hisobot qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("admin-reports", "status", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "pending", label: "Kutilmoqda" },
+                            { value: "done", label: "Bajarildi" },
+                            { value: "overdue", label: "Kechikkan" }
+                        ], filter.status)}
+                    </div>
+                `,
+                pillsHtml: `
+                    <span class="pill">${reports.length} ta hisobot</span>
+                    <span class="pill">Filter: ${filter.status}</span>
+                `,
+                bodyHtml: reports.length ? `
+                    <div class="report-grid">
+                        ${reports.map(report => {
+                            const product = getProductById(report.productId);
+                            const order = DB.orders.find(order => order.id === report.orderId);
+                            return `
+                                <div class="report-card">
+                                    <div class="report-cover"><i class="${product.icon}"></i></div>
+                                    <div class="report-body">
+                                        <div class="list-item-head">
+                                            <div>
+                                                <div class="font-semibold">${product.name}</div>
+                                                <div class="text-xs text-muted">Buyurtma #${report.orderId}</div>
+                                            </div>
+                                            ${getStatusBadge(report.status)}
+                                        </div>
+                                        <div class="text-sm text-muted">Sotuvchi: ${getUserById(order.sellerId).name}</div>
+                                        <div class="text-sm text-muted">Xaridor: ${getUserById(order.buyerId).name}</div>
+                                        <div class="text-sm">Muddat: <span class="font-semibold">${report.dueDate}</span></div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join("")}
+                    </div>
+                ` : '<div class="empty-state">Mos hisobot topilmadi.</div>'
+            });
+        }
+
+        function renderSellerDashboard() {
+            const filter = getFilterState("seller-dashboard");
+            const myOrders = DB.orders.filter(order => order.sellerId === STATE.currentUser.id);
+            const summary = [
+                { title: "Mening buyurtmalarim", value: myOrders.length + " ta", icon: "ri-shopping-bag-3-line" },
+                { title: "Faol shartnomalar", value: myOrders.filter(order => order.status === "active").length + " ta", icon: "ri-file-copy-line" },
+                { title: "Umumiy aylanma", value: formatMoney(myOrders.reduce((sum, order) => sum + order.total, 0)), icon: "ri-line-chart-line" }
+            ].filter(item => matchesSearch(item.title, filter.search));
+
+            return renderSection("seller-dashboard", {
+                title: "Sotuvchi dashboard",
+                subtitle: "Katalog, buyurtma va realizatsiya jarayonlari",
+                searchValue: filter.search,
+                searchPlaceholder: "Karta yoki ko'rsatkich qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("seller-dashboard", "status", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "active", label: "Faol" },
+                            { value: "pending", label: "Kutilmoqda" }
+                        ], filter.status)}
+                    </div>
+                `,
+                pillsHtml: `
+                    <span class="pill">Sotuvchi rejimi</span>
+                    <span class="pill">${myOrders.length} ta buyurtma</span>
+                `,
+                bodyHtml: `
+                    <div class="stats-grid">
+                        ${summary.map(item => `
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="${item.icon}"></i></div>
+                                <div class="text-sm text-muted">${item.title}</div>
+                                <div class="font-bold text-lg">${item.value}</div>
+                            </div>
+                        `).join("")}
+                    </div>
+                    <div class="card">
+                        <div class="font-semibold" style="margin-bottom:14px;">So'nggi xaridorlar</div>
+                        <div class="list-card">
+                            ${myOrders.filter(order => filter.status === "all" || order.status === filter.status).slice(0, 3).map(order => `
+                                <div class="list-item">
+                                    <div class="list-item-head">
+                                        <div>
+                                            <div class="font-semibold">${getUserById(order.buyerId).name}</div>
+                                            <div class="text-xs text-muted">Buyurtma #${order.id}</div>
+                                        </div>
+                                        ${getStatusBadge(order.status)}
+                                    </div>
+                                    <div class="order-total">${formatMoney(order.total)}</div>
+                                </div>
+                            `).join("")}
+                        </div>
+                    </div>
+                `
+            });
+        }
+
+        function renderSellerCatalog() {
+            const filter = getFilterState("seller-catalog");
+            const products = DB.products.filter(product => {
+                const belongsToSeller = product.sellerId === STATE.currentUser.id;
+                const matches = matchesSearch([product.name, product.sku].join(" "), filter.search);
+                const matchesModel = filter.model === "all" || product.model === filter.model;
+                return belongsToSeller && matches && matchesModel;
+            });
+
+            return renderSection("seller-catalog", {
+                title: "Katalog",
+                subtitle: "Mahsulot kartalari minimal ko'rinishda",
+                searchValue: filter.search,
+                searchPlaceholder: "Mahsulot yoki SKU qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("seller-catalog", "model", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "realization", label: "Realizatsiya" },
+                            { value: "prepayment", label: "Avans" }
+                        ], filter.model)}
+                    </div>
+                `,
+                extraAction: `
+                    <button class="btn btn-primary" onclick="alert('Demo rejimida yangi mahsulot shakli keyin ulanishi mumkin.')">
+                        <i class="ri-add-line"></i> Yangi mahsulot
+                    </button>
+                `,
+                pillsHtml: `
+                    <span class="pill">${products.length} ta mahsulot</span>
+                    <span class="pill">Model: ${filter.model}</span>
+                `,
+                bodyHtml: products.length ? `
+                    <div class="product-grid">
+                        ${products.map(product => `
+                            <div class="product-card">
+                                <div class="product-cover"><i class="${product.icon}"></i></div>
+                                <div class="product-body">
+                                    <div class="list-item-head">
+                                        <div>
+                                            <div class="font-semibold">${product.name}</div>
+                                            <div class="text-xs text-muted">SKU: ${product.sku}</div>
+                                        </div>
+                                        ${getStatusBadge(product.model === "prepayment" ? "pending" : "active")}
+                                    </div>
+                                    <div class="order-total">${formatMoney(product.price)}</div>
+                                    <div class="text-sm text-muted">Realizatsiya: ${product.realDays} kun</div>
+                                    <div class="text-sm text-muted">Foto hisobot: har ${product.photoDays} kun</div>
+                                    <div class="action-row">
+                                        <button class="btn btn-outline">Tahrirlash</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+                ` : '<div class="empty-state">Mos mahsulot topilmadi.</div>'
+            });
+        }
+
+        function renderSellerOrders() {
+            const filter = getFilterState("seller-orders");
+            const orders = DB.orders.filter(order => {
+                const belongsToSeller = order.sellerId === STATE.currentUser.id;
+                const matches = matchesSearch([order.id, getUserById(order.buyerId).name].join(" "), filter.search);
+                const matchesStatus = filter.status === "all" || order.status === filter.status;
+                return belongsToSeller && matches && matchesStatus;
+            });
+
+            return renderSection("seller-orders", {
+                title: "Sotuvchi buyurtmalari",
+                subtitle: "Xaridorlar bilan ishlayotgan buyurtmalar ro'yxati",
+                searchValue: filter.search,
+                searchPlaceholder: "Buyurtma yoki xaridor qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("seller-orders", "status", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "pending", label: "Kutilmoqda" },
+                            { value: "active", label: "Faol" },
+                            { value: "completed", label: "Yakunlangan" }
+                        ], filter.status)}
+                    </div>
+                `,
+                pillsHtml: `<span class="pill">${orders.length} ta buyurtma</span>`,
+                bodyHtml: orders.length ? `
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>ID</th><th>Xaridor</th><th>Sana</th><th>Jami</th><th>Holat</th></tr></thead>
+                            <tbody>
+                                ${orders.map(order => `
+                                    <tr>
+                                        <td>#${order.id}</td>
+                                        <td>${getUserById(order.buyerId).name}</td>
+                                        <td>${order.date}</td>
+                                        <td class="font-semibold">${formatMoney(order.total)}</td>
+                                        <td>${getStatusBadge(order.status)}</td>
+                                    </tr>
+                                `).join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                ` : '<div class="empty-state">Mos buyurtma topilmadi.</div>'
+            });
+        }
+
+        function renderSellerFinance() {
+            const filter = getFilterState("seller-finance");
+            const financeOrders = DB.orders.filter(order => {
+                const belongsToSeller = order.sellerId === STATE.currentUser.id;
+                const matches = matchesSearch(String(order.id), filter.search);
+                const matchesStatus = filter.status === "all" || order.status === filter.status;
+                return belongsToSeller && matches && matchesStatus;
+            });
+
+            return renderSection("seller-finance", {
+                title: "Moliya",
+                subtitle: "Komissiya va buyurtma summalarini kuzatish",
+                searchValue: filter.search,
+                searchPlaceholder: "Buyurtma ID qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("seller-finance", "status", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "pending", label: "Kutilmoqda" },
+                            { value: "active", label: "Faol" },
+                            { value: "completed", label: "Yakunlangan" }
+                        ], filter.status)}
+                    </div>
+                `,
+                pillsHtml: `<span class="pill">Komissiya 5%</span>`,
+                bodyHtml: financeOrders.length ? `
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Buyurtma</th><th>Asosiy summa</th><th>Komissiya</th><th>Holat</th></tr></thead>
+                            <tbody>
+                                ${financeOrders.map(order => `
+                                    <tr>
+                                        <td>#${order.id}</td>
+                                        <td>${formatMoney(order.total)}</td>
+                                        <td class="font-semibold">${formatMoney(order.comm)}</td>
+                                        <td>${getStatusBadge(order.status)}</td>
+                                    </tr>
+                                `).join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                ` : '<div class="empty-state">Moliyaviy yozuv topilmadi.</div>'
+            });
+        }
+
+        function renderBuyerMarket() {
+            const filter = getFilterState("buyer-market");
+            const products = DB.products.filter(product => {
+                const matches = matchesSearch([product.name, product.sku, getUserById(product.sellerId).name].join(" "), filter.search);
+                const matchesSeller = filter.seller === "all" || String(product.sellerId) === filter.seller;
+                const matchesModel = filter.model === "all" || product.model === filter.model;
+                return matches && matchesSeller && matchesModel;
+            });
+
+            const sellerOptions = [{ value: "all", label: "Barcha sotuvchi" }].concat(
+                DB.users.filter(user => user.role === "seller").map(user => ({
+                    value: String(user.id),
+                    label: user.name
+                }))
+            );
+
+            return renderSection("buyer-market", {
+                title: "Mahsulotlar marketi",
+                subtitle: "Minimal mahsulot kartalari va soddalashtirilgan savat jarayoni",
+                searchValue: filter.search,
+                searchPlaceholder: "Mahsulot, SKU yoki sotuvchi qidirish",
+                filterHtml: `
+                    <div style="display:grid;gap:14px;">
+                        <div>
+                            <div class="text-sm font-semibold" style="margin-bottom:8px;">Sotuvchi</div>
+                            <div class="toolbar-pills">
+                                ${renderChips("buyer-market", "seller", sellerOptions, filter.seller)}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold" style="margin-bottom:8px;">Model</div>
+                            <div class="toolbar-pills">
+                                ${renderChips("buyer-market", "model", [
+                                    { value: "all", label: "Barchasi" },
+                                    { value: "realization", label: "Realizatsiya" },
+                                    { value: "prepayment", label: "Avans" }
+                                ], filter.model)}
+                            </div>
+                        </div>
+                    </div>
+                `,
+                extraAction: `
+                    <button class="btn btn-soft" onclick="navigate('buyer-cart')">
+                        <i class="ri-shopping-cart-line"></i> Savat (${DB.cart.length})
+                    </button>
+                `,
+                pillsHtml: `<span class="pill">${products.length} ta mahsulot</span>`,
+                bodyHtml: products.length ? `
+                    <div class="product-grid">
+                        ${products.map(product => `
+                            <div class="product-card">
+                                <div class="product-cover"><i class="${product.icon}"></i></div>
+                                <div class="product-body">
+                                    <div class="list-item-head">
+                                        <div>
+                                            <div class="font-semibold">${product.name}</div>
+                                            <div class="text-xs text-muted">${getUserById(product.sellerId).name}</div>
+                                        </div>
+                                        ${getStatusBadge(product.model === "prepayment" ? "pending" : "active")}
+                                    </div>
+                                    <div class="order-total">${formatMoney(product.price)}</div>
+                                    <div class="text-sm text-muted">SKU: ${product.sku}</div>
+                                    <div class="action-row">
+                                        <button class="btn btn-primary" onclick="addToCart(${product.id})">Savatga qo'shish</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+                ` : '<div class="empty-state">Mos mahsulot topilmadi.</div>'
+            });
+        }
+
+        function addToCart(productId) {
+            const item = DB.cart.find(entry => entry.productId === productId);
+            if (item) item.qty += 1;
+            else DB.cart.push({ productId, qty: 1 });
+            renderChrome();
+            renderCurrentView();
+        }
+
+        function updateCart(productId, delta) {
+            const item = DB.cart.find(entry => entry.productId === productId);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                DB.cart = DB.cart.filter(entry => entry.productId !== productId);
+            }
+            renderChrome();
+            renderCurrentView();
+        }
+
+        function renderBuyerCart() {
+            const filter = getFilterState("buyer-cart");
+            const items = DB.cart
+                .map(entry => ({ ...entry, product: getProductById(entry.productId) }))
+                .filter(entry => matchesSearch([entry.product.name, entry.product.sku].join(" "), filter.search));
+
+            const total = items.reduce((sum, entry) => sum + entry.product.price * entry.qty, 0);
+
+            return renderSection("buyer-cart", {
+                title: "Savat",
+                subtitle: "Tayyorlangan mahsulotlar va miqdorlar",
+                searchValue: filter.search,
+                searchPlaceholder: "Savatdagi mahsulotni qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("buyer-cart", "sort", [
+                            { value: "default", label: "Standart" },
+                            { value: "cheap", label: "Arzon" },
+                            { value: "expensive", label: "Qimmat" }
+                        ], filter.sort)}
+                    </div>
+                `,
+                pillsHtml: `<span class="pill">${items.length} ta pozitsiya</span>`,
+                bodyHtml: items.length ? `
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Mahsulot</th><th>Miqdor</th><th>Narx</th><th>Jami</th></tr></thead>
+                            <tbody>
+                                ${items.sort((a, b) => {
+                                    if (filter.sort === "cheap") return a.product.price - b.product.price;
+                                    if (filter.sort === "expensive") return b.product.price - a.product.price;
+                                    return 0;
+                                }).map(entry => `
+                                    <tr>
+                                        <td>
+                                            <div class="font-semibold">${entry.product.name}</div>
+                                            <div class="text-xs text-muted">${entry.product.sku}</div>
+                                        </td>
+                                        <td>
+                                            <div class="action-row">
+                                                <button class="btn btn-outline btn-icon" onclick="updateCart(${entry.productId}, -1)">-</button>
+                                                <span class="pill">${entry.qty}</span>
+                                                <button class="btn btn-outline btn-icon" onclick="updateCart(${entry.productId}, 1)">+</button>
+                                            </div>
+                                        </td>
+                                        <td>${formatMoney(entry.product.price)}</td>
+                                        <td class="font-semibold">${formatMoney(entry.product.price * entry.qty)}</td>
+                                    </tr>
+                                `).join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card">
+                        <div class="list-item-head">
+                            <div>
+                                <div class="font-semibold">Umumiy to'lov</div>
+                                <div class="text-sm text-muted">Buyurtma rasmiylashtirishga tayyor</div>
+                            </div>
+                            <div class="order-total">${formatMoney(total)}</div>
+                        </div>
+                        <div class="action-row">
+                            <button class="btn btn-primary" onclick="checkout()">Buyurtmani rasmiylashtirish</button>
+                        </div>
+                    </div>
+                ` : '<div class="empty-state">Savatingiz bo\'sh.</div>'
+            });
         }
 
         function checkout() {
-            showToast("Buyurtma rasmiylashtirildi. Imzolash uchun kutilmoqda...", "success");
-            MOCK_DB.cart = []; 
-            setTimeout(() => navigate('buyer-orders', document.querySelectorAll('.menu-item')[2]), 1500);
+            if (!DB.cart.length) return;
+            DB.cart = [];
+            alert("Buyurtma demo tarzda rasmiylashtirildi.");
+            renderChrome();
+            renderCurrentView();
         }
 
-        function renderBuyerOrders(container) {
-            const myOrders = MOCK_DB.orders.filter(o => o.buyerId === STATE.currentUser.id);
-            const rows = myOrders.map(o => `
-                <tr>
-                    <td><b>#${o.id}</b></td>
-                    <td>${getUserById(o.sellerId).name}</td>
-                    <td class="hide-sm">${o.date}</td>
-                    <td class="font-bold text-primary hide-sm">${formatMoney(o.total)}</td>
-                    <td>${getStatusBadge(o.status)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-outline btn-icon" onclick="openDetails('order', ${o.id})">
-                            <i class="ri-eye-line"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-            container.innerHTML = `<div class="card"><h3 class="mb-4">Mening Buyurtmalarim</h3><div class="table-responsive"><table><thead><tr><th>ID</th><th>Sotuvchi</th><th class="hide-sm">Sana</th><th class="hide-sm">Summa</th><th>Holat</th><th>Amal</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
-        }
-
-        function renderBuyerReports(container) {
-            const myReports = MOCK_DB.reports.filter(r => {
-                const order = MOCK_DB.orders.find(o => o.id === r.orderId);
-                return order && order.buyerId === STATE.currentUser.id;
+        function renderBuyerOrders() {
+            const filter = getFilterState("buyer-orders");
+            const orders = DB.orders.filter(order => {
+                const belongsToBuyer = order.buyerId === STATE.currentUser.id;
+                const matches = matchesSearch([order.id, getUserById(order.sellerId).name].join(" "), filter.search);
+                const matchesStatus = filter.status === "all" || order.status === filter.status;
+                return belongsToBuyer && matches && matchesStatus;
             });
 
-            const cards = myReports.map(r => {
-                const product = getProdById(r.prodId);
-                const isDone = r.status === 'done';
-                return `
-                    <div class="report-card ${r.status}">
-                        <div class="report-thumb"><i class="${isDone ? 'ri-image-check-line' : product.img}"></i></div>
-                        <div class="flex justify-between items-center gap-2">
-                            <div>
-                                <div class="font-bold">${product.name}</div>
-                                <div class="text-sm text-muted">Buyurtma #${r.orderId}</div>
-                            </div>
-                            ${getStatusBadge(r.status)}
-                        </div>
-                        <div class="details-row"><span class="details-label">Topshirish muddati:</span><span class="details-value ${r.status === 'overdue' ? 'text-danger' : ''}">${r.dueDate}</span></div>
-                        <div class="details-row"><span class="details-label">Talab:</span><span class="details-value">Rasta / ombor foto</span></div>
-                        <div class="upload-zone" onclick="submitReportUpload(${r.id})">
-                            <i class="${isDone ? 'ri-checkbox-circle-line' : 'ri-upload-cloud-2-line'}" style="font-size:2rem;color:var(--primary)"></i>
-                            <div class="font-semibold mt-2">${isDone ? 'Foto qabul qilingan' : 'Foto yuklash'}</div>
-                            <div class="text-xs text-muted mt-2">${isDone ? 'Hisobot bajarilgan deb belgilangan' : 'JPG/PNG fayl tanlang yoki kameradan rasm oling'}</div>
-                        </div>
+            return renderSection("buyer-orders", {
+                title: "Mening buyurtmalarim",
+                subtitle: "Sotuvchilardan olingan buyurtmalar holati",
+                searchValue: filter.search,
+                searchPlaceholder: "Buyurtma yoki sotuvchi qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("buyer-orders", "status", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "pending", label: "Kutilmoqda" },
+                            { value: "active", label: "Faol" },
+                            { value: "completed", label: "Yakunlangan" }
+                        ], filter.status)}
                     </div>
-                `;
-            }).join('');
-
-            container.innerHTML = `
-                <div class="card mb-4">
-                    <h3 class="mb-2">Foto Hisobot Yuklash (Majburiy)</h3>
-                    <div class="text-sm text-muted">Shartnoma bo'yicha belgilangan davrda rastadagi mahsulot rasmini yuklang. Kechikkan hisobotlar qizil rang bilan ajratildi.</div>
-                </div>
-                <div class="report-card-grid">${cards || `<div class="card text-center text-muted">Sizda foto hisobot vazifalari yo'q.</div>`}</div>
-            `;
+                `,
+                pillsHtml: `<span class="pill">${orders.length} ta buyurtma</span>`,
+                bodyHtml: orders.length ? `
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>ID</th><th>Sotuvchi</th><th>Sana</th><th>Jami</th><th>Holat</th></tr></thead>
+                            <tbody>
+                                ${orders.map(order => `
+                                    <tr>
+                                        <td>#${order.id}</td>
+                                        <td>${getUserById(order.sellerId).name}</td>
+                                        <td>${order.date}</td>
+                                        <td>${formatMoney(order.total)}</td>
+                                        <td>${getStatusBadge(order.status)}</td>
+                                    </tr>
+                                `).join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                ` : '<div class="empty-state">Mos buyurtma topilmadi.</div>'
+            });
         }
 
-        function submitReportUpload(reportId) {
-            const report = MOCK_DB.reports.find(r => r.id === reportId);
+        function renderBuyerReports() {
+            const filter = getFilterState("buyer-reports");
+            const reports = DB.reports.filter(report => {
+                const order = DB.orders.find(entry => entry.id === report.orderId);
+                const belongsToBuyer = order && order.buyerId === STATE.currentUser.id;
+                const product = getProductById(report.productId);
+                const matches = matchesSearch([product.name, report.dueDate].join(" "), filter.search);
+                const matchesStatus = filter.status === "all" || report.status === filter.status;
+                return belongsToBuyer && matches && matchesStatus;
+            });
+
+            return renderSection("buyer-reports", {
+                title: "Foto hisobotlar",
+                subtitle: "Topshirilishi kerak bo'lgan rasta va ombor hisobotlari",
+                searchValue: filter.search,
+                searchPlaceholder: "Mahsulot yoki muddat qidirish",
+                filterHtml: `
+                    <div class="toolbar-pills">
+                        ${renderChips("buyer-reports", "status", [
+                            { value: "all", label: "Barchasi" },
+                            { value: "pending", label: "Kutilmoqda" },
+                            { value: "done", label: "Bajarildi" },
+                            { value: "overdue", label: "Kechikkan" }
+                        ], filter.status)}
+                    </div>
+                `,
+                pillsHtml: `<span class="pill">${reports.length} ta vazifa</span>`,
+                bodyHtml: reports.length ? `
+                    <div class="report-grid">
+                        ${reports.map(report => {
+                            const product = getProductById(report.productId);
+                            return `
+                                <div class="report-card">
+                                    <div class="report-cover"><i class="${product.icon}"></i></div>
+                                    <div class="report-body">
+                                        <div class="list-item-head">
+                                            <div>
+                                                <div class="font-semibold">${product.name}</div>
+                                                <div class="text-xs text-muted">Muddat: ${report.dueDate}</div>
+                                            </div>
+                                            ${getStatusBadge(report.status)}
+                                        </div>
+                                        <div class="text-sm text-muted">Talab: rasta yoki ombor rasmi</div>
+                                        <div class="action-row">
+                                            <button class="btn btn-outline" onclick="submitReport(${report.id})">${report.status === "done" ? "Qayta ko'rish" : "Foto yuklash"}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join("")}
+                    </div>
+                ` : '<div class="empty-state">Siz uchun hisobot vazifasi topilmadi.</div>'
+            });
+        }
+
+        function submitReport(reportId) {
+            const report = DB.reports.find(item => item.id === reportId);
             if (!report) return;
-            report.status = 'done';
-            showToast("Foto hisobot yuklandi va bajarildi deb belgilandi", "success");
-            renderBuyerReports(document.getElementById('view-area'));
+            report.status = "done";
+            renderChrome();
+            renderCurrentView();
         }
 
-        function signOrder(orderId, role) {
-            const order = MOCK_DB.orders.find(o => o.id === orderId);
-            if(role === 'seller') order.signedBySeller = true;
-            if(role === 'buyer') order.signedByBuyer = true;
-            
-            if(order.signedBySeller && order.signedByBuyer) order.status = 'active';
-            
-            showToast("Hujjat E-IMZO orqali muvaffaqiyatli imzolandi!", "success");
-            closeModal('detailsModal');
-            
-            if(role === 'seller') renderSellerOrders(document.getElementById('view-area'));
-            if(role === 'buyer') renderBuyerOrders(document.getElementById('view-area'));
-        }
+        document.addEventListener("click", event => {
+            if (!event.target.closest(".tool-wrap") && !event.target.closest(".section-tools")) {
+                if (STATE.ui.sectionPanel) {
+                    STATE.ui.sectionPanel = "";
+                    renderCurrentView();
+                }
+            }
 
+            if (!event.target.closest("#notification-btn") && !event.target.closest("#notification-panel")) {
+                if (STATE.ui.notificationsOpen) {
+                    STATE.ui.notificationsOpen = false;
+                    renderChrome();
+                }
+            }
+
+            if (!event.target.closest("#profile-btn") && !event.target.closest("#profile-panel")) {
+                if (STATE.ui.profileOpen) {
+                    STATE.ui.profileOpen = false;
+                    renderChrome();
+                }
+            }
+        });
+
+        fillDemoRole("seller");
     </script>
 </body>
 </html>
-
-
