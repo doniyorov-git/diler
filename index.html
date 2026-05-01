@@ -1219,8 +1219,8 @@
             <section class="auth-card card-surface">
                 <div class="auth-copy">
                     <span class="section-kicker">Minimal onboarding</span>
-                    <h2>Ro'yxatdan o'tish</h2>
-                    <p>Login bo'limi olib tashlandi. Endi rol tanlab, profil ma'lumotlarini kiriting va to'g'ridan-to'g'ri minimal panelga kiring.</p>
+                    <h2>Demo login</h2>
+                    <p>Parol maydoniga <strong>admin</strong> yoki <strong>seller</strong> deb yozing. Tizim role ni avtomatik aniqlab, mos panelga kiritadi.</p>
                 </div>
 
                 <div class="role-grid" id="auth-role-grid">
@@ -1259,14 +1259,18 @@
                         <input class="input-control" id="auth-email" type="email" placeholder="email@company.uz">
                     </div>
                     <div class="field full">
+                        <label for="auth-password">Demo parol</label>
+                        <input class="input-control" id="auth-password" type="password" placeholder="admin yoki seller" onkeydown="if(event.key==='Enter'){createProfile()}">
+                    </div>
+                    <div class="field full">
                         <label for="auth-bio">Qisqa izoh</label>
                         <textarea class="text-control" id="auth-bio" placeholder="Faoliyat turi, yo'nalish yoki ish uslubingiz haqida 1-2 gap yozing."></textarea>
                     </div>
                 </div>
 
                 <div class="auth-actions">
-                    <button class="primary-btn" onclick="createProfile()"><i class="ri-arrow-right-up-line"></i> Profil yaratish</button>
-                    <div class="helper-note">Tanlangan rolga mos demo ma'lumotlar yuklanadi, lekin ko'rinish siz kiritgan profil bilan ishlaydi.</div>
+                    <button class="primary-btn" onclick="createProfile()"><i class="ri-login-box-line"></i> Demo kirish</button>
+                    <div class="helper-note">Faqat demo parol kerak: <strong>admin</strong> yoki <strong>seller</strong>. Role parolga qarab avtomatik tanlanadi.</div>
                 </div>
             </section>
 
@@ -1675,35 +1679,21 @@
         }
 
         function createProfile() {
-            const name = document.getElementById('auth-name').value.trim();
-            const company = document.getElementById('auth-company').value.trim();
-            const phone = document.getElementById('auth-phone').value.trim();
-            const email = document.getElementById('auth-email').value.trim();
-            const bio = document.getElementById('auth-bio').value.trim();
+            const demoPassword = document.getElementById('auth-password').value.trim().toLowerCase();
+            const roleByPassword = { admin: 'admin', seller: 'seller' };
+            const role = roleByPassword[demoPassword];
 
-            if (!name || !company || !phone || !email) {
-                showToast('Barcha asosiy maydonlarni to\'ldiring.', 'warning');
+            if (!role) {
+                showToast('Demo parol noto\'g\'ri. admin yoki seller kiriting.', 'warning');
                 return;
             }
 
-            const normalizedPhone = phone.replace(/\s+/g, '');
-            if (!normalizedPhone.startsWith('+998') || normalizedPhone.length < 13) {
-                showToast('Telefon raqami +998 bilan boshlanishi kerak.', 'warning');
-                return;
-            }
-
-            const templateId = { admin: 1, seller: 2, buyer: 4 }[STATE.authRole];
-            const user = getUserById(templateId);
-
-            user.contactName = name;
-            user.name = company;
-            user.phone = normalizedPhone;
-            user.email = email;
-            user.bio = bio || AUTH_PRESETS[STATE.authRole].bio;
-
-            STATE.currentUser = user;
+            setAuthRole(role);
+            const templateId = { admin: 1, seller: 2 }[role];
+            STATE.currentUser = { ...getUserById(templateId) };
+            document.getElementById('auth-password').value = '';
             initApp();
-            showToast('Profil muvaffaqiyatli yaratildi.');
+            showToast(roleLabel(role) + ' sifatida demo kirish bajarildi.');
         }
 
         function toggleSidebar() {
@@ -1723,6 +1713,7 @@
             document.getElementById('app-layout').classList.add('hidden');
             document.getElementById('auth-layout').classList.remove('hidden');
             document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('auth-password').value = '';
             closeToolMenus();
             showToast('Sessiya yopildi.', 'warning');
         }
