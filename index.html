@@ -726,9 +726,9 @@
             const dd = document.getElementById('notif-dropdown');
             if (dd && dd.classList.contains('open')) renderNotifList();
         }
-        document.addEventListener('click', () => {
-            closeNotifDropdown();
-            document.querySelectorAll('.custom-select.open').forEach(r => r.classList.remove('open'));
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#notif-wrap')) closeNotifDropdown();
+            if (!e.target.closest('.custom-select')) document.querySelectorAll('.custom-select.open').forEach(r => r.classList.remove('open'));
         });
         document.getElementById('notif-dropdown')?.addEventListener('click', (e) => e.stopPropagation());
         const getUserById = (id) => MOCK_DB.users.find(u => u.id === id) || { name: 'Noma\'lum' };
