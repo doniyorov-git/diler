@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         :root {
-            --bg: #f3f4f6;
+            --bg: #e8ecef;
             --surface: #ffffff;
             --surface-soft: #f8fafc;
             --surface-muted: #f1f5f9;
@@ -344,6 +344,61 @@
             background: linear-gradient(180deg, #ffffff 0%, #f7f9fa 100%);
         }
 
+        .phone-input {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+            overflow: hidden;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 2px rgba(15, 23, 42, 0.03);
+        }
+
+        .phone-input span {
+            min-height: 46px;
+            display: inline-flex;
+            align-items: center;
+            padding: 0 14px;
+            border-right: 1px solid var(--border);
+            color: var(--primary);
+            font-weight: 700;
+            background: #f0fdfa;
+        }
+
+        .phone-input input {
+            border: 0;
+            box-shadow: none;
+            background: transparent;
+            border-radius: 0;
+        }
+
+        .auth-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 26px 0 18px;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
         .preview-head h3 {
             font-size: 26px;
             margin-top: 12px;
@@ -551,7 +606,7 @@
             position: sticky;
             top: 0;
             z-index: 30;
-            background: rgba(243, 244, 246, 0.92);
+            background: rgba(232, 236, 239, 0.92);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
             min-height: 88px;
@@ -610,6 +665,75 @@
         .topbar-user strong {
             display: block;
             font-size: 14px;
+        }
+
+        .weather-menu {
+            position: relative;
+        }
+
+        .weather-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 10px);
+            width: min(320px, calc(100vw - 32px));
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
+            z-index: 55;
+            display: none;
+        }
+
+        .weather-menu.open .weather-dropdown {
+            display: block;
+        }
+
+        .weather-card {
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+        }
+
+        .weather-card__top,
+        .chart-card__top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .weather-temp {
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .weather-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #ccfbf1;
+            color: var(--primary);
+            font-size: 26px;
+        }
+
+        .weather-stats {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .weather-stat {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.72);
         }
 
         #view-area {
@@ -861,6 +985,44 @@
             background: #fff;
         }
 
+        .line-chart {
+            width: 100%;
+            min-height: 180px;
+            margin-top: 14px;
+        }
+
+        .line-chart svg {
+            width: 100%;
+            height: 180px;
+            display: block;
+        }
+
+        .ticket-thread {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 260px;
+            overflow: auto;
+            padding-right: 4px;
+        }
+
+        .ticket-message {
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: #fff;
+        }
+
+        .ticket-message.reply {
+            margin-left: 28px;
+            background: #f0fdfa;
+            border-color: #99f6e4;
+        }
+
+        .mobile-bottom-nav {
+            display: none;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -898,7 +1060,8 @@
 
         .status-pill.active,
         .status-pill.done,
-        .status-pill.paid {
+        .status-pill.paid,
+        .status-pill.open {
             background: #e9f7ef;
             color: var(--success);
         }
@@ -1157,7 +1320,42 @@
             }
 
             #view-area {
-                padding: 16px;
+                padding: 16px 16px 96px;
+            }
+
+            .mobile-bottom-nav {
+                position: fixed;
+                left: 50%;
+                bottom: 14px;
+                transform: translateX(-50%);
+                width: min(420px, calc(100vw - 28px));
+                min-height: 68px;
+                padding: 10px;
+                border: 1px solid rgba(229, 231, 235, 0.9);
+                border-radius: 28px;
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(14px);
+                box-shadow: 0 18px 35px rgba(15, 23, 42, 0.16);
+                z-index: 60;
+                display: grid;
+                grid-auto-flow: column;
+                grid-auto-columns: 1fr;
+                gap: 8px;
+            }
+
+            .mobile-bottom-nav .nav-item {
+                min-height: 48px;
+                padding: 0;
+                justify-content: center;
+                border-radius: 18px;
+            }
+
+            .mobile-bottom-nav .nav-item span {
+                display: none;
+            }
+
+            .mobile-bottom-nav .nav-item i {
+                font-size: 22px;
             }
 
             .section-card,
@@ -1220,7 +1418,7 @@
                 <div class="auth-copy">
                     <span class="section-kicker">Demo login</span>
                     <h2>Tizimga kirish</h2>
-                    <p>Demo parolni kiriting. Parol <strong>admin</strong> yoki <strong>seller</strong> bo'lsa, panel avtomatik ravishda mos rol bilan ochiladi.</p>
+                    <p>Parol bilan demo panelga kiring yoki pastdagi minimal ro'yxatdan o'tish formasida yangi xaridor profilini localStorage orqali saqlang.</p>
                 </div>
 
                 <div class="form-grid">
@@ -1229,7 +1427,7 @@
                         <input class="input-control" id="demo-password" type="password" placeholder="admin yoki seller" autocomplete="off" autofocus oninput="handleDemoPasswordInput()" onkeydown="if(event.key === 'Enter') submitDemoLogin()">
                     </div>
                     <div class="field full">
-                        <div class="info-grid">
+                        <div class="auth-mini-grid">
                             <button type="button" class="role-option" data-role="admin" onclick="quickFillDemoPassword('admin')">
                                 <i class="ri-shield-user-line"></i>
                                 <strong>Admin demo</strong>
@@ -1248,13 +1446,37 @@
                     <button class="primary-btn" onclick="submitDemoLogin()"><i class="ri-login-circle-line"></i> Demo kirish</button>
                     <div class="helper-note">Parol to'g'ri kiritilishi bilan sahifa avtomatik admin yoki seller paneliga o'tadi.</div>
                 </div>
+
+                <div class="auth-divider">Register</div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="register-company">Kompaniya</label>
+                        <input class="input-control" id="register-company" type="text" placeholder="Masalan: Yangi Savdo MChJ">
+                    </div>
+                    <div class="field">
+                        <label for="register-contact">Mas'ul shaxs</label>
+                        <input class="input-control" id="register-contact" type="text" placeholder="Ism familiya">
+                    </div>
+                    <div class="field">
+                        <label for="register-phone">Telefon</label>
+                        <div class="phone-input"><span>+998</span><input class="input-control" id="register-phone" type="tel" maxlength="9" inputmode="numeric" placeholder="90 123 45 67" oninput="formatUzPhone(this)"></div>
+                    </div>
+                    <div class="field">
+                        <label for="register-email">Email</label>
+                        <input class="input-control" id="register-email" type="email" placeholder="demo@company.uz">
+                    </div>
+                </div>
+                <div class="auth-actions">
+                    <button class="secondary-btn" onclick="registerDemoUser()"><i class="ri-user-add-line"></i> Ro'yxatdan o'tish</button>
+                    <div class="helper-note">Yangi demo profil buyer sifatida yaratiladi va keyingi ochilishlarda localStorage'dan tiklanadi.</div>
+                </div>
             </section>
 
             <aside class="preview-card card-surface">
                 <div class="preview-head">
                     <span class="section-kicker">Preview</span>
                     <h3>Yangi minimal ko'rinish</h3>
-                    <p>Umumiy fon <strong>#f3f4f6</strong>, yumshoq sidebar va har bir jadval ustida qidiruv maydoni hamda <strong>Filter</strong> tugmasi orqali ochiladigan menyular.</p>
+                    <p>Umumiy fon <strong>#e8ecef</strong>, yumshoq sidebar, mobile bottom menu, qidiruv/filter va localStorage'da saqlanadigan demo ma'lumotlar.</p>
                 </div>
                 <div id="auth-preview"></div>
             </aside>
@@ -1272,10 +1494,7 @@
                 <div class="nav-label">Bo'limlar</div>
                 <div id="sidebar-menu"></div>
             </div>
-            <div class="sidebar-footer">
-                <strong style="display:block; margin-bottom:8px; color:var(--text);">Soddalashtirilgan uslub</strong>
-                Har bir jadval ustida qidiruv va <strong>Filter</strong> tugmasi orqali ochiladigan menyular. Profil bo'limi to'liq ma'lumot bilan yangilandi.
-            </div>
+            <div class="sidebar-footer" id="sidebar-weather"></div>
         </aside>
 
         <div class="content-area">
@@ -1289,12 +1508,17 @@
                     </div>
                 </div>
                 <div class="topbar-right">
+                    <div class="weather-menu" id="weather-menu">
+                        <button class="icon-btn" onclick="toggleWeatherMenu(event)" title="Ob-havo"><i class="ri-sun-cloudy-line"></i></button>
+                        <div class="weather-dropdown" id="weather-dropdown"></div>
+                    </div>
                     <div class="topbar-user" id="topbar-user"></div>
                     <button class="ghost-btn" onclick="doLogout()"><i class="ri-logout-box-r-line"></i> Chiqish</button>
                 </div>
             </header>
             <main id="view-area"></main>
         </div>
+        <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile menu"></nav>
     </div>
 
     <div class="modal-overlay" id="details-modal" onclick="if(event.target===this) closeModal()">
@@ -1434,6 +1658,15 @@
                 { id: 2, orderId: 1003, prodId: 3, type: 'photo', status: 'done', dueDate: '2026-03-20' },
                 { id: 3, orderId: 1002, prodId: 4, type: 'photo', status: 'pending', dueDate: '2026-05-08' }
             ],
+            disputes: [
+                { id: 1, title: 'Yetkazib berish kechikdi', orderId: 1002, createdBy: 5, assignedTo: 3, status: 'open', priority: 'high', messages: [
+                    { by: 'CityStore MChJ', text: 'Buyurtma bo\'yicha yetkazib berish sanasi kechikdi.', date: '2026-04-20 10:30' },
+                    { by: 'MebelPro MChJ', text: 'Ombor bilan tekshirdik, bugun qayta jo\'natiladi.', date: '2026-04-20 12:10' }
+                ] },
+                { id: 2, title: 'Foto hisobot sifati', orderId: 1003, createdBy: 1, assignedTo: 2, status: 'pending', priority: 'medium', messages: [
+                    { by: 'My Diller UZ', text: 'Foto hisobotda mahsulot yorlig\'i ko\'rinmayapti.', date: '2026-04-22 09:15' }
+                ] }
+            ],
             cart: []
         };
 
@@ -1443,6 +1676,7 @@
                 { id: 'admin-users', icon: 'ri-group-line', label: 'Foydalanuvchilar' },
                 { id: 'admin-orders', icon: 'ri-file-list-3-line', label: 'Buyurtmalar' },
                 { id: 'admin-reports', icon: 'ri-camera-lens-line', label: 'Hisobotlar' },
+                { id: 'disputes', icon: 'ri-customer-service-2-line', label: 'Nizolar' },
                 { id: 'profile', icon: 'ri-user-settings-line', label: 'Profil' }
             ],
             seller: [
@@ -1450,6 +1684,7 @@
                 { id: 'seller-catalog', icon: 'ri-apps-2-line', label: 'Katalog' },
                 { id: 'seller-orders', icon: 'ri-shopping-bag-3-line', label: 'Buyurtmalar' },
                 { id: 'seller-finance', icon: 'ri-wallet-3-line', label: 'Moliya' },
+                { id: 'disputes', icon: 'ri-customer-service-2-line', label: 'Nizolar' },
                 { id: 'profile', icon: 'ri-user-settings-line', label: 'Profil' }
             ],
             buyer: [
@@ -1457,6 +1692,7 @@
                 { id: 'buyer-cart', icon: 'ri-shopping-cart-line', label: 'Savat' },
                 { id: 'buyer-orders', icon: 'ri-file-list-3-line', label: 'Buyurtmalar' },
                 { id: 'buyer-reports', icon: 'ri-camera-line', label: 'Hisobotlar' },
+                { id: 'disputes', icon: 'ri-customer-service-2-line', label: 'Nizolar' },
                 { id: 'profile', icon: 'ri-user-settings-line', label: 'Profil' }
             ]
         };
@@ -1474,6 +1710,7 @@
             'buyer-cart': { kicker: 'Buyer', title: 'Savat', subtitle: 'Tanlangan mahsulotlar va umumiy to\'lov ko\'rinishi.' },
             'buyer-orders': { kicker: 'Buyer', title: 'Mening buyurtmalarim', subtitle: 'Sotuvchilar, summa va holatlar bo\'yicha buyurtmalar.' },
             'buyer-reports': { kicker: 'Buyer', title: 'Foto hisobotlar', subtitle: 'Muddatli hisobotlarni yuklash va bajarilgan holatga o\'tkazish.' },
+            'disputes': { kicker: 'Nizolar', title: 'Ticket markazi', subtitle: 'Nizo ochish, javob qaytarish va demo ticketlarni localStorage orqali boshqarish.' },
             'profile': { kicker: 'Profil', title: 'To\'liq profil', subtitle: 'Mas\'ul shaxs, kompaniya va ish faoliyati haqidagi chiroyli ko\'rinish.' }
         };
 
@@ -1483,6 +1720,25 @@
             currentView: '',
             viewTools: {}
         };
+
+        const STORAGE_KEY = 'b2b-minimal-demo-v2';
+
+        function loadStoredData() {
+            try {
+                const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+                ['users', 'products', 'orders', 'reports', 'disputes', 'cart'].forEach(key => {
+                    if (Array.isArray(stored[key])) MOCK_DB[key] = stored[key];
+                });
+            } catch (error) {
+                console.warn('Local demo data could not be loaded', error);
+            }
+        }
+
+        function saveStoredData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ users: MOCK_DB.users, products: MOCK_DB.products, orders: MOCK_DB.orders, reports: MOCK_DB.reports, disputes: MOCK_DB.disputes, cart: MOCK_DB.cart }));
+        }
+
+        loadStoredData();
 
         function escapeHtml(value) {
             return String(value ?? '')
@@ -1506,6 +1762,57 @@
             return new Intl.NumberFormat('uz-UZ').format(value) + ' UZS';
         }
 
+        function normalizeUzPhone(value) {
+            const digits = String(value || '').replace(/\D/g, '').slice(-9);
+            return '+998' + digits;
+        }
+
+        function formatUzPhone(input) {
+            input.value = String(input.value || '').replace(/\D/g, '').slice(0, 9);
+        }
+
+        function categoryLabel(category) {
+            return { electronics: 'Elektronika', furniture: 'Mebel', home: 'Uy jihozlari', grocery: 'Oziq-ovqat' }[category] || category;
+        }
+
+        function productIconByCategory(category) {
+            return { electronics: 'ri-lightbulb-flash-line', furniture: 'ri-armchair-line', home: 'ri-home-4-line', grocery: 'ri-shopping-basket-2-line' }[category] || 'ri-box-3-line';
+        }
+
+        function renderLineChart(values = [18, 24, 21, 32, 28, 38, 34], labels = ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh', 'Ya']) {
+            const max = Math.max(...values, 1);
+            const steps = Math.max(values.length - 1, 1);
+            const points = values.map((value, index) => `${24 + index * (252 / steps)},${140 - (value / max) * 110}`).join(' ');
+            return `
+                <div class="line-chart">
+                    <svg viewBox="0 0 300 170" role="img" aria-label="Line chart">
+                        <polyline points="${points}" fill="none" stroke="#0d9488" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                        ${values.map((value, index) => {
+                            const x = 24 + index * (252 / steps);
+                            const y = 140 - (value / max) * 110;
+                            return `<circle cx="${x}" cy="${y}" r="5" fill="#ffffff" stroke="#0d9488" stroke-width="3"></circle><text x="${x}" y="160" text-anchor="middle" font-size="10" fill="#6b7280">${labels[index] || ''}</text>`;
+                        }).join('')}
+                    </svg>
+                </div>
+            `;
+        }
+
+        function weatherCardHtml(compact = false) {
+            return `
+                <div class="weather-card">
+                    <div class="weather-card__top">
+                        <div><div class="mini-muted">Toshkent ob-havo</div><div class="weather-temp">24°C</div><div class="mini-muted">Quyoshli, yengil shamol</div></div>
+                        <div class="weather-icon"><i class="ri-sun-cloudy-line"></i></div>
+                    </div>
+                    <div class="weather-stats">
+                        <div class="weather-stat"><strong>38%</strong><div class="mini-muted">Namlik</div></div>
+                        <div class="weather-stat"><strong>12 km/s</strong><div class="mini-muted">Shamol</div></div>
+                    </div>
+                    ${compact ? '' : renderLineChart([20, 22, 24, 23, 26, 25, 27], ['08', '10', '12', '14', '16', '18', '20'])}
+                </div>
+            `;
+        }
+
         function roleLabel(role) {
             return { admin: 'Administrator', seller: 'Sotuvchi', buyer: 'Xaridor' }[role] || role;
         }
@@ -1519,7 +1826,8 @@
                 completed: 'Yakunlangan',
                 paid: 'To\'langan',
                 overdue: 'Kechikkan',
-                done: 'Bajarilgan'
+                done: 'Bajarilgan',
+                open: 'Ochiq'
             }[status] || status;
         }
 
@@ -1672,6 +1980,25 @@
             `;
         }
 
+        function registerDemoUser() {
+            const company = document.getElementById('register-company').value.trim();
+            const contactName = document.getElementById('register-contact').value.trim();
+            const phoneDigits = document.getElementById('register-phone').value.trim();
+            const email = document.getElementById('register-email').value.trim() || 'demo@company.uz';
+            if (!company || !contactName || phoneDigits.replace(/\D/g, '').length !== 9) {
+                showToast('Kompaniya, mas\'ul shaxs va 9 xonali telefonni kiriting.', 'warning');
+                return;
+            }
+            const nextId = Math.max(...MOCK_DB.users.map(user => user.id), 0) + 1;
+            const user = { id: nextId, role: 'buyer', name: company, contactName, phone: normalizeUzPhone(phoneDigits), email, address: 'Demo manzil, Toshkent', region: 'Toshkent', joinedAt: new Date().toISOString().slice(0, 10), status: 'active', bio: 'Register orqali qo\'shilgan demo xaridor profili.' };
+            MOCK_DB.users.push(user);
+            saveStoredData();
+            STATE.authRole = 'buyer';
+            STATE.currentUser = user;
+            initApp();
+            showToast('Demo profil yaratildi va saqlandi.');
+        }
+
         function submitDemoLogin() {
             const role = resolveDemoRole(document.getElementById('demo-password').value);
             if (!role) {
@@ -1740,12 +2067,21 @@
                 </div>
             `;
 
-            menuContainer.innerHTML = MENU_CONFIG[user.role].map(item => `
-                <button class="nav-item ${STATE.currentView === item.id ? 'active' : ''}" onclick="navigate('${item.id}')">
+            const menuHtml = MENU_CONFIG[user.role].map(item => `
+                <button class="nav-item ${STATE.currentView === item.id ? 'active' : ''}" onclick="navigate('${item.id}')" title="${item.label}">
                     <i class="${item.icon}"></i>
                     <span>${item.label}</span>
                 </button>
             `).join('');
+            menuContainer.innerHTML = menuHtml;
+            document.getElementById('mobile-bottom-nav').innerHTML = menuHtml;
+            document.getElementById('sidebar-weather').innerHTML = weatherCardHtml(true);
+            document.getElementById('weather-dropdown').innerHTML = weatherCardHtml(false);
+        }
+
+        function toggleWeatherMenu(event) {
+            event.stopPropagation();
+            document.getElementById('weather-menu').classList.toggle('open');
         }
 
         function updateTopbar() {
@@ -1788,6 +2124,7 @@
                 'buyer-cart': renderBuyerCart,
                 'buyer-orders': renderBuyerOrders,
                 'buyer-reports': renderBuyerReports,
+                'disputes': renderDisputesView,
                 'profile': renderProfileView
             };
             const renderer = renderers[STATE.currentView] || renderProfileView;
@@ -1911,6 +2248,7 @@
         function toggleUserStatus(userId) {
             const user = getUserById(userId);
             user.status = user.status === 'active' ? 'blocked' : 'active';
+            saveStoredData();
             showToast('Foydalanuvchi holati yangilandi.');
             renderCurrentView();
         }
@@ -1927,6 +2265,7 @@
                 order.status = 'active';
             }
             closeModal();
+            saveStoredData();
             showToast('Buyurtma imzolandi.');
             renderCurrentView();
         }
@@ -1934,6 +2273,7 @@
         function markReportDone(reportId) {
             const report = MOCK_DB.reports.find(item => item.id === reportId);
             report.status = 'done';
+            saveStoredData();
             closeModal();
             showToast('Hisobot bajarildi deb belgilandi.');
             renderCurrentView();
@@ -1953,6 +2293,7 @@
                 photoDays: 10,
                 icon: 'ri-box-3-line'
             });
+            saveStoredData();
             showToast('Yangi mahsulot katalogga qo\'shildi.');
             renderCurrentView();
         }
@@ -1964,6 +2305,7 @@
             } else {
                 MOCK_DB.cart.push({ prodId: productId, qty: 1 });
             }
+            saveStoredData();
             showToast('Mahsulot savatga qo\'shildi.');
             if (STATE.currentView === 'buyer-showcase' || STATE.currentView === 'buyer-cart') {
                 renderCurrentView();
@@ -1980,11 +2322,13 @@
                 removeFromCart(productId);
                 return;
             }
+            saveStoredData();
             renderCurrentView();
         }
 
         function removeFromCart(productId) {
             MOCK_DB.cart = MOCK_DB.cart.filter(entry => entry.prodId !== productId);
+            saveStoredData();
             showToast('Mahsulot savatdan olib tashlandi.', 'warning');
             renderCurrentView();
         }
@@ -1995,6 +2339,7 @@
                 return;
             }
             MOCK_DB.cart = [];
+            saveStoredData();
             showToast('Buyurtma yuborildi.');
             navigate('buyer-orders');
         }
@@ -2002,8 +2347,141 @@
         function submitReportUpload(reportId) {
             const report = MOCK_DB.reports.find(item => item.id === reportId);
             report.status = 'done';
+            saveStoredData();
             showToast('Foto hisobot yuklandi.');
             renderCurrentView();
+        }
+
+
+        function openProductEditor(productId) {
+            const product = getProductById(productId);
+            if (!product) return;
+            openModal(
+                'Mahsulot',
+                'Tahrirlash',
+                `
+                    <div class="form-grid">
+                        <div class="field full"><label for="edit-product-name">Nomi</label><input class="input-control" id="edit-product-name" value="${escapeHtml(product.name)}"></div>
+                        <div class="field"><label for="edit-product-sku">SKU</label><input class="input-control" id="edit-product-sku" value="${escapeHtml(product.sku)}"></div>
+                        <div class="field"><label for="edit-product-price">Narx</label><input class="input-control" id="edit-product-price" type="number" min="0" value="${product.price}"></div>
+                        <div class="field"><label for="edit-product-category">Kategoriya</label><select class="input-control" id="edit-product-category">${['electronics', 'furniture', 'home', 'grocery'].map(category => `<option value="${category}" ${product.category === category ? 'selected' : ''}>${categoryLabel(category)}</option>`).join('')}</select></div>
+                        <div class="field"><label for="edit-product-model">Model</label><select class="input-control" id="edit-product-model"><option value="realization" ${product.model === 'realization' ? 'selected' : ''}>Realizatsiya</option><option value="prepayment" ${product.model === 'prepayment' ? 'selected' : ''}>Avans</option></select></div>
+                        <div class="field"><label for="edit-product-days">Realizatsiya kuni</label><input class="input-control" id="edit-product-days" type="number" min="1" value="${product.realDays}"></div>
+                        <div class="field"><label for="edit-product-photo">Foto kuni</label><input class="input-control" id="edit-product-photo" type="number" min="1" value="${product.photoDays}"></div>
+                    </div>
+                `,
+                `<button class="secondary-btn" onclick="closeModal()">Bekor qilish</button><button class="primary-btn" onclick="saveProductEdit(${product.id})">Saqlash</button>`
+            );
+        }
+
+        function saveProductEdit(productId) {
+            const product = getProductById(productId);
+            if (!product) return;
+            const category = document.getElementById('edit-product-category').value;
+            product.name = document.getElementById('edit-product-name').value.trim() || product.name;
+            product.sku = document.getElementById('edit-product-sku').value.trim() || product.sku;
+            product.price = Number(document.getElementById('edit-product-price').value) || product.price;
+            product.category = category;
+            product.model = document.getElementById('edit-product-model').value;
+            product.realDays = Number(document.getElementById('edit-product-days').value) || product.realDays;
+            product.photoDays = Number(document.getElementById('edit-product-photo').value) || product.photoDays;
+            product.icon = productIconByCategory(category);
+            saveStoredData();
+            closeModal();
+            showToast('Mahsulot tahrirlandi va localStorage saqlandi.');
+            renderCurrentView();
+        }
+
+        function openTicketDetails(ticketId) {
+            const ticket = MOCK_DB.disputes.find(item => item.id === ticketId);
+            if (!ticket) return;
+            openModal(
+                'Nizo ticket',
+                ticket.title,
+                `
+                    <div class="info-grid">
+                        <div class="info-item"><strong>Buyurtma</strong><p>#${ticket.orderId}</p></div>
+                        <div class="info-item"><strong>Holat</strong><p>${statusLabel(ticket.status)}</p></div>
+                        <div class="info-item"><strong>Ustuvorlik</strong><p>${ticket.priority}</p></div>
+                        <div class="info-item"><strong>Xabarlar</strong><p>${ticket.messages.length} ta</p></div>
+                    </div>
+                    <div class="ticket-thread" style="margin-top:16px;">
+                        ${ticket.messages.map((message, index) => `<div class="ticket-message ${index ? 'reply' : ''}"><strong>${escapeHtml(message.by)}</strong><p>${escapeHtml(message.text)}</p><div class="mini-muted">${escapeHtml(message.date)}</div></div>`).join('')}
+                    </div>
+                    <div class="field" style="margin-top:16px;"><label for="ticket-reply">Javob yozish</label><textarea class="text-control" id="ticket-reply" placeholder="Demo javob matni..."></textarea></div>
+                `,
+                `<button class="ghost-btn" onclick="deleteTicket(${ticket.id})">O'chirish</button><button class="secondary-btn" onclick="closeModal()">Yopish</button><button class="primary-btn" onclick="replyTicket(${ticket.id})">Javob qaytarish</button>`
+            );
+        }
+
+        function createTicket() {
+            const nextId = Math.max(0, ...MOCK_DB.disputes.map(item => item.id)) + 1;
+            const firstOrder = MOCK_DB.orders[0] || { id: 1001 };
+            MOCK_DB.disputes.unshift({ id: nextId, title: 'Yangi demo nizo', orderId: firstOrder.id, createdBy: STATE.currentUser.id, assignedTo: 1, status: 'open', priority: 'medium', messages: [{ by: STATE.currentUser.name, text: 'Demo ticket ochildi. Muammoni shu yerda yozish mumkin.', date: new Date().toLocaleString('uz-UZ') }] });
+            saveStoredData();
+            showToast('Yangi ticket ochildi.');
+            renderCurrentView();
+        }
+
+        function replyTicket(ticketId) {
+            const ticket = MOCK_DB.disputes.find(item => item.id === ticketId);
+            const input = document.getElementById('ticket-reply');
+            const text = input ? input.value.trim() : '';
+            if (!ticket || !text) {
+                showToast('Javob matnini kiriting.', 'warning');
+                return;
+            }
+            ticket.messages.push({ by: STATE.currentUser.name, text, date: new Date().toLocaleString('uz-UZ') });
+            ticket.status = 'pending';
+            saveStoredData();
+            closeModal();
+            showToast('Javob qo\'shildi.');
+            renderCurrentView();
+        }
+
+        function deleteTicket(ticketId) {
+            MOCK_DB.disputes = MOCK_DB.disputes.filter(item => item.id !== ticketId);
+            saveStoredData();
+            closeModal();
+            showToast('Ticket o\'chirildi.', 'warning');
+            renderCurrentView();
+        }
+
+        function renderDisputesView(container) {
+            const viewId = 'disputes';
+            const tools = getViewTools(viewId);
+            const tickets = MOCK_DB.disputes.filter(ticket => {
+                const order = MOCK_DB.orders.find(item => item.id === ticket.orderId);
+                const matchesOwner = STATE.currentUser.role === 'admin' || ticket.createdBy === STATE.currentUser.id || ticket.assignedTo === STATE.currentUser.id || (order && (order.sellerId === STATE.currentUser.id || order.buyerId === STATE.currentUser.id));
+                const matches = matchesSearch([ticket.title, ticket.orderId, ticket.priority].join(' '), tools.search);
+                const matchesFilter = tools.filter === 'all' || ticket.status === tools.filter || ticket.priority === tools.filter;
+                return matchesOwner && matches && matchesFilter;
+            });
+            container.innerHTML = `
+                <div class="page-shell">
+                    <section class="section-card">
+                        ${renderSectionHeader(viewId, `<button class="primary-btn" onclick="createTicket()"><i class="ri-add-line"></i> Ticket ochish</button>`)}
+                        ${renderTableToolbar(viewId, 'Ticket nomi, buyurtma yoki priority bo\'yicha qidiring', [
+                            { value: 'all', label: 'Barchasi' },
+                            { value: 'open', label: 'Ochiq' },
+                            { value: 'pending', label: 'Javob kutilmoqda' },
+                            { value: 'high', label: 'High' },
+                            { value: 'medium', label: 'Medium' }
+                        ])}
+                        <div class="report-grid">
+                            ${tickets.length ? tickets.map(ticket => `
+                                <div class="report-card">
+                                    <div class="soft-icon"><i class="ri-customer-service-2-line"></i></div>
+                                    <div class="report-card-top"><div><strong>${escapeHtml(ticket.title)}</strong><p>Buyurtma #${ticket.orderId}</p></div>${statusPill(ticket.status)}</div>
+                                    <div class="meta-row"><span class="pill">${ticket.priority}</span><span class="pill">${ticket.messages.length} xabar</span></div>
+                                    <p>Demo nizo ticketi: ochish, o'chirish va javob qaytarish ishlaydi.</p>
+                                    <button class="secondary-btn" onclick="openTicketDetails(${ticket.id})">Ko'rish</button>
+                                </div>
+                            `).join('') : `<div class="empty-state">Mos ticket topilmadi.</div>`}
+                        </div>
+                    </section>
+                </div>
+            `;
         }
 
         function renderAdminDashboard(container) {
@@ -2031,6 +2509,10 @@
                             <div class="stat-card"><div class="mini-muted">Faol buyurtmalar</div><div class="stat-value">${MOCK_DB.orders.filter(item => item.status === 'active').length}</div><div class="stat-foot">Minimal nazorat ro'yxati</div></div>
                             <div class="stat-card"><div class="mini-muted">Kechikkan hisobot</div><div class="stat-value">${MOCK_DB.reports.filter(item => item.status === 'overdue').length}</div><div class="stat-foot">Buyer tomondan kutilyapti</div></div>
                             <div class="stat-card"><div class="mini-muted">Jami komissiya</div><div class="stat-value">${formatMoney(MOCK_DB.orders.reduce((sum, item) => sum + item.comm, 0))}</div><div class="stat-foot">Barcha buyurtmalar kesimida</div></div>
+                        </div>
+                        <div class="section-card" style="margin-top:16px; padding:18px;">
+                            <div class="chart-card__top"><h4 class="section-subtitle" style="margin:0;">Haftalik line chart</h4><span class="pill"><i class="ri-line-chart-line"></i> demo</span></div>
+                            ${renderLineChart([12, 18, 16, 28, 24, 34, 31])}
                         </div>
                     </section>
                     <section class="dual-grid">
@@ -2285,11 +2767,12 @@
                                     </div>
                                     <div class="product-price">${formatMoney(product.price)}</div>
                                     <div class="meta-row">
-                                        <span class="pill">${product.category === 'electronics' ? 'Elektronika' : 'Mebel'}</span>
+                                        <span class="pill">${categoryLabel(product.category)}</span>
                                         <span class="pill">${product.realDays} kun</span>
                                         <span class="pill">Foto ${product.photoDays} kun</span>
                                     </div>
                                     <p>Sotuvchi katalogi uchun soddalashtirilgan karta ko'rinishi.</p>
+                                    <button class="secondary-btn" onclick="openProductEditor(${product.id})"><i class="ri-edit-line"></i> Tahrirlash</button>
                                 </div>
                             `).join('') : `<div class="empty-state">Mos mahsulot topilmadi.</div>`}
                         </div>
@@ -2430,6 +2913,7 @@
                                     </div>
                                     <div class="product-price">${formatMoney(product.price)}</div>
                                     <div class="meta-row">
+                                        <span class="pill">${categoryLabel(product.category)}</span>
                                         <span class="pill">${product.realDays} kun</span>
                                         <span class="pill">Foto ${product.photoDays} kun</span>
                                     </div>
@@ -2651,7 +3135,7 @@
                                 <h4>Qisqa ko'rsatkichlar</h4>
                                 <div class="simple-list">
                                     <div class="simple-item"><strong>Faol rol</strong><p>${roleLabel(user.role)}</p></div>
-                                    <div class="simple-item"><strong>Minimal dizayn</strong><p>Umumiy fon: #f3f4f6</p></div>
+                                    <div class="simple-item"><strong>Minimal dizayn</strong><p>Umumiy fon: #e8ecef</p></div>
                                     <div class="simple-item"><strong>Navigatsiya</strong><p>Sidebar, profil va qidiruv paneli tayyor.</p></div>
                                 </div>
                             </div>
@@ -2680,6 +3164,10 @@
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.filter-popover')) {
                 closeToolMenus();
+            }
+            if (!event.target.closest('.weather-menu')) {
+                const weatherMenu = document.getElementById('weather-menu');
+                if (weatherMenu) weatherMenu.classList.remove('open');
             }
         });
 
